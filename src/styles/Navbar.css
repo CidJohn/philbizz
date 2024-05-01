@@ -1,0 +1,25 @@
+.navbar {
+    background-color: #333; /* Background color for the navbar */
+    padding: 10px 20px; /* Padding around the navbar */
+  }
+  
+  .nav-links {
+    list-style-type: none; /* Remove default list styling */
+    margin: 0;
+    padding: 0;
+  }
+  
+  .nav-links li {
+    display: inline; /* Display list items horizontally */
+    margin-right: 10px; /* Add some spacing between list items */
+  }
+  
+  .nav-links li a {
+    color: #fff; /* Text color for the links */
+    text-decoration: none; /* Remove underline from links */
+  }
+  
+  .nav-links li a:hover {
+    text-decoration: underline; /* Add underline on hover */
+  }
+  
