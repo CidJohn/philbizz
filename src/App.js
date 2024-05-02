@@ -1,4 +1,5 @@
 import './App.css';
+import './styles/treeview.css'
 import Homeview from './pages/Homeview';
 
 function App() {

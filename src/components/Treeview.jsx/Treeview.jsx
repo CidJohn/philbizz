@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const TreeItem = ({ item }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -10,7 +10,7 @@ const TreeItem = ({ item }) => {
   return (
     <li>
       <div onClick={handleToggle} className=" flex items-center cursor-pointer">
-        <span className="toggle text-lg">{isOpen ? '-' : '+'}</span>
+        <span className="toggle text-lg">{isOpen ? '' : ''}</span>
         <span className="ml-2">{item.name}</span>
       </div>
       {isOpen && (
