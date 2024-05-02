@@ -1,18 +1,29 @@
-#treeview {
-    font-family: Arial, sans-serif;
-    max-width: 300px;
+.tree-item {
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        left: -12px;
+        /* Adjust based on your layout */
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        /* Line thickness */
+        background-color: #cbd5e1;
+        /* Line color, choose as needed */
+    }
+
+    &:first-child::before {
+        top: 50%;
+    }
+
+    &:last-child::before {
+        bottom: 50%;
+    }
 }
 
-#tree {
-    list-style: none;
-    padding-left: 1em;
-}
-
-#tree ul {
-    padding-left: 1em;
-}
-
-.toggle {
-    cursor: pointer;
-    margin-right: 0.5em;
+.tree-item-container {
+    padding-left: 20px;
+    /* Adjust spacing for child items */
 }
