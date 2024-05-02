@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import '../../styles/Navbar.css'
 import Button from '../Button/Button'
-import { ReactComponent as SearchInputIcon } from '../../assets/svg/searchinput.svg'
-import {ReactComponent as SearchIcon} from '../../assets/svg/searchIcon.svg'
 import navbarContent from '../../content/navbarContent'
+import SearchIcon from '../svg/SearchIcons'
+import Searchinput from '../svg/SearchInputs'
 
 export default function Navbar() {
   const handleClick = () => {
@@ -43,17 +43,21 @@ export default function Navbar() {
           
           <div className=" hidden md:block ">
               <form className="flex items-center max-w-sm mx-auto space-x-3">   
-                <label for="simple-search" className="sr-only">Search</label>
+                <label htmlFor="simple-search" className="sr-only">Search</label>
                 <div className="relative w-full">
                     <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                        <SearchInputIcon />
+                        <Searchinput />
                     </div>
                     <input type="text" id="simple-search" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search branch name..." required />
                 </div>
-                <button type="submit" className="border rounded p-5 hover:bg-gray-400">
-                    <SearchIcon />
+                <div  className="border rounded p-4 hover:bg-gray-400">
+                    <Button
+                      text={<SearchIcon />}
+                      type='submit'
+                      className="text-gray-600 hover:text-gray-900"
+                      />
                     <span className="sr-only">Search</span>
-                </button>
+                </div>
                 <div className="border rounded p-4 hover:bg-gray-400">
                       <Button
                         text="Login"
