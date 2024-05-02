@@ -3,7 +3,7 @@
       name: 'Tagaytay',
       children: [
         {
-          name: 'Salon',
+          name: 'Hair Salon',
           children: [],
         },
         {
