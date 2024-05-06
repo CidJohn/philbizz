@@ -5,6 +5,7 @@ import navbarContent from '../../content/navbarContent'
 import SearchIcon from '../svg/SearchIcons'
 import Searchinput from '../svg/SearchInputs'
 
+
 export default function Navbar() {
   const handleClick = () => {
     console.log("clicked");

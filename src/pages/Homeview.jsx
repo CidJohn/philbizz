@@ -1,9 +1,8 @@
 import React from 'react'
-import Navbar from '../components/Navbar.jsx/Navbar'
-import Treeview from '../components/Treeview.jsx/Treeview'
-import treeViewContent from '../content/treeViewContent'
+import Navbar from '../components/Navbar/Navbar'
 import Footer from './Footer/Footer'
 import  Selection  from './Selection/Selection'
+
 
 function Homeview() {
   return (
@@ -11,9 +10,7 @@ function Homeview() {
       <div className="w-full mx-auto max-w-screen-xl">
         <Navbar />
         <div className="flex flex-row  ">
-          <div className="sticky left-0 top-0  ">
-            <Treeview treeViewContent={treeViewContent} />
-          </div>
+
           <Selection />
         </div>
         <Footer />
