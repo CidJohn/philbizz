@@ -7,7 +7,7 @@ import selectionContent from '../../content/selectionContent';
 import Description from './Description/Description'
 
 const Selection = () => {
-    const [selectedComponent, setSelectedComponent] = useState("SALON");
+    const [selectedComponent, setSelectedComponent] = useState(null);
 
     const handleItemClick = (onclick) => {
         setSelectedComponent(onclick);

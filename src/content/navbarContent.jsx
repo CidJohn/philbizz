@@ -3,12 +3,12 @@ const navbarContent = [
         name: "Business",
         children: [
             {
-                childname: "bussiness1",
-                path: "/"
+                childname: "KTV",
+                path: "/ktv"
             },
                         {
-                childname: "bussiness2",
-                path: "/"
+                childname: "SALON",
+                path: "/salon"
             },
                         {
                 childname: "bussiness3",
