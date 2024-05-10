@@ -8,10 +8,10 @@ function Homeview() {
   return (
     <>
       <div className="w-full mx-auto max-w-screen-xl">
-        <Navbar />
+        {/* <Navbar /> */}
         <div className="flex flex-row  ">
 
-          <Selection />
+           {/* <Selection />  */}
         </div>
         <Footer />
       </div>
