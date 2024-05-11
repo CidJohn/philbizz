@@ -7,7 +7,7 @@ import selectionContent from '../../../content/selectionContent';
 function Ktv({content}) {
 
    // If "Salon" content is found, extract the "business" array, otherwise default to an empty array
-   const businessData = content ? content.business : [];
+  // const businessData = content ? content.business : [];
  
    return (
      <div className='flex flex-col'>
@@ -25,7 +25,7 @@ function Ktv({content}) {
           </div>
             ))
      ))}
-     <div className="flex flex-wrap justify-center">
+     <div className="flex flex-wrap ">
         {cardContent.map((item, index) => (
           <Card src={item.images} title={item.title} desc={item.desc} key={index} />
         ))}
