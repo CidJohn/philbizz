@@ -1,19 +1,21 @@
 import React from 'react'
-import Navbar from '../components/Navbar/Navbar'
-import Footer from './Footer/Footer'
-import  Selection  from './Selection/Selection'
+
+import { HeroBanner } from '../components/HeroBanner/HeroBanner'
+import Card from '../components/Card/Card'
+import cardContent from '../content/cardContent'
 
 
 function Homeview() {
   return (
     <>
       <div className="w-full mx-auto max-w-screen-xl">
-        {/* <Navbar /> */}
+         <HeroBanner /> 
         <div className="flex flex-row  ">
-
-           {/* <Selection />  */}
+        {cardContent.map((item, index) => (
+          <Card src={item.images} title={item.title} desc={item.desc} key={index} />
+        ))}
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
 
     </>

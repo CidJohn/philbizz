@@ -10,7 +10,7 @@ export default function Navbar() {
   const handleClick = () => {
     console.log("clicked");
   }
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(true);
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -24,12 +24,12 @@ export default function Navbar() {
             <a href="/" className="font-bold text-xl text-gray-800">Philtong</a>
           </div>
           <div className="hidden md:block">
-          <div className="ml-10 flex items-baseline space-x-1">
+          <div className="ml-10 flex items-baseline space-x-1 relative">
             {navbarContent.map((item, index) => (
-              <div key={index} className="border rounded p-4 hover:bg-gray-400" onMouseEnter={() => setShowDropdown(item.name)} onMouseLeave={() => setShowDropdown(false)}>
+              <div key={index} className="border rounded p-4 hover:bg-gray-400 relative" onMouseEnter={() => setShowDropdown(item.name)} >
                 <a href={item.path} className="text-gray-600 hover:text-gray-900">{item.name}</a>
                 {item.children && showDropdown === item.name && (
-                  <div className="absolute mt-2 bg-white border rounded-lg shadow-lg">
+                  <div className="absolute mt-2 bg-white border rounded-lg shadow-lg z-50" onMouseLeave={() => setShowDropdown(false)}>
                     {item.children.map((childItem, childIndex) => (
                       <a key={childIndex} href={childItem.path} className="block px-4 py-2 hover:bg-gray-200">{childItem.childname}</a>
                     ))}
