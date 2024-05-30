@@ -29,7 +29,6 @@ const selectionContent = [
         }
     ]
     }
-    // You can add more categories like Description, etc.
 ];
 
 export default selectionContent;

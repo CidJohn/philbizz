@@ -15,7 +15,6 @@ const navbarContent = [
                 path: "/"
             }
         ]
-        
     },
         {
         name: "Food",
