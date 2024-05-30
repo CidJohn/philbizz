@@ -26,7 +26,7 @@ const Salon = ({ content }) => { // Accepting props here
         ))
       ))}
 
-      <div className="flex flex-wrap">
+      <div className="flex flex-row">
         {cardContent.map((item, index) => (
           <Card src={item.images} title={item.title} desc={item.desc} key={index} />
         ))}
