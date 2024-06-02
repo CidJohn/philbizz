@@ -11,7 +11,7 @@ function Layout({children}) {
     <div>
         <Navbar />
         <div className="flex flex-row container">
-        <div className="sticky left-0 top-0 ">
+        <div className="sticky left-0 top-0 fixed">
             <TreeView treeViewContent={treeViewContent}  />
         </div>
         {children}
