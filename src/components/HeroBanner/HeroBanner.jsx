@@ -17,7 +17,7 @@ export const HeroBanner = ({darkMode}) => {
 
     return (
        <div className={darkMode && "dark"} >
-         <div className="relative w-full bg-no-repeat bg-cover bg-fixed " style={{ backgroundImage: `url(${city})`, height: 400 }}>
+         <div className="relative w-full bg-no-repeat bg-cover bg-fixed mb-10" style={{ backgroundImage: `url(${city})`, height: 400 }}>
             <div className="absolute inset-0 bg-black bg-opacity-50"></div>
             <div className="absolute inset-0 flex flex-col justify-center items-center text-center text-white">
                 <div className="max-w-lg">

@@ -11,7 +11,7 @@ const navbarContent = [
                 path: "/salon"
             },
                         {
-                childname: "bussiness3",
+                childname: "JTV",
                 path: "/"
             }
         ]
@@ -72,13 +72,14 @@ const navbarContent = [
         path: "/"
     },
     {
-        name: "travel",
+        name: "Festival",
         path: "/"
     },
         {
         name: "Massage/Sing",
         path: "/"
     },
+    
 ]
 
 export default navbarContent;
