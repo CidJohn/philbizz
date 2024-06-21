@@ -84,10 +84,18 @@ export default function Navbar() {
 
       <div className="md:hidden" id="mobile-menu">
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          <a href="/" className="block text-base font-medium text-gray-700 hover:text-gray-900">Home</a>
-          <a href="/" className="block text-base font-medium text-gray-700 hover:text-gray-900">Features</a>
-          <a href="/" className="block text-base font-medium text-gray-700 hover:text-gray-900">Pricing</a>
-          <a href="/" className="block text-base font-medium text-gray-700 hover:text-gray-900">Disabled</a>
+        {navbarContent.map((item, index) => (
+              <div key={index} className="border rounded p-4 hover:bg-gray-400 relative" onMouseEnter={() => setShowDropdown(item.name)} >
+                <a href={item.path} className="text-gray-600 hover:text-gray-900">{item.name}</a>
+                {item.children && showDropdown === item.name && (
+                  <div className="absolute mt-2 bg-white border rounded-lg shadow-lg z-50" onMouseLeave={() => setShowDropdown(false)}>
+                    {item.children.map((childItem, childIndex) => (
+                      <a key={childIndex} href={childItem.path} className="block px-4 py-2 hover:bg-gray-200">{childItem.childname}</a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
         </div>
       </div>
     </nav>
