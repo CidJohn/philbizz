@@ -4,11 +4,10 @@ import cardContent from '../../../content/cardContent';
 import Card from '../../../components/Card/Card';
 import selectionContent from '../../../content/selectionContent';
 import sampleItem from '../../../content/sampleItem';
-function Ktv({content}) {
+import ContactForm from '../../../components/ContactUs/ContactUs';
+import { ImageLink } from '../../../components/Image/ImageLink';
+function Ktv() {
 
-   // If "Salon" content is found, extract the "business" array, otherwise default to an empty array
-  // const businessData = content ? content.business : [];
- 
    return (
      <div className='flex flex-col'>
        {selectionContent.map((item, index) => (
@@ -19,7 +18,7 @@ function Ktv({content}) {
               <p className="text-left mb-4">{itemBusiness.paragraph}</p>
             </div>
             <figure className="max-w-md">
-              <Image className="rounded-lg" src={itemBusiness.image} alt="Hair salon interior" />
+              <ImageLink className="rounded-lg" src={itemBusiness.image} alt="Hair salon interior" />
               <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">{itemBusiness.header}</figcaption>
             </figure>
           </div>
@@ -27,10 +26,10 @@ function Ktv({content}) {
      ))}
      <div className="flex flex-row ">
         {cardContent.map((item, index) => (
-          <Card src={item.images} title={item.title} desc={item.desc} key={index} />
+          <Card src={item.images} title={item.title} desc={item.desc} key={index} style={'background-size: 300px;'} />
         ))}
       </div>
-       <div className="flex flex-row p-4">
+       <div className="flex flex-row p-4 mt-5">
         <div className=" container">
              <h1 className="text-2xl font-bold mb-4">Item List</h1>
               <ul className="space-y-4">
@@ -49,6 +48,7 @@ function Ktv({content}) {
             <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">Sample Header</figcaption>
           </figure>
         </div>
+        <ContactForm />
      </div>
    )
 }

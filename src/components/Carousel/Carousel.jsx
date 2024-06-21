@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from '../Card/Card';
 
 const Carousel = ({ images }) => {
@@ -11,7 +11,13 @@ const Carousel = ({ images }) => {
   const goToPrevImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
   };
-console.log(images);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 3000); // Change the interval as needed
+    return () => clearInterval(interval);
+  }, [images.length]);
+
   return (
     <div className="relative w-full">
       <div className="relative h-full overflow-hidden rounded-lg md:h-96 mb-20">
@@ -23,9 +29,9 @@ console.log(images);
             }`}
           >
                 <div className=" flex justify-center items-center h-full ">
-                    <Card src={item.images} title={item.title} desc={item.desc} key={index} />
-                    <Card src={item.images} title={item.title} desc={item.desc} key={index} />
-                    <Card src={item.images} title={item.title} desc={item.desc} key={index} />
+                    <Card src={item.images} title={item.title} desc={item.desc} key={index} hidden={true} />
+                    <Card src={item.images} title={item.title} desc={item.desc} key={index} hidden={true} />
+                    <Card src={item.images} title={item.title} desc={item.desc} key={index} hidden={true} />
                 </div>
           </div>
         ))}
