@@ -1,98 +1,68 @@
- const treeViewContent = [
-    {
-      path: '/ktv',
-      children: [
+const treeViewContent = [
+  {
+    id: 1,
+    name: 'KTV',
+    path: '/selection',
+    children: [
         {
+          id: 2,
           name: 'Manila',
-          children: [
-            {
-              name: `Rockstar KTV`,
-              children: [],
-              onclick:'/ktv'
-            },
-            {
-              name: `蘭桂坊 CLUB LOUIS KTV`,
-              children: [],
-              onclick:'/ktv'
-            },
-            {
-              name: `Turtles Family KTV`,
-              children: [],
-              onclick:'/ktv'
-            },
-            {
-              name: `World Music Room Family KTV`,
-              children: [],
-              onclick:'/ktv'
-            },
-            {
-              name: `Top Moree KTV`,
-              children: [],
-              onclick:'/ktv'
-            },
-          ],
-          onclick: 'ktv'
-          
-        },{
-          name: `Cebu`,
-          children: [
-            {
-              name: `MIYABI JAPANESE KTV`,
-              children: [],
-              onclick:'/ktv'
-            },
-            {
-              name: `W CLUB 19`,
-              children: [],
-              onclick:'/ktv'
-            },
-            {
-              name: `B-pink japanese karaoke bar `,
-              children: [],
-              onclick:'/ktv'
-            },
-            {
-              name: `Japanese Karaoke Bar CLUB KING`,
-              children: [],
-              onclick:'/ktv'
-            },
-            {
-              name: `Music One Family KTV And DVD`,
-              children: [],
-              onclick:'/ktv'
-            },
-          ],
-          onclick: '/ktv'
-        }
-        
-      ],
-    },
-    {
-      path:'/salon',
-      children: [
-        {
-          name: 'Salon',
           children: [],
-        },
-        {
-          name: 'Item 2',
-          children: [
-            {
-              name: 'Subitem 1',
-              children: [],
-            },
-            {
-              name: 'Subitem 2',
-              children: [],
-            },
-          ],
-        },
-        {
-          name: 'Item 3',
-          children: [],
-        },
-      ],
-    },
-  ];
 
-  export default treeViewContent
+        },
+        {
+          id: 3,
+          name: 'Makati',
+          children: [],
+
+        },
+        {
+          id: 4,
+          name: 'Laguna',
+          children: [],
+          path: '/selection/laguna',
+        },
+        {
+          id: 5,
+          name: 'Cebu',
+          children: [],
+          path: '/selection/cebu',
+          onclick: '/ktv'
+        },
+    ],
+  },
+  {
+    id: 6,
+    path: '/selection',
+    name: `JTV`,
+    children: [
+      {
+        id: 7,
+        name: 'Manila',
+        children: [],
+
+      },
+      {
+        id: 8,
+        name: 'Makati',
+        children: [],
+
+      },
+      {
+        id: 9,
+        name: 'Laguna',
+        children: [],
+        path: '/selection/laguna',
+      },
+      {
+        id: 10,
+        name: 'Cebu',
+        children: [],
+        path: '/selection/cebu',
+        onclick: '/ktv'
+      },
+    ],
+  },
+];
+
+export default treeViewContent;

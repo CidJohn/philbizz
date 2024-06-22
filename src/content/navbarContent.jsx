@@ -1,20 +1,8 @@
 const navbarContent = [
     {
         name: "Business",
-        children: [
-            {
-                childname: "KTV",
-                path: "/ktv"
-            },
-                        {
-                childname: "SALON",
-                path: "/salon"
-            },
-                        {
-                childname: "JTV",
-                path: "/"
-            }
-        ]
+        children: [],
+        path: "/selection",
     },
         {
         name: "Food",
