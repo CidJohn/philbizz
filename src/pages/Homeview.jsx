@@ -10,7 +10,7 @@ import ContactForm from '../components/ContactUs/ContactUs'
 function Homeview() {
   return (
     <>
-      <div className="w-full mx-auto max-w-screen-xl mt-5">
+      <div className=" shadow w-full mx-auto max-w-screen-xl mt-5">
          <HeroBanner /> 
         <h1 className='text-5xl font-serif'>Bussiness</h1>
         <div className="flex flex-row">
