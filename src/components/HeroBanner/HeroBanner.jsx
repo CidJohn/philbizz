@@ -16,25 +16,25 @@ export const HeroBanner = ({darkMode}) => {
     }, [] );
 
     return (
-       <div className={`flex ${darkMode && "dark"}`} >
-            <div className="flex flex-col border  px-2">
-                    <img
-                        src="https://lh3.googleusercontent.com/p/AF1QipMlprtNkiskp0-5IV_3_sKrIDneoRDwraoYfLHD=s680-w680-h510"
-                        alt="Left Image"
-                        className="max-auto object-cover"
-                    />
-                    <img
-                        src="https://lh3.googleusercontent.com/p/AF1QipMlprtNkiskp0-5IV_3_sKrIDneoRDwraoYfLHD=s680-w680-h510"
-                        alt="Left Image"
-                        className="max-auto object-cover"
-                    />
+       <div className={`md:flex  ${darkMode && "dark"}`} >
+            <div className=" hidden flex flex-wrap border px-2 md:block">
+                <img
+                    src="https://lh3.googleusercontent.com/p/AF1QipMlprtNkiskp0-5IV_3_sKrIDneoRDwraoYfLHD=s680-w680-h510"
+                    alt="Left Image"
+                    className="max-w-full h-auto"
+                />
+                <img
+                    src="https://lh3.googleusercontent.com/p/AF1QipMlprtNkiskp0-5IV_3_sKrIDneoRDwraoYfLHD=s680-w680-h510"
+                    alt="Left Image"
+                    className="max-w-full h-auto mt-2"
+                />
                 </div>
          <div className="relative w-full bg-no-repeat bg-cover bg-fixed mb-10" style={{ backgroundImage: `url(${city})` }}>
             <div className="absolute inset-0 bg-black bg-opacity-50"></div>
             <div className="absolute inset-0 flex flex-col justify-center items-center text-center text-white">
-                <div className="max-w-lg">
-                    <h1 className="text-5xl font-black mb-4 font-serif">Philippine Zone</h1>
-                    <h2 className="text-3xl font-serif">필리핀 정보통(Philippines information network)</h2>
+                <div className="max-w-lg w-full md:w-auto">
+                    <h1 className="text-lg md:text-5xl font-black mb-2 md:mb-4 font-serif">Philippine Zone</h1>
+                    <h2 className="text-sm md:text-3xl font-serif">필리핀 정보통(Philippines information network)</h2>
                 </div>
                 <div className="flex justify-center mt-8 space-x-8">
                     <div className=" rounded-full px-6 py-2">
@@ -52,7 +52,7 @@ export const HeroBanner = ({darkMode}) => {
                 </div>
             </div>
         </div>
-        <div className="border px-2">
+        <div className="border px-2 hidden md:block">
                     <img
                         src="https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg"
                         alt="Left Image"

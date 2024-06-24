@@ -1,7 +1,7 @@
 const treeViewContent = [
   {
     name: 'KTV',
-    path: '/selection',
+    path: '/business',
     children: [
         {
           id: 1,
@@ -29,7 +29,7 @@ const treeViewContent = [
     ],
   },
   {
-    path: '/selection',
+    path: '/business',
     name: `JTV`,
     children: [
       {
@@ -48,19 +48,19 @@ const treeViewContent = [
         id: 7,
         name: 'Laguna',
         children: [],
-        path: '/selection/laguna',
+        path: '/business/laguna',
       },
       {
         id: 8,
         name: 'Cebu',
         children: [],
-        path: '/selection/cebu',
+        path: '/business/cebu',
         onclick: '/ktv'
       },
     ],
   }, 
   {
-    path: '/selection',
+    path: '/business',
     name: `SALON`,
     children: [
       {
@@ -79,17 +79,18 @@ const treeViewContent = [
         id: 11,
         name: 'Laguna',
         children: [],
-        path: '/selection/laguna',
+        path: '/business/laguna',
       },
       {
         id: 12,
         name: 'Cebu',
         children: [],
-        path: '/selection/cebu',
+        path: '/business/cebu',
         onclick: '/ktv'
       },
     ],
   },
+  
 ];
 
 export default treeViewContent;

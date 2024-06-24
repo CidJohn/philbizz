@@ -32,9 +32,10 @@ export default function Navbar() {
   return (
     <nav className="bg-gray-100">
      <div className="hidden md:block">
-        <div className="flex items-center justify-between mt-2">
+        <div className="flex items-center justify-between mt-2 ">
           <div className=""></div>
-          <a href="/" className="font-bold text-3xl text-gray-800 flex">
+          <div className=""></div>
+          <a href="/" className="font-bold text-3xl text-gray-800 flex ">
             <div className="font-bold text-3xl text-blue-800 ">P</div>
             <div className="font-bold text-xl text-blue-800 mt-2">HILIPPINE</div>
             <div className="font-bold text-3xl text-red-800 ">Z</div>

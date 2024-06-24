@@ -2,24 +2,12 @@ const navbarContent = [
     {
         name: "Business",
         children: [],
-        path: "/selection",
+        path: "/business",
     },
         {
         name: "Food",
-         children: [
-            {
-                childname: "Food1",
-                path: "/"
-            },
-                        {
-                childname: "Food2",
-                path: "/"
-            },
-                        {
-                childname: "Food3",
-                path: "/"
-            }
-        ]
+         children: [],
+         path: "/food"
     },
         {
         name: "Golf",
