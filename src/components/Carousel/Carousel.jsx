@@ -14,7 +14,7 @@ const Carousel = ({ images }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 3000); // Change the interval as needed
+    }, 5000); // Change the interval as needed
     return () => clearInterval(interval);
   }, [images.length]);
 
@@ -27,11 +27,16 @@ const Carousel = ({ images }) => {
             className={`absolute w-full h-full transform transition-transform duration-700 ease-in-out   ${
               index === currentImageIndex ? 'translate-x-0' : 'translate-x-full'
             }`}
+            style={{
+              left: `${(index - currentImageIndex + images.length) % images.length * 100}%`,
+            }}
           >
                 <div className=" flex justify-center items-center h-full ">
-                    <Card src={item.images} title={item.title} desc={item.desc} key={index} hidden={true} />
-                    <Card src={item.images} title={item.title} desc={item.desc} key={index} hidden={true} />
-                    <Card src={item.images} title={item.title} desc={item.desc} key={index} hidden={true} />
+                    <Card src={item.images} title={item.title} desc={item.desc}  hidden={true} />
+                    <Card src={item.images} title={item.title} desc={item.desc} hidden={true} />
+                    <Card src={item.images} title={item.title} desc={item.desc} hidden={true} />
+                    <Card src={item.images} title={item.title} desc={item.desc} hidden={true} />
+                    <Card src={item.images} title={item.title} desc={item.desc} hidden={true} />
                 </div>
           </div>
         ))}

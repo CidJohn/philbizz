@@ -25,7 +25,7 @@ const TreeItem = ({ item, onItemClick }) => {
         </Link>
       </div>
       {isOpen && item.children && (
-        <ul className="ml-6 px-7">
+        <ul className="ml-6 px-7" >
           {item.children.map((child) => (
             <TreeItem key={child.ids} item={child} onItemClick={onItemClick} />
           ))}
