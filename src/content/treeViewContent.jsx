@@ -1,61 +1,88 @@
 const treeViewContent = [
   {
-    id: 1,
     name: 'KTV',
     path: '/selection',
     children: [
         {
-          id: 2,
+          id: 1,
           name: 'Manila',
           children: [],
 
         },
         {
-          id: 3,
+          id: 2,
           name: 'Makati',
           children: [],
 
         },
         {
-          id: 4,
+          id: 3,
           name: 'Laguna',
           children: [],
-          path: '/selection/laguna',
         },
         {
-          id: 5,
+          id: 4,
           name: 'Cebu',
           children: [],
-          path: '/selection/cebu',
           onclick: '/ktv'
         },
     ],
   },
   {
-    id: 6,
     path: '/selection',
     name: `JTV`,
     children: [
       {
-        id: 7,
+        id: 5,
         name: 'Manila',
         children: [],
 
       },
       {
-        id: 8,
+        id: 6,
         name: 'Makati',
         children: [],
 
       },
       {
-        id: 9,
+        id: 7,
         name: 'Laguna',
         children: [],
         path: '/selection/laguna',
       },
       {
+        id: 8,
+        name: 'Cebu',
+        children: [],
+        path: '/selection/cebu',
+        onclick: '/ktv'
+      },
+    ],
+  }, 
+  {
+    path: '/selection',
+    name: `SALON`,
+    children: [
+      {
+        id: 9,
+        name: 'Manila',
+        children: [],
+
+      },
+      {
         id: 10,
+        name: 'Makati',
+        children: [],
+
+      },
+      {
+        id: 11,
+        name: 'Laguna',
+        children: [],
+        path: '/selection/laguna',
+      },
+      {
+        id: 12,
         name: 'Cebu',
         children: [],
         path: '/selection/cebu',

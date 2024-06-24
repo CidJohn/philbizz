@@ -16,7 +16,8 @@ function App() {
         <Route path="/" element={<Homeview />} />
         <Route path="/salon" element={<Salon />} />
         <Route path="/selection" element={<Selection />} />
-        <Route path="/manila" element={<Selection />} />
+        <Route path="ktv/manila" element={<Selection />} />
+        <Route path="jtv/manila" element={<Selection />} />
         </Routes>
     </Layout>
     </BrowserRouter>
