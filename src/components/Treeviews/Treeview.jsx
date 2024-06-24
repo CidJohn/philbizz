@@ -17,8 +17,8 @@ const TreeItem = ({ item, onItemClick }) => {
   };
 
   return (
-    <li className="">
-      <div onClick={handleToggle} className="flex items-center cursor-pointer font-normal">
+    <li className="" >
+      <div onClick={handleToggle} className="flex items-center cursor-pointer font-normal" >
         <span className="toggle text-lg">{isOpen ? '-' : '+'}</span>
         <Link to={item.path || '#'} className="ml-2" onClick={handleItemClick}>
           {item.name}
@@ -26,8 +26,8 @@ const TreeItem = ({ item, onItemClick }) => {
       </div>
       {isOpen && item.children && (
         <ul className="ml-6 px-7" >
-          {item.children.map((child) => (
-            <TreeItem key={child.ids} item={child} onItemClick={onItemClick} />
+          {item.children.map((child, index) => (
+            <TreeItem key={index} item={child} onItemClick={onItemClick} />
           ))}
         </ul>
       )}
@@ -38,8 +38,8 @@ const TreeItem = ({ item, onItemClick }) => {
 const TreeView = ({ treeViewContent, onItemClick }) => {
   return (
     <ul className="tree mt-10 font-bold min-w-80 ms-10 text-2xl">
-      {treeViewContent.map((item) => (
-        <TreeItem key={item.id} item={item} onItemClick={onItemClick} />
+      {treeViewContent.map((item, index) => (
+        <TreeItem key={index} item={item} onItemClick={onItemClick} />
       ))}
     </ul>
   );

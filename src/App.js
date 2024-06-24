@@ -15,9 +15,8 @@ function App() {
     <Routes>
         <Route path="/" element={<Homeview />} />
         <Route path="/salon" element={<Salon />} />
-        <Route path="/selection" element={<Selection />} />
-        <Route path="ktv/manila" element={<Selection />} />
-        <Route path="jtv/manila" element={<Selection />} />
+        <Route path="/business" element={<Selection />} />
+        <Route path="/food" element={<Selection />} />
         </Routes>
     </Layout>
     </BrowserRouter>

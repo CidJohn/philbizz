@@ -5,18 +5,26 @@ import treeViewContent from '../../content/treeViewContent';
 import selectionContent from '../../content/selectionContent';
 import sampleItem from '../../content/sampleItem';
 import Image from '../../components/Image/Image';
+import { FoodTreeView } from '../../content/FoodTreeView';
+import navbarContent from '../../content/navbarContent';
+import { useLocation } from 'react-router-dom';
 
 const Selection = () => {
+    const location = useLocation()
   const [selectedItem, setSelectedItem] = useState(null);
-
+  const [currentPath, setCurrentPath] = useState('');
+  const [navbarName, setNavbarName] = useState('');
   useEffect(() => {
-    // Load the selected item from local storage on component mount
     const savedItem = JSON.parse(localStorage.getItem('selectedItem'));
     if (savedItem) {
       const selectedItemObj = findItemById(treeViewContent, savedItem.id);
       setSelectedItem(selectedItemObj);
     }
-  }, []);
+    const selectedItemPath = findingPath(navbarContent, location.pathname);
+    setCurrentPath(selectedItemPath || '');
+    const selectNavName = findingPath(navbarContent, location.pathname);
+    setNavbarName(selectNavName.name || '');
+  }, [location.pathname]);
 
   const findItemById = (items, id) => {
     for (const item of items) {
@@ -28,7 +36,16 @@ const Selection = () => {
     }
     return null;
   };
-
+  const findingPath = (items, path) => {
+    for (const item of items) {
+        if (item.path === path) return item;
+        if (item.children) {
+          const found = findItemById(item.children, path);
+          if (found) return found;
+        }
+      }
+      return null;
+  }
   const handleItemClick = (id, path) => {
     console.log('Clicked Item ID:', id);
 
@@ -43,13 +60,27 @@ const Selection = () => {
     setSelectedItem(selectedItemObj.id);
     window.location.reload();
   };
-
-  return (
-    <div className="flex ">
+console.log(navbarName);
+  const renderTreeView = () => {
+    if (currentPath.name === "Food") {
+      return (
+        <TreeView 
+          treeViewContent={FoodTreeView}
+          onItemClick={handleItemClick}
+        />
+      );
+    }
+    return (
       <TreeView 
         treeViewContent={treeViewContent}
         onItemClick={handleItemClick}
       />
+    );
+  };
+
+  return (
+    <div className="flex ">
+      {renderTreeView()}
       <div className="flex flex-wrap">
       <div className="flex flex-wrap ml-10">
         {/* Check if selectedItem is not null before mapping */}
@@ -68,6 +99,7 @@ const Selection = () => {
                             src={card.images}
                             title={card.title}
                             desc={card.desc}
+                            style={{ width: '200px', height: '200px', backgroundSize: 'cover' }}
                           />
                         </div>
                       ))}
@@ -77,12 +109,12 @@ const Selection = () => {
               </React.Fragment>
             ))}
       </div>
-      <div className="container flex flex-row p-4">
+      <div className=" flex flex-row p-4">
           <div className=" container">
               <h1 className="text-2xl font-bold mb-4">Item List</h1>
                 <ul className="space-y-4">
                   {sampleItem.map(item => (
-                    <li key={item.id} className="bg-white shadow-md rounded-lg p-4 flex items-center">
+                    <li key={item.id} className="bg-white shadow-md rounded-lg p-4 flex items-center ">
                       <div className="flex-1">
                         <h2 className="text-xl font-semibold">{item.name}</h2>
                         <p className="text-gray-700">{item.description}</p>
