@@ -133,7 +133,7 @@ export default function Navbar() {
                 onMouseEnter={() => handleMouseEnter(item.name)}
                 onMouseLeave={handleMouseLeave}
               >
-                <a href={item.path} className="text-gray-600 hover:text-gray-900">
+                <a href={item.path} className="text-gray-600 hover:text-gray-900" onClick={handleClickDelete}>
                   {item.name}
                 </a>
                 {item.children && showDropdown2 === item.name && (

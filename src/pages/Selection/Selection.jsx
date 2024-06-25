@@ -91,7 +91,7 @@ const Selection = () => {
                         src={card.images}
                         title={card.title}
                         desc={card.desc}
-                        style={{ width: '200px', height: '200px', backgroundSize: 'cover' }}
+                        style={{ width: '200px',  backgroundSize: 'cover' }}
                       />
                     </div>
                   ))}       
@@ -119,7 +119,8 @@ const Selection = () => {
                                 src={card.images}
                                 title={card.title}
                                 desc={card.desc}
-                                style={{ width: '200px', height: '200px', backgroundSize: 'cover' }}
+                                style={{ width: '200px', backgroundSize: 'cover' }}
+                                hidden={true}
                               />
                             </div>
                           ))}
@@ -146,7 +147,8 @@ const Selection = () => {
                         src={card.images}
                         title={card.title}
                         desc={card.desc}
-                        style={{ width: '200px', height: '200px', backgroundSize: 'cover' }}
+                        style={{ width: '200px', backgroundSize: 'cover' }}
+                        hidden={true}
                       />
                     </div>
                   ))}       
@@ -169,12 +171,13 @@ const Selection = () => {
                     setting.location === selectedItem.name && (
                       <div className="flex flex-wrap mt-5" key={settingIndex}>
                         {setting.settings.map((card, cardIndex) => (
-                          <div className="bg-cover" key={cardIndex}>
+                          <div className="bg-cover" key={cardIndex} >
                             <Card
                               src={card.images}
-                              title={card.title}
+                              title={card.title}  
                               desc={card.desc}
-                              style={{ width: '200px', height: '200px', backgroundSize: 'cover' }}
+                              style={{ width: '200px', backgroundSize: 'cover' }}
+                              hidden={true}
                             />
                           </div>
                         ))}
@@ -193,18 +196,21 @@ const Selection = () => {
   }
   //#endregion
   return (
-    <div className="flex ">
-      {renderTreeView()}
+    <div className="flex flex-wrap">
+          <div className="hidden md:block">
+          {renderTreeView()}
+          </div>
+        <div className="flex ">
+
       <div className="flex flex-wrap">
-      <div className="flex flex-wrap ml-10">
+      <div className="grid gap-3 md:gap-cols-4 ">
         {handleCards()}
       </div>
-      <div className=" flex flex-row p-4">
-          <div className=" container">
-              <h1 className="text-2xl font-bold mb-4">Item List</h1>
+      <div className=" flex flex-col mt-5">
+              <h1 className="text-2xl font-bold mb-4">Item List1</h1>
                 <ul className="space-y-4">
                   {sampleItem.map(item => (
-                    <li key={item.id} className="bg-white shadow-md rounded-lg p-4 flex items-center ">
+                    <li key={item.id} className="bg-white shadow-md rounded-lg p-4  items-center ">
                       <div className="flex-1">
                         <h2 className="text-xl font-semibold">{item.name}</h2>
                         <p className="text-gray-700">{item.description}</p>
@@ -212,14 +218,33 @@ const Selection = () => {
                     </li>
                   ))}
                 </ul>
-          </div>
             <figure className="max-w-md p-4">
               <Image className="rounded-lg" src={"ktv2.jpg"} alt="Hair salon interior" />
               <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">Sample Header</figcaption>
             </figure>
           </div>
+      </div>
+                  
     </div>
+    <div className="container mx-auto  flex flex-col mt-5">
+                <h1 className="text-2xl font-bold mb-4">Item List2</h1>
+                  <ul className="space-y-4">
+                    {sampleItem.map(item => (
+                      <li key={item.id} className="bg-white shadow-md rounded-lg p-4  items-center ">
+                        <div className="flex-1">
+                          <h2 className="text-xl font-semibold">{item.name}</h2>
+                          <p className="text-gray-700">{item.description}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+              <figure className="max-w-md p-4">
+                <Image className="rounded-lg" src={"ktv2.jpg"} alt="Hair salon interior" />
+                <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">Sample Header</figcaption>
+              </figure>
+            </div>     
     </div>
+    
   );
 };
 
