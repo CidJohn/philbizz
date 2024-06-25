@@ -1,30 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import Card from '../../components/Card/Card';
 import TreeView from '../../components/Treeviews/Treeview';
-import treeViewContent from '../../content/treeViewContent';
 import selectionContent from '../../content/selectionContent';
 import sampleItem from '../../content/sampleItem';
 import Image from '../../components/Image/Image';
 import { FoodTreeView } from '../../content/FoodTreeView';
 import navbarContent from '../../content/navbarContent';
 import { useLocation } from 'react-router-dom';
+import treeViewContent from '../../content/treeViewContent';
 
 const Selection = () => {
     const location = useLocation()
   const [selectedItem, setSelectedItem] = useState(null);
   const [currentPath, setCurrentPath] = useState('');
-  const [navbarName, setNavbarName] = useState('');
+
   useEffect(() => {
     const savedItem = JSON.parse(localStorage.getItem('selectedItem'));
     if (savedItem) {
-      const selectedItemObj = findItemById(treeViewContent, savedItem.id);
+      const selectedItemObj = currentPath.path === "/food"
+        ? findItemById(FoodTreeView, savedItem.id)
+        : findItemById(treeViewContent, savedItem.id);
       setSelectedItem(selectedItemObj);
     }
+   
     const selectedItemPath = findingPath(navbarContent, location.pathname);
     setCurrentPath(selectedItemPath || '');
-    const selectNavName = findingPath(navbarContent, location.pathname);
-    setNavbarName(selectNavName.name || '');
-  }, [location.pathname]);
+  }, [currentPath]);
 
   const findItemById = (items, id) => {
     for (const item of items) {
@@ -47,22 +48,16 @@ const Selection = () => {
       return null;
   }
   const handleItemClick = (id, path) => {
-    console.log('Clicked Item ID:', id);
-
-    // Find the selected item object from treeViewContent based on id
-    const selectedItemObj = findItemById(treeViewContent, id);
-    console.log('Selected Item Object:', selectedItemObj);
-
-    // Save the ID and path to local storage
+    const selectedItemObj = currentPath.name === "Food" 
+    ?findItemById(FoodTreeView, id) 
+    :findItemById(treeViewContent, id);
+    console.log(selectedItemObj);
     localStorage.setItem('selectedItem', JSON.stringify({ id, path }));
-
-    // Set the selected item to state
-    setSelectedItem(selectedItemObj.id);
-    window.location.reload();
+    setSelectedItem(selectedItemObj);
   };
-console.log(navbarName);
+  //#region TreeView
   const renderTreeView = () => {
-    if (currentPath.name === "Food") {
+    if (currentPath.path === "/food") {
       return (
         <TreeView 
           treeViewContent={FoodTreeView}
@@ -70,44 +65,139 @@ console.log(navbarName);
         />
       );
     }
-    return (
+    if (currentPath.path === "/business") {
+      return (
       <TreeView 
         treeViewContent={treeViewContent}
         onItemClick={handleItemClick}
       />
     );
+  }
   };
-
+  //#endregion
+  //#region CardSettings
+  const handleCards = () => {
+      if(currentPath.name === "Food"){
+        if(!selectedItem ){
+          return (
+          selectionContent.map((select, index) => (
+            <React.Fragment key={index}>
+              {select.path === "Food" &&
+              select.cardSetting.map((setting, settingIndex) => (
+                <div className="flex flex-wrap mt-5 " key={settingIndex}>
+                  {setting.settings.map((card, cardIndex) => (
+                    <div className="bg-cover" key={cardIndex}>
+                      <Card
+                        src={card.images}
+                        title={card.title}
+                        desc={card.desc}
+                        style={{ width: '200px', height: '200px', backgroundSize: 'cover' }}
+                      />
+                    </div>
+                  ))}       
+                </div>
+              ))}
+            </React.Fragment>
+          )) 
+          );
+        }
+          else{
+            return (
+              selectedItem && 
+              selectionContent
+                .map((select, index) => (
+                  select.path === selectedItem.parent  && (
+                    <React.Fragment key={index}>
+                    {select.cardSetting
+                    .map((setting, settingIndex) => (
+                      setting.ids === selectedItem.id &&
+                      setting.location === selectedItem.name && (
+                        <div className="flex flex-wrap mt-5" key={settingIndex}>
+                          {setting.settings.map((card, cardIndex) => (
+                            <div className="bg-cover" key={cardIndex}>
+                              <Card
+                                src={card.images}
+                                title={card.title}
+                                desc={card.desc}
+                                style={{ width: '200px', height: '200px', backgroundSize: 'cover' }}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      )
+                    ))}
+                  </React.Fragment>
+                  )
+                ))
+            );
+          }
+      }
+      if(currentPath.name === "Business"){
+        if(!selectedItem ){
+          return (
+          selectionContent.map((select, index) => (
+            <React.Fragment key={index}>
+              {select.path === "Business" &&
+              select.cardSetting.map((setting, settingIndex) => (
+                <div className="flex flex-wrap mt-5 " key={settingIndex}>
+                  {setting.settings.map((card, cardIndex) => (
+                    <div className="bg-cover" key={cardIndex}>
+                      <Card
+                        src={card.images}
+                        title={card.title}
+                        desc={card.desc}
+                        style={{ width: '200px', height: '200px', backgroundSize: 'cover' }}
+                      />
+                    </div>
+                  ))}       
+                </div>
+              ))}
+            </React.Fragment>
+          )) 
+          );
+        }
+        else{
+          return (
+            selectedItem && 
+            selectionContent
+              .map((select, index) => (
+                select.path === selectedItem.parent  && (
+                  <React.Fragment key={index}>
+                  {select.cardSetting
+                  .map((setting, settingIndex) => (
+                    setting.ids === selectedItem.id &&
+                    setting.location === selectedItem.name && (
+                      <div className="flex flex-wrap mt-5" key={settingIndex}>
+                        {setting.settings.map((card, cardIndex) => (
+                          <div className="bg-cover" key={cardIndex}>
+                            <Card
+                              src={card.images}
+                              title={card.title}
+                              desc={card.desc}
+                              style={{ width: '200px', height: '200px', backgroundSize: 'cover' }}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    )
+                  ))}
+                </React.Fragment>
+                )
+              ))
+          );
+        }
+      }
+      console.log(selectedItem)
+      return null;
+           
+  }
+  //#endregion
   return (
     <div className="flex ">
       {renderTreeView()}
       <div className="flex flex-wrap">
       <div className="flex flex-wrap ml-10">
-        {/* Check if selectedItem is not null before mapping */}
-        {selectedItem && 
-          selectionContent
-             .filter(select => select.id === selectedItem.id) 
-            .map((select, index) => (
-              <React.Fragment key={index}>
-                {select.cardSetting
-                .map((setting, settingIndex) => (
-                  setting.location === selectedItem.name && (
-                    <div className="flex flex-wrap mt-5" key={settingIndex}>
-                      {setting.settings.map((card, cardIndex) => (
-                        <div className="bg-cover" key={cardIndex}>
-                          <Card
-                            src={card.images}
-                            title={card.title}
-                            desc={card.desc}
-                            style={{ width: '200px', height: '200px', backgroundSize: 'cover' }}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  )
-                ))}
-              </React.Fragment>
-            ))}
+        {handleCards()}
       </div>
       <div className=" flex flex-row p-4">
           <div className=" container">

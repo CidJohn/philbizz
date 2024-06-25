@@ -1,32 +1,65 @@
 export const FoodTreeView = [
     {
         path: '/food',
-        name: `Foods`,
+        name: `Food`,
         children: [
           {
-            id: 9,
+            id: 1,
+            parent: `Food`,
             name: 'Manila',
             children: [],
     
           },
           {
-            id: 10,
+            id: 2,
+            parent: `Food`,
             name: 'Makati',
             children: [],
     
           },
           {
-            id: 11,
+            id: 3,
+            parent: `Food`,
             name: 'Laguna',
             children: [],
-            path: '/business/laguna',
           },
           {
-            id: 12,
+            id: 4,
+            parent: `Food`,
             name: 'Cebu',
             children: [],
-            path: '/business/cebu',
-            onclick: '/ktv'
+          },
+        ],
+      },
+      {
+        path: '/food',
+        name: `Food2`,
+        children: [
+          {
+            id: 5,
+            parent: `Food`,
+            name: 'Manila',
+            children: [],
+    
+          },
+          {
+            id: 6,
+            parent: `Food`,
+            name: 'Makati',
+            children: [],
+    
+          },
+          {
+            id: 7,
+            parent: `Food`,
+            name: 'Laguna',
+            children: [],
+          },
+          {
+            id: 8,
+            parent: `Food`,
+            name: 'Cebu',
+            children: [],
           },
         ],
       },
