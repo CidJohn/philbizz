@@ -4,11 +4,11 @@ import { ImageLink } from '../Image/ImageLink';
 
 function Card({ title, src, desc, style, hidden }) {
   return (
-    <div className="max-w-96 mx-1 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ">
-      <a href="#" className="block">
-        <ImageLink className="rounded-t-lg " src={src} alt="" style={style}/>
+    <div className="max-w-96 mx-1 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 "  style={style}>
+      <a href="#" className="block" >
+        <ImageLink className="rounded-t-lg " src={src} alt=""/>
       </a>
-      <div className="p-5">
+      <div className="p-1"> 
         <a href="#" className="block">
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{title}</h5>
         </a>

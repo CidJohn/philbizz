@@ -16,17 +16,17 @@ const selectionContent = [
             settings: [
                 {
                     title: "Manila_ktv1",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/K-pop-party-room-600x600.jpg",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 },
                 {
                     title: "ktv2",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSb4HDl_AYCNt-jjwtvx-XyQa5f8moICQZrDQ&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 },
                 {
                     title: "ktv3",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 } ,
                 {
@@ -36,7 +36,7 @@ const selectionContent = [
                 } ,
                 {
                     title: "ktv5",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/K-pop-party-room-600x600.jpg",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 } 
             ]
@@ -46,27 +46,27 @@ const selectionContent = [
             settings: [
                 {
                     title: "makati_ktv1",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 },
                 {
                     title: "ktv2",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 },
                 {
                     title: "ktv3",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 } ,
                 {
                     title: "ktv4",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 } ,
                 {
                     title: "ktv5",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 } 
             ]
@@ -90,27 +90,27 @@ const selectionContent = [
             settings: [
                 {
                     title: "Manila_JTV1",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 },
                 {
                     title: "JTV2",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 },
                 {
                     title: "JTV3",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 } ,
                 {
                     title: "JTV4",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 } ,
                 {
                     title: "JTV5",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 } 
             ]
@@ -121,27 +121,27 @@ const selectionContent = [
             settings: [
                 {
                     title: "Makati_JTV1",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 },
                 {
                     title: "JTV2",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 },
                 {
                     title: "JTV3",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 } ,
                 {
                     title: "JTV4",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 } ,
                 {
                     title: "JTV5",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 } 
             ]
@@ -165,27 +165,27 @@ const selectionContent = [
             settings: [
                 {
                     title: "SALON1",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 },
                 {
                     title: "SALON1",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 },
                 {
                     title: "SALON3",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 } ,
                 {
                     title: "SALON4",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 } ,
                 {
                     title: "SALON5",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 } 
             ]
@@ -209,27 +209,27 @@ const selectionContent = [
             settings: [
                 {
                     title: "Manila_FOOD1",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 },
                 {
                     title: "FOOD2",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 },
                 {
                     title: "FOOD3",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 } ,
                 {
                     title: "FOOD4",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 } ,
                 {
                     title: "FOOD5",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 } 
             ]
@@ -240,27 +240,27 @@ const selectionContent = [
             settings: [
                 {
                     title: "Makati_FOOD1",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 },
                 {
                     title: "FOOD2",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 },
                 {
                     title: "FOOD3",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 } ,
                 {
                     title: "FOOD4",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 } ,
                 {
                     title: "FOOD5",
-                    images: "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg",
+                    images: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
                     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum."
                 } 
             ]
