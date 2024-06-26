@@ -1,61 +1,49 @@
 const navbarContent = [
-    {
-        name: "Business",
-        children: [],
-        path: "/business",
-    },
-        {
-        name: "Food",
-         children: [],
-         path: "/food"
-    },
-        {
-        name: "Golf",
-         children: [
-            {
-                childname: "Golf1",
-                path: "/"
-            },
-                        {
-                childname: "Golf2",
-                path: "/"
-            },
-                        {
-                childname: "Golf3",
-                path: "/"
-            }
-        ]
-    },
-    {
-        name: "Medical",
-        children: [
-            {
-                childname: "Medical1",
-                path: "/"
-            },
-                        {
-                childname: "Medical2",
-                path: "/"
-            },
-                        {
-                childname: "Medical3",
-                path: "/"
-            }
-        ]
-    },
-    {
-        name: "Perform",
-        path: "/"
-    },
-    {
-        name: "Festival",
-        path: "/"
-    },
-        {
-        name: "Massage/Sing",
-        path: "/"
-    },
-    
-]
+  {
+    name: "Business",
+    path: "/business",
+  },
+  {
+    name: "Food",
+    path: "/food",
+  },
+  {
+    name: "Golf",
+    path: "/golf",
+  },
+  {
+    name: "Medical",
+    // children: [
+    //   {
+    //     childname: "Medical1",
+    //     path: "/",
+    //   },
+    //   {
+    //     childname: "Medical2",
+    //     path: "/",
+    //   },
+    //   {
+    //     childname: "Medical3",
+    //     path: "/",
+    //   },
+    // ],
+  },
+  {
+    name: "Perform",
+    path: "/",
+  },
+  {
+    name: "Contact us",
+    path: "#contactus",
+  },
+  {
+    name: "Massage/Sing",
+    path: "/",
+  },
+  {
+    name: "Company",
+    path: "/",
+  },
+];
 
 export default navbarContent;
