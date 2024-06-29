@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { HeroBanner } from "../components/HeroBanner/HeroBanner";
 import CarouselContent from "../content/CarouselContent";
@@ -6,13 +6,26 @@ import Carousel from "../components/Carousel/Carousel";
 import sampleItem from "../content/sampleItem";
 import Image from "../components/Image/Image";
 import ContactForm from "../components/ContactUs/ContactUs";
+import axios from "axios";
+import Spinner from "../components/Spinner/Spinner";
+import { useUserData } from "../helper/database/useUserData";
 
 function Homeview() {
+  const { data, loading } = useUserData();
   return (
     <>
       <div className="container shadow w-full mx-auto  mt-5">
         <HeroBanner />
-        <h1 className="text-5xl font-serif">Bussiness</h1>
+        <h1 className="text-5xl font-serif mt-10">Business</h1>
+        {/* <div className="App">
+          {loading ? (
+            <Spinner />
+          ) : data ? (
+            <div className="text-6xl">{data.map((item) => item.name)}</div>
+          ) : (
+            <Spinner />
+          )}
+        </div> */}
         <div className="flex flex-row">
           <Carousel images={CarouselContent} />
         </div>

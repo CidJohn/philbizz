@@ -9,6 +9,9 @@ import navbarContent from "../../content/navbarContent";
 import { useLocation } from "react-router-dom";
 import treeViewContent from "../../content/treeViewContent";
 import Pagination from "../../components/Pagination/Pagination";
+import Spinner from "../../components/Spinner/Spinner";
+import ContentLayout from "../../utils/Selection/ContentLayout";
+import { useTreeview } from "../../helper/database/useTreeview";
 
 const Selection = () => {
   const location = useLocation();
@@ -17,6 +20,7 @@ const Selection = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [itemsMainPage, setItemsMainPage] = useState(2);
+  const { data, loading } = useTreeview();
 
   useEffect(() => {
     const savedItem = JSON.parse(localStorage.getItem("selectedItem"));
@@ -58,25 +62,30 @@ const Selection = () => {
       currentPath.name === "Food"
         ? findItemById(FoodTreeView, id)
         : findItemById(treeViewContent, id);
-    localStorage.setItem("selectedItem", JSON.stringify({ id }));
+    localStorage.setItem("selectedItem", JSON.stringify({ id, path }));
     setSelectedItem(selectedItemObj);
   };
   //#region TreeView
   const renderTreeView = () => {
     if (currentPath.path === "/food") {
       return (
-        <TreeView
-          treeViewContent={FoodTreeView}
-          onItemClick={handleItemClick}
-        />
+        <>
+          <TreeView
+            treeViewContent={FoodTreeView}
+            onItemClick={handleItemClick}
+          />
+        </>
       );
     }
-    if (currentPath.path === "/business") {
+    if (currentPath.path === "/ktv_jtv") {
       return (
-        <TreeView
-          treeViewContent={treeViewContent}
-          onItemClick={handleItemClick}
-        />
+        <div className="">
+          {!data ? (
+            <Spinner />
+          ) : (
+            <TreeView treeViewContent={data} onItemClick={handleItemClick} />
+          )}
+        </div>
       );
     }
   };
@@ -84,7 +93,7 @@ const Selection = () => {
   //#region CardSettings
   const handleCards = () => {
     if (currentPath.name === "Food") {
-      if (!selectedItem) {
+      if (!selectedItem.id) {
         return currentItems.map((select, index) => (
           <React.Fragment key={index}>
             {select.path === "Food" &&
@@ -144,11 +153,11 @@ const Selection = () => {
         );
       }
     }
-    if (currentPath.name === "Business") {
-      if (!selectedItem) {
+    if (currentPath.name === "Ktv/Jtv") {
+      if (!selectedItem.id) {
         return currentItems.map((select, index) => (
           <React.Fragment key={index}>
-            {select.path === "Business" &&
+            {select.path === "Ktv/Jtv" &&
               select.cardSetting.map((setting, settingIndex) => (
                 <div className="flex flex-wrap mt-5 " key={settingIndex}>
                   {setting.settings.map((card, cardIndex) => (
@@ -221,124 +230,30 @@ const Selection = () => {
   const indexOfLastItem = currentPage * itemsMainPage;
   const indexOfFirstItem = indexOfLastItem - itemsMainPage;
   const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
-
-  console.log(currentItems);
-
+  if (loading) {
+    return <Spinner />;
+  }
+  if (!data) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Spinner />
+      </div>
+    );
+  }
+  //Seperate the file
   return (
-    <div className="flex flex-col md:flex-row ">
-      <div className="hidden md:block">{renderTreeView()}</div>
-      <div className="flex flex-wrap justify-center items-center mx-auto ">
-        <div className="">
-          <div className="">
-            {handleCards()}
-
-            <div className="mt-5 grid justify-items-end">
-              {selectedItem != null ? (
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={Math.ceil(selectionContent.length / itemsPerPage)}
-                  onPageChange={handlePageChange}
-                />
-              ) : (
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={Math.ceil(
-                    selectionContent.length / itemsMainPage
-                  )}
-                  onPageChange={handlePageChange}
-                />
-              )}
-            </div>
-
-            <hr className="border-t border-gray-300 my-5" />
-          </div>
-          <div className=" flex flex-col mt-5">
-            <h1 className="text-2xl font-bold mb-4">Item List1</h1>
-            <ul className="space-y-4">
-              {sampleItem.map((item) => (
-                <li
-                  key={item.id}
-                  className="bg-white shadow-md rounded-lg p-4  items-center "
-                >
-                  <div className="flex-1">
-                    <h2 className="text-xl font-semibold">{item.name}</h2>
-                    <p className="text-gray-700">{item.description}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-            <figure className="max-w-md p-4">
-              <Image
-                className="rounded-lg"
-                src={"ktv2.jpg"}
-                alt="Hair salon interior"
-              />
-              <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
-                Sample Header
-              </figcaption>
-            </figure>
-          </div>
-        </div>
-      </div>
-      <div className="flex flex-col">
-        <div className="flex flex-col">
-          <div className=" mx-auto  flex flex-col mt-5">
-            <h1 className="text-2xl font-bold mb-4">Item List 2</h1>
-            <ul className="space-y-4">
-              {sampleItem.map((item) => (
-                <li
-                  key={item.id}
-                  className="bg-white shadow-md rounded-lg p-4  items-center "
-                >
-                  <div className="flex-1">
-                    <h2 className="text-xl font-semibold">{item.name}</h2>
-                    <p className="text-gray-700">{item.description}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-            <figure className="max-w-md p-4">
-              <Image
-                className="rounded-lg"
-                src={"ktv2.jpg"}
-                alt="Hair salon interior"
-              />
-              <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
-                Sample Header
-              </figcaption>
-            </figure>
-          </div>
-          <div className="flex flex-col">
-            <div className=" mx-auto  flex flex-col mt-5">
-              <h1 className="text-2xl font-bold mb-4">Item List 2</h1>
-              <ul className="space-y-4">
-                {sampleItem.map((item) => (
-                  <li
-                    key={item.id}
-                    className="bg-white shadow-md rounded-lg p-4  items-center "
-                  >
-                    <div className="flex-1">
-                      <h2 className="text-xl font-semibold">{item.name}</h2>
-                      <p className="text-gray-700">{item.description}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-              <figure className="max-w-md p-4">
-                <Image
-                  className="rounded-lg"
-                  src={"ktv2.jpg"}
-                  alt="Hair salon interior"
-                />
-                <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
-                  Sample Header
-                </figcaption>
-              </figure>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <ContentLayout
+      renderTreeView={renderTreeView}
+      handleCards={handleCards}
+      loading={loading}
+      data={data}
+      currentPage={currentPage}
+      itemsPerPage={itemsPerPage}
+      itemsMainPage={itemsMainPage}
+      selectedItem={selectedItem}
+      selectionContent={selectionContent}
+      handlePageChange={handlePageChange}
+    />
   );
 };
 

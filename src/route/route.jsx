@@ -7,7 +7,7 @@ export const route = [
     element: <Homeview />,
   },
   {
-    path: "/business",
+    path: "/ktv_jtv",
     element: <Selection />,
   },
   {
