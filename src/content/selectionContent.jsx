@@ -1,6 +1,6 @@
 const selectionContent = [
   {
-    path: "Business",
+    path: "Ktv/Jtv",
     businessType: "KTV",
     business: [
       {
@@ -14,10 +14,10 @@ const selectionContent = [
     cardSetting: [
       {
         ids: 1,
-        location: "Manila",
+        location: "Makati",
         settings: [
           {
-            title: "Manila_ktv1",
+            title: "Makati_ktv1",
             images:
               "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/K-pop-party-room-600x600.jpg",
             desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
@@ -50,10 +50,46 @@ const selectionContent = [
       },
       {
         ids: 2,
-        location: "Makati",
+        location: "Parañaque",
         settings: [
           {
-            title: "makati_ktv1",
+            title: "Parañaque_ktv1",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "ktv2",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "ktv3",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "ktv4",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "ktv5",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+        ],
+      },
+      {
+        ids: 5,
+        location: "Taguig",
+        settings: [
+          {
+            title: "Taguig_ktv1",
             images:
               "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
             desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
@@ -87,7 +123,7 @@ const selectionContent = [
     ],
   },
   {
-    path: "Business",
+    path: "Ktv/Jtv",
     businessType: "JTV",
     business: [
       {
@@ -99,11 +135,11 @@ const selectionContent = [
     ],
     cardSetting: [
       {
-        ids: 5,
-        location: "Manila",
+        ids: 6,
+        location: "Calamba",
         settings: [
           {
-            title: "Manila_JTV1",
+            title: "Calamba_JTV1",
             images:
               "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
             desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",

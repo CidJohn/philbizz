@@ -1,29 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/Navbar.css";
 import Button from "../Button/Button";
 import navbarContent from "../../content/navbarContent";
 import SearchIcon from "../svg/SearchIcons";
 import Searchinput from "../svg/SearchInputs";
 import { Login } from "../../pages/Login/Login";
+import Image from "../Image/Image";
+import { useLocation } from "react-router-dom";
+import { useNavbarcontent } from "../../helper/database/useNavbarcontent";
+import Spinner from "../Spinner/Spinner";
 
 export default function Navbar() {
   const [showDropdown, setShowDropdown] = useState(true);
   const [showDropdown2, setShowDropdown2] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const location = useLocation();
 
+  const { navbarData, loading } = useNavbarcontent();
+  useEffect(() => {
+    if (navbarData) {
+      navbarData.forEach((item) => {
+        item.children.forEach((childItem) => {
+          console.log(childItem.name);
+        });
+      });
+    }
+  }, [navbarData]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   const handleClickDelete = () => {
+    const path = location.pathname;
     const storedItem = localStorage.getItem("selectedItem");
     if (storedItem) {
       const itemToStore = JSON.parse(storedItem);
       console.log("clicked:", itemToStore);
 
       delete itemToStore.id;
-      localStorage.setItem("selectedItem", JSON.stringify(itemToStore));
-      localStorage.removeItem("selectedItem");
+      // localStorage.setItem("selectedItem", JSON.stringify(itemToStore));
+      // localStorage.removeItem("selectedItem");
     } else {
       console.log("No item found in localStorage");
     }
+    localStorage.setItem("selectedItem", JSON.stringify({ path }));
   };
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -49,13 +70,17 @@ export default function Navbar() {
         <div className="flex items-center justify-between mt-2 ">
           <div className=""></div>
           <div className=""></div>
-          <a href="/" className="font-bold text-3xl text-gray-800 flex ">
-            <div className="font-bold text-3xl text-blue-800 ">P</div>
+          <a
+            href="/"
+            className="font-bold text-3xl text-gray-800 flex bg-cover w-auto"
+          >
+            {/* <div className="font-bold text-3xl text-blue-800 ">P</div>
             <div className="font-bold text-xl text-blue-800 mt-2">
               HILIPPINE
             </div>
             <div className="font-bold text-3xl text-red-800 ">Z</div>
-            <div className="font-bold text-xl text-gray-800 mt-2">ONE</div>
+            <div className="font-bold text-xl text-gray-800 mt-2">ONE</div> */}
+            <Image src={"philzone10.png"} style={{ height: "80px" }} />
           </a>
           <form className="flex items-center max-w-sm space-x-3">
             <label htmlFor="simple-search" className="sr-only">
@@ -96,37 +121,69 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16 ">
           <div className="hidden md:block mx-auto">
             <div className="ml-10 flex items-baseline space-x-1 relative">
-              {navbarContent.map((item, index) => (
-                <div
-                  key={index}
-                  className="border rounded p-4 hover:bg-gray-400 relative"
-                  onMouseEnter={() => setShowDropdown(item.name)}
-                >
-                  <a
-                    href={item.path}
-                    className="text-gray-600 hover:text-gray-900"
-                    onClick={handleClickDelete}
-                  >
-                    {item.name}
-                  </a>
-                  {item.children && showDropdown === item.name && (
+              {!navbarData
+                ? navbarContent.map((item, index) => (
                     <div
-                      className="absolute mt-2 bg-white border rounded-lg shadow-lg z-50"
-                      onMouseLeave={() => setShowDropdown(false)}
+                      key={index}
+                      className="border rounded p-4 hover:bg-gray-400 relative"
+                      onMouseEnter={() => setShowDropdown(item.name)}
                     >
-                      {item.children.map((childItem, childIndex) => (
-                        <a
-                          key={childIndex}
-                          href={childItem.path}
-                          className="block px-4 py-2 hover:bg-gray-200"
+                      <a
+                        href={item.path}
+                        className="text-gray-600 hover:text-gray-900"
+                        onClick={handleClickDelete}
+                      >
+                        {item.name}
+                      </a>
+                      {item.children && showDropdown === item.name && (
+                        <div
+                          className="absolute mt-2 bg-white border rounded-lg shadow-lg z-50"
+                          onMouseLeave={() => setShowDropdown(false)}
                         >
-                          {childItem.childname}
-                        </a>
-                      ))}
+                          {item.children.map((childItem, childIndex) => (
+                            <a
+                              key={childIndex}
+                              href={childItem.path}
+                              className="block px-4 py-2 hover:bg-gray-200"
+                            >
+                              {childItem.childname}
+                            </a>
+                          ))}
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              ))}
+                  ))
+                : navbarData.map((item, index) => (
+                    <div
+                      key={index}
+                      className="border rounded p-4 hover:bg-gray-400 relative"
+                      onMouseEnter={() => setShowDropdown(item.name)}
+                    >
+                      <a
+                        href={item.path}
+                        className="text-gray-600 hover:text-gray-900"
+                        onClick={handleClickDelete}
+                      >
+                        {item.name}
+                      </a>
+                      {item.children && showDropdown === item.name && (
+                        <div
+                          className="absolute mt-2 bg-white border rounded-lg shadow-lg z-50"
+                          onMouseLeave={() => setShowDropdown(false)}
+                        >
+                          {item.children.map((childItem, childIndex) => (
+                            <a
+                              key={childIndex}
+                              href={childItem.path}
+                              className="block px-4 py-2 hover:bg-gray-200"
+                            >
+                              {childItem.name}
+                            </a>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
             </div>
           </div>
 

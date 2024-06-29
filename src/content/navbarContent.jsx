@@ -2,6 +2,16 @@ const navbarContent = [
   {
     name: "Business",
     path: "/business",
+    children: [
+      {
+        childname: "Philippine",
+        path: "/",
+      },
+      {
+        childname: "Korea",
+        path: "/",
+      },
+    ],
   },
   {
     name: "Food",
@@ -33,15 +43,11 @@ const navbarContent = [
     path: "/",
   },
   {
-    name: "Contact us",
-    path: "#contactus",
+    name: "Ktv/Jtv",
+    path: "/ktv_jtv",
   },
   {
-    name: "Massage/Sing",
-    path: "/",
-  },
-  {
-    name: "Company",
+    name: "Beauty",
     path: "/",
   },
 ];

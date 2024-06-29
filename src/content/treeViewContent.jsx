@@ -1,103 +1,66 @@
 const treeViewContent = [
   {
-    name: 'KTV',
-    path: '/business',
+    name: "Manila",
+    path: "/ktv_jtv",
     children: [
-        {
-          id: 1,
-        parent: 'Business',
-          name: 'Manila',
-          children: [],
-
-        },
-        {
-          id: 2,
-        parent: 'Business',
-          name: 'Makati',
-          children: [],
-
-        },
-        {
-          id: 3,
-        parent: 'Business',
-          name: 'Laguna',
-          children: [],
-        },
-        {
-          id: 4,
-        parent: 'Business',
-          name: 'Cebu',
-          children: [],
-          onclick: '/ktv'
-        },
+      {
+        id: 1,
+        parent: "Ktv/Jtv",
+        name: "Makati",
+        children: [],
+      },
+      {
+        id: 2,
+        parent: "Ktv/Jtv",
+        name: "Parañaque",
+        children: [],
+      },
+      {
+        id: 5,
+        parent: "Ktv/Jtv",
+        name: "Taguig",
+        children: [],
+      },
+      {
+        id: 4,
+        parent: "Ktv/Jtv",
+        name: "Cebu",
+        children: [],
+        onclick: "/ktv",
+      },
     ],
   },
   {
-    path: '/business',
-    name: `JTV`,
+    path: "/business",
+    name: `Laguna`,
     children: [
       {
-        id: 5,
-        parent: 'Business',
-        name: 'Manila',
+        id: 6,
+        parent: "Ktv/Jtv",
+        name: "Calamba",
         children: [],
-
       },
       {
         id: 6,
-        parent: 'Business',
-        name: 'Makati',
+        parent: "Ktv/Jtv",
+        name: "Makati",
         children: [],
-
       },
       {
         id: 7,
-        parent: 'Business',
-        name: 'Laguna',
+        parent: "Ktv/Jtv",
+        name: "Laguna",
         children: [],
       },
       {
         id: 8,
-        parent: 'Business',
-        name: 'Cebu',
+        parent: "Ktv/Jtv",
+        name: "Cebu",
         children: [],
-        onclick: '/ktv'
-      },
-    ],
-  }, 
-  {
-    path: '/business',
-    name: `SALON`,
-    children: [
-      {
-        id: 9,
-        parent: 'Business',
-        name: 'Manila',
-        children: [],
-
-      },
-      {
-        id: 10,
-        parent: 'Business',
-        name: 'Makati',
-        children: [],
-
-      },
-      {
-        id: 11,
-        parent: 'Business',
-        name: 'Laguna',
-        children: [],
-      },
-      {
-        id: 12,
-        parent: 'Business',
-        name: 'Cebu',
-        children: [],
+        onclick: "/ktv",
       },
     ],
   },
-  
 ];
 
 export default treeViewContent;
