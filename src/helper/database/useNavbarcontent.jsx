@@ -1,16 +1,18 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
+import restAPI from "./restAPI";
 
 export const useNavbarcontent = () => {
   const [navbarData, setNavbarData] = useState("");
   const [loading, setLoading] = useState(false);
   const isFetched = useRef(false);
+
+  const API_CALL = restAPI();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(
-          "https://project-philzone-be.onrender.com/api/navbarcontent"
-        );
+        const res = await axios.get(`${API_CALL.host}/navbarcontent`);
         setNavbarData(res.data);
       } catch (error) {
         console.error("Axios Error:", error);
@@ -23,6 +25,5 @@ export const useNavbarcontent = () => {
       isFetched.current = true;
     }
   }, []);
-
   return { navbarData, loading };
 };

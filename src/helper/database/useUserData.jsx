@@ -1,13 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import restAPI from "./restAPI";
 
 export const useUserData = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const API_CALL = restAPI();
   useEffect(() => {
     axios
-      .get("https://project-philzone-be.onrender.com/api/users")
+      .get(`${API_CALL.host}/api/users`)
       .then((response) => {
         setData(response.data);
         setLoading(false); // Data loaded, stop loading

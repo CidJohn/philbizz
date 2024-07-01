@@ -2,16 +2,11 @@ import React, { useState, useEffect } from "react";
 import Card from "../../components/Card/Card";
 import TreeView from "../../components/Treeviews/Treeview";
 import selectionContent from "../../content/selectionContent";
-import sampleItem from "../../content/sampleItem";
-import Image from "../../components/Image/Image";
-import { FoodTreeView } from "../../content/FoodTreeView";
-import navbarContent from "../../content/navbarContent";
 import { useLocation } from "react-router-dom";
-import treeViewContent from "../../content/treeViewContent";
-import Pagination from "../../components/Pagination/Pagination";
 import Spinner from "../../components/Spinner/Spinner";
 import ContentLayout from "../../utils/Selection/ContentLayout";
 import { useTreeview } from "../../helper/database/useTreeview";
+import { useNavbarcontent } from "../../helper/database/useNavbarcontent";
 
 const Selection = () => {
   const location = useLocation();
@@ -21,22 +16,25 @@ const Selection = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [itemsMainPage, setItemsMainPage] = useState(2);
   const { data, loading } = useTreeview();
+  const { navbarData } = useNavbarcontent();
 
   useEffect(() => {
     const savedItem = JSON.parse(localStorage.getItem("selectedItem"));
     if (savedItem) {
-      const selectedItemObj =
-        currentPath.path === "/food"
-          ? findItemById(FoodTreeView, savedItem.id)
-          : findItemById(treeViewContent, savedItem.id);
+      let selectedItemObj = "";
+
+      selectedItemObj = data ? findItemById(data, savedItem.id) : "";
       setSelectedItem(selectedItemObj);
     }
 
-    const selectedItemPath = findingPath(navbarContent, location.pathname);
+    const selectedItemPath = !navbarData
+      ? ""
+      : findingPath(navbarData, location.pathname);
     setCurrentPath(selectedItemPath || "");
-  }, [currentPath]);
+  }, [currentPath, data, navbarData, location.pathname]);
 
   const findItemById = (items, id) => {
+    if (!items) return null; // Handle case where items is null or undefined
     for (const item of items) {
       if (item.id === id || item.ids === id) return item;
       if (item.children) {
@@ -47,10 +45,11 @@ const Selection = () => {
     return null;
   };
   const findingPath = (items, path) => {
+    if (!items) return null; // Handle case where items is null or undefined
     for (const item of items) {
       if (item.path === path) return item;
       if (item.children) {
-        const found = findItemById(item.children, path);
+        const found = findingPath(item.children, path);
         if (found) return found;
       }
     }
@@ -58,37 +57,63 @@ const Selection = () => {
   };
   const handleItemClick = (id, path) => {
     path = currentPath.path;
-    const selectedItemObj =
-      currentPath.name === "Food"
-        ? findItemById(FoodTreeView, id)
-        : findItemById(treeViewContent, id);
-    localStorage.setItem("selectedItem", JSON.stringify({ id, path }));
+    const selectedItemObj = data ? findItemById(data, id) : "";
+    localStorage.setItem("selectedItem", JSON.stringify({ id }));
     setSelectedItem(selectedItemObj);
   };
   //#region TreeView
   const renderTreeView = () => {
     if (currentPath.path === "/food") {
-      return (
-        <>
-          <TreeView
-            treeViewContent={FoodTreeView}
-            onItemClick={handleItemClick}
-          />
-        </>
+      const filteredData = data.filter(
+        (node) => node.path === currentPath.path
       );
-    }
-    if (currentPath.path === "/ktv_jtv") {
       return (
         <div className="">
           {!data ? (
             <Spinner />
           ) : (
-            <TreeView treeViewContent={data} onItemClick={handleItemClick} />
+            <TreeView
+              treeViewContent={filteredData}
+              onItemClick={handleItemClick}
+            />
+          )}
+        </div>
+      );
+    } else if (currentPath.path === "/ktv_jtv") {
+      const filteredData = data.filter(
+        (node) => node.path === currentPath.path
+      );
+      return (
+        <div className="">
+          {!data ? (
+            <Spinner />
+          ) : (
+            <TreeView
+              treeViewContent={filteredData}
+              onItemClick={handleItemClick}
+            />
+          )}
+        </div>
+      );
+    } else if (currentPath.path === "/business") {
+      const filteredData = data.filter(
+        (node) => node.path === currentPath.path
+      );
+      return (
+        <div className="">
+          {!data ? (
+            <Spinner />
+          ) : (
+            <TreeView
+              treeViewContent={filteredData}
+              onItemClick={handleItemClick}
+            />
           )}
         </div>
       );
     }
   };
+
   //#endregion
   //#region CardSettings
   const handleCards = () => {
@@ -106,6 +131,7 @@ const Selection = () => {
                         title={card.title}
                         desc={card.desc}
                         style={{ width: "200px", backgroundSize: "cover" }}
+                        hidden={true}
                       />
                     </div>
                   ))}
@@ -118,7 +144,7 @@ const Selection = () => {
           selectedItem &&
           selectionContent.map(
             (select, index) =>
-              select.path === selectedItem.parent && (
+              (select.path = selectedItem.path && (
                 <React.Fragment key={index}>
                   {select.cardSetting.map(
                     (setting, settingIndex) =>
@@ -148,7 +174,7 @@ const Selection = () => {
                       )
                   )}
                 </React.Fragment>
-              )
+              ))
           )
         );
       }
@@ -180,37 +206,40 @@ const Selection = () => {
           selectedItem &&
           selectionContent.map(
             (select, index) =>
-              select.path === selectedItem.parent && (
+              (select.path = selectedItem.path && (
                 <React.Fragment key={index}>
                   {select.cardSetting.map(
                     (setting, settingIndex) =>
-                      setting.ids === selectedItem.id &&
-                      setting.location === selectedItem.name && (
-                        <div className="flex flex-wrap mt-5" key={settingIndex}>
-                          {setting.settings
-                            .slice(
-                              (currentPage - 1) * itemsPerPage,
-                              currentPage * itemsPerPage
-                            )
-                            .map((card, cardIndex) => (
-                              <div className="bg-cover" key={cardIndex}>
-                                <Card
-                                  src={card.images}
-                                  title={card.title}
-                                  desc={card.desc}
-                                  style={{
-                                    width: "200px",
-                                    backgroundSize: "cover",
-                                  }}
-                                  hidden={true}
-                                />
-                              </div>
-                            ))}
-                        </div>
-                      )
+                      (setting.location = selectedItem.name &&
+                        setting.ids === selectedItem.id && (
+                          <div
+                            className="flex flex-wrap mt-5"
+                            key={settingIndex}
+                          >
+                            {setting.settings
+                              .slice(
+                                (currentPage - 1) * itemsPerPage,
+                                currentPage * itemsPerPage
+                              )
+                              .map((card, cardIndex) => (
+                                <div className="bg-cover" key={cardIndex}>
+                                  <Card
+                                    src={card.images}
+                                    title={card.title}
+                                    desc={card.desc}
+                                    style={{
+                                      width: "200px",
+                                      backgroundSize: "cover",
+                                    }}
+                                    hidden={true}
+                                  />
+                                </div>
+                              ))}
+                          </div>
+                        ))
                   )}
                 </React.Fragment>
-              )
+              ))
           )
         );
       }

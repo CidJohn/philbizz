@@ -2,6 +2,7 @@ const selectionContent = [
   {
     path: "Ktv/Jtv",
     businessType: "KTV",
+    id: 1,
     business: [
       {
         header: "Ktv",
@@ -171,11 +172,11 @@ const selectionContent = [
         ],
       },
       {
-        ids: 6,
-        location: "Makati",
+        ids: 7,
+        location: "Los Baños",
         settings: [
           {
-            title: "Makati_JTV1",
+            title: "Los Baños_JTV1",
             images:
               "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
             desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
@@ -271,11 +272,11 @@ const selectionContent = [
     ],
     cardSetting: [
       {
-        ids: 1,
-        location: "Manila",
+        ids: 13,
+        location: "Makati",
         settings: [
           {
-            title: "Manila_FOOD1",
+            title: "Makati_FOOD1",
             images:
               "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
             desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
@@ -307,11 +308,119 @@ const selectionContent = [
         ],
       },
       {
-        ids: 2,
-        location: "Makati",
+        ids: 15,
+        location: "Parañaque",
         settings: [
           {
-            title: "Makati_FOOD1",
+            title: "Parañaque_FOOD1",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "FOOD2",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "FOOD3",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "FOOD4",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "FOOD5",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+        ],
+      },
+      {
+        ids: 14,
+        location: "Taguig",
+        settings: [
+          {
+            title: "Taguig_FOOD1",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "FOOD2",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "FOOD3",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "FOOD4",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "FOOD5",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+        ],
+      },
+      {
+        ids: 16,
+        location: "Calamba",
+        settings: [
+          {
+            title: "Calamba_FOOD1",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "FOOD2",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "FOOD3",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "FOOD4",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "FOOD5",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+        ],
+      },
+      {
+        ids: 17,
+        location: "Los Baños",
+        settings: [
+          {
+            title: "Los Baños_FOOD1",
             images:
               "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
             desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
