@@ -10,27 +10,14 @@ import { useLocation } from "react-router-dom";
 import { useNavbarcontent } from "../../helper/database/useNavbarcontent";
 import Spinner from "../Spinner/Spinner";
 
-export default function Navbar() {
+export default function Navbar({ ...props }) {
+  const { navbarData, loading } = props;
   const [showDropdown, setShowDropdown] = useState(true);
   const [showDropdown2, setShowDropdown2] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const location = useLocation();
 
-  const { navbarData, loading } = useNavbarcontent();
-  useEffect(() => {
-    if (navbarData) {
-      navbarData.forEach((item) => {
-        item.children.forEach((childItem) => {
-          console.log(childItem.name);
-        });
-      });
-    }
-  }, [navbarData]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
   const handleClickDelete = () => {
     const path = location.pathname;
     const storedItem = localStorage.getItem("selectedItem");
@@ -63,6 +50,42 @@ export default function Navbar() {
   };
   const handleModalOpen = () => {
     setIsModalOpen(!isModalOpen);
+  };
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  const navbarItem = (navitem) => {
+    return navitem.map((item, index) => (
+      <div
+        key={index}
+        className="border rounded p-4 hover:bg-gray-400 relative"
+        onMouseEnter={() => setShowDropdown(item.name)}
+      >
+        <a
+          href={item.path}
+          className="text-gray-600 hover:text-gray-900"
+          onClick={handleClickDelete}
+        >
+          {item.name}
+        </a>
+        {item.children && showDropdown === item.name && (
+          <div
+            className="absolute mt-2 bg-white border rounded-lg shadow-lg z-50"
+            onMouseLeave={() => setShowDropdown(false)}
+          >
+            {item.children.map((childItem, childIndex) => (
+              <a
+                key={childIndex}
+                href={childItem.path}
+                className="block px-4 py-2 hover:bg-gray-200"
+              >
+                {childItem.childname}
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    ));
   };
   return (
     <nav className="bg-gray-100">
@@ -121,69 +144,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16 ">
           <div className="hidden md:block mx-auto">
             <div className="ml-10 flex items-baseline space-x-1 relative">
-              {!navbarData
-                ? navbarContent.map((item, index) => (
-                    <div
-                      key={index}
-                      className="border rounded p-4 hover:bg-gray-400 relative"
-                      onMouseEnter={() => setShowDropdown(item.name)}
-                    >
-                      <a
-                        href={item.path}
-                        className="text-gray-600 hover:text-gray-900"
-                        onClick={handleClickDelete}
-                      >
-                        {item.name}
-                      </a>
-                      {item.children && showDropdown === item.name && (
-                        <div
-                          className="absolute mt-2 bg-white border rounded-lg shadow-lg z-50"
-                          onMouseLeave={() => setShowDropdown(false)}
-                        >
-                          {item.children.map((childItem, childIndex) => (
-                            <a
-                              key={childIndex}
-                              href={childItem.path}
-                              className="block px-4 py-2 hover:bg-gray-200"
-                            >
-                              {childItem.childname}
-                            </a>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ))
-                : navbarData.map((item, index) => (
-                    <div
-                      key={index}
-                      className="border rounded p-4 hover:bg-gray-400 relative"
-                      onMouseEnter={() => setShowDropdown(item.name)}
-                    >
-                      <a
-                        href={item.path}
-                        className="text-gray-600 hover:text-gray-900"
-                        onClick={handleClickDelete}
-                      >
-                        {item.name}
-                      </a>
-                      {item.children && showDropdown === item.name && (
-                        <div
-                          className="absolute mt-2 bg-white border rounded-lg shadow-lg z-50"
-                          onMouseLeave={() => setShowDropdown(false)}
-                        >
-                          {item.children.map((childItem, childIndex) => (
-                            <a
-                              key={childIndex}
-                              href={childItem.path}
-                              className="block px-4 py-2 hover:bg-gray-200"
-                            >
-                              {childItem.name}
-                            </a>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ))}
+              {!navbarData ? navbarItem(navbarContent) : navbarItem(navbarData)}
             </div>
           </div>
 

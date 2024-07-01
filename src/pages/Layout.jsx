@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import Navbar from '../components/Navbar/Navbar';
-import TreeView from '../components/Treeviews/Treeview';
-import treeViewContent from '../content/treeViewContent';
-import Footer from './Footer/Footer';
-import { useLocation } from 'react-router-dom';
+import React, { useState } from "react";
+import Navbar from "../components/Navbar/Navbar";
+import TreeView from "../components/Treeviews/Treeview";
+import treeViewContent from "../content/treeViewContent";
+import Footer from "./Footer/Footer";
+import { useLocation } from "react-router-dom";
+import { useNavbarcontent } from "../helper/database/useNavbarcontent";
 
 function Layout({ children }) {
   const location = useLocation();
@@ -18,10 +19,11 @@ function Layout({ children }) {
   const handleItemClick = (ids) => {
     setSelectedIds(ids);
   };
+  const { navbarData, loading } = useNavbarcontent();
 
   return (
     <div>
-      <Navbar />
+      <Navbar navbarData={navbarData} loading={loading} />
       <div className="flex flex-row">
         <div className="sticky left-0 top-0 fixed">
           {/* {currentTreeViewContent && (

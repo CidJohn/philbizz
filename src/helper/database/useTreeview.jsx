@@ -9,7 +9,7 @@ export const useTreeview = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/api/treeview/child");
+        const response = await axios.get("https://project-philzone-be.onrender.com/api/treeview/child");
         console.log("API Response:", response.data);
         setData(response.data);
       } catch (error) {
