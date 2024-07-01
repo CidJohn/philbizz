@@ -7,7 +7,7 @@ export const useUserData = () => {
 
   useEffect(() => {
     axios
-      .get("api/users")
+      .get("https://project-philzone-be.onrender.com/api/users")
       .then((response) => {
         setData(response.data);
         setLoading(false); // Data loaded, stop loading
