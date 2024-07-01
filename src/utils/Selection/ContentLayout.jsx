@@ -22,15 +22,7 @@ const ContentLayout = ({
       <div className="flex flex-wrap justify-center items-center mx-auto">
         <div className="">
           <div className="">{handleCards()}</div>
-          <div className="App">
-            {loading ? (
-              <Spinner />
-            ) : data ? (
-              <div className="text-1xl p2">{data.map((item) => item.name)}</div>
-            ) : (
-              <Spinner />
-            )}
-          </div>
+
           <div className="mt-5 grid justify-items-end">
             <Pagination
               currentPage={currentPage}

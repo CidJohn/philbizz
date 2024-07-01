@@ -18,4 +18,8 @@ export const route = [
     path: "/golf",
     element: <Selection />,
   },
+  {
+    path: "/business",
+    element: <Selection />,
+  },
 ];

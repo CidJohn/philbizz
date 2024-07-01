@@ -79,7 +79,7 @@ export default function Navbar({ ...props }) {
                 href={childItem.path}
                 className="block px-4 py-2 hover:bg-gray-200"
               >
-                {childItem.childname}
+                {childItem.name}
               </a>
             ))}
           </div>
