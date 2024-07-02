@@ -1,11 +1,11 @@
 const selectionContent = [
   {
     path: "Ktv/Jtv",
-    businessType: "KTV",
+    businessType: "KTV/JTV",
     id: 1,
     business: [
       {
-        header: "Ktv",
+        header: "Ktv/Jtv",
         image:
           "https://lh3.googleusercontent.com/p/AF1QipMDoZDWG6yVf3e07Cab6Eed_keBnMjkZ0F_4tIo=s680-w680-h510",
         paragraph:
@@ -121,20 +121,6 @@ const selectionContent = [
           },
         ],
       },
-    ],
-  },
-  {
-    path: "Ktv/Jtv",
-    businessType: "JTV",
-    business: [
-      {
-        header: "Description",
-        image: "Salon.jpeg",
-        paragraph:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
-      },
-    ],
-    cardSetting: [
       {
         ids: 6,
         location: "Calamba",
@@ -214,7 +200,7 @@ const selectionContent = [
     businessType: "SALON",
     business: [
       {
-        header: "Description",
+        header: "Business",
         image: "Salon.jpeg",
         paragraph:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
@@ -264,7 +250,7 @@ const selectionContent = [
     businessType: "Food1",
     business: [
       {
-        header: "Description",
+        header: "Food",
         image: "Salon.jpeg",
         paragraph:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",

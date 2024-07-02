@@ -22,8 +22,12 @@ const TreeItem = ({ item, onItemClick }) => {
         onClick={handleToggle}
         className="flex items-center cursor-pointer font-normal"
       >
-        <span className="toggle text-lg">{isOpen ? "" : ">"}</span>
-        <Link to={item.path || "#"} className="ml-2" onClick={handleItemClick}>
+        {/* <span className="toggle text-lg">{isOpen ? "" : ">"}</span> */}
+        <Link
+          to={item.path || "#"}
+          className={isOpen ? "text-gray-900 " : "text-red-500 ml-2"}
+          onClick={handleItemClick}
+        >
           {item.name}
         </Link>
       </div>

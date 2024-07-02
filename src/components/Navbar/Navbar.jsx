@@ -9,6 +9,7 @@ import Image from "../Image/Image";
 import { useLocation } from "react-router-dom";
 import { useNavbarcontent } from "../../helper/database/useNavbarcontent";
 import Spinner from "../Spinner/Spinner";
+import SearchBar from "../Searchbar/Searchbar";
 
 export default function Navbar({ ...props }) {
   const { navbarData, loading } = props;
@@ -51,6 +52,7 @@ export default function Navbar({ ...props }) {
   const handleModalOpen = () => {
     setIsModalOpen(!isModalOpen);
   };
+  const handleSearch = () => {};
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -105,37 +107,12 @@ export default function Navbar({ ...props }) {
             <div className="font-bold text-xl text-gray-800 mt-2">ONE</div> */}
             <Image src={"philzone10.png"} style={{ height: "80px" }} />
           </a>
-          <form className="flex items-center max-w-sm space-x-3">
-            <label htmlFor="simple-search" className="sr-only">
-              Search
-            </label>
-            <div className="relative w-full">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <Searchinput />
-              </div>
-              <input
-                type="text"
-                id="simple-search"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Search branch name..."
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              className="flex items-center justify-center border rounded px-4 py-2 hover:bg-gray-400 text-gray-600 hover:text-gray-900"
-            >
-              <SearchIcon />
-              <span className="sr-only">Search</span>
-            </button>
-            <button
-              type="button"
-              className="flex items-center justify-center border rounded px-4 py-2 hover:bg-gray-400 text-gray-600 hover:text-gray-900"
-              onClick={() => handleModalOpen()}
-            >
-              Login
-            </button>
-          </form>
+          <SearchBar
+            onSearch={handleSearch}
+            isModalOpen={isModalOpen}
+            handleModalOpen={handleModalOpen}
+          />
+
           {isModalOpen && <Login handleModalOpen={handleModalOpen} />}
         </div>
       </div>
@@ -144,13 +121,12 @@ export default function Navbar({ ...props }) {
         <div className="flex items-center justify-between h-16 ">
           <div className="hidden md:block mx-auto">
             <div className="ml-10 flex items-baseline space-x-1 relative">
-              {!navbarData ? navbarItem(navbarContent) : navbarItem(navbarData)}
+              {!navbarData ? "" : navbarItem(navbarData)}
             </div>
           </div>
 
           <div className="-mr-2 flex md:hidden justify-between">
-            <button
-              type="button"
+            <Button
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500"
               aria-controls="mobile-menu"
               aria-expanded={isMenuOpen}
@@ -187,7 +163,7 @@ export default function Navbar({ ...props }) {
                   d="M6 18L18 6M6 6l12 12"
                 />
               </svg>
-            </button>
+            </Button>
             <a href="/" className="font-bold text-3xl text-gray-800 flex ">
               <div className="font-bold text-gl text-blue-800 ">P</div>
               <div className="font-bold text-sm text-blue-800 mt-3">

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import Card from "../../components/Card/Card";
-import TreeView from "../../components/Treeviews/Treeview";
-import selectionContent from "../../content/selectionContent";
 import { useLocation } from "react-router-dom";
 import Spinner from "../../components/Spinner/Spinner";
 import ContentLayout from "../../utils/Selection/ContentLayout";
 import { useTreeview } from "../../helper/database/useTreeview";
 import { useNavbarcontent } from "../../helper/database/useNavbarcontent";
+import RenderTreeView from "../../utils/RenderTreeView/renderTreeView";
+import HandleCards from "../../utils/HandleCards/handleCards";
+import selectionContent from "../../content/selectionContent";
+import Description from "./Description/Description";
 
 const Selection = () => {
   const location = useLocation();
@@ -15,15 +16,15 @@ const Selection = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [itemsMainPage, setItemsMainPage] = useState(2);
+  const [business, setBusiness] = useState("");
+
   const { data, loading } = useTreeview();
   const { navbarData } = useNavbarcontent();
 
   useEffect(() => {
     const savedItem = JSON.parse(localStorage.getItem("selectedItem"));
     if (savedItem) {
-      let selectedItemObj = "";
-
-      selectedItemObj = data ? findItemById(data, savedItem.id) : "";
+      const selectedItemObj = data ? findItemById(data, savedItem.id) : "";
       setSelectedItem(selectedItemObj);
     }
 
@@ -31,6 +32,15 @@ const Selection = () => {
       ? ""
       : findingPath(navbarData, location.pathname);
     setCurrentPath(selectedItemPath || "");
+
+    if (navbarData) {
+      const matchedItem = navbarData.find(
+        (item) => item.path === currentPath.path
+      );
+      if (matchedItem) {
+        setBusiness(matchedItem.name);
+      }
+    }
   }, [currentPath, data, navbarData, location.pathname]);
 
   const findItemById = (items, id) => {
@@ -44,6 +54,7 @@ const Selection = () => {
     }
     return null;
   };
+
   const findingPath = (items, path) => {
     if (!items) return null; // Handle case where items is null or undefined
     for (const item of items) {
@@ -55,201 +66,27 @@ const Selection = () => {
     }
     return null;
   };
+
   const handleItemClick = (id, path) => {
     path = currentPath.path;
     const selectedItemObj = data ? findItemById(data, id) : "";
-    localStorage.setItem("selectedItem", JSON.stringify({ id }));
+    localStorage.setItem("selectedItem", JSON.stringify({ id, path }));
     setSelectedItem(selectedItemObj);
   };
-  //#region TreeView
-  const renderTreeView = () => {
-    if (currentPath.path === "/food") {
-      const filteredData = data.filter(
-        (node) => node.path === currentPath.path
-      );
-      return (
-        <div className="">
-          {!data ? (
-            <Spinner />
-          ) : (
-            <TreeView
-              treeViewContent={filteredData}
-              onItemClick={handleItemClick}
-            />
-          )}
-        </div>
-      );
-    } else if (currentPath.path === "/ktv_jtv") {
-      const filteredData = data.filter(
-        (node) => node.path === currentPath.path
-      );
-      return (
-        <div className="">
-          {!data ? (
-            <Spinner />
-          ) : (
-            <TreeView
-              treeViewContent={filteredData}
-              onItemClick={handleItemClick}
-            />
-          )}
-        </div>
-      );
-    } else if (currentPath.path === "/business") {
-      const filteredData = data.filter(
-        (node) => node.path === currentPath.path
-      );
-      return (
-        <div className="">
-          {!data ? (
-            <Spinner />
-          ) : (
-            <TreeView
-              treeViewContent={filteredData}
-              onItemClick={handleItemClick}
-            />
-          )}
-        </div>
-      );
-    }
-  };
 
-  //#endregion
-  //#region CardSettings
-  const handleCards = () => {
-    if (currentPath.name === "Food") {
-      if (!selectedItem.id) {
-        return currentItems.map((select, index) => (
-          <React.Fragment key={index}>
-            {select.path === "Food" &&
-              select.cardSetting.map((setting, settingIndex) => (
-                <div className="flex flex-wrap mt-5 " key={settingIndex}>
-                  {setting.settings.map((card, cardIndex) => (
-                    <div className="bg-cover" key={cardIndex}>
-                      <Card
-                        src={card.images}
-                        title={card.title}
-                        desc={card.desc}
-                        style={{ width: "200px", backgroundSize: "cover" }}
-                        hidden={true}
-                      />
-                    </div>
-                  ))}
-                </div>
-              ))}
-          </React.Fragment>
-        ));
-      } else {
-        return (
-          selectedItem &&
-          selectionContent.map(
-            (select, index) =>
-              (select.path = selectedItem.path && (
-                <React.Fragment key={index}>
-                  {select.cardSetting.map(
-                    (setting, settingIndex) =>
-                      setting.ids === selectedItem.id &&
-                      setting.location === selectedItem.name && (
-                        <div className="flex flex-wrap mt-5" key={settingIndex}>
-                          {setting.settings
-                            .slice(
-                              (currentPage - 1) * itemsPerPage,
-                              currentPage * itemsPerPage
-                            )
-                            .map((card, cardIndex) => (
-                              <div className="bg-cover" key={cardIndex}>
-                                <Card
-                                  src={card.images}
-                                  title={card.title}
-                                  desc={card.desc}
-                                  style={{
-                                    width: "200px",
-                                    backgroundSize: "cover",
-                                  }}
-                                  hidden={true}
-                                />
-                              </div>
-                            ))}
-                        </div>
-                      )
-                  )}
-                </React.Fragment>
-              ))
-          )
-        );
-      }
-    }
-    if (currentPath.name === "Ktv/Jtv") {
-      if (!selectedItem.id) {
-        return currentItems.map((select, index) => (
-          <React.Fragment key={index}>
-            {select.path === "Ktv/Jtv" &&
-              select.cardSetting.map((setting, settingIndex) => (
-                <div className="flex flex-wrap mt-5 " key={settingIndex}>
-                  {setting.settings.map((card, cardIndex) => (
-                    <div className="bg-cover" key={cardIndex}>
-                      <Card
-                        src={card.images}
-                        title={card.title}
-                        desc={card.desc}
-                        style={{ width: "200px", backgroundSize: "cover" }}
-                        hidden={true}
-                      />
-                    </div>
-                  ))}
-                </div>
-              ))}
-          </React.Fragment>
-        ));
-      } else {
-        return (
-          selectedItem &&
-          selectionContent.map(
-            (select, index) =>
-              (select.path = selectedItem.path && (
-                <React.Fragment key={index}>
-                  {select.cardSetting.map(
-                    (setting, settingIndex) =>
-                      (setting.location = selectedItem.name &&
-                        setting.ids === selectedItem.id && (
-                          <div
-                            className="flex flex-wrap mt-5"
-                            key={settingIndex}
-                          >
-                            {setting.settings
-                              .slice(
-                                (currentPage - 1) * itemsPerPage,
-                                currentPage * itemsPerPage
-                              )
-                              .map((card, cardIndex) => (
-                                <div className="bg-cover" key={cardIndex}>
-                                  <Card
-                                    src={card.images}
-                                    title={card.title}
-                                    desc={card.desc}
-                                    style={{
-                                      width: "200px",
-                                      backgroundSize: "cover",
-                                    }}
-                                    hidden={true}
-                                  />
-                                </div>
-                              ))}
-                          </div>
-                        ))
-                  )}
-                </React.Fragment>
-              ))
-          )
-        );
-      }
-    }
-
-    return null;
-  };
-  //#endregion
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
+  };
+
+  const handleOnSearch = (query) => {
+    console.log("Searching for:", query);
+    // Implement search logic here
+    // Example: Filter navbar data based on query
+    const filteredData = navbarData.filter((item) =>
+      item.name.toLowerCase().includes(query.toLowerCase())
+    );
+    console.log("Filtered Data:", filteredData);
+    // Update the state with the filtered data if needed
   };
 
   const filteredItems = selectionContent.filter(
@@ -259,9 +96,11 @@ const Selection = () => {
   const indexOfLastItem = currentPage * itemsMainPage;
   const indexOfFirstItem = indexOfLastItem - itemsMainPage;
   const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+
   if (loading) {
     return <Spinner />;
   }
+
   if (!data) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -269,11 +108,25 @@ const Selection = () => {
       </div>
     );
   }
-  //Seperate the file
+
   return (
     <ContentLayout
-      renderTreeView={renderTreeView}
-      handleCards={handleCards}
+      renderTreeView={() => (
+        <RenderTreeView
+          currentPath={currentPath}
+          data={data}
+          handleItemClick={handleItemClick}
+        />
+      )}
+      handleCards={() => (
+        <HandleCards
+          currentPath={currentPath}
+          selectedItem={selectedItem}
+          currentItems={currentItems}
+          currentPage={currentPage}
+          itemsPerPage={itemsPerPage}
+        />
+      )}
       loading={loading}
       data={data}
       currentPage={currentPage}
@@ -282,6 +135,9 @@ const Selection = () => {
       selectedItem={selectedItem}
       selectionContent={selectionContent}
       handlePageChange={handlePageChange}
+      handleOnSearch={handleOnSearch}
+      handleDescription={() => <Description />}
+      businessType={business}
     />
   );
 };
