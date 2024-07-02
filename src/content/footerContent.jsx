@@ -7,6 +7,10 @@ export const footerContent = [
       { id: 5, name: "JTV", href: "/business    " },
       { id: 9, name: "Salon", href: "/business" },
       { id: 4, name: "Massage", href: "/" },
+      { id: 1, name: "KTV", href: "/business" },
+      { id: 5, name: "JTV", href: "/business    " },
+      { id: 9, name: "Salon", href: "/business" },
+      { id: 4, name: "Massage", href: "/" },
     ],
   },
   {
@@ -30,6 +34,15 @@ export const footerContent = [
   },
   {
     title: "Medical",
+    links: [
+      { id: 12, name: "iOS", href: "/" },
+      { id: 13, name: "Android", href: "/" },
+      { id: 14, name: "Windows", href: "/" },
+      { id: 15, name: "MacOS", href: "/" },
+    ],
+  },
+  {
+    title: "Perform",
     links: [
       { id: 12, name: "iOS", href: "/" },
       { id: 13, name: "Android", href: "/" },
