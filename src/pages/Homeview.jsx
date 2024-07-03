@@ -9,14 +9,18 @@ import ContactForm from "../components/ContactUs/ContactUs";
 import axios from "axios";
 import Spinner from "../components/Spinner/Spinner";
 import { useUserData } from "../helper/database/useUserData";
+import { useTranslation } from "react-i18next";
 
 function Homeview() {
   const { data, loading } = useUserData();
+  const { t } = useTranslation();
+
   return (
     <>
       <div className="container shadow w-full mx-auto  mt-5">
         <HeroBanner />
-        <h1 className="text-5xl font-serif mt-10">Business</h1>
+        <h1 className="text-5xl font-serif mt-10">{t("Business")}</h1>
+
         {/* <div className="App">
           {loading ? (
             <Spinner />

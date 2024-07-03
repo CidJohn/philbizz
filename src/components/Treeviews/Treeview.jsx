@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom"; // Assuming you're using React Router
 import "../../styles/treeview.css";
+import { useTranslation } from "react-i18next";
 
 const TreeItem = ({ item, onItemClick }) => {
   const [isOpen, setIsOpen] = useState(true);
-
+  const { t } = useTranslation();
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
@@ -28,7 +29,7 @@ const TreeItem = ({ item, onItemClick }) => {
           className={isOpen ? "text-gray-900 " : "text-red-500 ml-2"}
           onClick={handleItemClick}
         >
-          {item.name}
+          {t(item.name)}
         </Link>
       </div>
       {isOpen && item.children && (

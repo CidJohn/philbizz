@@ -10,6 +10,9 @@ import { useLocation } from "react-router-dom";
 import { useNavbarcontent } from "../../helper/database/useNavbarcontent";
 import Spinner from "../Spinner/Spinner";
 import SearchBar from "../Searchbar/Searchbar";
+import i18n from "../../i18n/i18n";
+import { useTranslation } from "react-i18next";
+import Translation from "../Translation/Translation";
 
 export default function Navbar({ ...props }) {
   const { navbarData, loading } = props;
@@ -18,6 +21,7 @@ export default function Navbar({ ...props }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const location = useLocation();
+  const { t } = useTranslation();
 
   const handleClickDelete = () => {
     const path = location.pathname;
@@ -68,7 +72,7 @@ export default function Navbar({ ...props }) {
           className="text-gray-600 hover:text-gray-900"
           onClick={handleClickDelete}
         >
-          {item.name}
+          {t(item.name)}
         </a>
         {item.children && showDropdown === item.name && (
           <div
@@ -81,7 +85,7 @@ export default function Navbar({ ...props }) {
                 href={childItem.path}
                 className="block px-4 py-2 hover:bg-gray-200"
               >
-                {childItem.name}
+                {t(childItem.name)}
               </a>
             ))}
           </div>
@@ -89,15 +93,17 @@ export default function Navbar({ ...props }) {
       </div>
     ));
   };
+
   return (
-    <nav className="bg-gray-100">
+    <nav className="bg-white ">
       <div className="hidden md:block">
-        <div className="flex items-center justify-between mt-2 ">
-          <div className=""></div>
-          <div className=""></div>
+        <div className="flex items-center justify-between mt-2 container mx-auto ">
+          <div className="">
+            <Translation />
+          </div>
           <a
             href="/"
-            className="font-bold text-3xl text-gray-800 flex bg-cover w-auto"
+            className="font-bold text-3xl text-gray-800 flex bg-cover w-auto mx-auto"
           >
             {/* <div className="font-bold text-3xl text-blue-800 ">P</div>
             <div className="font-bold text-xl text-blue-800 mt-2">
@@ -107,11 +113,13 @@ export default function Navbar({ ...props }) {
             <div className="font-bold text-xl text-gray-800 mt-2">ONE</div> */}
             <Image src={"philzone10.png"} style={{ height: "80px" }} />
           </a>
-          <SearchBar
-            onSearch={handleSearch}
-            isModalOpen={isModalOpen}
-            handleModalOpen={handleModalOpen}
-          />
+          <div className="flex p-2">
+            <SearchBar
+              onSearch={handleSearch}
+              isModalOpen={isModalOpen}
+              handleModalOpen={handleModalOpen}
+            />
+          </div>
 
           {isModalOpen && <Login handleModalOpen={handleModalOpen} />}
         </div>

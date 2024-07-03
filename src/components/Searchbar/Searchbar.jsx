@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import Searchinput from "../svg/SearchInputs";
 import SearchIcons from "../svg/SearchIcons";
+import { useTranslation } from "react-i18next";
 
 const SearchBar = ({ onSearch, handleModalOpen, isModalOpen, hidden }) => {
   const [searchInput, setSearchInput] = useState("");
-
+  const { t } = useTranslation();
   const handleInputChange = (e) => {
     setSearchInput(e.target.value);
   };
@@ -47,7 +48,7 @@ const SearchBar = ({ onSearch, handleModalOpen, isModalOpen, hidden }) => {
         {!hidden && (
           <button
             type="button"
-            className="flex items-center justify-center border rounded px-4 py-2 hover:bg-gray-400 text-gray-600 hover:text-gray-900"
+            className="flex items-center text-xs justify-center border rounded px-4 py-2 hover:bg-gray-400 text-gray-600 hover:text-gray-900"
             onClick={handleModalOpen}
           >
             Login
