@@ -44,7 +44,7 @@ const Selection = () => {
   }, [currentPath, data, navbarData, location.pathname]);
 
   const findItemById = (items, id) => {
-    if (!items) return null; // Handle case where items is null or undefined
+    if (!items) return null;
     for (const item of items) {
       if (item.id === id || item.ids === id) return item;
       if (item.children) {
@@ -56,7 +56,7 @@ const Selection = () => {
   };
 
   const findingPath = (items, path) => {
-    if (!items) return null; // Handle case where items is null or undefined
+    if (!items) return null;
     for (const item of items) {
       if (item.path === path) return item;
       if (item.children) {

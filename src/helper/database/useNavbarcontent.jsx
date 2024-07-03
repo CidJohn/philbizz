@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import restAPI from "./restAPI";
 
 export const useNavbarcontent = () => {
-  const [navbarData, setNavbarData] = useState("");
+  const [navbarData, setNavbarData] = useState([]);
   const [loading, setLoading] = useState(false);
   const isFetched = useRef(false);
 
@@ -24,6 +24,6 @@ export const useNavbarcontent = () => {
       fetchData();
       isFetched.current = true;
     }
-  }, []);
+  }, [API_CALL.host]);
   return { navbarData, loading };
 };

@@ -19,6 +19,7 @@ const ContentLayout = ({
   handlePageChange,
   handleOnSearch,
   businessType,
+ 
 }) => {
   const business = businessType ? businessType : "";
   return (
@@ -27,6 +28,7 @@ const ContentLayout = ({
         <div className="hidden md:block">{renderTreeView()}</div>
         <div className="flex flex-wrap justify-center items-center mx-auto">
           <div className="">
+           
             <div className="container flex flex-wrap">
               <Description type={business} />
             </div>

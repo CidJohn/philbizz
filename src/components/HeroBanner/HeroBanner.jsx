@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import city from "../../assets/img/manilanight.jpg";
+import { useTranslation } from "react-i18next";
 
 export const HeroBanner = ({ darkMode }) => {
   const [currentTimePHT, setCurrentTimePHT] = useState("");
   const [currentTimeKST, setCurrentTimeKST] = useState("");
   const [currentTimeJST, setCurrentTimeJST] = useState("");
+  const { t } = useTranslation();
   useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date();
@@ -20,7 +22,6 @@ export const HeroBanner = ({ darkMode }) => {
     }, 1000);
     return () => clearInterval(interval);
   }, []);
-
   return (
     <div className={`md:flex  ${darkMode && "dark"}`}>
       <div className=" hidden flex flex-wrap  px-2 md:block">
@@ -43,7 +44,7 @@ export const HeroBanner = ({ darkMode }) => {
         <div className="absolute inset-0 flex flex-col justify-center items-center text-center text-white">
           <div className="max-w-lg w-full md:w-auto">
             <h1 className="text-lg md:text-5xl font-black mb-2 md:mb-4 font-serif">
-              Philippine Zone
+              {t("phil")}
             </h1>
             <h2 className="text-sm md:text-3xl font-serif">
               필리핀 정보통(Philippines information network)
@@ -52,15 +53,15 @@ export const HeroBanner = ({ darkMode }) => {
           <div className="flex justify-center mt-8 space-x-8">
             <div className=" rounded-full px-6 py-2">
               <span className="text-lg">{currentTimePHT}</span>
-              <span className="block">Philippines</span>
+              <span className="block">{t("Philippines")}</span>
             </div>
             <div className=" rounded-full px-6 py-2">
               <span className="text-lg">{currentTimeKST}</span>
-              <span className="block">Korea</span>
+              <span className="block">{t("Korea")}</span>
             </div>
             <div className=" rounded-full px-6 py-2">
               <span className="text-lg">{currentTimeJST}</span>
-              <span className="block">Japan</span>
+              <span className="block">{t("Japan")}</span>
             </div>
           </div>
         </div>

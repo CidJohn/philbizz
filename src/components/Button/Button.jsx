@@ -1,6 +1,14 @@
-import React from 'react'
+import React from "react";
+import { useTranslation } from "react-i18next";
 
-const Button = ({ text, onClick, className, type = 'button', disabled = false }) => {
+const Button = ({
+  text,
+  onClick,
+  className,
+  type = "button",
+  disabled = false,
+}) => {
+  const { t } = useTranslation();
   return (
     <button
       type={type}
@@ -8,7 +16,7 @@ const Button = ({ text, onClick, className, type = 'button', disabled = false })
       onClick={onClick}
       disabled={disabled}
     >
-      {text}
+      {t(text)}
     </button>
   );
 };

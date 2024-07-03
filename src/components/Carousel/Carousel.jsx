@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import Card from '../Card/Card';
+import React, { useState, useEffect } from "react";
+import Card from "../Card/Card";
+import { useTranslation } from "react-i18next";
 
 const Carousel = ({ images }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -9,7 +10,9 @@ const Carousel = ({ images }) => {
   };
 
   const goToPrevImage = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+    setCurrentImageIndex(
+      (prevIndex) => (prevIndex - 1 + images.length) % images.length
+    );
   };
   useEffect(() => {
     const interval = setInterval(() => {
@@ -17,7 +20,7 @@ const Carousel = ({ images }) => {
     }, 5000); // Change the interval as needed
     return () => clearInterval(interval);
   }, [images.length]);
-
+  const { t, i18n } = useTranslation();
   return (
     <div className="relative w-full">
       <div className="relative h-full overflow-hidden rounded-lg md:h-96 mb-20">
@@ -25,19 +28,47 @@ const Carousel = ({ images }) => {
           <div
             key={index}
             className={`absolute w-full h-full transform transition-transform duration-700 ease-in-out   ${
-              index === currentImageIndex ? 'translate-x-0' : 'translate-x-full'
+              index === currentImageIndex ? "translate-x-0" : "translate-x-full"
             }`}
             style={{
-              left: `${(index - currentImageIndex + images.length) % images.length * 100}%`,
+              left: `${
+                ((index - currentImageIndex + images.length) % images.length) *
+                100
+              }%`,
             }}
           >
-                <div className=" flex justify-center items-center h-full ">
-                    <Card src={item.images} title={item.title} desc={item.desc}  hidden={true} />
-                    <Card src={item.images} title={item.title} desc={item.desc} hidden={true} />
-                    <Card src={item.images} title={item.title} desc={item.desc} hidden={true} />
-                    <Card src={item.images} title={item.title} desc={item.desc} hidden={true} />
-                    <Card src={item.images} title={item.title} desc={item.desc} hidden={true} />
-                </div>
+            <div className=" flex justify-center items-center h-full ">
+              <Card
+                src={item.images}
+                title={item.title}
+                desc={item.desc}
+                hidden={true}
+              />
+              <Card
+                src={item.images}
+                title={item.title}
+                desc={item.desc}
+                hidden={true}
+              />
+              <Card
+                src={item.images}
+                title={item.title}
+                desc={item.desc}
+                hidden={true}
+              />
+              <Card
+                src={item.images}
+                title={item.title}
+                desc={item.desc}
+                hidden={true}
+              />
+              <Card
+                src={item.images}
+                title={item.title}
+                desc={item.desc}
+                hidden={true}
+              />
+            </div>
           </div>
         ))}
       </div>
@@ -47,7 +78,7 @@ const Carousel = ({ images }) => {
             key={index}
             type="button"
             className={`w-3 h-3 rounded-full ${
-              index === currentImageIndex ? 'bg-blue-500' : 'bg-gray-300'
+              index === currentImageIndex ? "bg-blue-500" : "bg-gray-300"
             }`}
             aria-current={index === currentImageIndex}
             aria-label={`Slide ${index + 1}`}
