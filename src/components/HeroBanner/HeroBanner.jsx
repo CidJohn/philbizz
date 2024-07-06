@@ -37,12 +37,12 @@ export const HeroBanner = ({ darkMode }) => {
         />
       </div>
       <div
-        className="relative w-full bg-no-repeat bg-cover bg-fixed mb-10"
+        className="relative md:w-full bg-no-repeat bg-cover mb-10"
         style={{ backgroundImage: `url(${city})` }}
       >
-        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-        <div className="absolute inset-0 flex flex-col justify-center items-center text-center text-white">
-          <div className="max-w-lg w-full md:w-auto">
+        <div className="md:absolute inset-0 bg-black bg-opacity-50"></div>
+        <div className="md:absolute inset-0 flex flex-col justify-center items-center text-center text-white">
+          <div className="md:max-w-lg w-full md:w-auto">
             <h1 className="text-lg md:text-5xl font-black mb-2 md:mb-4 font-serif">
               {t("phil")}
             </h1>
@@ -52,15 +52,15 @@ export const HeroBanner = ({ darkMode }) => {
           </div>
           <div className="flex justify-center mt-8 space-x-8">
             <div className=" rounded-full px-6 py-2">
-              <span className="text-lg">{currentTimePHT}</span>
+              <span className="text-sm md:text-lg">{currentTimePHT}</span>
               <span className="block">{t("Philippines")}</span>
             </div>
             <div className=" rounded-full px-6 py-2">
-              <span className="text-lg">{currentTimeKST}</span>
+              <span className="text-sm md:text-lg">{currentTimeKST}</span>
               <span className="block">{t("Korea")}</span>
             </div>
             <div className=" rounded-full px-6 py-2">
-              <span className="text-lg">{currentTimeJST}</span>
+              <span className="text-sm md:text-lg">{currentTimeJST}</span>
               <span className="block">{t("Japan")}</span>
             </div>
           </div>

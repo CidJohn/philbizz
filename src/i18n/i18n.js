@@ -26,7 +26,6 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    debug: true,
     fallbackLng: "en", // Fallback language
     detection: {
       order: ["localStorage", "navigator"], // Use localStorage then navigator language detection

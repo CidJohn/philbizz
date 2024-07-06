@@ -209,10 +209,154 @@ const selectionContent = [
     cardSetting: [
       {
         ids: 9,
-        location: "Manila",
+        location: "Parañaque",
         settings: [
           {
-            title: "SALON1",
+            title: "Parañaque_Business",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "SALON2",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "SALON3",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "SALON4",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "SALON5",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+        ],
+      },
+      {
+        ids: 10,
+        location: "Makati",
+        settings: [
+          {
+            title: "Makati_Business",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "SALON2",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "SALON3",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "SALON4",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "SALON5",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+        ],
+      },
+      {
+        ids: 8,
+        location: "Taguig",
+        settings: [
+          {
+            title: "Taguig_Business",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "SALON2",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "SALON3",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "SALON4",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "SALON5",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+        ],
+      },
+      {
+        ids: 11,
+        location: "Los Baños",
+        settings: [
+          {
+            title: "Los Baños_Business",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "SALON2",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "SALON3",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "SALON4",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+          {
+            title: "SALON5",
+            images:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
+            desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
+          },
+        ],
+      },
+      {
+        ids: 12,
+        location: "Calamba",
+        settings: [
+          {
+            title: "Calamba_Business",
             images:
               "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdWnbuvDC-TZEusp2fIJHIew-ABM2HLMmxTw&s",
             desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",

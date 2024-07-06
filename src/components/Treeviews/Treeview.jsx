@@ -10,10 +10,9 @@ const TreeItem = ({ item, onItemClick }) => {
     setIsOpen(!isOpen);
   };
 
-  const handleItemClick = () => {
+  const handleItemClick = (e) => {
     if (item.id) {
       onItemClick(item.id); // Pass the clicked item's ids to the parent component
-      console.log("TreeView Item ID:", item.id); // Log the ID to the console
     }
   };
 
@@ -26,14 +25,14 @@ const TreeItem = ({ item, onItemClick }) => {
         {/* <span className="toggle text-lg">{isOpen ? "" : ">"}</span> */}
         <Link
           to={item.path || "#"}
-          className={isOpen ? "text-gray-900 " : "text-red-500 ml-2"}
+          className="text-gray-900 hover:text-gray-500"
           onClick={handleItemClick}
         >
           {t(item.name)}
         </Link>
       </div>
       {isOpen && item.children && (
-        <ul className="ml-6 px-7">
+        <ul className="ml-6 px-5 lg:px-10 mr-9 font-bold">
           {item.children.map((child, index) => (
             <TreeItem key={index} item={child} onItemClick={onItemClick} />
           ))}
@@ -45,7 +44,7 @@ const TreeItem = ({ item, onItemClick }) => {
 
 const TreeView = ({ treeViewContent, onItemClick }) => {
   return (
-    <ul className="tree mt-10 font-bold max-w-auto ms-10 text-2xl">
+    <ul className="tree mt-10 font-bold txt-sm lg:text-2xl ">
       {treeViewContent.map((item, index) => (
         <TreeItem key={index} item={item} onItemClick={onItemClick} />
       ))}
