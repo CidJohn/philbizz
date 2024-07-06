@@ -1,16 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "../../styles/Navbar.css";
-import Button from "../Button/Button";
-import navbarContent from "../../content/navbarContent";
-import SearchIcon from "../svg/SearchIcons";
-import Searchinput from "../svg/SearchInputs";
 import { Login } from "../../pages/Login/Login";
 import Image from "../Image/Image";
 import { useLocation } from "react-router-dom";
-import { useNavbarcontent } from "../../helper/database/useNavbarcontent";
-import Spinner from "../Spinner/Spinner";
 import SearchBar from "../Searchbar/Searchbar";
-import i18n from "../../i18n/i18n";
 import { useTranslation } from "react-i18next";
 import Translation from "../Translation/Translation";
 
@@ -31,16 +24,14 @@ export default function Navbar({ ...props }) {
       console.log("clicked:", itemToStore);
 
       delete itemToStore.id;
-      // localStorage.setItem("selectedItem", JSON.stringify(itemToStore));
-      // localStorage.removeItem("selectedItem");
     } else {
       console.log("No item found in localStorage");
     }
     localStorage.setItem("selectedItem", JSON.stringify({ path }));
   };
-  const toggleDropdown = () => {
-    setShowDropdown(!showDropdown);
-  };
+  // const toggleDropdown = () => {
+  //   setShowDropdown(!showDropdown);
+  // };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -48,6 +39,7 @@ export default function Navbar({ ...props }) {
 
   const handleMouseEnter = (name) => {
     setShowDropdown(name);
+    setShowDropdown2(name);
   };
 
   const handleMouseLeave = () => {
@@ -97,7 +89,7 @@ export default function Navbar({ ...props }) {
   return (
     <nav className="bg-white ">
       <div className="hidden md:block">
-        <div className="flex items-center justify-between mt-2 container mx-auto ">
+        <div className="flex items-center justify-between mt-2 container mx-auto">
           <div className="">
             <Translation />
           </div>
@@ -111,7 +103,7 @@ export default function Navbar({ ...props }) {
             </div>
             <div className="font-bold text-3xl text-red-800 ">Z</div>
             <div className="font-bold text-xl text-gray-800 mt-2">ONE</div> */}
-            <Image src={"philzone10.png"} style={{ height: "80px" }} />
+            <Image src={"philzone12.png"} />
           </a>
           <div className="flex p-2">
             <SearchBar
@@ -134,7 +126,7 @@ export default function Navbar({ ...props }) {
           </div>
 
           <div className="-mr-2 flex md:hidden justify-between">
-            <Button
+            <button
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500"
               aria-controls="mobile-menu"
               aria-expanded={isMenuOpen}
@@ -171,7 +163,7 @@ export default function Navbar({ ...props }) {
                   d="M6 18L18 6M6 6l12 12"
                 />
               </svg>
-            </Button>
+            </button>
             <a href="/" className="font-bold text-3xl text-gray-800 flex ">
               <div className="font-bold text-gl text-blue-800 ">P</div>
               <div className="font-bold text-sm text-blue-800 mt-3">
@@ -187,7 +179,10 @@ export default function Navbar({ ...props }) {
       {isMenuOpen && (
         <div className="md:hidden" id="mobile-menu">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {navbarContent.map((item, index) => (
+            <div className="">
+              <Translation IsOpenMenu={isMenuOpen} />
+            </div>
+            {navbarData.map((item, index) => (
               <div
                 key={index}
                 className="border rounded p-4 hover:bg-gray-400 relative"
@@ -199,7 +194,7 @@ export default function Navbar({ ...props }) {
                   className="text-gray-600 hover:text-gray-900"
                   onClick={handleClickDelete}
                 >
-                  {item.name}
+                  {t(item.name)}
                 </a>
                 {item.children && showDropdown2 === item.name && (
                   <div className="absolute mt-2 bg-white border rounded-lg shadow-lg z-50">
@@ -209,7 +204,7 @@ export default function Navbar({ ...props }) {
                         href={childItem.path}
                         className="block px-4 py-2 hover:bg-gray-200"
                       >
-                        {childItem.childname}
+                        {t(childItem.name)}
                       </a>
                     ))}
                   </div>

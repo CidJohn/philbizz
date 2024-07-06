@@ -6,7 +6,7 @@ import { useTreeview } from "../../helper/database/useTreeview";
 import { useNavbarcontent } from "../../helper/database/useNavbarcontent";
 import RenderTreeView from "../../utils/RenderTreeView/renderTreeView";
 import HandleCards from "../../utils/HandleCards/handleCards";
-import selectionContent from "../../content/selectionContent";
+import useCardSettings from "../../helper/database/useCardSettings"; // Import the custom hook
 import Description from "./Description/Description";
 
 const Selection = () => {
@@ -15,22 +15,24 @@ const Selection = () => {
   const [currentPath, setCurrentPath] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [itemsMainPage, setItemsMainPage] = useState(2);
+  const [itemsMainPage, setItemsMainPage] = useState(15);
   const [business, setBusiness] = useState("");
-
+  const [selectpath, setSelectPath] = useState("");
   const { data, loading } = useTreeview();
   const { navbarData } = useNavbarcontent();
+
+  const { businessTypes } = useCardSettings(currentPath.businessPath);
 
   useEffect(() => {
     const savedItem = JSON.parse(localStorage.getItem("selectedItem"));
     if (savedItem) {
-      const selectedItemObj = data ? findItemById(data, savedItem.id) : "";
+      const selectedItemObj = data ? findItemById(data, savedItem.id) : null;
       setSelectedItem(selectedItemObj);
     }
 
-    const selectedItemPath = !navbarData
-      ? ""
-      : findingPath(navbarData, location.pathname);
+    const selectedItemPath = navbarData
+      ? findingPath(navbarData, location.pathname)
+      : "";
     setCurrentPath(selectedItemPath || "");
 
     if (navbarData) {
@@ -69,8 +71,7 @@ const Selection = () => {
 
   const handleItemClick = (id, path) => {
     path = currentPath.path;
-    const selectedItemObj = data ? findItemById(data, id) : "";
-    localStorage.setItem("selectedItem", JSON.stringify({ id, path }));
+    const selectedItemObj = data ? findItemById(data, id) : null;
     setSelectedItem(selectedItemObj);
   };
 
@@ -80,22 +81,17 @@ const Selection = () => {
 
   const handleOnSearch = (query) => {
     console.log("Searching for:", query);
-    // Implement search logic here
-    // Example: Filter navbar data based on query
     const filteredData = navbarData.filter((item) =>
       item.name.toLowerCase().includes(query.toLowerCase())
     );
     console.log("Filtered Data:", filteredData);
-    // Update the state with the filtered data if needed
   };
 
-  const filteredItems = selectionContent.filter(
-    (select) => select.path === currentPath.name
-  );
-
-  const indexOfLastItem = currentPage * itemsMainPage;
-  const indexOfFirstItem = indexOfLastItem - itemsMainPage;
-  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+  const indexOfLastItem =
+    currentPage * (selectedItem?.id ? itemsPerPage : itemsMainPage);
+  const indexOfFirstItem =
+    indexOfLastItem - (selectedItem?.id ? itemsPerPage : itemsMainPage);
+  const currentItems = businessTypes.slice(indexOfFirstItem, indexOfLastItem);
 
   if (loading) {
     return <Spinner />;
@@ -125,6 +121,7 @@ const Selection = () => {
           currentItems={currentItems}
           currentPage={currentPage}
           itemsPerPage={itemsPerPage}
+          selectPath={selectpath}
         />
       )}
       loading={loading}
@@ -133,7 +130,7 @@ const Selection = () => {
       itemsPerPage={itemsPerPage}
       itemsMainPage={itemsMainPage}
       selectedItem={selectedItem}
-      selectionContent={selectionContent}
+      selectionContent={businessTypes}
       handlePageChange={handlePageChange}
       handleOnSearch={handleOnSearch}
       handleDescription={() => <Description />}
