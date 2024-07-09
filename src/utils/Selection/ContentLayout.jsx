@@ -23,7 +23,6 @@ const ContentLayout = ({
   businessType,
 }) => {
   const business = businessType ? businessType : "";
-
   const totalPages = Math.ceil(
     selectedItem?.id
       ? selectionContent.length / itemsPerPage
@@ -42,7 +41,7 @@ const ContentLayout = ({
         <div className="flex flex-wrap justify-center items-center mx-auto">
           <div>
             <div className="container flex flex-wrap">
-              <Description type={business} />
+              {!selectedItem?.id ? <Description type={business.name} /> : ""}
             </div>
             <div className="flex items-center justify-center mt-5">
               <SearchBar hidden={true} onSearch={handleOnSearch} />

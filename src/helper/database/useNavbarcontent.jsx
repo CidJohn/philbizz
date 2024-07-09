@@ -4,7 +4,6 @@ import restAPI from "./restAPI";
 
 export const useNavbarcontent = () => {
   const [navbarData, setNavbarData] = useState([]);
-  const [loading, setLoading] = useState(false);
   const isFetched = useRef(false);
 
   const API_CALL = restAPI();
@@ -16,14 +15,12 @@ export const useNavbarcontent = () => {
         setNavbarData(res.data);
       } catch (error) {
         console.error("Axios Error:", error);
-      } finally {
-        setLoading(false);
-      }
+      } 
     };
     if (!isFetched.current) {
       fetchData();
       isFetched.current = true;
     }
   }, [API_CALL.host]);
-  return { navbarData, loading };
+  return { navbarData };
 };

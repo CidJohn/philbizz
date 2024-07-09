@@ -3,6 +3,7 @@ import restAPI from "./restAPI";
 import axios from "axios";
 
 const useCardSettings = (type) => {
+  const [searchload, setSearchLoad] = useState(true);
   const [businessTypes, setBusinessTypes] = useState([]);
   const API_CALL = restAPI();
   useEffect(() => {
@@ -16,13 +17,15 @@ const useCardSettings = (type) => {
         setBusinessTypes(data);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setSearchLoad(false);
       }
     };
 
     fetchData();
   }, [type]); // Trigger fetch when `type` prop changes
 
-  return { businessTypes };
+  return { businessTypes, searchload };
 };
 
 export default useCardSettings;

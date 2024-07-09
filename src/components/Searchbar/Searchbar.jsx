@@ -4,21 +4,25 @@ import SearchIcons from "../svg/SearchIcons";
 import { useTranslation } from "react-i18next";
 
 const SearchBar = ({ onSearch, handleModalOpen, isModalOpen, hidden }) => {
-  const [searchInput, setSearchInput] = useState("");
-  const { t } = useTranslation();
-  const handleInputChange = (e) => {
-    setSearchInput(e.target.value);
-  };
+  const [searchParams, setSearchParams] = useState({
+    title: "",
+  });
 
-  const handleFormSubmit = (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setSearchParams((prevParams) => ({
+      ...prevParams,
+      [name]: value,
+    }));
+  };
+  const handleSubmit = (e) => {
     e.preventDefault();
-    onSearch(searchInput);
+    onSearch(searchParams);
   };
-
   return (
     <>
       <form
-        onSubmit={handleFormSubmit}
+        onSubmit={handleSubmit}
         className="flex items-center max-w-sm space-x-3"
       >
         <label htmlFor="simple-search" className="sr-only">
@@ -31,11 +35,12 @@ const SearchBar = ({ onSearch, handleModalOpen, isModalOpen, hidden }) => {
           <input
             type="text"
             id="simple-search"
+            name="title"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Search branch name..."
             required
-            value={searchInput}
-            onChange={handleInputChange}
+            value={searchParams.title}
+            onChange={handleChange}
           />
         </div>
         <button

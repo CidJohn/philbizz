@@ -10,7 +10,7 @@ import useCardSettings from "../../helper/database/useCardSettings"; // Import t
 import Description from "./Description/Description";
 
 const Selection = () => {
-  const location = useLocation();
+  const locations = useLocation();
   const [selectedItem, setSelectedItem] = useState(null);
   const [currentPath, setCurrentPath] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,6 +22,7 @@ const Selection = () => {
   const { navbarData } = useNavbarcontent();
 
   const { businessTypes } = useCardSettings(currentPath.businessPath);
+  const [filteredData, setFilteredData] = useState(businessTypes);
 
   useEffect(() => {
     const savedItem = JSON.parse(localStorage.getItem("selectedItem"));
@@ -31,7 +32,7 @@ const Selection = () => {
     }
 
     const selectedItemPath = navbarData
-      ? findingPath(navbarData, location.pathname)
+      ? findingPath(navbarData, locations.pathname)
       : "";
     setCurrentPath(selectedItemPath || "");
 
@@ -40,10 +41,10 @@ const Selection = () => {
         (item) => item.path === currentPath.path
       );
       if (matchedItem) {
-        setBusiness(matchedItem.name);
+        setBusiness(matchedItem);
       }
     }
-  }, [currentPath, data, navbarData, location.pathname]);
+  }, [currentPath, data, navbarData, locations.pathname]);
 
   const findItemById = (items, id) => {
     if (!items) return null;
@@ -73,18 +74,18 @@ const Selection = () => {
     path = currentPath.path;
     const selectedItemObj = data ? findItemById(data, id) : null;
     setSelectedItem(selectedItemObj);
+    setFilteredData("");
   };
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  const handleOnSearch = (query) => {
-    console.log("Searching for:", query);
-    const filteredData = navbarData.filter((item) =>
-      item.name.toLowerCase().includes(query.toLowerCase())
+  const handleOnSearch = async (e) => {
+    const filteredResults = businessTypes.filter((item) =>
+      item.title.toLowerCase().includes(e.title)
     );
-    console.log("Filtered Data:", filteredData);
+    setFilteredData(filteredResults);
   };
 
   const indexOfLastItem =
@@ -94,7 +95,9 @@ const Selection = () => {
   const currentItems = businessTypes.slice(indexOfFirstItem, indexOfLastItem);
 
   if (loading) {
-    return <Spinner />;
+    <div className="flex items-center justify-center min-h-screen">
+      <Spinner />
+    </div>;
   }
 
   if (!data) {
@@ -122,6 +125,7 @@ const Selection = () => {
           currentPage={currentPage}
           itemsPerPage={itemsPerPage}
           selectPath={selectpath}
+          searchResult={filteredData}
         />
       )}
       loading={loading}
@@ -135,7 +139,7 @@ const Selection = () => {
       handleOnSearch={handleOnSearch}
       handleDescription={() => <Description />}
       businessType={business}
-    />
+    ></ContentLayout>
   );
 };
 
