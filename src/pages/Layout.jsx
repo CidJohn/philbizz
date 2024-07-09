@@ -5,10 +5,11 @@ import treeViewContent from "../content/treeViewContent";
 import Footer from "./Footer/Footer";
 import { useLocation } from "react-router-dom";
 import { useNavbarcontent } from "../helper/database/useNavbarcontent";
+import Spinner from "../components/Spinner/Spinner";
 
 function Layout({ children }) {
   const location = useLocation();
-  const [selectedIds, setSelectedIds] = useState(null);
+  const { navbarData, loading } = useNavbarcontent();
 
   const getTreeViewPath = (path) => {
     return treeViewContent.find((item) => item.path === path) || null;
@@ -16,11 +17,13 @@ function Layout({ children }) {
 
   const currentTreeViewContent = getTreeViewPath(location.pathname);
 
-  const handleItemClick = (ids) => {
-    setSelectedIds(ids);
-  };
-  const { navbarData, loading } = useNavbarcontent();
-
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Spinner />
+      </div>
+    );
+  }
   return (
     <div>
       <Navbar navbarData={navbarData} loading={loading} />
@@ -33,9 +36,7 @@ function Layout({ children }) {
             />
           )} */}
         </div>
-        <div className="flex-grow">
-          {React.cloneElement(children, { selectedIds })}
-        </div>
+        <div className="flex-grow">{React.cloneElement(children)}</div>
       </div>
       <Footer />
     </div>

@@ -46,7 +46,7 @@ const ContentLayout = ({
             <div className="flex items-center justify-center mt-5">
               <SearchBar hidden={true} onSearch={handleOnSearch} />
             </div>
-            <div className="grid grid-cols-2 gap-10 xl:grid-cols-3  mt-5 ">
+            <div className=" mt-5 flex flex-wrap  ">
               {handleCards(currentItems)}
             </div>
             <div className="mt-5 grid justify-items-end">

@@ -6,11 +6,21 @@ import { useLocation } from "react-router-dom";
 import SearchBar from "../Searchbar/Searchbar";
 import { useTranslation } from "react-i18next";
 import Translation from "../Translation/Translation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBuilding,
+  faBowlFood,
+  faMicrophone,
+  faFaceKiss,
+  faMedkit,
+  faTent,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function Navbar({ ...props }) {
   const { navbarData, loading, hidden } = props;
   const [showDropdown, setShowDropdown] = useState(true);
   const [showDropdown2, setShowDropdown2] = useState(null);
+  const [getFontTitle, setFonttitle] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const location = useLocation();
@@ -52,23 +62,36 @@ export default function Navbar({ ...props }) {
   if (loading) {
     return <div>Loading...</div>;
   }
+  const iconMap = {
+    Business: faBuilding,
+    Food: faBowlFood,
+    "Ktv/Jtv": faMicrophone,
+    Medical: faMedkit,
+    Festival: faTent,
+    Beauty: faFaceKiss,
+  };
   const navbarItem = (navitem) => {
     return navitem.map((item, index) => (
       <div
         key={index}
-        className="border rounded p-4 hover:bg-gray-400 relative"
+        className=" rounded p-4 hover:bg-gray-400 relative mt-2"
         onMouseEnter={() => setShowDropdown(item.name)}
       >
         <a
           href={item.path}
-          className="text-gray-600 hover:text-gray-900"
+          className="flex flex-col text-gray-600 hover:text-gray-900 items-center"
           onClick={handleClickDelete}
         >
+          <span className="text-2xl mx-auto border shadow px-4 py-2">
+            {iconMap[item.name] && (
+              <FontAwesomeIcon icon={iconMap[item.name]} />
+            )}{" "}
+          </span>
           {t(item.name)}
         </a>
         {item.children && showDropdown === item.name && (
           <div
-            className="absolute  bg-white border rounded-lg shadow-lg z-50"
+            className="absolute  bg-white  rounded-lg shadow-lg z-50"
             onMouseLeave={() => setShowDropdown(false)}
           >
             {item.children.map((childItem, childIndex) => (
@@ -119,7 +142,7 @@ export default function Navbar({ ...props }) {
         )}
       </div>
 
-      <div className="bg-gray-200 max-w-auto  px-4 sm:px-6 lg:px-8 mt-1">
+      <div className="bg-white max-w-auto  px-4 sm:px-6 lg:px-8 mt-1">
         <div className="flex items-center justify-between h-16 ">
           <div className="hidden md:block mx-auto">
             <div className="ml-10 flex items-baseline space-x-1 relative">
