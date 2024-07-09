@@ -26,7 +26,7 @@ const Carousel = ({ items }) => {
   const trackRef = useRef(null);
   const intervalRef = useRef(null);
   const totalItems = items.length;
-  const itemsToShow = 10;
+  const itemsToShow = 5;
   const duplicateItems = items.concat(items);
 
   useEffect(() => {
@@ -60,7 +60,7 @@ const Carousel = ({ items }) => {
   }, [totalItems]);
 
   return (
-    <CarouselWrapper className="">
+    <CarouselWrapper className="w-full max-w-96 mx-auto md:max-w-none">
       <CarouselTrack ref={trackRef}>
         {duplicateItems.slice(0, itemsToShow * 2).map((item, index) => (
           <CarouselItem key={index} className="">

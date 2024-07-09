@@ -32,8 +32,8 @@ function Homeview() {
       <div className="container shadow w-full mx-auto  mt-5">
         <HeroBanner />
         <h1 className="text-5xl font-serif mt-10">{t("Business")}</h1>
-          
-        <div className={`flex flex-row`}>
+
+        <div className="container">
           <Carousel items={CarouselContent} />
         </div>
         <div className="flex flex-row p-4">

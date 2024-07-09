@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import Translation from "../Translation/Translation";
 
 export default function Navbar({ ...props }) {
-  const { navbarData, loading } = props;
+  const { navbarData, loading, hidden } = props;
   const [showDropdown, setShowDropdown] = useState(true);
   const [showDropdown2, setShowDropdown2] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -68,7 +68,7 @@ export default function Navbar({ ...props }) {
         </a>
         {item.children && showDropdown === item.name && (
           <div
-            className="absolute mt-2 bg-white border rounded-lg shadow-lg z-50"
+            className="absolute  bg-white border rounded-lg shadow-lg z-50"
             onMouseLeave={() => setShowDropdown(false)}
           >
             {item.children.map((childItem, childIndex) => (
@@ -89,32 +89,34 @@ export default function Navbar({ ...props }) {
   return (
     <nav className="bg-white ">
       <div className="hidden md:block">
-        <div className="flex items-center justify-between mt-2 container mx-auto">
-          <div className="">
-            <Translation />
-          </div>
-          <a
-            href="/"
-            className="font-bold text-3xl text-gray-800 flex bg-cover w-auto mx-auto"
-          >
-            {/* <div className="font-bold text-3xl text-blue-800 ">P</div>
+        {!hidden && (
+          <div className="flex items-center justify-between  container mx-auto">
+            <div className="">
+              <Translation />
+            </div>
+            <a
+              href="/"
+              className="font-bold text-3xl text-gray-800 flex bg-cover w-auto mx-auto"
+            >
+              {/* <div className="font-bold text-3xl text-blue-800 ">P</div>
             <div className="font-bold text-xl text-blue-800 mt-2">
               HILIPPINE
             </div>
             <div className="font-bold text-3xl text-red-800 ">Z</div>
             <div className="font-bold text-xl text-gray-800 mt-2">ONE</div> */}
-            <Image src={"philzone12.png"} />
-          </a>
-          <div className="flex p-2">
-            <SearchBar
-              onSearch={handleSearch}
-              isModalOpen={isModalOpen}
-              handleModalOpen={handleModalOpen}
-            />
-          </div>
+              <Image src={"philzone12.png"} />
+            </a>
+            <div className="flex p-2">
+              <SearchBar
+                onSearch={handleSearch}
+                isModalOpen={isModalOpen}
+                handleModalOpen={handleModalOpen}
+              />
+            </div>
 
-          {isModalOpen && <Login handleModalOpen={handleModalOpen} />}
-        </div>
+            {isModalOpen && <Login handleModalOpen={handleModalOpen} />}
+          </div>
+        )}
       </div>
 
       <div className="bg-gray-200 max-w-auto  px-4 sm:px-6 lg:px-8 mt-1">
