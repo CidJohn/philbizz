@@ -95,9 +95,11 @@ const Selection = () => {
   const currentItems = businessTypes.slice(indexOfFirstItem, indexOfLastItem);
 
   if (loading) {
-    <div className="flex items-center justify-center min-h-screen">
-      <Spinner />
-    </div>;
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Spinner />
+      </div>
+    );
   }
 
   if (!data) {

@@ -34,7 +34,7 @@ const HandleCards = ({
   }
   const renderCards = (items) => {
     return items.map((item, index) => (
-      <div className="bg-cover mx-auto mt-5" key={index}>
+      <div className="bg-cover mx-auto mt-5 " key={index}>
         <Card
           src={item.card_image}
           title={item.title}
@@ -45,6 +45,7 @@ const HandleCards = ({
             height: "350px",
           }}
           hidden={true}
+          link={item.title}
         />
       </div>
     ));
@@ -65,7 +66,7 @@ const HandleCards = ({
           return currentItems.map((select, index) => (
             <React.Fragment key={index}>
               {select.header === currentPath.name && (
-                <div className="bg-cover  mx-auto " key={index}>
+                <div className="bg-cover  mx-auto p-2" key={index}>
                   <Card
                     src={select.card_image}
                     title={select.title}
@@ -76,6 +77,7 @@ const HandleCards = ({
                       height: "350px",
                     }}
                     hidden={true}
+                    link={select.title}
                   />
                 </div>
               )}
@@ -105,6 +107,7 @@ const HandleCards = ({
                           height: "350px",
                         }}
                         hidden={true}
+                        link={select.title}
                       />
                     </div>
                   </React.Fragment>
