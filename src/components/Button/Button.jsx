@@ -7,6 +7,7 @@ const Button = ({
   className,
   type = "button",
   disabled = false,
+  icon,
 }) => {
   const { t } = useTranslation();
   return (
@@ -16,6 +17,7 @@ const Button = ({
       onClick={onClick}
       disabled={disabled}
     >
+      {icon}
       {t(text)}
     </button>
   );

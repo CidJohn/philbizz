@@ -31,7 +31,6 @@ export default function Navbar({ ...props }) {
     const storedItem = localStorage.getItem("selectedItem");
     if (storedItem) {
       const itemToStore = JSON.parse(storedItem);
-      console.log("clicked:", itemToStore);
 
       delete itemToStore.id;
     } else {
@@ -74,15 +73,16 @@ export default function Navbar({ ...props }) {
     return navitem.map((item, index) => (
       <div
         key={index}
-        className=" rounded p-4 hover:bg-gray-400 relative mt-2"
+        className=" rounded p-2 hover:bg-gray-400 relative mt-2"
         onMouseEnter={() => setShowDropdown(item.name)}
       >
         <a
           href={item.path}
           className="flex flex-col text-gray-600 hover:text-gray-900 items-center"
           onClick={handleClickDelete}
+          target={item.name === "Business" ? "_black" : "_self"}
         >
-          <span className="text-2xl mx-auto border shadow px-4 py-2">
+          <span className="text-2xl mx-auto border border-gray-300 shadow px-4 py-2 rounded">
             {iconMap[item.name] && (
               <FontAwesomeIcon icon={iconMap[item.name]} />
             )}{" "}
@@ -110,7 +110,7 @@ export default function Navbar({ ...props }) {
   };
 
   return (
-    <nav className="bg-white ">
+    <nav className="bg-white mb-5">
       <div className="hidden md:block">
         {!hidden && (
           <div className="flex items-center justify-between  container mx-auto">
@@ -146,7 +146,7 @@ export default function Navbar({ ...props }) {
         <div className="flex items-center justify-between h-16 ">
           <div className="hidden md:block mx-auto">
             <div className="ml-10 flex items-baseline space-x-1 relative">
-              {!navbarData ? "" : navbarItem(navbarData)}
+              {!navbarData ? "" : !hidden ? navbarItem(navbarData) : ""}
             </div>
           </div>
 

@@ -5,6 +5,7 @@ import { Route } from "react-router-dom";
 import Selection from "../pages/Selection/Selection";
 import KtvandJtv from "../pages/Selection/KtvandJtv/KtvandJtv";
 import Food from "../pages/Selection/Food/Food";
+import Business from "../pages/Selection/Business/Business";
 
 export const useRoute = () => {
   const [getnavroute, setNavRoute] = useState([]);
@@ -16,7 +17,12 @@ export const useRoute = () => {
     if (navbarData) {
       const limitedNavbarData = navbarData.slice(0, 10); // Limit to 10 items
       const routes = limitedNavbarData.map((item, index) => (
-        <Route key={index} path={item.path} element={<Selection />} />
+        <>
+          {item.path === "/business" && (
+            <Route key={index} path={item.path} element={<Business />} />
+          )}
+          <Route key={index} path={item.path} element={<Selection />} />
+        </>
       ));
       setNavRoute(routes);
     }

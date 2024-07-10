@@ -1,6 +1,5 @@
 import React from "react";
 import TreeView from "../../components/Treeviews/Treeview";
-import Spinner from "../../components/Spinner/Spinner";
 
 const RenderTreeView = ({ currentPath, data, handleItemClick }) => {
   if (!data) return;

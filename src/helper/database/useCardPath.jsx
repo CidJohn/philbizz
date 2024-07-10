@@ -27,3 +27,31 @@ export const useCardPath = () => {
 
   return { cardpath, load };
 };
+
+export const useCardDesc = (type) => {
+  const [descload, setDescLoad] = useState(true);
+  const [businesses, setBusinesses] = useState([]);
+  const API_CALL = restAPI();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${API_CALL.host}/card-desciption/${type}`
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setBusinesses(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setDescLoad(false);
+      }
+    };
+
+    fetchData();
+  }, [type]); // Trigger fetch when `type` prop changes
+
+  return { businesses, descload };
+};

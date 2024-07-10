@@ -41,7 +41,14 @@ const ContentLayout = ({
         <div className="flex flex-wrap justify-center items-center mx-auto">
           <div>
             <div className="container flex flex-wrap">
-              {!selectedItem?.id ? <Description type={business.name} /> : ""}
+              {!selectedItem?.id ? (
+                <Description
+                  type={business.businessPath}
+                  path={business.name}
+                />
+              ) : (
+                ""
+              )}
             </div>
             <div className="flex items-center justify-center mt-5">
               <SearchBar hidden={true} onSearch={handleOnSearch} />

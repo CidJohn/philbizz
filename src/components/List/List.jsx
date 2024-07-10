@@ -8,7 +8,7 @@ const List = (props) => {
       <ul className="space-y-4">
         <li
           key={id}
-          className="bg-white shadow-md rounded-lg p-4 flex items-center"
+          className="bg-white shadow-md rounded-lg p-4 flex items-center border"
         >
           {image && (
             <figure className="max-w-md p-4">
