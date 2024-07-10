@@ -16,6 +16,7 @@ function Layout({ children }) {
   };
 
   const currentTreeViewContent = getTreeViewPath(location.pathname);
+  const hidden = location.pathname === "/business" ? true : false;
 
   if (loading) {
     return (
@@ -26,7 +27,7 @@ function Layout({ children }) {
   }
   return (
     <div>
-      <Navbar navbarData={navbarData} loading={loading} />
+      <Navbar navbarData={navbarData} loading={loading} hidden={hidden} />
       <div className="flex flex-row">
         <div className="sticky left-0 top-0 fixed">
           {/* {currentTreeViewContent && (

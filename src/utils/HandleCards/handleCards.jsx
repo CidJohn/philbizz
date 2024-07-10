@@ -1,6 +1,5 @@
 import React from "react";
 import Card from "../../components/Card/Card";
-import selectionContent from "../../content/selectionContent";
 import useCardSettings from "../../helper/database/useCardSettings";
 import Spinner from "../../components/Spinner/Spinner";
 
@@ -66,7 +65,7 @@ const HandleCards = ({
           return currentItems.map((select, index) => (
             <React.Fragment key={index}>
               {select.header === currentPath.name && (
-                <div className="bg-cover  mx-auto p-2" key={index}>
+                <div className="bg-cover  mx-auto p-2">
                   <Card
                     src={select.card_image}
                     title={select.title}
