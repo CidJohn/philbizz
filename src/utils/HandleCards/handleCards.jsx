@@ -52,6 +52,7 @@ const HandleCards = ({
   switch (currentPath.name) {
     case "Food":
     case "Ktv/Jtv":
+    case "Beauty":
       if (searchError) {
         return <div className="error-message">{searchError}</div>;
       }

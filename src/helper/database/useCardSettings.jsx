@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import restAPI from "./restAPI";
 import axios from "axios";
 
@@ -9,11 +9,10 @@ const useCardSettings = (type) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${API_CALL.host}/business-types/${type}`);
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
+        const response = await axios.get(
+          `${API_CALL.host}/business-types/${type}`
+        );
+        const data = await response.data;
         setBusinessTypes(data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -27,5 +26,6 @@ const useCardSettings = (type) => {
 
   return { businessTypes, searchload };
 };
+
 
 export default useCardSettings;
