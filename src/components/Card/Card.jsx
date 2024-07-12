@@ -15,7 +15,7 @@ function Card({ title, src, desc, style, hidden, link }) {
       </a>
       <div className="p-4">
         <a href={`/${link}`} className="block">
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <h5 className="mb-2 text-md font-bold tracking-tight text-gray-900 dark:text-white">
             {title}
           </h5>
         </a>

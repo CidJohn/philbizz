@@ -64,7 +64,6 @@ function Homeview() {
             </figcaption>
           </figure>
         </div>
-        <ContactForm />
       </div>
     </>
   );

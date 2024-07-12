@@ -20,8 +20,13 @@ function Footer() {
               className="h-8"
               alt="Flowbite Logo"
             />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              PhilippineZone
+            <span className="flex self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+              <div className="font-bold text-3xl text-blue-800 ">P</div>
+              <div className="font-bold text-xl text-blue-800 mt-2">
+                HILIPPINE
+              </div>
+              <div className="font-bold text-3xl text-red-800 ">Z</div>
+              <div className="font-bold text-xl text-gray-800 mt-2">ONE</div>
             </span>
           </a>
           <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">

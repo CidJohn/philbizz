@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import restAPI from "./restAPI";
+import axios from "axios";
 
 export const useCardPath = () => {
   const [load, setLoad] = useState(true);
@@ -9,11 +10,8 @@ export const useCardPath = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${API_CALL.host}/card_path`);
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
+        const response = await axios.get(`${API_CALL.host}/card_path`);
+        const data = await response.data;
         setCardPath(data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -35,13 +33,10 @@ export const useCardDesc = (type) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
+        const response = await axios.get(
           `${API_CALL.host}/card-desciption/${type}`
         );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
+        const data = await response.data;
         setBusinesses(data);
       } catch (error) {
         console.error("Error fetching data:", error);

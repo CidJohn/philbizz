@@ -36,47 +36,14 @@ const KtvandJtv = () => {
   const gmailUrl = "philtong15@gmail.com";
   const talk = "09928599984";
   const tel = "09943514205";
-  const handleCopyClick = () => {
+
+  const copyToClipboard = (text, message) => {
     navigator.clipboard
-      .writeText(gmailUrl)
+      .writeText(text)
       .then(() => {
         Swal.fire({
           title: "Good job!",
-          text: "Gmail Address copied to clipboard!",
-          icon: "success",
-          customClass: {
-            popup: "small-swal-popup",
-          },
-        });
-      })
-      .catch((err) => {
-        console.error("Failed to copy: ", err);
-      });
-  };
-  const handleCopyTalk = () => {
-    navigator.clipboard
-      .writeText(gmailUrl)
-      .then(() => {
-        Swal.fire({
-          title: "Good job!",
-          text: `Kakao Talk Number copied to clipboard! ${talk}`,
-          icon: "success",
-          customClass: {
-            popup: "small-swal-popup",
-          },
-        });
-      })
-      .catch((err) => {
-        console.error("Failed to copy: ", err);
-      });
-  };
-  const handleCopyTelegram = () => {
-    navigator.clipboard
-      .writeText(gmailUrl)
-      .then(() => {
-        Swal.fire({
-          title: "Good job!",
-          text: `Telegram Number copied to clipboard! ${tel}`,
+          text: `${message} copied to clipboard! ${text}`,
           icon: "success",
           customClass: {
             popup: "small-swal-popup",
@@ -88,13 +55,25 @@ const KtvandJtv = () => {
       });
   };
 
+  const handleCopyClick = () => {
+    copyToClipboard(gmailUrl, "Gmail Address");
+  };
+
+  const handleCopyTalk = () => {
+    copyToClipboard(talk, "Kakao Talk Number");
+  };
+
+  const handleCopyTelegram = () => {
+    copyToClipboard(tel, "Telegram Number");
+  };
   return (
     <div className="container mx-auto mt-10">
       <div className="mx-auto flex flex-col items-center justify-center">
-        <h1 className="text-2xl font-bold">"{path}"</h1>
+        <h1 className="font-mono font-bold text-3xl">"{path}"</h1>
         <div className="flex flex-wrap">
           <p className="mb-3 text-gray-500">
-            aKFJahjkf aowifhd oaihfd oaihoiahoiash oiahd oaihoiahsjsndoi
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
+            odio. Praesent libero.
           </p>
         </div>
         <div className="mx-auto">
@@ -107,8 +86,10 @@ const KtvandJtv = () => {
         </div>
 
         <div className="flex flex-wrap">
-          <div className="mt-5">
-            <h1 className="text-2xl font-bold mb-4">Item List 2</h1>
+          <div className="mt-5 ">
+            <h1 className="font-mono font-bold text-3xl text-center">
+              Information
+            </h1>
             {sampleItem.map((item) => (
               <List
                 key={item.id}
@@ -120,8 +101,8 @@ const KtvandJtv = () => {
             ))}
           </div>
         </div>
-
-        <div class="relative overflow-x-auto mt-5">
+        <div className="text-2xl font-bold p-2 mt-5">Services Offer</div>
+        <div class=" relative overflow-x-auto mt-2  ">
           <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border border-gray-300">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border border-gray-300">
               <tr>
@@ -180,16 +161,6 @@ const KtvandJtv = () => {
           <h1 className="text-lg font-bold">Contact us</h1>
           <div className="flex">
             <Button onClick={handleCopyTalk} icon={<Kakaotalk />} />
-            {/* <GmailLink
-              threadId={
-                "compose=CllgCJTLpWMtLSbJmnMhrjgtslQsmLvdVScvPHkXlhXXdJBNFwRWHRsbvnpCSKPTDfNgCkLPRkL"
-              }
-              text={<Gmail />}
-              onclick={handleCopyClick}
-            /> */}
-            {/* <button type="button" onClick={handleCopyClick}>
-              <Gmail />
-            </button> */}
             <Button onClick={handleCopyClick} icon={<Gmail />} />
             <Button onClick={handleCopyTelegram} icon={<Telegram />} />
           </div>
