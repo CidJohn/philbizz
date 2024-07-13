@@ -1,16 +1,33 @@
 import React from "react";
-import Image from "../Image/Image";
 import { ImageLink } from "../Image/ImageLink";
+import Image from "../Image/Image";
+
+const isValidUrl = (src) => {
+  try {
+    new URL(src);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
 
 function Card({ title, src, desc, style, hidden, link }) {
   return (
     <div
-      className="max-w-xs mx-1 bg-white  rounded-lg border border-gray-200  dark:bg-gray-800 dark:border-gray-700 shadow"
+      className="max-w-xs mx-1 bg-white  rounded-lg   dark:bg-gray-800 dark:border-gray-700 shadow "
       style={style}
     >
       <a href={`/${link}`} className="block">
         <div className="h-48 w-full overflow-hidden rounded-t-lg">
-          <ImageLink className="object-cover h-full w-full" src={src} alt="" />
+          {isValidUrl(src) ? (
+            <ImageLink
+              className="object-cover h-full w-full"
+              src={src}
+              alt=""
+            />
+          ) : (
+            <Image className="object-cover h-full w-full" src={src} alt="" />
+          )}
         </div>
       </a>
       <div className="p-4">

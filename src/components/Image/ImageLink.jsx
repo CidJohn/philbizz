@@ -1,8 +1,7 @@
-
-export const ImageLink = ({ src, alt, className }) => {
-    return (
-        <>
-        <img src={src} alt={alt} className={className} />
-        </>
-    )
-}
+export const ImageLink = ({ src, alt, className, style }) => {
+  return (
+    <>
+      <img src={src} alt={alt} className={className} style={style} />
+    </>
+  );
+};

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import city from "../../assets/img/manilanight.jpg";
 import { useTranslation } from "react-i18next";
+import Card from "../Card/Card";
 
 export const HeroBanner = ({ darkMode }) => {
   const [currentTimePHT, setCurrentTimePHT] = useState("");
@@ -24,16 +25,21 @@ export const HeroBanner = ({ darkMode }) => {
   }, []);
   return (
     <div className={`md:flex  ${darkMode && "dark"}`}>
-      <div className=" hidden flex flex-wrap  px-2 md:block">
-        <img
-          src="https://lh3.googleusercontent.com/p/AF1QipMlprtNkiskp0-5IV_3_sKrIDneoRDwraoYfLHD=s680-w680-h510"
-          alt="Left Image"
-          className="max-w-full h-auto"
+      <div className=" hidden flex flex-wrap  md:block">
+        <Card
+          src={
+            "https://lh3.googleusercontent.com/p/AF1QipMlprtNkiskp0-5IV_3_sKrIDneoRDwraoYfLHD=s680-w680-h510"
+          }
+          desc={"Advertisement"}
+          hidden={true}
+          style={{ width: "250px" }}
         />
-        <img
-          src="https://lh3.googleusercontent.com/p/AF1QipMlprtNkiskp0-5IV_3_sKrIDneoRDwraoYfLHD=s680-w680-h510"
-          alt="Left Image"
-          className="max-w-full h-auto mt-2"
+        <Card
+          src={
+            "https://lh3.googleusercontent.com/p/AF1QipMlprtNkiskp0-5IV_3_sKrIDneoRDwraoYfLHD=s680-w680-h510"
+          }
+          desc={"Advertisement"}
+          hidden={true}
         />
       </div>
       <div
@@ -66,7 +72,7 @@ export const HeroBanner = ({ darkMode }) => {
           </div>
         </div>
       </div>
-      <div className="border px-2 hidden md:block">
+      <div className=" px-2 hidden md:block">
         <img
           src="https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg"
           alt="Left Image"

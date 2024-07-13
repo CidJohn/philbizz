@@ -50,23 +50,33 @@ const ContentLayout = ({
                 ""
               )}
             </div>
-            <div className="flex items-center justify-center mt-5">
-              <SearchBar hidden={true} onSearch={handleOnSearch} />
-            </div>
-            <div className=" mt-5 flex flex-wrap  ">
-              {handleCards(currentItems)}
-            </div>
-            <div className="mt-5 grid justify-items-end">
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-              />
-            </div>
+            <section id="card">
             <Horizontal />
+              <div className="flex items-center justify-center mt-5">
+                <SearchBar hidden={true} onSearch={handleOnSearch} />
+              </div>
+              <div className=" mt-5 flex flex-wrap  ">
+                {handleCards(currentItems)}
+              </div>
+            </section>
+            <div className="mt-5 grid justify-items-end">
+              {!selectedItem?.id ? (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                  link={"card"}
+                />
+              ) : (
+                ""
+              )}
+            </div>
           </div>
+
           <div className="flex flex-wrap">
             <div className="mt-5">
+              <Horizontal />
+
               <h1 className="text-2xl font-bold mb-4">Item List 2</h1>
               {sampleItem.map((item) => (
                 <List

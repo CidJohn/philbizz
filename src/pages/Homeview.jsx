@@ -8,61 +8,42 @@ import ContactForm from "../components/ContactUs/ContactUs";
 import { useTranslation } from "react-i18next";
 import Card from "../components/Card/Card";
 import styled from "styled-components";
+import List from "../components/List/List";
 
-const CarouselWrapper = styled.div`
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
-
-const CarouselItem = styled.div`
-  flex: 0 0 auto;
-  scroll-snap-align: start;
-  padding: 10px;
-`;
 function Homeview() {
   const { t } = useTranslation();
   return (
     <>
-      <div className="container shadow w-full mx-auto  mt-5">
+      <div className="container  w-full mx-auto  mt-5">
         <HeroBanner />
         <h1 className="text-5xl font-serif mt-10">{t("Business")}</h1>
 
-        <div className="container">
-          <Carousel items={CarouselContent} />
-        </div>
-        <div className="flex flex-row p-4">
-          <div className=" container">
-            <h1 className="text-2xl font-bold mb-4">Item List</h1>
-            <ul className="space-y-4">
+        <div className="container"></div>
+        <div className="flex flex-wrap">
+          <div className="flex mt-5 p-5 flex-col-reverse md:flex-row">
+            <div className="flex flex-col">
+              <h1 className="text-2xl font-bold mb-4">Sample Item list</h1>
               {sampleItem.map((item) => (
-                <li
+                <List
                   key={item.id}
-                  className="bg-white shadow-md rounded-lg p-4 flex items-center"
-                >
-                  <div className="flex-1">
-                    <h2 className="text-xl font-semibold">{item.name}</h2>
-                    <p className="text-gray-700">{item.description}</p>
-                  </div>
-                </li>
+                  title={item.name}
+                  desc={item.description}
+                  id={item.id}
+                />
               ))}
-            </ul>
+            </div>
+            <figure className="max-w-md p-4">
+              <Image
+                className="rounded-lg"
+                src={"ktv2.jpg"}
+                alt="Hair salon interior"
+              />
+              <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
+                Sample Header
+              </figcaption>
+            </figure>
           </div>
-          <figure className="max-w-md p-4">
-            <Image
-              className="rounded-lg"
-              src={"ktv2.jpg"}
-              alt="Hair salon interior"
-            />
-            <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
-              Sample Header
-            </figcaption>
-          </figure>
+          <Carousel items={CarouselContent} />
         </div>
       </div>
     </>

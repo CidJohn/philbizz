@@ -6,6 +6,7 @@ import Footer from "./Footer/Footer";
 import { useLocation } from "react-router-dom";
 import { useNavbarcontent } from "../helper/database/useNavbarcontent";
 import Spinner from "../components/Spinner/Spinner";
+import BusinessNavbar from "../components/BusinessNavbar/BusinessNavbar";
 
 function Layout({ children }) {
   const location = useLocation();
@@ -17,7 +18,6 @@ function Layout({ children }) {
 
   const currentTreeViewContent = getTreeViewPath(location.pathname);
   const hidden = location.pathname === "/business" ? true : false;
-
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -27,16 +27,10 @@ function Layout({ children }) {
   }
   return (
     <div>
+      {hidden && <BusinessNavbar />}
       <Navbar navbarData={navbarData} loading={loading} hidden={hidden} />
       <div className="flex flex-row">
-        <div className="sticky left-0 top-0 fixed">
-          {/* {currentTreeViewContent && (
-            <TreeView
-              treeViewContent={currentTreeViewContent.children}
-              onItemClick={handleItemClick}
-            />
-          )} */}
-        </div>
+        <div className="sticky left-0 top-0 fixed"></div>
         <div className="flex-grow">{React.cloneElement(children)}</div>
       </div>
       <Footer />

@@ -2,7 +2,6 @@ import React from "react";
 import Card from "../../components/Card/Card";
 import useCardSettings from "../../helper/database/useCardSettings";
 import Spinner from "../../components/Spinner/Spinner";
-
 const HandleCards = ({
   currentPath,
   selectedItem,
@@ -66,7 +65,7 @@ const HandleCards = ({
           return currentItems.map((select, index) => (
             <React.Fragment key={index}>
               {select.header === currentPath.name && (
-                <div className="bg-cover  mx-auto p-2">
+                <div className="bg-cover  mx-auto p-2 rounded">
                   <Card
                     src={select.card_image}
                     title={select.title}
@@ -96,7 +95,7 @@ const HandleCards = ({
               (select, index) =>
                 select.location === selectedItem.name && (
                   <React.Fragment key={index}>
-                    <div className="bg-cover p-2">
+                    <div className="bg-cover p-2 ">
                       <Card
                         src={select.card_image}
                         title={select.title}

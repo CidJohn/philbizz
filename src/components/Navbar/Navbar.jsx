@@ -73,16 +73,16 @@ export default function Navbar({ ...props }) {
     return navitem.map((item, index) => (
       <div
         key={index}
-        className=" rounded p-2 hover:bg-gray-400 relative mt-2"
+        className=" rounded p-2 relative mt-2 hover:text-gray-900"
         onMouseEnter={() => setShowDropdown(item.name)}
       >
         <a
           href={item.path}
-          className="flex flex-col text-gray-600 hover:text-gray-900 items-center"
+          className="flex flex-col text-gray-600 hover:text-gray-900 hover:font-bold items-center"
           onClick={handleClickDelete}
           target={item.name === "Business" ? "_black" : "_self"}
         >
-          <span className="text-2xl mx-auto border border-gray-300 shadow px-4 py-2 rounded">
+          <span className="text-2xl mx-auto border border-gray-300 hover:border-gray-900 shadow px-4 py-2   rounded">
             {iconMap[item.name] && (
               <FontAwesomeIcon icon={iconMap[item.name]} />
             )}{" "}
@@ -119,15 +119,9 @@ export default function Navbar({ ...props }) {
             </div>
             <a
               href="/"
-              className="font-bold text-3xl text-gray-800 flex bg-cover w-auto mx-auto"
+              className="font-bold text-3xl text-gray-800 flex bg-cover w-auto mx-auto p-3"
             >
-              {/* <div className="font-bold text-3xl text-blue-800 ">P</div>
-            <div className="font-bold text-xl text-blue-800 mt-2">
-              HILIPPINE
-            </div>
-            <div className="font-bold text-3xl text-red-800 ">Z</div>
-            <div className="font-bold text-xl text-gray-800 mt-2">ONE</div> */}
-              <Image src={"philzone12.png"} />
+              <Image src={"philbizz.png"} style={{ width: "200px" }} />
             </a>
             <div className="flex p-2">
               <SearchBar
@@ -149,8 +143,11 @@ export default function Navbar({ ...props }) {
               {!navbarData ? "" : !hidden ? navbarItem(navbarData) : ""}
             </div>
           </div>
-
-          <div className="-mr-2 flex md:hidden justify-between">
+          <div
+            className={
+              hidden ? "hidden" : "-mr-2 flex md:hidden justify-between"
+            }
+          >
             <button
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500"
               aria-controls="mobile-menu"
