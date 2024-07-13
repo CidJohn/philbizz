@@ -21,13 +21,13 @@ export const Facebook = () => {
     </svg>
   );
 };
-export const Messenger = () => {
+export const Messenger = ({ width }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       x="0px"
       y="0px"
-      width="100"
+      width={width}
       height="100"
       viewBox="0 0 48 48"
     >
@@ -66,13 +66,13 @@ export const Messenger = () => {
     </svg>
   );
 };
-export const Telegram = () => {
+export const Telegram = ({ width }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       x="0px"
       y="0px"
-      width="100"
+      width={width}
       height="100"
       viewBox="0 0 48 48"
     >
@@ -93,13 +93,13 @@ export const Telegram = () => {
   );
 };
 
-export const Kakaotalk = () => {
+export const Kakaotalk = ({ width }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       x="0px"
       y="0px"
-      width="100"
+      width={width}
       height="100"
       viewBox="0 0 48 48"
     >
@@ -143,13 +143,13 @@ export const Kakaotalk = () => {
   );
 };
 
-export const Gmail = () => {
+export const Gmail = ({ width }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       x="0px"
       y="0px"
-      width="100"
+      width={width}
       height="100"
       viewBox="0 0 48 48"
     >

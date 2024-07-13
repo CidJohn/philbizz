@@ -1,9 +1,6 @@
 import React from "react";
-import selectionContent from "../../../content/selectionContent";
 import { ImageLink } from "../../../components/Image/ImageLink";
-import Horizontal from "../../../components/Horizontal/Horizontal";
 import { useTranslation } from "react-i18next";
-import useCardSettings from "../../../helper/database/useCardSettings";
 import { useCardDesc } from "../../../helper/database/useCardPath";
 
 const Description = ({ type, path }) => {
@@ -41,7 +38,7 @@ const Description = ({ type, path }) => {
                     </h1>
                     <p className="text-left mb-4">{item.paragraph}</p>
                   </div>
-                  <Horizontal />
+                  
                 </div>
               )
           )

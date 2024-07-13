@@ -31,19 +31,23 @@
   ],
   "sidebar": [
     {
-      "name": "Home"
+      "name": "Company Name"
     },
     {
-      "name": "About"
+      "name": "About",
+      "path": "#about"
     },
     {
-      "name": "Service"
+      "name": "Products",
+      "path": "#products"
     },
     {
-      "name": "Testimonials"
+      "name": "Personnel",
+      "path": "#personnel"
     },
     {
-      "name": "Contact"
+      "name": "Contact",
+      "path": "#contact"
     }
   ]
 }
