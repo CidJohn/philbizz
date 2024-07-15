@@ -51,7 +51,7 @@ const ContentLayout = ({
               )}
             </div>
             <section id="card">
-            <Horizontal />
+              <Horizontal />
               <div className="flex items-center justify-center mt-5">
                 <SearchBar hidden={true} onSearch={handleOnSearch} />
               </div>
@@ -85,10 +85,12 @@ const ContentLayout = ({
                   desc={item.description}
                   id={item.id}
                   image={item.image}
+                  style={{ height: "100px" }}
+                  imgstyle={{ width: "100px", height: "70px" }}
                 />
               ))}
             </div>
-          </div>
+          </div>  
         </div>
         <div className="flex">
           <div className="mt-5">

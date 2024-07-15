@@ -30,7 +30,6 @@ function Layout({ children }) {
       {hidden && <BusinessNavbar />}
       <Navbar navbarData={navbarData} loading={loading} hidden={hidden} />
       <div className="flex flex-row">
-        <div className="sticky left-0 top-0 fixed"></div>
         <div className="flex-grow">{React.cloneElement(children)}</div>
       </div>
       <Footer />

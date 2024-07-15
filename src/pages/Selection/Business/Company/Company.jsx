@@ -17,7 +17,7 @@ const Company = () => {
               src={
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLMRNnKIYiMwMKPNW5eqdq2ludhE6F3xZ-iQ&s"
               }
-              style={{ width: "400px" }}
+              style={{ width: "100px" }}
             />
           </div>
           <p className="text-wrap text-sm max-w-96   p-2">

@@ -1,42 +1,30 @@
 import React from "react";
-import { ImageLink } from "../Image/ImageLink";
-import Image from "../Image/Image";
+import Images from "../Image/Images";
 
-const isValidUrl = (src) => {
-  try {
-    new URL(src);
-    return true;
-  } catch (e) {
-    return false;
-  }
-};
-
-function Card({ title, src, desc, style, hidden, link }) {
+function Card({ title, src, desc, style, hidden, link, imgStyle }) {
   return (
     <div
       className="max-w-xs mx-1 bg-white  rounded-lg   dark:bg-gray-800 dark:border-gray-700 shadow "
       style={style}
     >
       <a href={`/${link}`} className="block">
-        <div className="h-48 w-full overflow-hidden rounded-t-lg">
-          {isValidUrl(src) ? (
-            <ImageLink
-              className="object-cover h-full w-full"
+        <div className=" w-full overflow-hidden rounded-t-lg">
+          <div className="h-full">
+            <Images
               src={src}
-              alt=""
+              className="object-cover h-full w-full"
+              style={{ height: "192px" }}
             />
-          ) : (
-            <Image className="object-cover h-full w-full" src={src} alt="" />
-          )}
+          </div>
         </div>
       </a>
       <div className="p-4">
         <a href={`/${link}`} className="block">
-          <h5 className="mb-2 text-md font-bold tracking-tight text-gray-900 dark:text-white">
+          <h5 className=" text-md font-bold tracking-tight text-gray-900 dark:text-white">
             {title}
           </h5>
         </a>
-        <p className="mb-3 font-normal text-sm text-gray-700 dark:text-gray-400">
+        <p className="font-normal text-sm text-gray-700 dark:text-gray-400">
           {desc}
         </p>
         {!hidden && (

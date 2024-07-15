@@ -38,6 +38,8 @@ const Business = () => {
                   desc={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
 `}
                   className={"hover:bg-slate-100"}
+                  imgstyle={{ width: "100px", height: "70px" }}
+                  style={{ height: "100px" }}
                 />
                 <List
                   image={
@@ -49,6 +51,8 @@ const Business = () => {
             quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent
             mauris`}
                   className={"hover:bg-slate-100"}
+                  imgstyle={{ width: "100px", height: "70px" }}
+                  style={{ height: "100px" }}
                 />
                 <List
                   image={
@@ -60,6 +64,21 @@ const Business = () => {
             quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent
             mauris`}
                   className={"hover:bg-slate-100"}
+                  imgstyle={{ width: "100px", height: "70px" }}
+                  style={{ height: "100px" }}
+                />
+                <List
+                  image={
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLMRNnKIYiMwMKPNW5eqdq2ludhE6F3xZ-iQ&s"
+                  }
+                  title={"SFA SEMICON PHILIPPINES CORPORATION"}
+                  desc={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
+            odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla
+            quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent
+            mauris`}
+                  className={"hover:bg-slate-100"}
+                  imgstyle={{ width: "100px", height: "70px" }}
+                  style={{ height: "100px" }}
                 />
                 {/* <Company /> */}
               </div>

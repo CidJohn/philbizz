@@ -169,19 +169,23 @@ const Food = () => {
                   Location
                 </div>
                 <div className="flex justify-center ">
-                  {isValidUrl(item.location_image) ? (
-                    <ImageLink
-                      src={item.location_image}
-                      alt={"Vegas KTV Karaoke"}
-                    />
-                  ) : (
-                    <button onClick={handleCopyLocation}>
-                      <Image
+                  {item.location_image ? (
+                    isValidUrl(item.location_image) ? (
+                      <ImageLink
                         src={item.location_image}
-                        style={{ width: "900px" }}
-                        className={"border-4 hover:border-gray-900"}
+                        alt={"Vegas KTV Karaoke"}
                       />
-                    </button>
+                    ) : (
+                      <button onClick={handleCopyLocation}>
+                        <Image
+                          src={item.location_image}
+                          style={{ width: "900px" }}
+                          className={"border-4 hover:border-gray-900"}
+                        />
+                      </button>
+                    )
+                  ) : (
+                    ""
                   )}
                 </div>
               </div>
