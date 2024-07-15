@@ -24,59 +24,74 @@ export const HeroBanner = ({ darkMode }) => {
     return () => clearInterval(interval);
   }, []);
   return (
-    <div className={`md:flex  ${darkMode && "dark"}`}>
-      <div className=" hidden flex flex-wrap  md:block">
+    <div className={`md:flex   ${darkMode && "dark"}`}>
+      <div className=" hidden flex flex-wrap  md:block px-3">
         <Card
           src={
             "https://lh3.googleusercontent.com/p/AF1QipMlprtNkiskp0-5IV_3_sKrIDneoRDwraoYfLHD=s680-w680-h510"
           }
-          desc={"Advertisement"}
+          title={"Advertisement"}
           hidden={true}
-          style={{ width: "250px" }}
+          style={{ width: "240px" }}
         />
         <Card
           src={
             "https://lh3.googleusercontent.com/p/AF1QipMlprtNkiskp0-5IV_3_sKrIDneoRDwraoYfLHD=s680-w680-h510"
           }
-          desc={"Advertisement"}
+          title={"Advertisement"}
           hidden={true}
         />
       </div>
       <div
-        className="relative md:w-full bg-no-repeat bg-cover mb-10"
+        className="relative md:w-full bg-no-repeat bg-cover mb-10 md:h-[500px] "
         style={{ backgroundImage: `url(${city})` }}
       >
-        <div className="md:absolute inset-0 bg-black bg-opacity-50"></div>
-        <div className="md:absolute inset-0 flex flex-col justify-center items-center text-center text-white">
-          <div className="md:max-w-lg w-full md:w-auto">
-            <h1 className="text-lg md:text-5xl font-black mb-2 md:mb-4 font-serif">
-              {t("phil")}
-            </h1>
-            <h2 className="text-sm md:text-3xl font-serif">
-              필리핀 정보통(Philippines information network)
-            </h2>
-          </div>
-          <div className="flex justify-center mt-8 space-x-8">
-            <div className=" rounded-full px-6 py-2">
-              <span className="text-sm md:text-lg">{currentTimePHT}</span>
-              <span className="block">{t("Philippines")}</span>
+        <div className="md:absolute inset-0 bg-black bg-opacity-50">
+          <div className="md:absolute inset-0 flex flex-col justify-center items-center text-center text-white">
+            <div className="md:max-w-lg w-full md:w-auto">
+              <h1 className="text-lg md:text-5xl font-black mb-2 md:mb-4 font-serif">
+                {t("phil")}
+              </h1>
+              <h2 className="text-sm md:text-3xl font-serif">
+                필리핀 정보통(Philippines information network)
+              </h2>
             </div>
-            <div className=" rounded-full px-6 py-2">
-              <span className="text-sm md:text-lg">{currentTimeKST}</span>
-              <span className="block">{t("Korea")}</span>
-            </div>
-            <div className=" rounded-full px-6 py-2">
-              <span className="text-sm md:text-lg">{currentTimeJST}</span>
-              <span className="block">{t("Japan")}</span>
+            <div className="flex justify-center mt-8 space-x-8">
+              <div className=" rounded-full px-6 py-2">
+                <span className="text-sm md:text-lg">{currentTimePHT}</span>
+                <span className="block">{t("Philippines")}</span>
+              </div>
+              <div className=" rounded-full px-6 py-2">
+                <span className="text-sm md:text-lg">{currentTimeKST}</span>
+                <span className="block">{t("Korea")}</span>
+              </div>
+              <div className=" rounded-full px-6 py-2">
+                <span className="text-sm md:text-lg">{currentTimeJST}</span>
+                <span className="block">{t("Japan")}</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div className=" px-2 hidden md:block">
-        <img
-          src="https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg"
+      <div className=" hidden md:block px-3">
+        <Card
+          src={
+            "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg"
+          }
           alt="Left Image"
           className="w-auto h-full object-cover"
+          hidden={true}
+          title={"Advertisement"}
+          style={{ width: "240px" }}
+        />
+        <Card
+          src={
+            "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg"
+          }
+          alt="Left Image"
+          className="w-auto h-full object-cover"
+          hidden={true}
+          title={"Advertisement"}
         />
       </div>
     </div>

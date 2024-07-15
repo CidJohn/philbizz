@@ -1,47 +1,56 @@
 import React from "react";
 import Image from "../Image/Image";
 import { ImageLink } from "../Image/ImageLink";
-
-const isValidUrl = (src) => {
-  try {
-    new URL(src);
-    return true;
-  } catch (e) {
-    return false;
-  }
-};
+import Images from "../Image/Images";
 
 const List = (props) => {
-  const { title, desc, id, image, header, className } = props;
+  const {
+    title,
+    desc,
+    id,
+    image,
+    header,
+    className,
+    titleClass,
+    size,
+    link,
+    style,
+    imgstyle,
+  } = props;
+  let sizeClass;
+  switch (size) {
+    case "small":
+      sizeClass = "text-sm";
+      break;
+    case "medium":
+      sizeClass = "text-base";
+      break;
+    case "large":
+      sizeClass = "text-lg";
+      break;
+    default:
+      sizeClass = "text-base";
+  }
   return (
     <div className="flex flex-col mt-5">
       <ul className="space-y-4">
         <li
           key={id}
-          className={`bg-white shadow-md rounded-lg p-4 flex items-center border gap-2 ${className}`}
+          className={`bg-white shadow-md rounded-lg flex items-center border gap-2 ${className} ${sizeClass}`}
+          style={style}
         >
           {image && (
             <figure className="max-w-md p-4 ">
-              {isValidUrl(image) ? (
-                <ImageLink
-                  src={image}
-                  alt={header || title}
-                  style={{ width: "100px" }}
-                />
-              ) : (
-                <Image
-                  src={image}
-                  alt={header || title}
-                  style={{ width: "100px" }}
-                />
-              )}
+              <Images src={image} alt={header || title} style={imgstyle} />
               <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
                 {header}
               </figcaption>
             </figure>
           )}
           <div className="flex-1">
-            <h2 className="text-xl font-semibold">{title}</h2>
+            <a href={`/${link}`} className={` font-semibold ${titleClass}`}>
+              {title}
+            </a>
             <p className="text-gray-700 text-sm">{desc}</p>
           </div>
         </li>

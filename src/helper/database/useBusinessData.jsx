@@ -27,4 +27,27 @@ const useBusinessData = () => {
   return { getBusinessData, loadingData };
 };
 
+export const useHomeBusiness = () => {
+  const [header, setHeader] = useState([]);
+  const [laodHeader, setLaodHeader] = useState(true);
+  const API_CALL = restAPI();
+
+  useEffect(() => {
+    const fetchingData = async () => {
+      try {
+        const results = await axios.get(`${API_CALL.host}/homeview-business`);
+        const data = await results.data;
+        setHeader(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLaodHeader(false);
+      }
+    };
+
+    fetchingData();
+  }, []);
+
+  return { header, laodHeader };
+};
 export default useBusinessData;
