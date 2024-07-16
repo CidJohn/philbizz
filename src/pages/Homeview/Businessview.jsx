@@ -29,7 +29,6 @@ const Businessview = () => {
       setKtvjtv(filteredKtvjtv);
     }
   }, [header]);
-
   const beautyList = Array.isArray(getBeauty) ? getBeauty.slice(1, 4) : [];
   const beautyCard = Array.isArray(getBeauty) ? getBeauty.slice(0, 1) : [];
 
@@ -42,6 +41,7 @@ const Businessview = () => {
 
   const ktvjtvList = Array.isArray(getKtvjtv) ? getKtvjtv.slice(1, 4) : [];
   const ktvjtvCard = Array.isArray(getKtvjtv) ? getKtvjtv.slice(0, 1) : [];
+
   return (
     <div>
       {laodHeader ? (

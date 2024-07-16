@@ -7,33 +7,25 @@ import Description from "../../pages/Selection/Description/Description";
 import Categories from "../../components/Categories/Categories";
 import List from "../../components/List/List";
 import Horizontal from "../../components/Horizontal/Horizontal";
+import Dropdown from "../../components/Dropdown/Dropdown";
 
 const ContentLayout = ({
   renderTreeView,
   handleCards,
-  loading,
-  data,
   currentPage,
-  itemsPerPage,
-  itemsMainPage,
   selectedItem,
-  selectionContent,
   handlePageChange,
   handleOnSearch,
   businessType,
+  handleDropdownChange,
+  dropdownOptions,
+  dropdownValue,
+  filterData,
+  business,
+  totalPages,
+  currentItems,
 }) => {
-  const business = businessType ? businessType : "";
-  const totalPages = Math.ceil(
-    selectedItem?.id
-      ? selectionContent.length / itemsPerPage
-      : selectionContent.length / itemsMainPage
-  );
-
-  const currentItems = selectionContent.slice(
-    (currentPage - 1) * (selectedItem?.id ? itemsPerPage : itemsMainPage),
-    currentPage * (selectedItem?.id ? itemsPerPage : itemsMainPage)
-  );
-
+  console.log(dropdownValue);
   return (
     <div className="flex flex-col md:flex md:flex-wrap mx-auto container ">
       <div className="flex flex-col md:flex-row ">
@@ -52,21 +44,41 @@ const ContentLayout = ({
             </div>
             <section id="card">
               <Horizontal />
-              <div className="flex items-center justify-center mt-5">
-                <SearchBar hidden={true} onSearch={handleOnSearch} />
+              <div className="flex flex-col lg:flex-row items-center justify-center mt-5">
+                <div className="flex flex-col max-w-80">
+                  <div className="text-md">Address:</div>
+                  <Dropdown
+                    name="category"
+                    value={dropdownValue}
+                    onChange={handleDropdownChange}
+                    options={dropdownOptions}
+                    placeholder={"Select Address"}
+                  />
+                </div>
+                <div className=" hidden lg:block text-sm py-5  h-[30px] border-gray-500 mx-3 ">
+                  <div className="flex font-black text-sm ">or</div>
+                </div>
+                <div className="flex flex-col mt-5 lg:mt-0">
+                  <div className="text-md">Branch Name:</div>
+                  <SearchBar hidden={true} onSearch={handleOnSearch} />
+                </div>
               </div>
-              <div className=" mt-5 flex flex-wrap  ">
+              <div className=" mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 md:gap-10 lg:gap-0  ">
                 {handleCards(currentItems)}
               </div>
             </section>
             <div className="mt-5 grid justify-items-end">
               {!selectedItem?.id ? (
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={handlePageChange}
-                  link={"card"}
-                />
+                filterData === "" ? (
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                    link={"card"}
+                  />
+                ) : (
+                  ""
+                )
               ) : (
                 ""
               )}
@@ -90,7 +102,7 @@ const ContentLayout = ({
                 />
               ))}
             </div>
-          </div>  
+          </div>
         </div>
         <div className="flex">
           <div className="mt-5">

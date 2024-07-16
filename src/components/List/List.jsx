@@ -32,8 +32,8 @@ const List = (props) => {
       sizeClass = "text-base";
   }
   return (
-    <div className="flex flex-col mt-5">
-      <ul className="space-y-4">
+    <div className="flex flex-col mt-3">
+      <ul className="space-y-2">
         <li
           key={id}
           className={`bg-white shadow-md rounded-lg flex items-center border gap-2 ${className} ${sizeClass}`}
