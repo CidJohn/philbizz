@@ -32,19 +32,21 @@ const HandleCards = ({
   }
   const renderCards = (items) => {
     return items.map((item, index) => (
-      <div className="bg-cover mx-auto mt-5 " key={index}>
-        <Card
-          src={item.card_image}
-          title={item.title}
-          desc={item.description}
-          style={{
-            width: "200px",
-            backgroundSize: "cover",
-            height: "350px",
-          }}
-          hidden={true}
-          link={item.title}
-        />
+      <div className="flex flex-wrap bg-cover mx-auto mt-5 " key={index}>
+        <div className="flex ">
+          <Card
+            src={item.card_image}
+            title={item.title}
+            desc={item.description}
+            style={{
+              width: "200px",
+              backgroundSize: "cover",
+              height: "350px",
+            }}
+            hidden={true}
+            link={item.title}
+          />
+        </div>
       </div>
     ));
   };
@@ -59,7 +61,9 @@ const HandleCards = ({
       if (!selectedItem?.id) {
         if (searchResult && searchResult.length > 0) {
           return (
-            <div className="results-container">{renderCards(searchResult)}</div>
+            <div className="flex flex-wrap container">
+              {renderCards(searchResult)}
+            </div>
           );
         } else {
           return currentItems.map((select, index) => (

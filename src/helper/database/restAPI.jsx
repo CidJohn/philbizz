@@ -1,7 +1,6 @@
 import React from "react";
 
 const restAPI = () => {
-  const apiUrl = process.env.REACT_APP_API_URL;
   const apiUrl2 = process.env.REACT_APP_API_SERVER;
   const API_CALL = {
     host: apiUrl2,

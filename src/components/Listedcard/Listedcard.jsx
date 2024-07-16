@@ -2,24 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Card from "../Card/Card";
 import List from "../List/List";
+import Dateformat from "../Dateformat/Dateformat";
 
 const Listedcard = (props) => {
-  const {
-    section,
-    title,
-    listclass,
-    listclasses,
-    listItems,
-    cardItems,
-    links,
-  } = props;
+  const { section, title, listclass, listclasses, listItems, cardItems } =
+    props;
   const { t } = useTranslation();
   const [getlink, setLink] = useState("");
 
   useEffect(() => {
     const link = listItems ? listItems.map((item) => item.descname) : "";
     setLink(link);
-  });
+  }, []);
   const foodlink = Array.isArray(getlink) ? getlink.slice(0, 1) : [];
   // Function to determine size based on index or other criteria
   const getSize = (index) => {
@@ -105,9 +99,9 @@ const Listedcard = (props) => {
                   image={item.images}
                   title={item.title}
                   titleClass={listclass}
-                  desc={item.description}
+                  desc={<Dateformat dateString={item.created_at} />}
                   className={listclasses}
-                  size={getSize(index)} // Pass the dynamic size to List component
+                  size={getSize(index)}
                   link={item.title}
                   style={{ height: "100px" }}
                   imgstyle={{ width: "100px", height: "70px" }}

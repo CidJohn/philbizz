@@ -16,7 +16,7 @@ function Homeview() {
         </div>
         <div className="p-5">
           <h1 className="text-4xl  font-serif p-5 underline decoration-sky-500 decoration-double decoration-2 underline-offset-8 ">
-            {t("Business")}
+            {t("Companies")}
           </h1>
           <Carousel items={CarouselContent} />
         </div>

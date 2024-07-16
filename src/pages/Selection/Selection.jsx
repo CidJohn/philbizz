@@ -18,6 +18,7 @@ const Selection = () => {
   const [itemsMainPage, setItemsMainPage] = useState(15);
   const [business, setBusiness] = useState("");
   const [selectpath, setSelectPath] = useState("");
+  const [dropdownValue, setDropdownValue] = useState("");
   const { data, loading } = useTreeview();
   const { navbarData } = useNavbarcontent();
 
@@ -44,7 +45,22 @@ const Selection = () => {
         setBusiness(matchedItem);
       }
     }
-  }, [currentPath, data, navbarData, locations.pathname]);
+    if (!dropdownValue) {
+      setFilteredData("");
+    } else {
+      const filteredResults = businessTypes.filter((item) =>
+        item.description.toLowerCase().includes(dropdownValue.toLowerCase())
+      );
+      setFilteredData(filteredResults);
+    }
+  }, [
+    currentPath,
+    data,
+    navbarData,
+    locations.pathname,
+    businessTypes,
+    dropdownValue,
+  ]);
 
   const findItemById = (items, id) => {
     if (!items) return null;
@@ -82,12 +98,15 @@ const Selection = () => {
   };
 
   const handleOnSearch = async (e) => {
-    const filteredResults = businessTypes.filter((item) =>
-      item.title.toLowerCase().includes(e.title)
-    );
-    setFilteredData(filteredResults);
+    if (e.title === "") {
+      setFilteredData("");
+    } else {
+      const filteredResults = await businessTypes.filter((item) =>
+        item.title.toLowerCase().includes(e.title)
+      );
+      setFilteredData(filteredResults);
+    }
   };
-
   const indexOfLastItem =
     currentPage * (selectedItem?.id ? itemsPerPage : itemsMainPage);
   const indexOfFirstItem =
@@ -101,7 +120,27 @@ const Selection = () => {
       </div>
     );
   }
+  const dropdownOptions = [
+    { value: "", label: "Select Address" },
+    ...businessTypes.map((item) => ({
+      value: item.id,
+      label: item.description,
+    })),
+  ];
 
+  const handleDropdownChange = (e) => {
+    setDropdownValue(e.target.value);
+  };
+  const businessDesc = business ? business : "";
+  const totalPages = Math.ceil(
+    selectedItem?.id
+      ? businessTypes.length / itemsPerPage
+      : businessTypes.length / itemsMainPage
+  );
+  const currentItemsPage = businessTypes.slice(
+    (currentPage - 1) * (selectedItem?.id ? itemsPerPage : itemsMainPage),
+    currentPage * (selectedItem?.id ? itemsPerPage : itemsMainPage)
+  );
   if (!data) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -136,11 +175,16 @@ const Selection = () => {
       itemsPerPage={itemsPerPage}
       itemsMainPage={itemsMainPage}
       selectedItem={selectedItem}
-      selectionContent={businessTypes}
       handlePageChange={handlePageChange}
       handleOnSearch={handleOnSearch}
       handleDescription={() => <Description />}
-      businessType={business}
+      handleDropdownChange={handleDropdownChange}
+      dropdownOptions={dropdownOptions}
+      dropdownValue={dropdownValue}
+      filterData={filteredData}
+      business={businessDesc}
+      totalPages={totalPages}
+      currentItems={currentItemsPage}
     ></ContentLayout>
   );
 };

@@ -113,7 +113,7 @@ export default function Navbar({ ...props }) {
     <nav className="bg-white mb-5">
       <div className="hidden md:block">
         {!hidden && (
-          <div className="flex items-center justify-between  container mx-auto">
+          <div className="flex items-center justify-between gap-10 container mx-auto lg:w-[1024px]">
             <div className="">
               <Translation />
             </div>
