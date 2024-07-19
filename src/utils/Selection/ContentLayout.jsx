@@ -8,6 +8,8 @@ import Categories from "../../components/Categories/Categories";
 import List from "../../components/List/List";
 import Horizontal from "../../components/Horizontal/Horizontal";
 import Dropdown from "../../components/Dropdown/Dropdown";
+import Images from "../../components/Image/Images";
+import { footerContent } from "../../content/footerContent";
 
 const ContentLayout = ({
   renderTreeView,
@@ -16,7 +18,6 @@ const ContentLayout = ({
   selectedItem,
   handlePageChange,
   handleOnSearch,
-  businessType,
   handleDropdownChange,
   dropdownOptions,
   dropdownValue,
@@ -25,7 +26,6 @@ const ContentLayout = ({
   totalPages,
   currentItems,
 }) => {
-  console.log(dropdownValue);
   return (
     <div className="flex flex-col md:flex md:flex-wrap mx-auto container ">
       <div className="flex flex-col md:flex-row ">
@@ -52,7 +52,9 @@ const ContentLayout = ({
                     value={dropdownValue}
                     onChange={handleDropdownChange}
                     options={dropdownOptions}
-                    placeholder={"Select Address"}
+                    placeholder={"Select All"}
+                    width="350px"
+                    selectWidth="500px"
                   />
                 </div>
                 <div className=" hidden lg:block text-sm py-5  h-[30px] border-gray-500 mx-3 ">
@@ -63,13 +65,13 @@ const ContentLayout = ({
                   <SearchBar hidden={true} onSearch={handleOnSearch} />
                 </div>
               </div>
-              <div className=" mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 md:gap-10 lg:gap-0  ">
+              <div className=" mt-5 grid grid-cols-2 lg:grid-cols-3 md:gap-20 lg:gap-0 ">
                 {handleCards(currentItems)}
               </div>
             </section>
             <div className="mt-5 grid justify-items-end">
               {!selectedItem?.id ? (
-                filterData === "" ? (
+                filterData.length === 0 ? (
                   <Pagination
                     currentPage={currentPage}
                     totalPages={totalPages}
@@ -116,9 +118,9 @@ const ContentLayout = ({
               />
             ))}
             <figure className="max-w-md p-4">
-              <Image
+              <Images
                 className="rounded-lg"
-                src={"ktv2.jpg"}
+                src={""}
                 alt="Hair salon interior"
               />
               <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
@@ -127,9 +129,6 @@ const ContentLayout = ({
             </figure>
           </div>
         </div>
-      </div>
-      <div className="mx-auto items-center justify-center">
-        <Categories />
       </div>
     </div>
   );

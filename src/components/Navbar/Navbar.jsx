@@ -14,6 +14,7 @@ import {
   faFaceKiss,
   faMedkit,
   faTent,
+  faPlane,
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function Navbar({ ...props }) {
@@ -68,26 +69,27 @@ export default function Navbar({ ...props }) {
     Medical: faMedkit,
     Festival: faTent,
     Beauty: faFaceKiss,
+    Travel: faPlane,
   };
   const navbarItem = (navitem) => {
     return navitem.map((item, index) => (
       <div
         key={index}
-        className=" rounded p-2 relative mt-2 hover:text-gray-900"
+        className=" rounded p-2 relative mt-2 hover:text-gray-900 "
         onMouseEnter={() => setShowDropdown(item.name)}
       >
         <a
           href={item.path}
-          className="flex flex-col text-gray-600 hover:text-gray-900 hover:font-bold items-center"
+          className="flex flex-col text-gray-600 hover:text-gray-900 hover:font-bold items-center  transform transition-transform duration-500 hover:scale-110 "
           onClick={handleClickDelete}
           target={item.name === "Business" ? "_black" : "_self"}
         >
-          <span className="text-2xl mx-auto border border-gray-300 hover:border-gray-900 shadow px-4 py-2   rounded">
+          <span className="text-2xl mx-auto border border-gray-300 hover:border-gray-900 shadow px-4 py-2   rounded ">
             {iconMap[item.name] && (
               <FontAwesomeIcon icon={iconMap[item.name]} />
             )}{" "}
           </span>
-          {t(item.name)}
+          <span>{t(item.name)}</span>
         </a>
         {item.children && showDropdown === item.name && (
           <div
@@ -110,30 +112,28 @@ export default function Navbar({ ...props }) {
   };
 
   return (
-    <nav className="bg-white mb-5">
+    <nav className={!hidden ? "bg-white " : "hidden"}>
       <div className="hidden md:block">
-        {!hidden && (
-          <div className="flex items-center justify-between gap-10 container mx-auto lg:w-[1024px]">
-            <div className="">
-              <Translation />
-            </div>
-            <a
-              href="/"
-              className="font-bold text-3xl text-gray-800 flex bg-cover w-auto mx-auto p-3"
-            >
-              <Image src={"philbizz.png"} style={{ width: "200px" }} />
-            </a>
-            <div className="flex p-2">
-              <SearchBar
-                onSearch={handleSearch}
-                isModalOpen={isModalOpen}
-                handleModalOpen={handleModalOpen}
-              />
-            </div>
-
-            {isModalOpen && <Login handleModalOpen={handleModalOpen} />}
+        <div className="flex items-center justify-between gap-10 container mx-auto lg:w-[1024px]">
+          <div className="">
+            <Translation />
           </div>
-        )}
+          <a
+            href="/"
+            className="font-bold text-3xl text-gray-800 flex bg-cover w-auto mx-auto p-3"
+          >
+            <Image src={"philbizz.png"} style={{ width: "200px" }} />
+          </a>
+          <div className="flex p-2">
+            <SearchBar
+              onSearch={handleSearch}
+              isModalOpen={isModalOpen}
+              handleModalOpen={handleModalOpen}
+            />
+          </div>
+
+          {isModalOpen && <Login handleModalOpen={handleModalOpen} />}
+        </div>
       </div>
 
       <div className="bg-white max-w-auto  px-4 sm:px-6 lg:px-8 mt-1">

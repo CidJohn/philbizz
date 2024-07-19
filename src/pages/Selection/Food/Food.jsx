@@ -60,7 +60,6 @@ const Food = () => {
       </div>
     );
   }
-
   const copyToClipboard = (text, message) => {
     navigator.clipboard
       .writeText(text)

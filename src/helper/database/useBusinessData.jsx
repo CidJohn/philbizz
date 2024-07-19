@@ -50,4 +50,27 @@ export const useHomeBusiness = () => {
 
   return { header, laodHeader };
 };
+
+export const useBusinessSettings = () => {
+  const [getCardInfo, setCardInfo] = useState([]);
+  const [getCompanyLoad, setLoading] = useState(true);
+  const API_CALL = restAPI();
+  useEffect(() => {
+    const fecthCompanyInfo = async () => {
+      try {
+        const response = await axios.get(`${API_CALL.host}/business-settings`);
+        const res = await response.data;
+        setCardInfo(res);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fecthCompanyInfo();
+  }, []);
+
+  return { getCardInfo, getCompanyLoad };
+};
 export default useBusinessData;

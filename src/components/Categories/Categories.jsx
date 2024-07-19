@@ -1,61 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { footerContent } from "../../content/footerContent";
 import Horizontal from "../Horizontal/Horizontal";
 
-const Categories = () => {
-  const [selectedItem, setSelectedItem] = useState(null);
-
-  const handleClickDelete = () => {
-    const storedItem = localStorage.getItem("selectedItem");
-    if (storedItem) {
-      const itemToStore = JSON.parse(storedItem);
-      console.log("clicked:", itemToStore);
-
-      delete itemToStore.id;
-      localStorage.setItem("selectedItem", JSON.stringify(itemToStore));
-      localStorage.removeItem("selectedItem");
-    } else {
-      console.log("No item found in localStorage");
-    }
-  };
-
-  useEffect(() => {
-    const savedItemId = JSON.parse(localStorage.getItem("selectedItem"));
-    if (savedItemId) {
-      const selectedItemObj = findItemById(footerContent, savedItemId);
-      setSelectedItem(selectedItemObj);
-    }
-  }, []);
-
-  const handleItemClick = (id, path) => {
-    const selectedItemObj = findItemById(footerContent, id);
-    localStorage.setItem("selectedItem", JSON.stringify({ id }));
-    setSelectedItem(selectedItemObj);
-  };
-  const findItemById = (items, id) => {
-    for (const item of items) {
-      if (item.id === id) return item;
-      if (item.links) {
-        const found = findItemById(item.links, id);
-        if (found) return found;
-      }
-    }
-    return null;
-  };
+const Categories = ({ footerContent, handleClick, handleClickParent }) => {
   return (
     <div>
-      <div className="mx-auto w-full max-w-screen-xl">
+      <div className="mx-auto w-full max-w-screen-lg">
         <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
           Categories
         </span>
         <Horizontal />
-        <div className="grid grid-cols-2 gap-8 px-4 py-6 lg:py-8 md:grid-cols-3">
+        <div className="flex flex-wrap mx-auto justify-center gap-3">
           {footerContent.map((section, index) => (
             <div key={index}>
               <a
                 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white underline underline-offset-1"
                 href={section.href}
-                onClick={handleClickDelete}
+                onClick={handleClickParent}
               >
                 {section.title}
               </a>
@@ -63,9 +23,9 @@ const Categories = () => {
                 {section.links.map((link, linkIndex) => (
                   <li className="mb-4" key={linkIndex}>
                     <a
-                      href={link.href}
+                      href="#company"
                       className="hover:bg-gray-200 border bg-blue-200 p-2 rounded-full hover:text-gray-600 "
-                      onClick={() => handleItemClick(link.id, link.href)}
+                      onClick={handleClick}
                     >
                       {link.name}
                     </a>
