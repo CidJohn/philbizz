@@ -1,123 +1,102 @@
-import React from "react";
-import BusinessNavbar from "../../../components/BusinessNavbar/BusinessNavbar";
-import businenssContent from "../../../content/businessNavbarContent.json";
-import Company from "./Company/Company";
-import Card from "../../../components/Card/Card";
-import SearchBar from "../../../components/Searchbar/Searchbar";
+import React, { useEffect, useState } from "react";
 import List from "../../../components/List/List";
+import Categories from "../../../components/Categories/Categories";
+import Description from "../Description/Description";
+import Dropdown from "../../../components/Dropdown/Dropdown";
+import SearchBar from "../../../components/Searchbar/Searchbar";
+import Card from "../../../components/Card/Card";
+import useBusinessCategory from "../../../helper/database/usebusinessCategory";
+import { useBusinessSettings } from "../../../helper/database/useBusinessData";
+import Spinner from "../../../components/Spinner/Spinner";
+import HandleCompanyCard from "../../../utils/HandleCompanyCard/handleCompanyCard";
 
 const Business = () => {
-  const navbar = businenssContent.nabvar;
-  const sidebar = businenssContent.sidebar;
+  const [getLocation, setLocation] = useState("");
+  const [getDataInfo, setDataInfo] = useState("");
+  const { getCategory, loadCategory } = useBusinessCategory();
+  const { getCardInfo, getCompanyLoad } = useBusinessSettings();
+  const category = getCategory ? getCategory : "";
+
+  useEffect(() => {
+    if (getCardInfo) {
+      const getDataInfo = getCardInfo ? getCardInfo : [];
+      setDataInfo(getDataInfo);
+    }
+  }, [getCardInfo]);
+  console.log(getDataInfo);
+  const getInfo = Array.isArray(getDataInfo) ? getDataInfo.slice(0, 4) : [];
+  const getListData = Array.isArray(getDataInfo) ? getDataInfo.slice(4, 7) : [];
+
+  const handleLocation = (e) => {
+    if (category) {
+      category.map((items) => {
+        items.links.map((item) => {
+          if (item.name === e.target.innerText) {
+            setLocation(item.name);
+          }
+        });
+      });
+    }
+  };
+
+  const filterdata = getDataInfo
+    ? getDataInfo.filter((item) => item.parentName === getLocation)
+    : "";
+
+  if (getCompanyLoad) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Spinner />
+      </div>
+    );
+  }
   return (
     <div className="">
-      <div className="flex flex-wrap mx-auto ">
+      <div className="flex flex-wrap mx-auto max-w-screen-lg">
         <div className="flex flex-row mx-auto  ">
           <div className="flex flex-col ">
-            <div className="flex mx-auto">
-              <ul className="flex ">
-                {navbar.map((item, index) => (
-                  <li
-                    className="hover:underline decoration-sky-500 underline-offset-8 decoration-4 hover:py-2  p-3"
-                    key={index}
-                  >
-                    <a href={item.path} key={index} className="  text-center">
-                      {item.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+            <div className="flex flex-col container mx-auto">
+              <div className="flex">
+                <Description type={"business"} path={"Business"} />
+              </div>
+              <div className="flex">
+                <Categories
+                  footerContent={category}
+                  handleClick={handleLocation}
+                />
+              </div>
             </div>
-            <div className="flex flex-col container">
-              <div className="flex flex-col mx-10 max-w-screen-md">
-                <List
-                  image={
-                    "https://companieshouse.ph/company-report-img/m-m-multi-consultancy-central-inc.jpg"
-                  }
-                  title={"M&M MULTI CONSULTANCY CENTRAL INC."}
-                  desc={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
-`}
-                  className={"hover:bg-slate-100"}
-                  imgstyle={{ width: "100px", height: "70px" }}
-                  style={{ height: "100px" }}
+            <div
+              className="flex flex-col lg:flex-row items-center justify-center mt-5"
+              id="company"
+            >
+              <div className="flex flex-col max-w-80">
+                <div className="text-md">Address:</div>
+                <Dropdown
+                  // name="category"
+                  // value={dropdownValue}
+                  // onChange={handleDropdownChange}
+                  // options={dropdownOptions}
+                  placeholder={"Select Address"}
                 />
-                <List
-                  image={
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLMRNnKIYiMwMKPNW5eqdq2ludhE6F3xZ-iQ&s"
-                  }
-                  title={"SFA SEMICON PHILIPPINES CORPORATION"}
-                  desc={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
-            odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla
-            quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent
-            mauris`}
-                  className={"hover:bg-slate-100"}
-                  imgstyle={{ width: "100px", height: "70px" }}
-                  style={{ height: "100px" }}
-                />
-                <List
-                  image={
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLMRNnKIYiMwMKPNW5eqdq2ludhE6F3xZ-iQ&s"
-                  }
-                  title={"SFA SEMICON PHILIPPINES CORPORATION"}
-                  desc={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
-            odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla
-            quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent
-            mauris`}
-                  className={"hover:bg-slate-100"}
-                  imgstyle={{ width: "100px", height: "70px" }}
-                  style={{ height: "100px" }}
-                />
-                <List
-                  image={
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLMRNnKIYiMwMKPNW5eqdq2ludhE6F3xZ-iQ&s"
-                  }
-                  title={"SFA SEMICON PHILIPPINES CORPORATION"}
-                  desc={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
-            odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla
-            quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent
-            mauris`}
-                  className={"hover:bg-slate-100"}
-                  imgstyle={{ width: "100px", height: "70px" }}
-                  style={{ height: "100px" }}
-                />
-                {/* <Company /> */}
               </div>
-              <div className="flex flex-wrap pt-10">
-                {/* <ul className="flex flex-col">
-                    {sidebar.map((item, index) => (
-                      <li
-                        className="hover:underline decoration-sky-500 underline-offset-8 decoration-4 hover:py-2  p-3"
-                        key={index}
-                      >
-                        <a
-                          href={item.path}
-                          key={index}
-                          className="  text-center"
-                        >
-                          {item.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul> */}
+              <div className=" hidden lg:block text-sm py-5  h-[30px] border-gray-500 mx-3 ">
+                <div className="flex font-black text-sm ">or</div>
               </div>
-              {/* <div className="flex flex-col p-2">
-                  <Card
-                    src={
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLMRNnKIYiMwMKPNW5eqdq2ludhE6F3xZ-iQ&s"
-                    }
-                    title={"Sample Title About"}
-                    desc={`Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.`}
-                    hidden={true}
-                  />
-                  <Card
-                    src={
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLMRNnKIYiMwMKPNW5eqdq2ludhE6F3xZ-iQ&s"
-                    }
-                    title={"Sample Title About"}
-                    desc={`Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.`}
-                    hidden={true}
-                  />
-                </div> */}
+              <div className="flex flex-col mt-5 lg:mt-0">
+                <div className="text-md">Branch Name:</div>
+                <SearchBar hidden={true} />
+              </div>
+            </div>
+            <div className="flex flex-col mt-5">
+              <HandleCompanyCard
+                getDataInfo={getInfo}
+                getLocation={getLocation}
+                filterdata={filterdata}
+                getListData={getListData}
+              />
+
+              <div className="flex flex-wrap pt-10"></div>
             </div>
           </div>
         </div>

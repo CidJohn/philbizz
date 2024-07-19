@@ -1,20 +1,6 @@
 export const footerContent = [
   {
-    title: "Business",
-    href: "/business",
-    links: [
-      { id: 1, name: "KTV", href: "/business" },
-      { id: 5, name: "JTV", href: "/business    " },
-      { id: 9, name: "Salon", href: "/business" },
-      { id: 4, name: "Massage", href: "/" },
-      { id: 1, name: "KTV", href: "/business" },
-      { id: 5, name: "JTV", href: "/business    " },
-      { id: 9, name: "Salon", href: "/business" },
-      { id: 4, name: "Massage", href: "/" },
-    ],
-  },
-  {
-    title: "Company",
+    title: "Manufacturing",
     href: "/",
     links: [
       { id: 5, name: "Discord Server", href: "/" },
@@ -24,16 +10,16 @@ export const footerContent = [
     ],
   },
   {
-    title: "Food",
-    href: "/food",
+    title: "Service",
+    href: "/",
     links: [
-      { id: 1, name: "Food1", href: "/food" },
-      { id: 2, name: "Food2", href: "/food" },
+      { id: 1, name: "Service", href: "/food" },
+      { id: 2, name: "Service", href: "/food" },
       { id: 3, name: "Terms & Conditions", href: "/" },
     ],
   },
   {
-    title: "Medical",
+    title: "Retailers, wholesalers, and trading companies",
     links: [
       { id: 12, name: "iOS", href: "/" },
       { id: 13, name: "Android", href: "/" },
@@ -42,7 +28,16 @@ export const footerContent = [
     ],
   },
   {
-    title: "Perform",
+    title: "Constraction",
+    links: [
+      { id: 12, name: "iOS", href: "/" },
+      { id: 13, name: "Android", href: "/" },
+      { id: 14, name: "Windows", href: "/" },
+      { id: 15, name: "MacOS", href: "/" },
+    ],
+  },
+  {
+    title: "Factories",
     links: [
       { id: 12, name: "iOS", href: "/" },
       { id: 13, name: "Android", href: "/" },

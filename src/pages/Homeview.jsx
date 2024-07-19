@@ -4,6 +4,7 @@ import CarouselContent from "../content/CarouselContent";
 import Carousel from "../components/Carousel/Carousel";
 import { useTranslation } from "react-i18next";
 import Businessview from "./Homeview/Businessview";
+import Herobanners from "../components/Herobanners/Herobanners";
 
 function Homeview() {
   const { t } = useTranslation();
@@ -11,6 +12,7 @@ function Homeview() {
     <>
       <div className="container  w-full mx-auto  mt-5">
         <HeroBanner />
+        {/* <Herobanners /> */}
         <div className="mt-5">
           <Businessview />
         </div>

@@ -60,7 +60,7 @@ const Carousel = ({ items }) => {
   }, [totalItems]);
 
   return (
-    <CarouselWrapper className="w-full max-w-96 mx-auto md:max-w-none">
+    <CarouselWrapper className="w-full max-w-screen-md mx-auto md:max-w-none">
       <CarouselTrack ref={trackRef}>
         {duplicateItems.slice(0, itemsToShow * 2).map((item, index) => (
           <CarouselItem key={index} className="">

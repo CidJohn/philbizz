@@ -6,8 +6,6 @@ const HandleCards = ({
   currentPath,
   selectedItem,
   currentItems,
-  currentPage,
-  itemsPerPage,
   searchError,
   searchResult,
 }) => {

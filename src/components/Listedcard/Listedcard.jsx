@@ -14,7 +14,7 @@ const Listedcard = (props) => {
     const link = listItems ? listItems.map((item) => item.descname) : "";
     setLink(link);
   }, []);
-  const foodlink = Array.isArray(getlink) ? getlink.slice(0, 1) : [];
+  const link = Array.isArray(getlink) ? getlink.slice(0, 1) : [];
   // Function to determine size based on index or other criteria
   const getSize = (index) => {
     // Example: alternate between 'small', 'medium', and 'large' based on index
@@ -111,7 +111,7 @@ const Listedcard = (props) => {
         </div>
         <div className="mt-5 text-right">
           <a
-            href={`/${foodlink}`}
+            href={`/${link}`}
             className=" p-2  text-blue-500  hover:bg-blue-500 hover:text-gray-100 rounded"
           >
             View More {`>>`}

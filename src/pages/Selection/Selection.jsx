@@ -121,7 +121,7 @@ const Selection = () => {
     );
   }
   const dropdownOptions = [
-    { value: "", label: "Select Address" },
+    { value: "", label: "Select All" },
     ...businessTypes.map((item) => ({
       value: item.id,
       label: item.description,
