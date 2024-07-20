@@ -12,37 +12,60 @@ import HandleCompanyCard from "../../../utils/HandleCompanyCard/handleCompanyCar
 
 const Business = () => {
   const [getLocation, setLocation] = useState("");
-  const [getDataInfo, setDataInfo] = useState("");
+  const [getDataInfo, setDataInfo] = useState([]);
+  const [getdropDown, setDropdown] = useState("");
+  const [filterFound, setFilterFound] = useState([]);
   const { getCategory, loadCategory } = useBusinessCategory();
   const { getCardInfo, getCompanyLoad } = useBusinessSettings();
   const category = getCategory ? getCategory : "";
 
   useEffect(() => {
     if (getCardInfo) {
-      const getDataInfo = getCardInfo ? getCardInfo : [];
-      setDataInfo(getDataInfo);
+      setDataInfo(getCardInfo);
     }
   }, [getCardInfo]);
-  console.log(getDataInfo);
-  const getInfo = Array.isArray(getDataInfo) ? getDataInfo.slice(0, 4) : [];
-  const getListData = Array.isArray(getDataInfo) ? getDataInfo.slice(4, 7) : [];
+
+  useEffect(() => {
+    let filteredData = getDataInfo;
+
+    if (getLocation) {
+      filteredData = filteredData.filter(
+        (item) => item.parentName === getLocation
+      );
+    }
+
+    if (getdropDown) {
+      filteredData = filteredData.filter((item) =>
+        item.description.toLowerCase().includes(getdropDown.toLowerCase())
+      );
+    } else {
+      setLocation("");
+      setDropdown("");
+    }
+
+    setFilterFound(filteredData);
+  }, [getLocation, getdropDown, getDataInfo]);
 
   const handleLocation = (e) => {
-    if (category) {
-      category.map((items) => {
-        items.links.map((item) => {
-          if (item.name === e.target.innerText) {
-            setLocation(item.name);
-          }
-        });
-      });
-    }
+    const selectedLocation = e.target.innerText;
+    setLocation(selectedLocation);
   };
 
-  const filterdata = getDataInfo
-    ? getDataInfo.filter((item) => item.parentName === getLocation)
-    : "";
+  const handleDropdownChange = (e) => {
+    setDropdown(e.target.value);
+  };
 
+  const uniqueDescriptions = [
+    ...new Set(getDataInfo.map((item) => item.description)),
+  ];
+
+  const dropdownOptions = [
+    { value: "", label: "Select All" },
+    ...uniqueDescriptions.map((description) => ({
+      value: description,
+      label: description,
+    })),
+  ];
   if (getCompanyLoad) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -50,11 +73,12 @@ const Business = () => {
       </div>
     );
   }
+
   return (
     <div className="">
       <div className="flex flex-wrap mx-auto max-w-screen-lg">
-        <div className="flex flex-row mx-auto  ">
-          <div className="flex flex-col ">
+        <div className="flex flex-row mx-auto">
+          <div className="flex flex-col">
             <div className="flex flex-col container mx-auto">
               <div className="flex">
                 <Description type={"business"} path={"Business"} />
@@ -73,15 +97,17 @@ const Business = () => {
               <div className="flex flex-col max-w-80">
                 <div className="text-md">Address:</div>
                 <Dropdown
-                  // name="category"
-                  // value={dropdownValue}
-                  // onChange={handleDropdownChange}
-                  // options={dropdownOptions}
+                  name="category"
+                  value={getdropDown}
+                  onChange={handleDropdownChange}
+                  options={dropdownOptions}
                   placeholder={"Select Address"}
+                  width={"200px"}
+                  selectWidth={"100px"}
                 />
               </div>
-              <div className=" hidden lg:block text-sm py-5  h-[30px] border-gray-500 mx-3 ">
-                <div className="flex font-black text-sm ">or</div>
+              <div className="hidden lg:block text-sm py-5 h-[30px] border-gray-500 mx-3">
+                <div className="flex font-black text-sm">or</div>
               </div>
               <div className="flex flex-col mt-5 lg:mt-0">
                 <div className="text-md">Branch Name:</div>
@@ -89,14 +115,14 @@ const Business = () => {
               </div>
             </div>
             <div className="flex flex-col mt-5">
-              <HandleCompanyCard
-                getDataInfo={getInfo}
-                getLocation={getLocation}
-                filterdata={filterdata}
-                getListData={getListData}
-              />
-
-              <div className="flex flex-wrap pt-10"></div>
+              <div className="flex flex-wrap pt-10">
+                <HandleCompanyCard
+                  getDataInfo={getDataInfo}
+                  getLocation={getLocation}
+                  filterdata={filterFound}
+                  getdropDown={getdropDown}
+                />
+              </div>
             </div>
           </div>
         </div>

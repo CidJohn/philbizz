@@ -8,7 +8,7 @@ const Image = ({ src, alt, className, style }) => {
         alt={alt}
         className={className}
         style={style}
-      />
+      />  
     </>
   );
 };
