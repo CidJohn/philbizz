@@ -33,12 +33,8 @@ const Description = ({ type, path }) => {
                     </figure>
                   </div>
                   <div className="flex flex-col ">
-                    <h1 className="text-4xl md:text-6xl mb-4 font-serif">
-                      {t(item.header)}
-                    </h1>
-                    <p className="text-left mb-4">{item.paragraph}</p>
+                    <p className="text-left mb-4">{item.description}</p>
                   </div>
-                  
                 </div>
               )
           )

@@ -30,7 +30,10 @@ const HandleCards = ({
   }
   const renderCards = (items) => {
     return items.map((item, index) => (
-      <div className="flex flex-wrap bg-cover mx-auto mt-5 " key={index}>
+      <div
+        className="flex flex-wrap bg-cover mx-auto mt-5 items-center jsutify-center"
+        key={index}
+      >
         <div className="flex ">
           <Card
             src={item.card_image}
@@ -59,8 +62,10 @@ const HandleCards = ({
       if (!selectedItem?.id) {
         if (searchResult && searchResult.length > 0) {
           return (
-            <div className="flex flex-wrap container">
-              {renderCards(searchResult)}
+            <div className="">
+              <div className="flex flex-col md:flex-row ">
+                {renderCards(searchResult)}
+              </div>
             </div>
           );
         } else {
@@ -88,7 +93,9 @@ const HandleCards = ({
       } else {
         if (searchResult && searchResult.length > 0) {
           return (
-            <div className="results-container">{renderCards(searchResult)}</div>
+            <div className="flex flex-col md:flex-row items-center jusitfy-center mx-auto">
+              {renderCards(searchResult)}
+            </div>
           );
         } else {
           return (

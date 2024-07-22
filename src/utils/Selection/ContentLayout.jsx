@@ -42,7 +42,10 @@ const ContentLayout = ({
                 ""
               )}
             </div>
-            <section id="card">
+            <section
+              id="card"
+              className=" flex flex-wrap items-center mx-auto justify-center"
+            >
               <Horizontal />
               <div className="flex flex-col lg:flex-row items-center justify-center mt-5">
                 <div className="flex flex-col max-w-80">
@@ -53,7 +56,7 @@ const ContentLayout = ({
                     onChange={handleDropdownChange}
                     options={dropdownOptions}
                     placeholder={"Select All"}
-                    width="350px"
+                    width="300px"
                     selectWidth="500px"
                   />
                 </div>
