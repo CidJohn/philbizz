@@ -3,6 +3,7 @@ import city from "../../assets/img/manilanight.jpg";
 import { useTranslation } from "react-i18next";
 import Card from "../Card/Card";
 import Dropdown from "../Dropdown/Dropdown";
+import Images from "../Image/Images";
 
 export const HeroBanner = ({ darkMode }) => {
   const [currentTimePHT, setCurrentTimePHT] = useState("");
@@ -28,9 +29,9 @@ export const HeroBanner = ({ darkMode }) => {
   }, []);
 
   const options = [
-    { value: "phil", label: "Philippines" },
-    { value: "korea", label: "Korea" },
-    { value: "japan", label: "Japan" },
+    { value: "Philippines", label: "Philippines" },
+    { value: "Korea", label: "Korea" },
+    { value: "Japan", label: "Japan" },
   ];
 
   const handleChange = (e) => {
@@ -68,8 +69,8 @@ export const HeroBanner = ({ darkMode }) => {
           className="relative md:w-full bg-no-repeat bg-cover  h-[300px] md:h-[540px] md:max-w-screen-md rounded-lg "
           style={{ backgroundImage: `url(${city})` }}
         >
-          <div className="md:absolute inset-0 bg-black bg-opacity-50 rounded-lg">
-            <div className="md:absolute inset-0 flex flex-col rounded-lg justify-center items-center text-center text-white">
+          <div className="md:absolute inset-0 bg-black bg-opacity-50 rounded-lg ">
+            <div className="md:absolute inset-0 flex flex-col rounded-lg justify-center items-center text-center text-white  h-[300px] md:h-[540px]">
               <div className="md:max-w-lg w-full md:w-auto">
                 <h1 className="text-lg md:text-5xl font-black mb-2 md:mb-4 font-serif">
                   {t("phil")}
@@ -78,7 +79,7 @@ export const HeroBanner = ({ darkMode }) => {
                   필리핀 정보통(Philippines information network)
                 </h2>
               </div>
-              <div className="flex justify-center mt-8 space-x-8">
+              <div className="flex justify-center mt-8 space-x-8 md:hidden">
                 <div className=" rounded-full px-6 py-2">
                   <span className="text-sm md:text-lg">{currentTimePHT}</span>
                   <span className="block">{t("Philippines")}</span>
@@ -131,15 +132,13 @@ export const HeroBanner = ({ darkMode }) => {
             <span className="block text-gray-300 font-bold">{t("Japan")}</span>
           </div>
           <div className="flex p-2 ">
-            <div className=" z-50 flex transform transition-transform duration-500 hover:scale-105 block">
+            <div className=" z-50 flex transform transition-transform duration-500 hover:scale-105 block ">
               <Dropdown
                 name={"selection"}
                 options={options}
                 value={selectedOption}
                 onChange={handleChange}
                 placeholder={selectedOption}
-                width="150px"
-                selectWidth={"150px"}
               />
             </div>
           </div>

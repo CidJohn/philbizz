@@ -23,7 +23,7 @@ const Categories = ({ footerContent, handleClick, handleClickParent }) => {
                 {section.links.map((link, linkIndex) => (
                   <li className="mb-4" key={linkIndex}>
                     <a
-                      href="#company"
+                      href="#card"
                       className="hover:bg-gray-200 border bg-blue-200 p-2 rounded-full hover:text-gray-600 "
                       onClick={handleClick}
                     >

@@ -73,4 +73,35 @@ export const useBusinessSettings = () => {
 
   return { getCardInfo, getCompanyLoad };
 };
+
+export const useCompanyFilter = ({ name, title, description }) => {
+  const [CompanyFilter, setCompanyFilter] = useState([]);
+  const [CompanyLoading, setLoading] = useState(true);
+  const API_CALL = restAPI();
+
+  useEffect(() => {
+    const FetchData = async () => {
+      try {
+        const queryParams = new URLSearchParams();
+        if (name) queryParams.append("name", name);
+        if (title) queryParams.append("title", title);
+        if (description) queryParams.append("description", description);
+
+        const response = await axios.get(
+          `${API_CALL.host}/business-company-filter?${queryParams.toString()}`
+        );
+        setCompanyFilter(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    FetchData();
+  }, [name, title, description]);
+
+  return { CompanyFilter, CompanyLoading };
+};
+
 export default useBusinessData;

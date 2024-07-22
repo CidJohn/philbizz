@@ -123,7 +123,7 @@ const Selection = () => {
   const dropdownOptions = [
     { value: "", label: "Select All" },
     ...businessTypes.map((item) => ({
-      value: item.id,
+      value: item.description,
       label: item.description,
     })),
   ];
