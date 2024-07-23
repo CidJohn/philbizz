@@ -1,42 +1,48 @@
+// src/hooks/useWeather.js
+
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const useWeather = (city) => {
+const API_KEY = process.env.REACT_APP_API_WEATHER;
+const BASE_URL = process.env.REACT_APP_API_WEATHER_URL;
+console.log(API_KEY, BASE_URL);
+export const useWeather = (city) => {
   const [weatherData, setWeatherData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchWeather = async () => {
-      const options = {
-        method: "GET",
-        url: `https://forecast9.p.rapidapi.com/rapidapi/forecast/${city}`,
-        headers: {
-          "x-rapidapi-key": "YOUR_RAPIDAPI_KEY",
-          "x-rapidapi-host": "forecast9.p.rapidapi.com",
-        },
-      };
-
+      setLoading(true);
+      setError(null);
       try {
-        const response = await axios.request(options);
-        if (response.data) {
-          const forecast = response.data.forecast[0]; // Assuming we take the first forecast entry
-          setWeatherData({
-            city: response.data.location.name,
-            temperature: forecast.max_temp,
-            condition: forecast.description,
-            icon: `https://www.weatherbit.io/static/img/icons/${forecast.icon}.png`,
-          });
-        }
+        const response = await axios.get(BASE_URL, {
+          params: {
+            q: city,
+            appid: API_KEY,
+            units: "metric", // Change to 'imperial' for Fahrenheit
+          },
+        });
+
+        // Extracting the first available data point
+        const firstEntry = response.data.list[0];
+
+        setWeatherData({
+          location: response.data.city.name,
+          temperature: firstEntry.main.temp,
+          condition: firstEntry.weather[0].description,
+          iconUrl: firstEntry.weather[0].icon,
+        });
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching weather data:", error);
+        setError(error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    if (city) {
-      fetchWeather();
-    }
+    fetchWeather();
   }, [city]);
 
-  return weatherData;
+  return { weatherData, loading, error };
 };
-
-export default useWeather;

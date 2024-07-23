@@ -3,16 +3,16 @@ import Dropdown from "../Dropdown/Dropdown";
 import { useTranslation } from "react-i18next";
 import Card from "../Card/Card";
 import Weather from "../Weather/Weather";
-import useGeolocation from "../../helper/fetchAPI/useGeolocation";
+import { useWeather } from "../../helper/fetchAPI/useWeather";
 
 const Herobanners = () => {
   const [currentTimePHT, setCurrentTimePHT] = useState("");
   const [currentTimeKST, setCurrentTimeKST] = useState("");
   const [currentTimeJST, setCurrentTimeJST] = useState("");
   const [selectedOption, setSelectedOption] = useState("Philippines");
-
+  const [city, setCity] = useState("Manila");
   const { t } = useTranslation();
-  const { locations, weather, error } = useGeolocation();
+  const { weatherData, loading, error } = useWeather(city);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -40,13 +40,33 @@ const Herobanners = () => {
   const handleChange = (e) => {
     setSelectedOption(e.target.value);
   };
-
+  const handleCityChange = (e) => {
+    setCity(e.target.value);
+  };
   const selectResult = selectedOption ? selectedOption : "";
 
   return (
     <div>
-      <Weather locations={locations} weather={weather} error={error} />
       <div className="flex flex-wrap">
+        <div className="  flex flex-col items-center justify-center gap-3">
+          {weatherData && (
+            <Weather
+              location={weatherData.location}
+              temperature={weatherData.temperature}
+              condition={weatherData.condition}
+              iconUrl={weatherData.iconUrl}
+            />
+          )}
+          <input
+            type="text"
+            value={city}
+            onChange={handleCityChange}
+            placeholder="Enter city"
+            className="justify-between w-[200px]  text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+          />
+          {loading && <p>Loading weather data...</p>}
+          {error && <p className="text-red-500">Error fetching weather data</p>}
+        </div>
         <div className="">
           <Card
             src={
