@@ -4,12 +4,16 @@ import { useTranslation } from "react-i18next";
 import Card from "../Card/Card";
 import Dropdown from "../Dropdown/Dropdown";
 import Images from "../Image/Images";
+import { useWeather } from "../../helper/fetchAPI/useWeather";
+import Weather from "../Weather/Weather";
 
 export const HeroBanner = ({ darkMode }) => {
   const [currentTimePHT, setCurrentTimePHT] = useState("");
   const [currentTimeKST, setCurrentTimeKST] = useState("");
   const [currentTimeJST, setCurrentTimeJST] = useState("");
   const [selectedOption, setSelectedOption] = useState("Philippines");
+  const [getCity, setCity] = useState("Manila");
+  const { weatherData, loading, error } = useWeather(getCity);
 
   const { t } = useTranslation();
   useEffect(() => {
@@ -36,6 +40,9 @@ export const HeroBanner = ({ darkMode }) => {
 
   const handleChange = (e) => {
     setSelectedOption(e.target.value);
+  };
+  const handleCityChange = (e) => {
+    setCity(e.target.value);
   };
   const selectResult = selectedOption ? selectedOption : "";
 
@@ -97,8 +104,8 @@ export const HeroBanner = ({ darkMode }) => {
           </div>
         </div>
       </div>
-      <div className="flex  justify-center  lg:block p-10 lg:px-3  lg:w-[200px]">
-        <div className=" flex flex-col py-5 items-center ">
+      <div className="flex md:flex-col justify-center  lg:block p-10 lg:px-3   ">
+        <div className=" flex flex-col py-5 items-center lg:w-[200px] hidden md:block ">
           <div
             className={`${
               selectResult === "Philippines" ? "block" : "hidden"
@@ -131,8 +138,8 @@ export const HeroBanner = ({ darkMode }) => {
             </span>
             <span className="block text-gray-300 font-bold">{t("Japan")}</span>
           </div>
-          <div className="flex p-2 ">
-            <div className=" z-50 flex transform transition-transform duration-500 hover:scale-105 block ">
+          <div className="flex py-2">
+            <div className="mx-auto z-50 flex ">
               <Dropdown
                 name={"selection"}
                 options={options}
@@ -143,16 +150,28 @@ export const HeroBanner = ({ darkMode }) => {
             </div>
           </div>
         </div>
-        <div className="flex transform transition-transform duration-500 hover:scale-105">
-          <Card
-            src={
-              "https://www.rockstarktvmanila.com/wp-content/uploads/2022/12/deluxe-1-maroon-5-600x600.jpg"
-            }
-            alt="Left Image"
-            className="w-auto h-full object-cover "
-            hidden={true}
-            title={"Advertisement"}
-          />
+        <div className="flex transform transition-transform duration-500 hover:scale-105 ">
+          <div className="flex flex-col items-center justify-center gap-3 ">
+            {weatherData && (
+              <Weather
+                location={weatherData.location}
+                temperature={weatherData.temperature}
+                condition={weatherData.condition}
+                iconUrl={weatherData.iconUrl}
+              />
+            )}
+            <input
+              type="text"
+              value={getCity}
+              onChange={handleCityChange}
+              placeholder="Enter city"
+              className="justify-between w-[200px] text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+            />
+            {loading && <p>Loading weather data...</p>}
+            {error && (
+              <p className="text-red-500">Error fetching weather data</p>
+            )}
+          </div>
         </div>
       </div>
     </div>

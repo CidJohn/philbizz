@@ -12,7 +12,6 @@ function Homeview() {
   const { getCardInfo, getCompanyLoad } = useBusinessSettings();
 
   const carousel = Array.isArray(getCardInfo) ? getCardInfo.slice(0, 10) : [];
-  console.log(carousel);
   return (
     <>
       <div className="container  w-full mx-auto  mt-5">

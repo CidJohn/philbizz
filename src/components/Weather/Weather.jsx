@@ -1,52 +1,30 @@
-import React, { useState } from "react";
+// src/components/WeatherCard.js
 
-const Weather = (props) => {
-  const { location, weather, error } = props;
-  const [searchQuery, setSearchQuery] = useState("");
+import React from "react";
+import PropTypes from "prop-types";
 
-  // Filter function to match search query against city names
-  const filteredLocations = location
-    ? location.filter((loc) =>
-        loc.city.name.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    : [];
-
+const Weather = ({ location, temperature, condition, iconUrl }) => {
   return (
-    <div className="flex flex-col items-center justify-center max-w-screen-md max-h-screen-md bg-blue-100 p-4">
-      <h1 className="text-4xl font-bold mb-4">Weather Forecast</h1>
-      {error && <p className="text-red-500">{error}</p>}
-      <div className="mb-4">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search for a city..."
-          className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+    <div className="w-[700px] lg:w-[200px] bg-white shadow-md rounded-lg overflow-hidden ">
+      <div className="p-4">
+        <h2 className="text-2xl font-bold text-gray-800">{location}</h2>
+        <img
+          src={`http://openweathermap.org/img/wn/${iconUrl}.png`}
+          alt={condition}
+          className="w-16 h-16 mx-auto"
         />
+        <p className="text-xl font-semibold text-gray-600">{temperature}°C</p>
+        <p className="text-lg text-gray-500">{condition}</p>
       </div>
-      {filteredLocations.map((loc) => (
-        <div
-          key={loc.city.id}
-          className="bg-white p-4 rounded shadow-md w-full max-w-md mb-4"
-        >
-          <h2 className="text-2xl font-semibold">
-            {loc.city.name}, {loc.country.name}
-          </h2>
-          <p className="text-sm text-gray-500">
-            Lat: {loc.location.latitude}, Lon: {loc.location.longitude}
-          </p>
-          {weather && (
-            <div className="bg-white p-4 rounded shadow-md w-full max-w-md mt-4">
-              <h2 className="text-xl font-semibold">Current Weather</h2>
-              <p>Temperature: {weather.main.temp} °C</p>
-              <p>Weather: {weather.weather[0].description}</p>
-              <p>Humidity: {weather.main.humidity} %</p>
-            </div>
-          )}
-        </div>
-      ))}
     </div>
   );
+};
+
+Weather.propTypes = {
+  location: PropTypes.string.isRequired,
+  temperature: PropTypes.number.isRequired,
+  condition: PropTypes.string.isRequired,
+  iconUrl: PropTypes.string.isRequired,
 };
 
 export default Weather;
