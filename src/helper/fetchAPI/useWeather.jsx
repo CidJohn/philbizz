@@ -1,12 +1,10 @@
-// src/hooks/useWeather.js
-
 import { useState, useEffect } from "react";
 import axios from "axios";
 
 const API_KEY = process.env.REACT_APP_API_WEATHER;
 const BASE_URL = process.env.REACT_APP_API_WEATHER_URL;
-console.log(API_KEY, BASE_URL);
-export const useWeather = (city) => {
+
+export const useWeather = (lat, lon, city) => {
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -18,20 +16,26 @@ export const useWeather = (city) => {
       try {
         const response = await axios.get(BASE_URL, {
           params: {
-            q: city,
+            lat,
+            lon,
+            city: city,
             appid: API_KEY,
             units: "metric", // Change to 'imperial' for Fahrenheit
           },
         });
 
-        // Extracting the first available data point
-        const firstEntry = response.data.list[0];
+        // Example: Selecting the first entry from the list
+        const weatherEntry = response.data.list[0];
 
         setWeatherData({
-          location: response.data.city.name,
-          temperature: firstEntry.main.temp,
-          condition: firstEntry.weather[0].description,
-          iconUrl: firstEntry.weather[0].icon,
+          location: response.data.city.name, // Adjust according to actual response
+          temperature: weatherEntry.main.temp,
+          condition: weatherEntry.weather[0].description,
+          iconUrl: `http://openweathermap.org/img/wn/${weatherEntry.weather[0].icon}.png`,
+          sunrise: new Date(
+            weatherEntry.sys.sunrise * 1000
+          ).toLocaleTimeString(),
+          sunset: new Date(weatherEntry.sys.sunset * 1000).toLocaleTimeString(),
         });
       } catch (error) {
         console.error("Error fetching weather data:", error);
@@ -41,8 +45,10 @@ export const useWeather = (city) => {
       }
     };
 
-    fetchWeather();
-  }, [city]);
+    if (lat && lon) {
+      fetchWeather();
+    }
+  }, [lat, lon]);
 
   return { weatherData, loading, error };
 };

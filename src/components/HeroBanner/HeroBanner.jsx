@@ -6,16 +6,19 @@ import Dropdown from "../Dropdown/Dropdown";
 import Images from "../Image/Images";
 import { useWeather } from "../../helper/fetchAPI/useWeather";
 import Weather from "../Weather/Weather";
+import useGeolocation from "../../helper/fetchAPI/useGeolocation";
 
 export const HeroBanner = ({ darkMode }) => {
   const [currentTimePHT, setCurrentTimePHT] = useState("");
   const [currentTimeKST, setCurrentTimeKST] = useState("");
   const [currentTimeJST, setCurrentTimeJST] = useState("");
   const [selectedOption, setSelectedOption] = useState("Philippines");
-  const [getCity, setCity] = useState("Manila");
-  const { weatherData, loading, error } = useWeather(getCity);
-
+  const [getLat, setLat] = useState();
+  const [getLan, setLan] = useState();
   const { t } = useTranslation();
+  const { location } = useGeolocation();
+  const { weatherData, loading, error } = useWeather(getLat, getLan);
+
   useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date();
@@ -29,8 +32,14 @@ export const HeroBanner = ({ darkMode }) => {
         now.toLocaleTimeString("en-US", { timeZone: "Asia/Tokyo" })
       );
     }, 1000);
+
+    const getlat = location ? location.lat : "";
+    setLat(getlat);
+    const getlan = location ? location.lon : "";
+    setLan(getlan);
+
     return () => clearInterval(interval);
-  }, []);
+  }, [location]);
 
   const options = [
     { value: "Philippines", label: "Philippines" },
@@ -41,9 +50,7 @@ export const HeroBanner = ({ darkMode }) => {
   const handleChange = (e) => {
     setSelectedOption(e.target.value);
   };
-  const handleCityChange = (e) => {
-    setCity(e.target.value);
-  };
+
   const selectResult = selectedOption ? selectedOption : "";
 
   return (
@@ -160,13 +167,7 @@ export const HeroBanner = ({ darkMode }) => {
                 iconUrl={weatherData.iconUrl}
               />
             )}
-            <input
-              type="text"
-              value={getCity}
-              onChange={handleCityChange}
-              placeholder="Enter city"
-              className="justify-between w-[200px] text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
-            />
+
             {loading && <p>Loading weather data...</p>}
             {error && (
               <p className="text-red-500">Error fetching weather data</p>
