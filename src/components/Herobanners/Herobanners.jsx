@@ -5,7 +5,6 @@ import Card from "../Card/Card";
 import Weather from "../Weather/Weather";
 import { useWeather } from "../../helper/fetchAPI/useWeather";
 import useGeolocation from "../../helper/fetchAPI/useGeolocation";
-import GeolocationComponent from "../GeolocationComponent/GeolocationComponent";
 
 const Herobanners = () => {
   const [currentTimePHT, setCurrentTimePHT] = useState("");
@@ -55,7 +54,6 @@ const Herobanners = () => {
 
   return (
     <div>
-      <GeolocationComponent />
       <div className="flex flex-wrap">
         <div className="  flex flex-col items-center justify-center gap-3">
           {weatherData && (
