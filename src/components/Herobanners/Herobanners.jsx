@@ -5,7 +5,7 @@ import Card from "../Card/Card";
 import Weather from "../Weather/Weather";
 import { useWeather } from "../../helper/fetchAPI/useWeather";
 import useGeolocation from "../../helper/fetchAPI/useGeolocation";
-import GeolocationComponent from "../GeolocationComponent/GeolocationComponent";
+
 
 const Herobanners = () => {
   const [currentTimePHT, setCurrentTimePHT] = useState("");
