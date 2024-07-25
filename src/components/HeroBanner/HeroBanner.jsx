@@ -93,7 +93,7 @@ export const HeroBanner = ({ darkMode }) => {
                   필리핀 정보통(Philippines information network)
                 </h2>
               </div>
-              <div className="flex justify-center mt-8 space-x-8 md:hidden">
+              <div className="flex justify-center mt-8 space-x-8 block lg:hidden">
                 <div className=" rounded-full px-6 py-2">
                   <span className="text-sm md:text-lg">{currentTimePHT}</span>
                   <span className="block">{t("Philippines")}</span>
@@ -111,8 +111,8 @@ export const HeroBanner = ({ darkMode }) => {
           </div>
         </div>
       </div>
-      <div className="flex md:flex-col justify-center  lg:block p-10 lg:px-3   ">
-        <div className=" flex flex-col py-5 items-center lg:w-[200px] hidden md:block ">
+      <div className="flex md:flex-col justify-center  p-10 lg:px-3   ">
+        <div className=" flex flex-col py-5 items-center lg:w-[200px] hidden  lg:block  ">
           <div
             className={`${
               selectResult === "Philippines" ? "block" : "hidden"
@@ -158,7 +158,7 @@ export const HeroBanner = ({ darkMode }) => {
           </div>
         </div>
         <div className="flex transform transition-transform duration-500 hover:scale-105 ">
-          <div className="flex flex-col items-center justify-center gap-3 ">
+          <div className="flex flex-col items-center justify-center mx-auto gap-3 ">
             {weatherData && (
               <Weather
                 location={weatherData.location}

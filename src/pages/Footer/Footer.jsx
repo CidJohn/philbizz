@@ -20,7 +20,7 @@ function Footer() {
         <div className="sm:flex sm:items-center sm:justify-between h-full max-h-24 ">
           <a
             href="/"
-            className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse hover:px-3 "
+            className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse  "
           >
             <Image src={"philbizz.png"} style={{ width: "200px" }} />
           </a>
@@ -34,7 +34,7 @@ function Footer() {
                   to={"https://www.messenger.com/"}
                   className={" me-4 md:me-6"}
                 >
-                  <div className=" hover:py-3">
+                  <div className="  transform transition-transform duration-500 hover:scale-110">
                     <Messenger width={"50"} />
                   </div>
                 </Link>
@@ -46,7 +46,7 @@ function Footer() {
                   }
                   className={" me-4 md:me-6"}
                 >
-                  <div className=" hover:py-3">
+                  <div className="  transform transition-transform duration-500 hover:scale-110">
                     <Kakaotalk width={"50"} />
                   </div>
                 </Link>
@@ -58,7 +58,7 @@ function Footer() {
                   }
                   className={" me-4 md:me-6"}
                 >
-                  <div className=" hover:py-3">
+                  <div className="  transform transition-transform duration-500 hover:scale-110">
                     <Telegram width={"50"} />
                   </div>
                 </Link>
@@ -78,7 +78,7 @@ function Footer() {
         <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
           © 2024{" "}
           <a href="/" className="hover:underline">
-            Philippine Zone
+            Philippine Business Zone
           </a>
           . All Rights Reserved.
         </span>
