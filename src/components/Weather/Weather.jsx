@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 const Weather = ({ location, temperature, condition, iconUrl }) => {
   return (
-    <div className="w-[700px] lg:w-[200px] bg-white shadow-md rounded-lg overflow-hidden ">
+    <div className="w-[600px] lg:w-[200px] bg-white shadow-md rounded-lg overflow-hidden ">
       <div className="p-4">
         <h2 className="text-2xl font-bold text-gray-800">{location}</h2>
         <img src={iconUrl} alt={condition} className="w-16 h-16 mx-auto" />

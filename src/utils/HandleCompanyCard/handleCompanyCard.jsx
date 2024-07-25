@@ -1,72 +1,121 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "../../components/Card/Card";
 import List from "../../components/List/List";
+import Pagination from "../../components/Pagination/Pagination";
+import Horizontal from "../../components/Horizontal/Horizontal";
 
-const handleCompanyCard = (props) => {
-  const { getDataInfo, filterdata, category } = props;
+const HandleCompanyCard = (props) => {
+  const { getDataInfo, category } = props;
 
-  const dataToDisplay = getDataInfo || [];
+  const cardData = Array.isArray(category) ? category.slice(0, 115) : [];
+  const listData = Array.isArray(category) ? category.slice(115) : [];
 
-  const renderCard = (item, index) => {
-    return (
-      <div
-        className="flex items-center justify-center mx-auto"
-        key={item.childID}
-      >
-        <div className="flex flex-wrap">
-          <Card
-            src={item.image}
-            desc={item.description}
-            title={item.title}
-            link={item.title}
-            hidden={true}
-            style={{
-              width: "300px",
-              backgroundSize: "cover",
-              height: "350px",
-            }}
-          />
-        </div>
+  const itemsPerPage = 10;
+  const [cardCurrentPage, setCardCurrentPage] = useState(1);
+  const [listCurrentPage, setListCurrentPage] = useState(1);
+
+  const cardTotalPages = Math.ceil(cardData.length / itemsPerPage);
+  const listTotalPages = Math.ceil(listData.length / itemsPerPage);
+
+  const cardCurrentData = cardData.slice(
+    (cardCurrentPage - 1) * itemsPerPage,
+    cardCurrentPage * itemsPerPage
+  );
+
+  const listCurrentData = listData.slice(
+    (listCurrentPage - 1) * itemsPerPage,
+    listCurrentPage * itemsPerPage
+  );
+  const renderCard = (item, index) => (
+    <div
+      className="flex items-center justify-center mx-auto"
+      key={item.childID}
+    >
+      <div className="flex flex-wrap">
+        <Card
+          src={item.image}
+          desc={item.description}
+          title={item.title}
+          link={item.title}
+          hidden={true}
+          style={{
+            width: "300px",
+            backgroundSize: "cover",
+            height: "350px",
+          }}
+        />
       </div>
-    );
-  };
+    </div>
+  );
 
-  const renderList = (item) => {
-    return (
-      <div className="flex flex-col mx-auto" key={item.childID}>
-        <div className="flex">
-          <List
-            image={item.image}
-            title={item.title}
-            desc={item.description}
-            className={"hover:bg-slate-100 md:w-[1000px]"}
-            imgstyle={{ width: "100px", height: "70px" }}
-            style={{ height: "100px" }}
-          />
-        </div>
+  const renderList = (item) => (
+    <div className="flex flex-col mx-auto" key={item.childID}>
+      <div className="flex">
+        <List
+          image={item.image}
+          title={item.title}
+          desc={item.description}
+          className={"hover:bg-slate-100 md:w-[1000px]"}
+          imgstyle={{ width: "100px", height: "70px" }}
+          style={{ height: "100px" }}
+        />
       </div>
-    );
-  };
+    </div>
+  );
 
-  const renderFilterData = (data) => {
-    return (
-      <div className="data-section">
-        <div className="flex flex-wrap gap-5">
-          {data.map((item, index) =>
-            index < 50 ? renderCard(item, index) : renderList(item)
-          )}
-        </div>
+  const renderCardData = (data) => (
+    <div className="data-section">
+      <div className="flex flex-wrap gap-5">
+        {data.map((item, index) => renderCard(item, index))}
       </div>
-    );
-  };
+    </div>
+  );
 
+  const renderListData = (data) => (
+    <div className="data-section">
+      <div className="flex flex-col gap-5">
+        {data.map((item) => renderList(item))}
+      </div>
+    </div>
+  );
+  console.log(category);
   return (
     <div>
-      {category && category.length > 0
-        ? renderFilterData(category)
-        : !category && !filterdata && renderFilterData(dataToDisplay)}
+      {
+        <>
+          <div className="" id="card-pagination">
+            <div className="p-3">{renderCardData(cardCurrentData)}</div>
+          </div>
+          <div className="flex p-3 items-center justify-center">
+            <Pagination
+              currentPage={cardCurrentPage}
+              totalPages={cardTotalPages}
+              onPageChange={setCardCurrentPage}
+              link="card-pagination"
+            />
+          </div>
+          <div className={listCurrentData.length === 0 ? "hidden" : "block"}>
+            <Horizontal />
+          </div>
+          <div id="list-pagination">{renderListData(listCurrentData)}</div>
+          <div
+            className={
+              listCurrentData.length === 0
+                ? "hidden"
+                : "flex p-3 items-center justify-center"
+            }
+          >
+            <Pagination
+              currentPage={listCurrentPage}
+              totalPages={listTotalPages}
+              onPageChange={setListCurrentPage}
+              link="list-pagination"
+            />
+          </div>
+        </>
+      }
     </div>
   );
 };
 
-export default handleCompanyCard;
+export default HandleCompanyCard;

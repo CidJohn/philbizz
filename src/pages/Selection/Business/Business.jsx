@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import List from "../../../components/List/List";
 import Categories from "../../../components/Categories/Categories";
 import Description from "../Description/Description";
 import Dropdown from "../../../components/Dropdown/Dropdown";
 import SearchBar from "../../../components/Searchbar/Searchbar";
-import Card from "../../../components/Card/Card";
 import useBusinessCategory from "../../../helper/database/usebusinessCategory";
 import {
   useBusinessSettings,
@@ -16,10 +14,10 @@ import HandleCompanyCard from "../../../utils/HandleCompanyCard/handleCompanyCar
 const Business = () => {
   const [getLocation, setLocation] = useState("");
   const [getDataInfo, setDataInfo] = useState([]);
+  const [filterFound, setFilterFound] = useState();
   const [getdropDown, setDropdown] = useState("");
   const { getCategory, loadCategory } = useBusinessCategory();
   const { getCardInfo, getCompanyLoad } = useBusinessSettings();
-  const [filterFound, setFilterFound] = useState();
 
   const { CompanyFilter } = useCompanyFilter({
     name: getLocation,

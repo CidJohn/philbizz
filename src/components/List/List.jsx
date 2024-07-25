@@ -36,23 +36,26 @@ const List = (props) => {
       <ul className="space-y-2">
         <li
           key={id}
-          className={`bg-white shadow-md rounded-lg flex items-center border gap-2 ${className} ${sizeClass}`}
+          className={`bg-white shadow-md rounded-lg  border gap-2 ${className} ${sizeClass}`}
           style={style}
         >
-          {image && (
-            <figure className="max-w-md p-4 ">
-              <Images src={image} alt={header || title} style={imgstyle} />
-              <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
-                {header}
-              </figcaption>
-            </figure>
-          )}
-          <div className="flex-1">
-            <a href={`/${link}`} className={` font-semibold ${titleClass}`}>
+          <a
+            href={`/${link}`}
+            className={`flex items-center font-semibold ${titleClass}`}
+          >
+            {image && (
+              <figure className="max-w-md p-4 ">
+                <Images src={image} alt={header || title} style={imgstyle} />
+                <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
+                  {header}
+                </figcaption>
+              </figure>
+            )}
+            <div className="flex-1">
               {title}
-            </a>
-            <p className="text-gray-700 text-sm">{desc}</p>
-          </div>
+              <p className="text-gray-700 text-sm">{desc}</p>
+            </div>
+          </a>
         </li>
       </ul>
     </div>

@@ -109,10 +109,10 @@ const Listedcard = (props) => {
               ))
             : ""}
         </div>
-        <div className="mt-5 text-right">
+        <div className="mt-5 text-center">
           <a
             href={`/${links}`}
-            className=" p-2  text-blue-500  hover:bg-blue-500 hover:text-gray-100 rounded"
+            className=" p-2  text-gray-700 border  hover:bg-blue-500 hover:text-gray-100 rounded-lg"
           >
             View More {`>>`}
           </a>
