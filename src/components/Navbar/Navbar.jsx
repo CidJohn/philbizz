@@ -15,6 +15,7 @@ import {
   faMedkit,
   faTent,
   faPlane,
+  faBlog
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function Navbar({ ...props }) {
@@ -70,6 +71,7 @@ export default function Navbar({ ...props }) {
     Festival: faTent,
     Beauty: faFaceKiss,
     Travel: faPlane,
+    Blog: faBlog
   };
   const navbarItem = (navitem) => {
     return navitem.map((item, index) => (

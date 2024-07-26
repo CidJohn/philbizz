@@ -148,7 +148,6 @@ const Selection = () => {
       </div>
     );
   }
-
   return (
     <ContentLayout
       renderTreeView={() => (

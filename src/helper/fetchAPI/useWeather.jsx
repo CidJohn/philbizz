@@ -4,7 +4,7 @@ import axios from "axios";
 const API_KEY = process.env.REACT_APP_API_WEATHER;
 const BASE_URL = process.env.REACT_APP_API_WEATHER_URL;
 
-export const useWeather = (lat, lon, city) => {
+export const useWeather = (lat, lon) => {
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -18,12 +18,11 @@ export const useWeather = (lat, lon, city) => {
           params: {
             lat,
             lon,
-            city: city,
             appid: API_KEY,
             units: "metric", // Change to 'imperial' for Fahrenheit
           },
         });
-
+        console.log(response);
         // Example: Selecting the first entry from the list
         const weatherEntry = response.data.list[0];
 

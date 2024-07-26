@@ -1,4 +1,3 @@
-
 const restAPI = () => {
   const apiUrl2 = process.env.REACT_APP_API_SERVER;
   const apiUrl = process.env.REACT_APP_API_URL;

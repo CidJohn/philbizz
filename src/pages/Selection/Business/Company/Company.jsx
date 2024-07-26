@@ -1,15 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ImageLink } from "../../../../components/Image/ImageLink";
 import Card from "../../../../components/Card/Card";
 import Carousel from "../../../../components/Carousel/Carousel";
-import CarouselContent from "../../../../content/CarouselContent";
 import ContactForm from "../../../../components/ContactUs/ContactUs";
 import { personnelContent } from "../../../../content/personnelContent";
+import { useLocation } from "react-router-dom";
 
-const Company = () => {
+const Company = (props) => {
+  const { CompanyData } = props;
+  const location = useLocation();
+  const [getCompanyName, setCompanyName] = useState("");
+
+  useEffect(() => {
+    const decodelocation = decodeURIComponent(location.pathname);
+
+    const cardname = CompanyData
+      ? CompanyData?.find((item) => `/${item.title}` === decodelocation)
+          ?.title || ""
+      : "";
+    setCompanyName(cardname);
+  }, [CompanyData]);
+
   return (
     <div className="flex flex-col mx-auto max-w-srceen-md items-center">
-      <div className="text-2xl p-3">SFA SEMICON PHILIPPINES CORPORATION</div>
+      <div className="text-2xl p-3">{getCompanyName}</div>
       <div className="flex flex-col">
         <div className="flex flex-col md:flex-row  container ">
           <div className="p-3">

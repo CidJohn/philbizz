@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Card from "../../components/Card/Card";
-import List from "../../components/List/List";
 import { useHomeBusiness } from "../../helper/database/useBusinessData";
 import Listedcard from "../../components/Listedcard/Listedcard";
 import Spinner from "../../components/Spinner/Spinner";

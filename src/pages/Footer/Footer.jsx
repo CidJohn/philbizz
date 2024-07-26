@@ -1,12 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { footerContent } from "../../content/footerContent";
-import { useLocation } from "react-router-dom";
-import { FoodTreeView } from "../../content/FoodTreeView";
-import treeViewContent from "../../content/treeViewContent";
-import navbarContent from "../../content/navbarContent";
+import React, {  } from "react";
 import Image from "../../components/Image/Image";
 import {
-  Facebook,
   Kakaotalk,
   Messenger,
   Telegram,

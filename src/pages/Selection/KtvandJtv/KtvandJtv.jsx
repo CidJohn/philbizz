@@ -13,7 +13,6 @@ import {
   Telegram,
 } from "../../../components/svg/Icons";
 import Swal from "sweetalert2";
-import GmailLink from "../../../components/Gmaillink/Gmaillink";
 import Button from "../../../components/Button/Button";
 
 const KtvandJtv = () => {

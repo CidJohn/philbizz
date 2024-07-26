@@ -1,6 +1,4 @@
 import React from "react";
-import Image from "../Image/Image";
-import { ImageLink } from "../Image/ImageLink";
 import Images from "../Image/Images";
 
 const List = (props) => {

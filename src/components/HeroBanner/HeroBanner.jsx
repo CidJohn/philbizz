@@ -3,7 +3,6 @@ import city from "../../assets/img/manilanight.jpg";
 import { useTranslation } from "react-i18next";
 import Card from "../Card/Card";
 import Dropdown from "../Dropdown/Dropdown";
-import Images from "../Image/Images";
 import { useWeather } from "../../helper/fetchAPI/useWeather";
 import Weather from "../Weather/Weather";
 import useGeolocation from "../../helper/fetchAPI/useGeolocation";
@@ -40,6 +39,7 @@ export const HeroBanner = ({ darkMode }) => {
 
     return () => clearInterval(interval);
   }, [location]);
+
 
   const options = [
     { value: "Philippines", label: "Philippines" },
