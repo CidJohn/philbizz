@@ -54,6 +54,7 @@ const HandleCompanyCard = (props) => {
         <List
           image={item.image}
           title={item.title}
+          link={item.title}
           desc={item.description}
           className={"hover:bg-slate-100 md:w-[1000px]"}
           imgstyle={{ width: "100px", height: "70px" }}
@@ -78,7 +79,7 @@ const HandleCompanyCard = (props) => {
       </div>
     </div>
   );
-  console.log(category);
+
   return (
     <div>
       {
@@ -86,13 +87,15 @@ const HandleCompanyCard = (props) => {
           <div className="" id="card-pagination">
             <div className="p-3">{renderCardData(cardCurrentData)}</div>
           </div>
-          <div className="flex p-3 items-center justify-center">
-            <Pagination
-              currentPage={cardCurrentPage}
-              totalPages={cardTotalPages}
-              onPageChange={setCardCurrentPage}
-              link="card-pagination"
-            />
+          <div className="flex p-3 items-center justify-center" id="page">
+            <div className="flex mt-5">
+              <Pagination
+                currentPage={cardCurrentPage}
+                totalPages={cardTotalPages}
+                onPageChange={setCardCurrentPage}
+                link="card-pagination"
+              />
+            </div>
           </div>
           <div className={listCurrentData.length === 0 ? "hidden" : "block"}>
             <Horizontal />

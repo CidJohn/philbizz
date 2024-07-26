@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { HeroBanner } from "../components/HeroBanner/HeroBanner";
-import CarouselContent from "../content/CarouselContent";
 import Carousel from "../components/Carousel/Carousel";
 import { useTranslation } from "react-i18next";
 import Businessview from "./Homeview/Businessview";
-import Herobanners from "../components/Herobanners/Herobanners";
 import { useBusinessSettings } from "../helper/database/useBusinessData";
 
 function Homeview() {
@@ -20,7 +18,7 @@ function Homeview() {
         <div className="mt-5">
           <Businessview />
         </div>
-        <div className="p-5">
+        <div className="p-5 max-w-screen-2xl justify-center items-center mx-auto">
           <h1 className="text-4xl  font-serif p-5 underline decoration-sky-500 decoration-double decoration-2 underline-offset-8 ">
             {t("Companies")}
           </h1>

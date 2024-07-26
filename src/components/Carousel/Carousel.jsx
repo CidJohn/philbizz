@@ -66,6 +66,7 @@ const Carousel = ({ items }) => {
           <CarouselItem key={index} className="p-10">
             <Card
               title={item.title}
+              link={item.title}
               src={item.image}
               hidden={true}
               style={{ width: "200px", height: "300px" }}

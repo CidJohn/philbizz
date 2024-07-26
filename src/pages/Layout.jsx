@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar/Navbar";
-import TreeView from "../components/Treeviews/Treeview";
 import treeViewContent from "../content/treeViewContent";
 import Footer from "./Footer/Footer";
 import { useLocation } from "react-router-dom";

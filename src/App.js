@@ -5,17 +5,17 @@ import Homeview from "./pages/Homeview";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./pages/Layout";
 import { useRoute } from "./route/selectionRouting";
-import Business from "./pages/Selection/Business/Business";
 
 function App() {
-  const { getnavroute, getcardroute } = useRoute();
+  const { getnavroute, getcardroute, getcompanyroute } = useRoute();
   return (
     <BrowserRouter>
       <Layout>
         <Routes>
-          <Route path="/" element={<Homeview />} />
+          <Route path="/" element={<Homeview />} key={"home"} />
           {getnavroute}
           {getcardroute}
+          {getcompanyroute}
         </Routes>
       </Layout>
     </BrowserRouter>

@@ -1,15 +1,12 @@
 import React from "react";
 import Pagination from "../../components/Pagination/Pagination";
-import Image from "../../components/Image/Image";
 import sampleItem from "../../content/sampleItem";
 import SearchBar from "../../components/Searchbar/Searchbar";
 import Description from "../../pages/Selection/Description/Description";
-import Categories from "../../components/Categories/Categories";
 import List from "../../components/List/List";
 import Horizontal from "../../components/Horizontal/Horizontal";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import Images from "../../components/Image/Images";
-import { footerContent } from "../../content/footerContent";
 
 const ContentLayout = ({
   renderTreeView,
