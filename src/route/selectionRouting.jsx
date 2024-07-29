@@ -3,20 +3,18 @@ import { useCardPath } from "../helper/database/useCardPath";
 import { useEffect, useState } from "react";
 import { Route } from "react-router-dom";
 import Selection from "../pages/Selection/Selection";
-import KtvandJtv from "../pages/Selection/KtvandJtv/KtvandJtv";
-import Food from "../pages/Selection/Food/Food";
 import Business from "../pages/Selection/Business/Business";
 import Company from "../pages/Selection/Business/Company/Company";
 import { useBusinessSettings } from "../helper/database/useBusinessData";
 import Blog from "../pages/Selection/Blog/Blog";
-import Beauty from "../pages/Selection/Beauty/Beauty";
+import Defaultpage from "../pages/Selection/Defaultpage/Defaultpage";
 
 export const useRoute = () => {
   const [getnavroute, setNavRoute] = useState([]);
   const [getcardroute, setCardRoute] = useState([]);
   const [getcompanyroute, setCompanyRoute] = useState([]);
   const { navbarData } = useNavbarcontent();
-  const { cardpath } = useCardPath();
+  const { cardpath, load } = useCardPath();
   const { getCardInfo } = useBusinessSettings();
 
   useEffect(() => {
@@ -36,35 +34,15 @@ export const useRoute = () => {
       setNavRoute(routes);
     }
     if (cardpath) {
-      const cardRoutes = cardpath
-        .map((item, index) => {
-          switch (item.id) {
-            case 1:
-              return (
-                <Route
-                  key={index}
-                  path={`/${item.title}`}
-                  element={<KtvandJtv />}
-                />
-              );
-            case 3:
-              return (
-                <Route key={index} path={`/${item.title}`} element={<Food />} />
-              );
-            case 4:
-              return (
-                <Route
-                  key={index}
-                  path={`/${item.title}`}
-                  element={<Beauty />}
-                />
-              );
-            default:
-              return null;
-          }
-        })
-        .filter(Boolean);
-
+      const cardRoutes = cardpath.map((item, index) => {
+        return (
+          <Route
+            key={index}
+            path={`/${item.title}`}
+            element={<Defaultpage cardpath={cardpath} load={load} />}
+          />
+        );
+      });
       setCardRoute(cardRoutes);
     }
     if (getCardInfo) {
@@ -79,7 +57,7 @@ export const useRoute = () => {
       });
       setCompanyRoute(getCompany);
     }
-  }, [navbarData, cardpath, getCardInfo]); // Only run when navbarData or cardpath changes
+  }, [navbarData, cardpath, getCardInfo]);
 
   return { getnavroute, getcardroute, getcompanyroute };
 };

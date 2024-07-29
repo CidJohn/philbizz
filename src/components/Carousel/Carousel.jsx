@@ -18,7 +18,7 @@ const CarouselTrack = styled.div`
 
 const CarouselItem = styled.div`
   flex: 0 0 auto;
-  width: 200px; /* Adjust based on your card width */
+  width: 200px;
   margin: 0 10px;
 `;
 
@@ -60,7 +60,7 @@ const Carousel = ({ items }) => {
   }, [totalItems]);
 
   return (
-    <CarouselWrapper className="w-full max-w-screen-md mx-auto md:max-w-none">
+    <CarouselWrapper className=" mx-auto ">
       <CarouselTrack ref={trackRef}>
         {duplicateItems.slice(0, itemsToShow * 2).map((item, index) => (
           <CarouselItem key={index} className="p-10">

@@ -49,9 +49,9 @@ const List = (props) => {
                 </figcaption>
               </figure>
             )}
-            <div className="flex-1">
+            <div className="flex-1 max-w-96">
               {title}
-              <p className="text-gray-700 text-sm">{desc}</p>
+              <p className="text-gray-700 text-sm text-wrap truncate">{desc}</p>
             </div>
           </a>
         </li>
