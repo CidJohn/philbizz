@@ -14,7 +14,7 @@ const Description = ({ type, path }) => {
             (item, index) =>
               item.header === path && (
                 <div className="" key={index}>
-                  <div className="px-2 grid gap-4 md:grid-cols-2 mt-10">
+                  <div className="px-2 flex mt-5">
                     <div className="flex flex-col ">
                       <h1 className="text-4xl md:text-6xl mb-4 font-serif">
                         {t(item.header)}

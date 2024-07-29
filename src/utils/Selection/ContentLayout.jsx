@@ -7,6 +7,7 @@ import List from "../../components/List/List";
 import Horizontal from "../../components/Horizontal/Horizontal";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import Images from "../../components/Image/Images";
+import Card from "../../components/Card/Card";
 
 const ContentLayout = ({
   renderTreeView,
@@ -22,14 +23,15 @@ const ContentLayout = ({
   business,
   totalPages,
   currentItems,
+  sideAds,
 }) => {
   return (
-    <div className="flex flex-col md:flex md:flex-wrap mx-auto container ">
+    <div className="flex flex-col md:flex md:flex-wrap mx-auto container mt-5">
       <div className="flex flex-col md:flex-row ">
         <div className="hidden md:block ">{renderTreeView()}</div>
-        <div className="flex flex-wrap justify-center items-center mx-auto">
+        <div className="flex flex-wrap justify-center items-center mx-auto ">
           <div>
-            <div className="container flex flex-wrap">
+            <div className="container flex flex-wrap max-w-screen-sm mx-auto">
               {!selectedItem?.id ? (
                 <Description
                   type={business.businessPath}
@@ -65,7 +67,7 @@ const ContentLayout = ({
                   <SearchBar hidden={true} onSearch={handleOnSearch} />
                 </div>
               </div>
-              <div className=" mt-5 grid grid-cols-2 lg:grid-cols-3 md:gap-20 lg:gap-0 ">
+              <div className=" mt-5 flex flex-wrap max-w-screen-md ">
                 {handleCards(currentItems)}
               </div>
             </section>
@@ -86,47 +88,29 @@ const ContentLayout = ({
               )}
             </div>
           </div>
-
-          <div className="flex flex-wrap">
-            <div className="mt-5">
-              <Horizontal />
-
-              <h1 className="text-2xl font-bold mb-4">Item List 2</h1>
-              {sampleItem.map((item) => (
-                <List
-                  key={item.id}
-                  title={item.name}
-                  desc={item.description}
-                  id={item.id}
-                  image={item.image}
-                  style={{ height: "100px" }}
-                  imgstyle={{ width: "100px", height: "70px" }}
-                />
-              ))}
-            </div>
-          </div>
+        
         </div>
-        <div className="flex">
+        <div className="flex max-w-screen-md hidden lg:block ">
           <div className="mt-5">
-            <h1 className="text-2xl font-bold mb-4">Sample Item list</h1>
-            {sampleItem.map((item) => (
-              <List
-                key={item.id}
-                title={item.name}
-                desc={item.description}
-                id={item.id}
-              />
+            <h1 className="text-2xl font-bold mb-4 text-center">
+              {business.name} Ads
+            </h1>
+            {sideAds.map((item) => (
+              <div className="flex p-2">
+                <Card
+                  src={item.card_image}
+                  title={item.title}
+                  desc={item.description}
+                  style={{
+                    width: "300px",
+                    backgroundSize: "cover",
+                    height: "350px",
+                  }}
+                  hidden={true}
+                  link={item.title}
+                />
+              </div>
             ))}
-            <figure className="max-w-md p-4">
-              <Images
-                className="rounded-lg"
-                src={""}
-                alt="Hair salon interior"
-              />
-              <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
-                Sample Header
-              </figcaption>
-            </figure>
           </div>
         </div>
       </div>

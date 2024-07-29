@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useHomeBusiness } from "../../helper/database/useBusinessData";
+import {
+  useBusinessSettings,
+  useHomeBusiness,
+} from "../../helper/database/useBusinessData";
 import Listedcard from "../../components/Listedcard/Listedcard";
 import Spinner from "../../components/Spinner/Spinner";
+import Carousel from "../../components/Carousel/Carousel";
 
 const Businessview = () => {
   const { t } = useTranslation();
@@ -11,6 +15,7 @@ const Businessview = () => {
   const [getFood, setFood] = useState([]);
   const [getKtvjtv, setKtvjtv] = useState([]);
   const { header, laodHeader } = useHomeBusiness();
+  const { getCardInfo, getCompanyLoad } = useBusinessSettings();
 
   useEffect(() => {
     if (header) {
@@ -39,6 +44,7 @@ const Businessview = () => {
 
   const ktvjtvList = Array.isArray(getKtvjtv) ? getKtvjtv.slice(1, 4) : [];
   const ktvjtvCard = Array.isArray(getKtvjtv) ? getKtvjtv.slice(0, 1) : [];
+  const carousel = Array.isArray(getCardInfo) ? getCardInfo.slice(0, 10) : [];
 
   return (
     <div>
@@ -73,6 +79,14 @@ const Businessview = () => {
           />
         </div>
       )}
+      <div className=" max-w-screen-sm sm:max-w-screen-md md:max-w-screen-lg  mt-5 mx-auto ">
+        <h1 className="text-4xl text-center font-serif p-5 underline decoration-sky-500 decoration-double decoration-2 underline-offset-8 ">
+          {t("Companies")}
+        </h1>
+        <div className="flex  mx-auto">
+          <Carousel items={carousel} />
+        </div>
+      </div>
     </div>
   );
 };

@@ -40,7 +40,6 @@ export const HeroBanner = ({ darkMode }) => {
     return () => clearInterval(interval);
   }, [location]);
 
-
   const options = [
     { value: "Philippines", label: "Philippines" },
     { value: "Korea", label: "Korea" },
@@ -58,9 +57,9 @@ export const HeroBanner = ({ darkMode }) => {
       className={`lg:flex items-center justify-center    ${darkMode && "dark"}`}
     >
       {" "}
-      <div className="flex flex-col-reverse lg:flex-row lg:w-[1024px] gap-8">
-        <div className="  flex  p-10 justify-center  lg:w-[200px] lg:block px-3 ">
-          <div className="transform transition-transform duration-500 hover:scale-105">
+      <div className="flex flex-col-reverse lg:flex-row lg:w-[1024px] gap-8 ">
+        <div className="  flex  justify-center  lg:w-[200px] lg:block   ">
+          <div className="transform transition-transform duration-500 hover:scale-105 p-1">
             <Card
               src={
                 "https://lh3.googleusercontent.com/p/AF1QipMlprtNkiskp0-5IV_3_sKrIDneoRDwraoYfLHD=s680-w680-h510"
@@ -69,7 +68,7 @@ export const HeroBanner = ({ darkMode }) => {
               hidden={true}
             />
           </div>
-          <div className="transform transition-transform duration-500 hover:scale-105">
+          <div className="transform transition-transform duration-500 hover:scale-105 p-1">
             <Card
               src={
                 "https://lh3.googleusercontent.com/p/AF1QipMlprtNkiskp0-5IV_3_sKrIDneoRDwraoYfLHD=s680-w680-h510"

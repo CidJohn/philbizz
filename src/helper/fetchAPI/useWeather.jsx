@@ -22,7 +22,6 @@ export const useWeather = (lat, lon) => {
             units: "metric", // Change to 'imperial' for Fahrenheit
           },
         });
-        console.log(response);
         // Example: Selecting the first entry from the list
         const weatherEntry = response.data.list[0];
 

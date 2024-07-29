@@ -141,6 +141,10 @@ const Selection = () => {
     (currentPage - 1) * (selectedItem?.id ? itemsPerPage : itemsMainPage),
     currentPage * (selectedItem?.id ? itemsPerPage : itemsMainPage)
   );
+  const sideAds = Array.isArray(businessTypes)
+    ? businessTypes.slice(76, 79)
+    : [];
+
   if (!data) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -184,6 +188,7 @@ const Selection = () => {
       business={businessDesc}
       totalPages={totalPages}
       currentItems={currentItemsPage}
+      sideAds={sideAds}
     ></ContentLayout>
   );
 };
