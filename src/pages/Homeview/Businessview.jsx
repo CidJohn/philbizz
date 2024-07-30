@@ -83,7 +83,7 @@ const Businessview = () => {
         <h1 className="text-4xl text-center font-serif p-5 underline decoration-sky-500 decoration-double decoration-2 underline-offset-8 ">
           {t("Companies")}
         </h1>
-        <div className="flex  mx-auto">
+        <div className="flex mx-auto">
           <Carousel items={carousel} />
         </div>
       </div>
