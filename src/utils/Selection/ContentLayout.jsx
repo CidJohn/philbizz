@@ -88,15 +88,14 @@ const ContentLayout = ({
               )}
             </div>
           </div>
-        
         </div>
         <div className="flex max-w-screen-md hidden lg:block ">
           <div className="mt-5">
             <h1 className="text-2xl font-bold mb-4 text-center">
               {business.name} Ads
             </h1>
-            {sideAds.map((item) => (
-              <div className="flex p-2">
+            {sideAds.map((item, index) => (
+              <div className="flex p-2" key={index}>
                 <Card
                   src={item.card_image}
                   title={item.title}

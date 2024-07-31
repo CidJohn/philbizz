@@ -15,8 +15,9 @@ import {
   faMedkit,
   faTent,
   faPlane,
-  faBlog
+  faBlog,
 } from "@fortawesome/free-solid-svg-icons";
+import { Registration } from "../../pages/Login/Registration";
 
 export default function Navbar({ ...props }) {
   const { navbarData, loading, hidden } = props;
@@ -25,6 +26,7 @@ export default function Navbar({ ...props }) {
   const [getFontTitle, setFonttitle] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRegistration, setRegistration] = useState(false);
   const location = useLocation();
   const { t } = useTranslation();
 
@@ -60,9 +62,15 @@ export default function Navbar({ ...props }) {
     setIsModalOpen(!isModalOpen);
   };
   const handleSearch = () => {};
+  const handleRegistrationOpen = () => {
+    setRegistration(!isRegistration);
+    setIsModalOpen(false);
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
+
   const iconMap = {
     Business: faBuilding,
     Food: faBowlFood,
@@ -71,7 +79,7 @@ export default function Navbar({ ...props }) {
     Festival: faTent,
     Beauty: faFaceKiss,
     Travel: faPlane,
-    Blog: faBlog
+    Blog: faBlog,
   };
   const navbarItem = (navitem) => {
     return navitem.map((item, index) => (
@@ -116,7 +124,7 @@ export default function Navbar({ ...props }) {
   return (
     <nav className={!hidden ? "bg-white " : "hidden"}>
       <div className="hidden md:block">
-        <div className="flex items-center justify-between gap-10 container mx-auto lg:w-[1024px]">
+        <div className="flex items-center justify-between gap-10 container mx-auto max-w-screen-lg">
           <div className="">
             <Translation />
           </div>
@@ -134,7 +142,18 @@ export default function Navbar({ ...props }) {
             />
           </div>
 
-          {isModalOpen && <Login handleModalOpen={handleModalOpen} />}
+          {isModalOpen && (
+            <Login
+              handleModalOpen={handleModalOpen}
+              handleRegistrationOpen={handleRegistrationOpen}
+            />
+          )}
+          {isRegistration && (
+            <Registration
+              handleRegistrationClose={handleRegistrationOpen}
+              handleLoginOpen={handleModalOpen}
+            />
+          )}
         </div>
       </div>
 
@@ -189,36 +208,30 @@ export default function Navbar({ ...props }) {
               </svg>
             </button>
             <a href="/" className="font-bold text-3xl text-gray-800 flex ">
-              <div className="font-bold text-gl text-blue-800 ">P</div>
-              <div className="font-bold text-sm text-blue-800 mt-3">
-                HILIPPINE
-              </div>
-              <div className="font-bold text-gl text-red-800 ">Z</div>
-              <div className="font-bold text-sm text-gray-800 mt-3">ONE</div>
+              <Image src={"philbizz.png"} style={{ width: "200px" }} />
             </a>
           </div>
         </div>
       </div>
 
       {isMenuOpen && (
-        <div className="md:hidden" id="mobile-menu">
+        <div className="w-[650px] ms-5 me-5 md:hidden" id="mobile-menu">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <div className="">
-              <Translation IsOpenMenu={isMenuOpen} />
-            </div>
             {navbarData.map((item, index) => (
               <div
                 key={index}
-                className="border rounded p-4 hover:bg-gray-400 relative"
+                className=""
                 onMouseEnter={() => handleMouseEnter(item.name)}
                 onMouseLeave={handleMouseLeave}
               >
                 <a
                   href={item.path}
-                  className="text-gray-600 hover:text-gray-900"
+                  className=" text-gray-600 hover:text-gray-900 "
                   onClick={handleClickDelete}
                 >
-                  {t(item.name)}
+                  <div className=" border rounded p-4  hover:bg-gray-400">
+                    {t(item.name)}
+                  </div>
                 </a>
                 {item.children && showDropdown2 === item.name && (
                   <div className="absolute mt-2 bg-white border rounded-lg shadow-lg z-50">

@@ -79,7 +79,7 @@ export const HeroBanner = ({ darkMode }) => {
           </div>
         </div>
         <div
-          className="relative md:w-full bg-no-repeat bg-cover  h-[300px] md:h-[540px] md:max-w-screen-md rounded-lg "
+          className="relative md:w-full bg-no-repeat bg-cover h-[300px] md:h-[540px]  md:max-w-screen-md rounded-lg "
           style={{ backgroundImage: `url(${city})` }}
         >
           <div className="md:absolute inset-0 bg-black bg-opacity-50 rounded-lg ">
@@ -145,7 +145,7 @@ export const HeroBanner = ({ darkMode }) => {
             <span className="block text-gray-300 font-bold">{t("Japan")}</span>
           </div>
           <div className="flex py-2">
-            <div className="mx-auto z-50 flex ">
+            <div className="mx-auto  flex ">
               <Dropdown
                 name={"selection"}
                 options={options}
