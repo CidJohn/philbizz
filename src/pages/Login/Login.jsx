@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import Button from "../../components/Button/Button";
+import { Registration } from "./Registration";
 
-export const Login = ({ handleModalOpen }) => {
+export const Login = ({ handleModalOpen, handleRegistrationOpen }) => {
+ 
   return (
     <div className="">
       <div
@@ -104,12 +107,12 @@ export const Login = ({ handleModalOpen }) => {
                 </button>
                 <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
                   Not registered?{" "}
-                  <a
-                    href="#"
+                  <Button
                     className="text-blue-700 hover:underline dark:text-blue-500"
-                  >
-                    Create account
-                  </a>
+                    text={"Create account"}
+                    onClick={handleRegistrationOpen}
+                  />
+
                 </div>
               </form>
             </div>

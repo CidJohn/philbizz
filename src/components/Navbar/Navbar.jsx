@@ -17,6 +17,7 @@ import {
   faPlane,
   faBlog,
 } from "@fortawesome/free-solid-svg-icons";
+import { Registration } from "../../pages/Login/Registration";
 
 export default function Navbar({ ...props }) {
   const { navbarData, loading, hidden } = props;
@@ -25,6 +26,7 @@ export default function Navbar({ ...props }) {
   const [getFontTitle, setFonttitle] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRegistration, setRegistration] = useState(false);
   const location = useLocation();
   const { t } = useTranslation();
 
@@ -60,9 +62,15 @@ export default function Navbar({ ...props }) {
     setIsModalOpen(!isModalOpen);
   };
   const handleSearch = () => {};
+  const handleRegistrationOpen = () => {
+    setRegistration(!isRegistration);
+    setIsModalOpen(false);
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
+
   const iconMap = {
     Business: faBuilding,
     Food: faBowlFood,
@@ -134,7 +142,18 @@ export default function Navbar({ ...props }) {
             />
           </div>
 
-          {isModalOpen && <Login handleModalOpen={handleModalOpen} />}
+          {isModalOpen && (
+            <Login
+              handleModalOpen={handleModalOpen}
+              handleRegistrationOpen={handleRegistrationOpen}
+            />
+          )}
+          {isRegistration && (
+            <Registration
+              handleRegistrationClose={handleRegistrationOpen}
+              handleLoginOpen={handleModalOpen}
+            />
+          )}
         </div>
       </div>
 

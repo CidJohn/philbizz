@@ -145,7 +145,7 @@ export const HeroBanner = ({ darkMode }) => {
             <span className="block text-gray-300 font-bold">{t("Japan")}</span>
           </div>
           <div className="flex py-2">
-            <div className="mx-auto z-50 flex ">
+            <div className="mx-auto  flex ">
               <Dropdown
                 name={"selection"}
                 options={options}

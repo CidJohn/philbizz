@@ -92,7 +92,7 @@ const Listedcard = (props) => {
         <div className="flex flex-col max-w-96 ">
           {listItems
             ? listItems.map((item, index) => (
-                <div className="">
+                <div className="" key={index}>
                   <List
                     key={item.title}
                     image={item.images}
