@@ -1,15 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Searchinput from "../svg/SearchInputs";
 import SearchIcons from "../svg/SearchIcons";
 import { useTranslation } from "react-i18next";
 import Textline from "../Textline/Textline";
+import { useProtect } from "../../helper/auth/useAuthentication";
+import Button from "../Button/Button";
+import Spinner from "../Spinner/Spinner";
 
 const SearchBar = ({ onSearch, handleModalOpen, isModalOpen, hidden }) => {
   const { t } = useTranslation(); // Using the translation hook
-
+  const { data, error } = useProtect();
   const [searchParams, setSearchParams] = useState({
     title: "",
   });
+  const [timerData, setTimerData] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,6 +27,20 @@ const SearchBar = ({ onSearch, handleModalOpen, isModalOpen, hidden }) => {
     e.preventDefault();
     onSearch(searchParams);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.reload();
+  };
+
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setTimerData(true);
+    }, 1000);
+    if (data) return timerId;
+
+    return () => clearTimeout(timerId);
+  }, []);
 
   const renderTextline = (name, placeholder) => (
     <div className="relative w-full">
@@ -55,15 +73,17 @@ const SearchBar = ({ onSearch, handleModalOpen, isModalOpen, hidden }) => {
         <SearchIcons />
         <span className="sr-only">{t("search")}</span>
       </button>
-      {!hidden && (
-        <button
-          type="button"
-          className="flex items-center text-xs justify-center border rounded px-4 py-2 hover:bg-gray-400 text-gray-600 hover:text-gray-900"
-          onClick={handleModalOpen}
-        >
-          {t("login")}
-        </button>
-      )}
+      <button
+        type="button"
+        className={
+          hidden
+            ? "hidden"
+            : "flex items-center text-xs justify-center border rounded px-4 py-2 hover:bg-gray-400 text-gray-600 hover:text-gray-900"
+        }
+        onClick={!data ? handleModalOpen : handleLogout}
+      >
+        {!timerData ? "..." : !data ? t("login") : "logout"}
+      </button>
     </form>
   );
 };

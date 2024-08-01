@@ -17,7 +17,7 @@ export const Registration = ({ handleRegistrationClose, handleLoginOpen }) => {
   const [formData, setFormData] = useState(initialData);
   const [errors, setErrors] = useState({});
   const [getData, setRegisterData] = useState([]);
-  const { response, error, loadData } = useRegistration(getData);
+  const { fetchRegistration, response, error, loadData } = useRegistration();
   const showAlert = useAlert();
 
   // Validation function
@@ -29,7 +29,11 @@ export const Registration = ({ handleRegistrationClose, handleLoginOpen }) => {
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Email address is invalid.";
     }
-    if (!formData.number) newErrors.number = "Number is required.";
+    if (!formData.number) {
+      newErrors.number = "Number is required.";
+    } else if (!/^09\d{9}$/.test(formData.number)) {
+      newErrors.number = "Number format is invalid. Use '09*********'.";
+    }
     if (!formData.password) newErrors.password = "Password is required.";
     if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = "Passwords do not match.";
@@ -50,7 +54,7 @@ export const Registration = ({ handleRegistrationClose, handleLoginOpen }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      setRegisterData(formData);
+      fetchRegistration(formData);
     }
   };
 
@@ -154,13 +158,14 @@ export const Registration = ({ handleRegistrationClose, handleLoginOpen }) => {
                 )}
 
                 <Textline
-                  type="text"
+                  type="tel"
                   name="number"
                   id="number"
+                  pattern="^09\d{9}$"
                   className={`bg-gray-50 border ${
                     errors.number ? "border-red-500" : "border-gray-300"
                   } text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white`}
-                  placeholder="Enter your Number"
+                  placeholder="09*********"
                   label={"Number"}
                   value={formData.number}
                   onChange={handleChange}

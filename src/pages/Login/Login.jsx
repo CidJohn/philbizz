@@ -1,9 +1,71 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../../components/Button/Button";
-import { Registration } from "./Registration";
+import Textline from "../../components/Textline/Textline";
+import { useLogin } from "../../helper/auth/useAuthentication";
+import useAlert from "../../helper/alert/useAlert";
 
 export const Login = ({ handleModalOpen, handleRegistrationOpen }) => {
- 
+  const initializeData = {
+    email: "",
+    number: "",
+    password: "",
+  };
+  const [formData, setFormData] = useState(initializeData);
+  const [getData, setData] = useState([]);
+  const [errors, setErrors] = useState([]);
+  const { fetchingLogin, setRememberMe, token, loginloading, error } =
+    useLogin();
+  const showAlert = useAlert();
+
+  const handleValidation = () => {
+    const newErrors = {};
+    if (!formData.email) {
+      newErrors.email = "Email is required.";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Email address is invalid.";
+    }
+    if (!formData.password) newErrors.password = "Password is required.";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: null }); // Clear specific field error when user types
+    }
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (handleValidation()) {
+      fetchingLogin(formData);
+    }
+  };
+
+  const handleCheckBox = (e) => {
+    setRememberMe(e.target.checked);
+  };
+
+  useEffect(() => {
+    if (token) {
+      showAlert("Welcome", `Login Successfully!`, "success");
+      handleModalOpen();
+      window.location.reload();
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (error) {
+      const newErrors = {};
+      if (error.includes("Incorrect Password"))
+        newErrors.password = "You Enter Wrong Password!";
+
+      setErrors(newErrors);
+    }
+  }, [error]);
+
   return (
     <div className="">
       <div
@@ -42,47 +104,37 @@ export const Login = ({ handleModalOpen, handleRegistrationOpen }) => {
               </button>
             </div>
             <div className="p-4 md:p-5">
-              <form className="space-y-4" action="#">
+              <form className="space-y-4" action="#" onSubmit={handleSubmit}>
                 <div>
-                  <label
-                    htmlFor="email"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Your email
-                  </label>
-                  <input
+                  <Textline
                     type="email"
                     name="email"
                     id="email"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                     placeholder="name@company.com"
-                    required
+                    label={"Email"}
+                    onChange={handleChange}
                   />
                 </div>
                 <div>
-                  <label
-                    htmlFor="password"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Your password
-                  </label>
-                  <input
+                  <Textline
                     type="password"
                     name="password"
                     id="password"
                     placeholder="••••••••"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                    required
+                    label={"Password"}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="flex justify-between">
                   <div className="flex items-start">
                     <div className="flex items-center h-5">
-                      <input
+                      <Textline
                         id="remember"
                         type="checkbox"
                         className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-                        required
+                        onChange={handleCheckBox}
                       />
                     </div>
                     <label
@@ -96,7 +148,7 @@ export const Login = ({ handleModalOpen, handleRegistrationOpen }) => {
                     href="#"
                     className="text-sm text-blue-700 hover:underline dark:text-blue-500"
                   >
-                    Lost Password?
+                    Forget Password?
                   </a>
                 </div>
                 <button
@@ -112,7 +164,6 @@ export const Login = ({ handleModalOpen, handleRegistrationOpen }) => {
                     text={"Create account"}
                     onClick={handleRegistrationOpen}
                   />
-
                 </div>
               </form>
             </div>
