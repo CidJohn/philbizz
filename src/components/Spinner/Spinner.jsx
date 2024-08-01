@@ -1,8 +1,8 @@
 import React from "react";
 
-const Spinner = () => {
+const Spinner = (style) => {
   return (
-    <div className="flex items-center justify-center w-56 h-56  ">
+    <div className="flex items-center justify-center  " style={style}>
       <div role="status">
         <svg
           aria-hidden="true"
