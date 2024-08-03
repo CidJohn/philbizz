@@ -74,7 +74,8 @@ export const useBusinessSettings = () => {
   return { getCardInfo, getCompanyLoad };
 };
 
-export const useCompanyFilter = ({ name, title, description }) => {
+export const useCompanyFilter = (props) => {
+  const { name, title, description } = props;
   const [CompanyFilter, setCompanyFilter] = useState([]);
   const [CompanyLoading, setLoading] = useState(true);
   const API_CALL = restAPI();

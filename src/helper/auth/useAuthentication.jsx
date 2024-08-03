@@ -91,7 +91,31 @@ export const useProtect = () => {
     };
 
     fetchData();
-  }, []);
+  });
 
   return { data, error };
+};
+
+export const useUserData = () => {
+  const [getData, setData] = useState([]);
+  const [userload, setLoading] = useState(true);
+  const [userError, setError] = useState(null);
+
+  const fetchUser = async () => {
+    try {
+      const response = await axiosInstance.get("/user");
+      const res = response.data;
+      setData(res);
+    } catch (err) {
+      if (err.response?.data) {
+        setError(err.response?.data || "An error occurred");
+        console.error(err.response?.data || "");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchUser();
+
+  return { getData, userload, userError };
 };
