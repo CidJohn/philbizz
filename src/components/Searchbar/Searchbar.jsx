@@ -5,16 +5,15 @@ import { useTranslation } from "react-i18next";
 import Textline from "../Textline/Textline";
 import { useProtect } from "../../helper/auth/useAuthentication";
 import Button from "../Button/Button";
-import Spinner from "../Spinner/Spinner";
 
-const SearchBar = ({ onSearch, handleModalOpen, isModalOpen, hidden }) => {
+const SearchBar = ({ onSearch, handleModalOpen, hidden }) => {
   const { t } = useTranslation(); // Using the translation hook
   const { data, error } = useProtect();
   const [searchParams, setSearchParams] = useState({
     title: "",
   });
-  const [timerData, setTimerData] = useState("");
 
+  const datas = data ? data : "";
   const handleChange = (e) => {
     const { name, value } = e.target;
     setSearchParams((prevParams) => ({
@@ -32,15 +31,6 @@ const SearchBar = ({ onSearch, handleModalOpen, isModalOpen, hidden }) => {
     localStorage.removeItem("token");
     window.location.reload();
   };
-
-  useEffect(() => {
-    const timerId = setTimeout(() => {
-      setTimerData(true);
-    }, 1000);
-    if (data) return timerId;
-
-    return () => clearTimeout(timerId);
-  }, []);
 
   const renderTextline = (name, placeholder) => (
     <div className="relative w-full">
@@ -73,17 +63,29 @@ const SearchBar = ({ onSearch, handleModalOpen, isModalOpen, hidden }) => {
         <SearchIcons />
         <span className="sr-only">{t("search")}</span>
       </button>
-      <button
-        type="button"
-        className={
-          hidden
-            ? "hidden"
-            : "flex items-center text-xs justify-center border rounded px-4 py-2 hover:bg-gray-400 text-gray-600 hover:text-gray-900"
-        }
-        onClick={!data ? handleModalOpen : handleLogout}
-      >
-        {!timerData ? "..." : !data ? t("login") : "logout"}
-      </button>
+      {!datas ? (
+        <Button
+          type="button"
+          className={
+            hidden
+              ? "hidden"
+              : "flex items-center text-xs justify-center border rounded px-4 py-2 hover:bg-gray-400 text-gray-600 hover:text-gray-900"
+          }
+          onClick={handleModalOpen}
+          text={t("login")}
+        />
+      ) : (
+        <Button
+          type="button"
+          className={
+            hidden
+              ? "hidden"
+              : "flex items-center text-xs justify-center border rounded px-4 py-2 hover:bg-gray-400 text-gray-600 hover:text-gray-900"
+          }
+          onClick={handleLogout}
+          text={"logout"}
+        />
+      )}
     </form>
   );
 };

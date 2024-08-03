@@ -11,7 +11,6 @@ export const Login = ({ handleModalOpen, handleRegistrationOpen }) => {
     password: "",
   };
   const [formData, setFormData] = useState(initializeData);
-  const [getData, setData] = useState([]);
   const [errors, setErrors] = useState([]);
   const { fetchingLogin, setRememberMe, token, loginloading, error } =
     useLogin();
@@ -34,7 +33,7 @@ export const Login = ({ handleModalOpen, handleRegistrationOpen }) => {
     setFormData({ ...formData, [name]: value });
 
     if (errors[name]) {
-      setErrors({ ...errors, [name]: null }); // Clear specific field error when user types
+      setErrors({ ...errors, [name]: null });
     }
   };
   const handleSubmit = (e) => {
@@ -47,7 +46,6 @@ export const Login = ({ handleModalOpen, handleRegistrationOpen }) => {
   const handleCheckBox = (e) => {
     setRememberMe(e.target.checked);
   };
-
   useEffect(() => {
     if (token) {
       showAlert("Welcome", `Login Successfully!`, "success");

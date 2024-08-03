@@ -9,7 +9,6 @@ const useAlert = () => {
       confirmButtonText: "OK",
     });
   };
-
   return showAlert;
 };
 

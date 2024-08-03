@@ -8,14 +8,18 @@ import Company from "../pages/Selection/Business/Company/Company";
 import { useBusinessSettings } from "../helper/database/useBusinessData";
 import Blog from "../pages/Selection/Blog/Blog";
 import Defaultpage from "../pages/Selection/Defaultpage/Defaultpage";
+import useBlogSettings from "../helper/database/useBlogSettings";
+import BlogContent from "../pages/Selection/Blog/BlogContent/BlogContent";
 
 export const useRoute = () => {
   const [getnavroute, setNavRoute] = useState([]);
   const [getcardroute, setCardRoute] = useState([]);
   const [getcompanyroute, setCompanyRoute] = useState([]);
+  const [getblog, setBlog] = useState([]);
   const { navbarData } = useNavbarcontent();
   const { cardpath, load } = useCardPath();
   const { getCardInfo } = useBusinessSettings();
+  const { blogData } = useBlogSettings();
 
   useEffect(() => {
     if (navbarData) {
@@ -57,7 +61,19 @@ export const useRoute = () => {
       });
       setCompanyRoute(getCompany);
     }
-  }, [navbarData, cardpath, getCardInfo]);
+    if (blogData) {
+      const getBlog = blogData.map((item, index) => {
+        return (
+          <Route
+            key={index}
+            path={`/${item.title}`}
+            element={<BlogContent blogdata={blogData} />}
+          />
+        );
+      });
+      setBlog(getBlog);
+    }
+  }, [navbarData, cardpath, getCardInfo, blogData]);
 
-  return { getnavroute, getcardroute, getcompanyroute };
+  return { getnavroute, getcardroute, getcompanyroute, getblog };
 };
