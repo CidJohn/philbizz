@@ -79,6 +79,7 @@ export const Registration = ({ handleRegistrationClose, handleLoginOpen }) => {
     }
   }, [error]);
 
+
   return (
     <div className="">
       <div
