@@ -41,7 +41,6 @@ export const useLogin = () => {
   const [loginLoad, setLoading] = useState(true);
   const [error, setErrors] = useState(null);
   const [token, setToken] = useState(null);
-  const [rememberMe, setRememberMe] = useState(false);
   const API_CALL = restAPI();
 
   const fetchingLogin = async (props) => {
@@ -53,11 +52,6 @@ export const useLogin = () => {
       const response = await axios.post(`${API_CALL.auth}/login`, props);
       const res = await response.data.token;
       setToken(res);
-      if (rememberMe) {
-        localStorage.setItem("token", res);
-      } else {
-        sessionStorage.setItem("token", res); // Optional: Use sessionStorage for non-remembered logins
-      }
     } catch (error) {
       setErrors(error.response?.data);
       console.error(
@@ -69,12 +63,13 @@ export const useLogin = () => {
     }
   };
 
-  return { fetchingLogin, setRememberMe, loginLoad, error, token };
+  return { fetchingLogin, loginLoad, error, token };
 };
 
 export const useProtect = () => {
   const [data, setData] = useState("");
   const [error, setError] = useState(null);
+  const [loadprotect, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -87,13 +82,15 @@ export const useProtect = () => {
           setError(err.response?.data || "An error occurred");
           console.error(err.response?.data || "");
         }
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
   });
 
-  return { data, error };
+  return { data, error, loadprotect };
 };
 
 export const useUserData = () => {

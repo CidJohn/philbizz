@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 import { useNavbarcontent } from "../helper/database/useNavbarcontent";
 import Spinner from "../components/Spinner/Spinner";
 import BusinessNavbar from "../components/BusinessNavbar/BusinessNavbar";
+import { AuthProvider } from "../helper/auth/useAuthContext";
 
 function Layout({ children }) {
   const location = useLocation();
@@ -25,14 +26,16 @@ function Layout({ children }) {
     );
   }
   return (
-    <div>
-      {hidden && <BusinessNavbar />}
-      <Navbar navbarData={navbarData} loading={loading} hidden={hidden} />
-      <div className="flex flex-row">
-        <div className="flex-grow">{React.cloneElement(children)}</div>
+    <AuthProvider>
+      <div>
+        {hidden && <BusinessNavbar />}
+        <Navbar navbarData={navbarData} loading={loading} hidden={hidden} />
+        <div className="flex flex-row">
+          <div className="flex-grow">{React.cloneElement(children)}</div>
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </AuthProvider>
   );
 }
 

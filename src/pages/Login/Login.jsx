@@ -3,6 +3,8 @@ import Button from "../../components/Button/Button";
 import Textline from "../../components/Textline/Textline";
 import { useLogin } from "../../helper/auth/useAuthentication";
 import useAlert from "../../helper/alert/useAlert";
+import Spinner from "../../components/Spinner/Spinner";
+import { useAuth } from "../../helper/auth/useAuthContext";
 
 export const Login = ({ handleModalOpen, handleRegistrationOpen }) => {
   const initializeData = {
@@ -11,9 +13,11 @@ export const Login = ({ handleModalOpen, handleRegistrationOpen }) => {
     password: "",
   };
   const [formData, setFormData] = useState(initializeData);
+  const [getData, setData] = useState([]);
   const [errors, setErrors] = useState([]);
-  const { fetchingLogin, setRememberMe, token, loginloading, error } =
-    useLogin();
+  const { fetchingLogin, token, loginLoad, error } = useLogin();
+  const { login, setRememberMe } = useAuth();
+
   const showAlert = useAlert();
 
   const handleValidation = () => {
@@ -33,7 +37,7 @@ export const Login = ({ handleModalOpen, handleRegistrationOpen }) => {
     setFormData({ ...formData, [name]: value });
 
     if (errors[name]) {
-      setErrors({ ...errors, [name]: null });
+      setErrors({ ...errors, [name]: null }); // Clear specific field error when user types
     }
   };
   const handleSubmit = (e) => {
@@ -46,13 +50,14 @@ export const Login = ({ handleModalOpen, handleRegistrationOpen }) => {
   const handleCheckBox = (e) => {
     setRememberMe(e.target.checked);
   };
+
   useEffect(() => {
     if (token) {
       showAlert("Welcome", `Login Successfully!`, "success");
       handleModalOpen();
-      window.location.reload();
+      login(token);
     }
-  }, [token]);
+  }, [token, loginLoad]);
 
   useEffect(() => {
     if (error) {
