@@ -6,7 +6,7 @@ const HandleBlog = (props) => {
   const { blogdata } = props;
   const renderData = (items) => {
     return items.map((item, index) => (
-      <div className="" key={index}>
+      <div className="p-2" key={index}>
         <List
           title={item.title}
           desc={item.description}
@@ -16,6 +16,8 @@ const HandleBlog = (props) => {
           classreverse={"flex-row-reverse"}
           binaryImage={item.image.data}
           imgstyle={{ width: "100px", height: "70px" }}
+          datetime={item.created_at}
+          classStyle={"text-2xl"}
         />
         <Horizontal />
       </div>

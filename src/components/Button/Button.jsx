@@ -8,6 +8,7 @@ const Button = ({
   type = "button",
   disabled = false,
   icon,
+  spinner
 }) => {
   const { t } = useTranslation();
   return (
@@ -19,6 +20,7 @@ const Button = ({
     >
       {icon}
       {t(text)}
+      {spinner}
     </button>
   );
 };

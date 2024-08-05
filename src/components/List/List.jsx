@@ -1,6 +1,7 @@
 import React from "react";
 import Images from "../Image/Images";
 import ImageBinary from "../Image/ImageBinary";
+import Dateformat from "../Dateformat/Dateformat";
 
 const List = (props) => {
   const {
@@ -17,6 +18,8 @@ const List = (props) => {
     imgstyle,
     user,
     binaryImage,
+    datetime,
+    classStyle,
   } = props;
   let sizeClass;
   switch (size) {
@@ -50,19 +53,21 @@ const List = (props) => {
               </figure>
             )}
             <div className="flex-1 max-w-screen-lg ">
-              <div className="font-semibold">{title}</div>
+              <div className={`font-semibold   ${classStyle}`}>{title}</div>
               <p className="text-gray-700 text-xs text-wrap truncate">{desc}</p>
               {user && (
-                <p
-                  href="/"
-                  className="text-gray-700 text-xs italic text-wrap truncate"
-                >
-                  - {user}
-                </p>
+                <div className="">
+                  <p className="text-gray-700 text-xs italic text-wrap truncate">
+                    - {user}
+                  </p>
+                  <p className="text-gray-700 text-xs  text-wrap truncate">
+                    <Dateformat dateString={datetime} />
+                  </p>
+                </div>
               )}
             </div>
             {binaryImage && (
-              <div className="flex justify-items-end">
+              <div className="flex ">
                 <figure className="max-w-md p-4 ">
                   <ImageBinary
                     binaryData={binaryImage}

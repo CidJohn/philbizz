@@ -4,16 +4,18 @@ import SearchIcons from "../svg/SearchIcons";
 import { useTranslation } from "react-i18next";
 import Textline from "../Textline/Textline";
 import { useProtect } from "../../helper/auth/useAuthentication";
+import Spinner from "../Spinner/Spinner";
 import Button from "../Button/Button";
+import { useAuth } from "../../helper/auth/useAuthContext";
 
 const SearchBar = ({ onSearch, handleModalOpen, hidden }) => {
-  const { t } = useTranslation(); // Using the translation hook
-  const { data, error } = useProtect();
+  const { t } = useTranslation();
+  const { data, error, loadprotect } = useProtect();
   const [searchParams, setSearchParams] = useState({
     title: "",
   });
+  const { isAuthenticated, logout, authload } = useAuth();
 
-  const datas = data ? data : "";
   const handleChange = (e) => {
     const { name, value } = e.target;
     setSearchParams((prevParams) => ({
@@ -21,15 +23,9 @@ const SearchBar = ({ onSearch, handleModalOpen, hidden }) => {
       [name]: value,
     }));
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     onSearch(searchParams);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    window.location.reload();
   };
 
   const renderTextline = (name, placeholder) => (
@@ -63,7 +59,9 @@ const SearchBar = ({ onSearch, handleModalOpen, hidden }) => {
         <SearchIcons />
         <span className="sr-only">{t("search")}</span>
       </button>
-      {!datas ? (
+      {authload ? (
+        <Spinner />
+      ) : isAuthenticated ? (
         <Button
           type="button"
           className={
@@ -71,8 +69,8 @@ const SearchBar = ({ onSearch, handleModalOpen, hidden }) => {
               ? "hidden"
               : "flex items-center text-xs justify-center border rounded px-4 py-2 hover:bg-gray-400 text-gray-600 hover:text-gray-900"
           }
-          onClick={handleModalOpen}
-          text={t("login")}
+          onClick={logout}
+          text={"logout"}
         />
       ) : (
         <Button
@@ -82,8 +80,8 @@ const SearchBar = ({ onSearch, handleModalOpen, hidden }) => {
               ? "hidden"
               : "flex items-center text-xs justify-center border rounded px-4 py-2 hover:bg-gray-400 text-gray-600 hover:text-gray-900"
           }
-          onClick={handleLogout}
-          text={"logout"}
+          onClick={handleModalOpen}
+          text={t("login")}
         />
       )}
     </form>

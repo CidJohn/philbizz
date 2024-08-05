@@ -8,6 +8,7 @@ const Textline = ({
   placeholder,
   className,
   label,
+  textarea,
 }) => {
   return (
     <div className="">
@@ -17,14 +18,25 @@ const Textline = ({
       >
         {label}
       </label>
-      <input
-        type={type}
-        name={name}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        className={className}
-      />
+      {textarea ? (
+        <textarea
+          type={type}
+          name={name}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          className={className}
+        ></textarea>
+      ) : (
+        <input
+          type={type}
+          name={name}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          className={className}
+        />
+      )}
     </div>
   );
 };

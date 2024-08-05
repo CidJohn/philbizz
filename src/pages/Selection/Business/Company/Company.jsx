@@ -5,6 +5,7 @@ import Carousel from "../../../../components/Carousel/Carousel";
 import ContactForm from "../../../../components/ContactUs/ContactUs";
 import { personnelContent } from "../../../../content/personnelContent";
 import { useLocation } from "react-router-dom";
+import Images from "../../../../components/Image/Images";
 
 const Company = (props) => {
   const { CompanyData } = props;
@@ -13,7 +14,6 @@ const Company = (props) => {
 
   useEffect(() => {
     const decodelocation = decodeURIComponent(location.pathname);
-
     const cardname = CompanyData
       ? CompanyData?.find((item) => `/${item.title}` === decodelocation)
           ?.title || ""
@@ -22,12 +22,12 @@ const Company = (props) => {
   }, [CompanyData]);
 
   return (
-    <div className="flex flex-col mx-auto max-w-srceen-md items-center">
+    <div className="flex flex-col mx-auto max-w-srceen-md items-center p-5">
       <div className="text-2xl p-3">{getCompanyName}</div>
       <div className="flex flex-col">
         <div className="flex flex-col md:flex-row  container ">
           <div className="p-3">
-            <ImageLink
+            <Images
               src={
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLMRNnKIYiMwMKPNW5eqdq2ludhE6F3xZ-iQ&s"
               }

@@ -79,13 +79,6 @@ export const Registration = ({ handleRegistrationClose, handleLoginOpen }) => {
     }
   }, [error]);
 
-  if (loadData) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Spinner />
-      </div>
-    );
-  }
   return (
     <div className="">
       <div
