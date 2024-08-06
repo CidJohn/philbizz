@@ -19,11 +19,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Registration } from "../../pages/Login/Registration";
 
-export default function Navbar({ ...props }) {
+export default function Navbar(props) {
   const { navbarData, loading, hidden } = props;
   const [showDropdown, setShowDropdown] = useState(true);
   const [showDropdown2, setShowDropdown2] = useState(null);
-  const [getFontTitle, setFonttitle] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRegistration, setRegistration] = useState(false);

@@ -49,7 +49,7 @@ const Blog = () => {
                     onClick={handleModalOpen}
                   />
                 </div>
-              ) : (
+              ) : ( 
                 <p className="text-red-700 italic text-sm  flex items-center">
                   "Please login!"
                 </p>
