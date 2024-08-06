@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import imageIcon from "../../assets/img/image-icon.png";
 
 const UploadImage = ({
@@ -32,7 +31,7 @@ const UploadImage = ({
             />
           ) : (
             <img
-              src={placeholder}
+              src={imageIcon}
               alt="Placeholder"
               className="object-cover rounded-lg"
             />
@@ -43,18 +42,18 @@ const UploadImage = ({
   );
 };
 
-UploadImage.propTypes = {
-  onUpload: PropTypes.func.isRequired,
-  placeholder: PropTypes.string,
-  className: PropTypes.string,
-  imagePreview: PropTypes.string,
-  handleFileChange: PropTypes.func.isRequired,
-};
+// UploadImage.propTypes = {
+//   onUpload: PropTypes.func.isRequired,
+//   placeholder: PropTypes.string,
+//   className: PropTypes.string,
+//   imagePreview: PropTypes.string,
+//   handleFileChange: PropTypes.func.isRequired,
+// };
 
-UploadImage.defaultProps = {
-  placeholder: imageIcon,
-  className: "",
-  imagePreview: null,
-};
+// UploadImage.defaultProps = {
+//   placeholder: imageIcon,
+//   className: "",
+//   imagePreview: null,
+// };
 
 export default UploadImage;

@@ -9,12 +9,13 @@ const Textline = ({
   className,
   label,
   textarea,
+  labelclass,
 }) => {
   return (
     <div className="">
       <label
         htmlFor="email"
-        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        className={`block mb-2 text-sm font-bold text-gray-900 dark:text-white ${labelclass}`}
       >
         {label}
       </label>
