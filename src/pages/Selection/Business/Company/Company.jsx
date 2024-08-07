@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { ImageLink } from "../../../../components/Image/ImageLink";
-import Card from "../../../../components/Card/Card";
 import Carousel from "../../../../components/Carousel/Carousel";
 import ContactForm from "../../../../components/ContactUs/ContactUs";
 import { personnelContent } from "../../../../content/personnelContent";
 import { useLocation } from "react-router-dom";
 import Images from "../../../../components/Image/Images";
+import GoogleMapEmbed from "../../../../components/GoogleMapEmbed/GoogleMapEmbed";
+import { useCompanyView } from "../../../../helper/database/useBusinessData";
+import Maintenance from "../../../../components/Maintenance/Maintenance";
+import MaintenancePage from "../../../../components/Maintenance/Maintenance";
+import Spinner from "../../../../components/Spinner/Spinner";
 
 const Company = (props) => {
   const { CompanyData } = props;
   const location = useLocation();
-  const [getCompanyName, setCompanyName] = useState("");
+  const [getCompanyInfo, setCompanyInfo] = useState([]);
+  const [getCompanyImages, setCompanyImages] = useState([]);
+  const [getCompanyProduct, setCompanyProduct] = useState([]);
+  const { viewData, vieloading, fecthCompanyView } = useCompanyView();
 
   useEffect(() => {
     const decodelocation = decodeURIComponent(location.pathname);
@@ -18,130 +24,92 @@ const Company = (props) => {
       ? CompanyData?.find((item) => `/${item.title}` === decodelocation)
           ?.title || ""
       : "";
-    setCompanyName(cardname);
-  }, [CompanyData]);
+    const getCompanyInfo = CompanyData
+      ? CompanyData.find((item) => item.title === cardname)
+      : [];
+    const getImage = viewData.images ? viewData.images.map((item) => item) : [];
+    const getProduct = viewData.products
+      ? viewData.products.map((item) => item)
+      : [];
 
+    setCompanyImages(getImage);
+    setCompanyProduct(getProduct);
+    setCompanyInfo(getCompanyInfo);
+    fecthCompanyView(cardname);
+  }, [CompanyData, viewData]);
+
+  if (!viewData.companyName) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Maintenance />
+      </div>
+    );
+  }
+  if (vieloading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Spinner />
+      </div>
+    );
+  }
   return (
     <div className="flex flex-col mx-auto max-w-srceen-md items-center p-5">
-      <div className="text-2xl p-3">{getCompanyName}</div>
+      <div className="text-2xl p-3 font-bold">"{viewData.companyName}"</div>
       <div className="flex flex-col">
-        <div className="flex flex-col md:flex-row  container ">
-          <div className="p-3">
-            <Images
-              src={
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLMRNnKIYiMwMKPNW5eqdq2ludhE6F3xZ-iQ&s"
-              }
-              style={{ width: "100px" }}
-            />
-          </div>
-          <p className="text-wrap text-sm max-w-96   p-2">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
-            odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla
-            quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent
-            mauris. Fusce nec tellus sed augue semper porta. Mauris massa.
-            Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad
-          </p>
+        <div className="flex flex-col md:flex-row   ">
+          <p className="text-wrap text-sm    p-2">{viewData.address}</p>
         </div>
-        <div className="flex flex-col mt-3">
-          <p className="text-wrap text-sm max-w-screen-md  indent-8">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
-            odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla
-            quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent
-            mauris. Fusce nec tellus sed augue semper porta. Mauris massa.
-            Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad
-          </p>
+        <div className="p-3 flex  justify-center">
+          <Images
+            src={viewData.imgLOGO}
+            //style={{ width: "100px" }}
+          />
         </div>
       </div>
-
       <section id="about">
-        <div className="text-2xl p-3 mt-10">About</div>
+        <div className="text-2xl p-3 mt-10 font-bold text-center">
+          Information
+        </div>
         <div className="flex flex-col ">
-          <div className="flex flex-wrap-reverse ">
-            <p className="text-wrap text-sm max-w-prose indent-8 p-2">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-              nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.
-              Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum.
-              Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris
-              massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti
-              sociosqu ad Lorem ipsum dolor sit amet, consectetur adipiscing
-              elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus
-              diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis
-              sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper
-              porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class
-              aptent taciti sociosqu ad Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit. Integer nec odio. Praesent libero. Sed cursus
-              ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum
-              imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus
-              sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget
-              nulla. Class aptent taciti sociosqu ad
-            </p>
-            <Card
-              src={
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLMRNnKIYiMwMKPNW5eqdq2ludhE6F3xZ-iQ&s"
-              }
-              title={"Sample Title About"}
-              desc={`Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa.
-          Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.`}
-            />
+          <div className="p-3 gap-3 flex  justify-center ">
+            {getCompanyImages &&
+              getCompanyImages.map((item, index) => (
+                <div className="" key={index}>
+                  <Images
+                    src={item.companyImage}
+                    style={{ width: "300px", height: "300px" }}
+                    className="transform transition-transform duration-500 hover:scale-105"
+                  />
+                </div>
+              ))}
           </div>
-          <div className="flex flex-wrap-reverse  mt-2">
-            <p className="text-wrap text-sm max-w-prose indent-8 p-2">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-              nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.
-              Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum.
-              Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris
-              massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti
-              sociosqu ad
+          <div className="flex flex-wrap-reverse  justify-center">
+            <p className="text-wrap text-sm max-w-prose indent-8 p-2 ">
+              {viewData.description}
             </p>
-            <Card
-              src={
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLMRNnKIYiMwMKPNW5eqdq2ludhE6F3xZ-iQ&s"
-              }
-              title={"Sample Title About"}
-              desc={`Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa.
-          Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.`}
-            />
           </div>
         </div>
       </section>
       <section id="products">
-        <div className="text-2xl font-bold mt-5 p-2">Products</div>
-        <div className="flex flex-wrap">
-          <div className="flex">
-            <figure className="max-w-md p-4">
-              <ImageLink
-                className="rounded-lg"
-                src={""}
-                alt="Hair salon interior"
-              />
-              <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
-                Sample Header
-              </figcaption>
-            </figure>
-          </div>
-          <div className="flex">
-            <figure className="max-w-md p-4">
-              <ImageLink
-                className="rounded-lg"
-                src={""}
-                alt="Hair salon interior"
-              />
-              <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
-                Sample Header
-              </figcaption>
-            </figure>
-          </div>
-          <div className="flex">
-            <figure className="max-w-md p-4">
-              <ImageLink
-                className="rounded-lg"
-                src={""}
-                alt="Hair salon interior"
-              />
-              <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
-                Sample Header
-              </figcaption>
-            </figure>
+        <div className="text-2xl font-bold mt-5 p-2 text-center">Products</div>
+        <div className="flex max-w-screen-md ">
+          <div className="flex flex-wrap justify-center">
+            {getCompanyProduct &&
+              getCompanyProduct.map((item, index) => (
+                <div key={index}>
+                  <figure className=" p-4 transform transition-transform duration-500 hover:scale-105">
+                    <Images
+                      className="rounded-lg border-2"
+                      src={item.productImage}
+                      alt="Hair salon interior"
+                      style={{ width: "300px", height: "300px" }}
+                    />
+                    <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
+                      {item.productName}
+                    </figcaption>
+                  </figure>
+                </div>
+              ))}
           </div>
         </div>
       </section>
@@ -151,7 +119,15 @@ const Company = (props) => {
           <Carousel items={personnelContent} />
         </div>
       </section>
-      <section id="contact">
+      <section id="address">
+        <div className="font-mono font-bold text-3xl text-center mt-5 p-5">
+          Location
+        </div>
+        <div className="flex justify-center">
+          <GoogleMapEmbed src={viewData.locationURL} />
+        </div>
+      </section>
+      <section id="contact" className="max-w-screen-md">
         <ContactForm />
       </section>
     </div>

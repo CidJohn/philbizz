@@ -17,7 +17,6 @@ const Selection = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [itemsMainPage, setItemsMainPage] = useState(15);
   const [business, setBusiness] = useState("");
-  const [selectpath, setSelectPath] = useState("");
   const [dropdownValue, setDropdownValue] = useState("");
   const { data, loading } = useTreeview();
   const { navbarData } = useNavbarcontent();
@@ -152,6 +151,7 @@ const Selection = () => {
       </div>
     );
   }
+
   return (
     <ContentLayout
       renderTreeView={() => (
@@ -168,7 +168,6 @@ const Selection = () => {
           currentItems={currentItems}
           currentPage={currentPage}
           itemsPerPage={itemsPerPage}
-          selectPath={selectpath}
           searchResult={filteredData}
         />
       )}

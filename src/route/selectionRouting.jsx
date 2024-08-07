@@ -25,55 +25,56 @@ export const useRoute = () => {
     if (navbarData) {
       const limitedNavbarData = navbarData.slice(0, 10); // Limit to 10 items
       const routes = limitedNavbarData.map((item, index) => (
-        <>
-          {(item.path === "/business" && (
-            <Route key={index} path={item.path} element={<Business />} />
-          )) ||
-            (item.path === "/blog" && (
-              <Route key={index} path={item.path} element={<Blog />} />
-            ))}
-          <Route key={index} path={item.path} element={<Selection />} />
-        </>
+        <Route
+          key={`nav-${index}`}
+          path={item.path}
+          element={
+            item.path === "/business" ? (
+              <Business />
+            ) : item.path === "/blog" ? (
+              <Blog />
+            ) : (
+              <Selection />
+            )
+          }
+        />
       ));
       setNavRoute(routes);
     }
+
     if (cardpath) {
-      const cardRoutes = cardpath.map((item, index) => {
-        return (
-          <Route
-            key={index}
-            path={`/${item.title}`}
-            element={<Defaultpage cardpath={cardpath} load={load} />}
-          />
-        );
-      });
+      const cardRoutes = cardpath.map((item, index) => (
+        <Route
+          key={`card-${index}`}
+          path={`/${item.title}`}
+          element={<Defaultpage cardpath={cardpath} load={load} />}
+        />
+      ));
       setCardRoute(cardRoutes);
     }
+
     if (getCardInfo) {
-      const getCompany = getCardInfo.map((item, index) => {
-        return (
-          <Route
-            key={index}
-            path={`/${item.title}`}
-            element={<Company CompanyData={getCardInfo} />}
-          />
-        );
-      });
+      const getCompany = getCardInfo.map((item, index) => (
+        <Route
+          key={`company-${index}`}
+          path={`/${item.title}`}
+          element={<Company CompanyData={getCardInfo} />}
+        />
+      ));
       setCompanyRoute(getCompany);
     }
+
     if (blogData) {
-      const getBlog = blogData.map((item, index) => {
-        return (
-          <Route
-            key={index}
-            path={`/${item.title}`}
-            element={<BlogContent blogdata={blogData} />}
-          />
-        );
-      });
+      const getBlog = blogData.map((item, index) => (
+        <Route
+          key={`blog-${index}`}
+          path={`/${item.title}`}
+          element={<BlogContent blogdata={blogData} />}
+        />
+      ));
       setBlog(getBlog);
     }
-  }, [navbarData, cardpath, getCardInfo, blogData]);
+  }, [navbarData, cardpath, getCardInfo, blogData, load]);
 
   return { getnavroute, getcardroute, getcompanyroute, getblog };
 };

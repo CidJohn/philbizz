@@ -1,7 +1,7 @@
 import React from "react";
-import { ImageLink } from "../../../components/Image/ImageLink";
 import { useTranslation } from "react-i18next";
 import { useCardDesc } from "../../../helper/database/useCardPath";
+import Images from "../../../components/Image/Images";
 
 const Description = ({ type, path }) => {
   const { t } = useTranslation();
@@ -19,21 +19,25 @@ const Description = ({ type, path }) => {
                       <h1 className="text-4xl md:text-6xl mb-4 font-serif">
                         {t(item.header)}
                       </h1>
-                      <p className="text-left mb-4">{item.paragraph}</p>
+                      <p className="text-left mb-4 ">{item.paragraph}</p>
                     </div>
-                    <figure className="max-w-md">
-                      <ImageLink
-                        className="rounded-lg"
-                        src={item.image}
-                        alt="Hair salon interior"
-                      />
-                      <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
-                        {t(item.header)}
-                      </figcaption>
-                    </figure>
+                    {item.image && (
+                      <figure className="max-w-md">
+                        <Images
+                          className="rounded-lg"
+                          src={item.image}
+                          alt="Hair salon interior"
+                        />
+                        <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
+                          {t(item.header)}
+                        </figcaption>
+                      </figure>
+                    )}
                   </div>
                   <div className="flex flex-col ">
-                    <p className="text-left mb-4">{item.description}</p>
+                    <p className="text-left mb-4 indent-8">
+                      {item.description}
+                    </p>
                   </div>
                 </div>
               )

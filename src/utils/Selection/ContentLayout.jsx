@@ -1,13 +1,11 @@
 import React from "react";
 import Pagination from "../../components/Pagination/Pagination";
-import sampleItem from "../../content/sampleItem";
 import SearchBar from "../../components/Searchbar/Searchbar";
 import Description from "../../pages/Selection/Description/Description";
-import List from "../../components/List/List";
 import Horizontal from "../../components/Horizontal/Horizontal";
 import Dropdown from "../../components/Dropdown/Dropdown";
-import Images from "../../components/Image/Images";
 import Card from "../../components/Card/Card";
+import MaintenancePage from "../../components/Maintenance/Maintenance";
 
 const ContentLayout = ({
   renderTreeView,
@@ -25,6 +23,13 @@ const ContentLayout = ({
   currentItems,
   sideAds,
 }) => {
+  if (currentItems.length === 0) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <MaintenancePage />
+      </div>
+    );
+  }
   return (
     <div className="flex flex-col md:flex md:flex-wrap mx-auto container mt-5">
       <div className="flex flex-col md:flex-row ">
