@@ -105,4 +105,33 @@ export const useCompanyFilter = (props) => {
   return { CompanyFilter, CompanyLoading };
 };
 
+export const useCompanyView = () => {
+  const [viewData, setViewData] = useState([]);
+  const [viewloading, setLoading] = useState(true);
+  const API_CALL = restAPI();
+
+  const fecthCompanyView = async (companydata) => {
+    if (!companydata) return;
+    try {
+      const param = new URLSearchParams();
+      if (companydata) param.append("company", companydata);
+      const response = await axios.get(
+        `${API_CALL.host}/business-company-viewpage?${param.toString()}`
+      );
+      const res = response.data;
+      setViewData(res);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fecthCompanyView();
+  }, []);
+
+  return { viewData, viewloading, fecthCompanyView };
+};
+
 export default useBusinessData;

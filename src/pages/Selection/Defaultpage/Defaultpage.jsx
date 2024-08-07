@@ -11,15 +11,7 @@ import Button from "../../../components/Button/Button";
 import { Gmail, Kakaotalk, Telegram } from "../../../components/svg/Icons";
 import Swal from "sweetalert2";
 import GoogleMapEmbed from "../../../components/GoogleMapEmbed/GoogleMapEmbed";
-
-const isValidUrl = (src) => {
-  try {
-    new URL(src);
-    return true;
-  } catch (e) {
-    return false;
-  }
-};
+import MaintenancePage from "../../../components/Maintenance/Maintenance";
 
 function Defaultpage(props) {
   const { cardpath, load } = props;
@@ -28,7 +20,6 @@ function Defaultpage(props) {
   const locationName = useLocation();
   const { getData, getURL, loadData } = useCardInfo(getTitle);
   const { getImage, loadImage } = useImgCardURL(getTitle);
-  console.log(getTitle);
   useEffect(() => {
     const decodedPathname = decodeURIComponent(locationName.pathname);
     const path =
@@ -66,8 +57,16 @@ function Defaultpage(props) {
       </div>
     );
   }
+  if (getData.length === 0) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <MaintenancePage />
+      </div>
+    );
+  }
+
   return (
-    <div className="container mx-auto mt-10">
+    <div className="container mx-auto mt-10 max-w-screen-md">
       <h1 className="font-mono font-bold text-3xl text-center">{getCard}</h1>
       {loadData ? (
         <Spinner />
@@ -92,7 +91,7 @@ function Defaultpage(props) {
                   {item.type}
                 </h1>
                 <div className="flex flex-wrap justify-center">
-                  <div className="grid md:grid-cols-3">
+                  <div className="grid md:grid-cols-3 gap-2">
                     {loadImage ? (
                       <Spinner />
                     ) : (
@@ -100,6 +99,9 @@ function Defaultpage(props) {
                         <Images
                           src={items.imageURL}
                           style={{ width: "300px", height: "300px" }}
+                          className={
+                            "transform transition-transform duration-500 hover:scale-95"
+                          }
                         />
                       ))
                     )}

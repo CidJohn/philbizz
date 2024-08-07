@@ -2,6 +2,7 @@ import React from "react";
 import Card from "../../components/Card/Card";
 import useCardSettings from "../../helper/database/useCardSettings";
 import Spinner from "../../components/Spinner/Spinner";
+
 const HandleCards = ({
   currentPath,
   selectedItem,
@@ -20,7 +21,6 @@ const HandleCards = ({
       </div>
     );
   }
-
   if (!currentItems && !businessTypes) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -55,6 +55,9 @@ const HandleCards = ({
     case "Food":
     case "Ktv/Jtv":
     case "Beauty":
+    case "Travel":
+    case "Medical":
+    case "Festival":
       if (searchError) {
         return <div className="error-message">{searchError}</div>;
       }

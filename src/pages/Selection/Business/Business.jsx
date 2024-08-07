@@ -75,7 +75,7 @@ const Business = () => {
       <div className="flex flex-wrap mx-auto max-w-screen-lg">
         <div className="flex flex-row mx-auto">
           <div className="flex flex-col">
-            <div className="flex flex-col container mx-auto">
+            <div className="flex flex-col container ">
               <div className="flex">
                 <Description type={"business"} path={"Business"} />
               </div>
