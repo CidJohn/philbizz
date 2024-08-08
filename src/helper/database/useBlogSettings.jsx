@@ -25,17 +25,17 @@ const useBlogSettings = () => {
   return { blogData, blogload };
 };
 
-export const useBlogContent = (id) => {
+export const useBlogContent = (username) => {
   const [content, setContent] = useState([]);
   const [contentload, setLoading] = useState(true);
   const API_CALL = restAPI();
 
   useEffect(() => {
     const fetchContent = async () => {
-      if (!id) return;
+      if (!username) return;
       try {
         const param = new URLSearchParams();
-        if (id) param.append("id", id);
+        if (username) param.append("username", username);
         const response = await axios.get(
           `${API_CALL.host}/blog-content?${param.toString()}`
         );
@@ -48,7 +48,7 @@ export const useBlogContent = (id) => {
       }
     };
     fetchContent();
-  }, [id]);
+  }, [username]);
 
   return { content, contentload };
 };

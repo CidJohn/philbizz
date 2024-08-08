@@ -8,7 +8,7 @@ const BlogContent = (props) => {
   const { content, contentload } = useBlogContent(getidblog);
 
   useEffect(() => {
-    const idblog = blogdata ? blogdata.map((item) => item.id) : [];
+    const idblog = blogdata ? blogdata.map((item) => item.username) : [];
     setIdBlog(idblog);
   }, [blogdata]);
 
