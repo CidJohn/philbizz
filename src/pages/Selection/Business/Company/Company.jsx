@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import Carousel from "../../../../components/Carousel/Carousel";
 import ContactForm from "../../../../components/ContactUs/ContactUs";
 import { personnelContent } from "../../../../content/personnelContent";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Images from "../../../../components/Image/Images";
 import GoogleMapEmbed from "../../../../components/GoogleMapEmbed/GoogleMapEmbed";
 import { useCompanyView } from "../../../../helper/database/useBusinessData";
 import Maintenance from "../../../../components/Maintenance/Maintenance";
-import MaintenancePage from "../../../../components/Maintenance/Maintenance";
 import Spinner from "../../../../components/Spinner/Spinner";
+import Table from "../../../../components/Table/Table";
+import { Browser, Facebook } from "../../../../components/svg/Icons";
+import Horizontal from "../../../../components/Horizontal/Horizontal";
 
 const Company = (props) => {
   const { CompanyData } = props;
@@ -16,6 +18,7 @@ const Company = (props) => {
   const [getCompanyInfo, setCompanyInfo] = useState([]);
   const [getCompanyImages, setCompanyImages] = useState([]);
   const [getCompanyProduct, setCompanyProduct] = useState([]);
+  const [getCompanySocial, setCompanySocial] = useState([]);
   const { viewData, vieloading, fecthCompanyView } = useCompanyView();
 
   useEffect(() => {
@@ -31,7 +34,11 @@ const Company = (props) => {
     const getProduct = viewData.products
       ? viewData.products.map((item) => item)
       : [];
+    const getSocial = viewData.socials
+      ? viewData.socials.map((item) => item)
+      : [];
 
+    setCompanySocial(getSocial);
     setCompanyImages(getImage);
     setCompanyProduct(getProduct);
     setCompanyInfo(getCompanyInfo);
@@ -52,46 +59,95 @@ const Company = (props) => {
       </div>
     );
   }
+  const website = getCompanySocial
+    ? getCompanySocial.map((item) => item.website)
+    : [];
+  const capitalizeWords = (str) => {
+    return str
+      .replace(/([a-z])([A-Z])/g, "$1 $2") // Add space before capital letters
+      .split(" ") // Split into words
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
+      .join(" "); // Join back into a string
+  };
+
+  const viewkeys = Object.keys(viewData);
+  const tblheader = ["Information", "Details"];
+  const tblrow = ["Information", "Details"];
+  const tbldata = [
+    {
+      Information: capitalizeWords(viewkeys[0]) + ":",
+      Details: viewData.companyName,
+    },
+    {
+      Information: capitalizeWords(viewkeys[3]),
+      Details: viewData.contact,
+    },
+    {
+      Information: capitalizeWords(viewkeys[5]),
+      Details: viewData.address,
+    },
+    {
+      Information: "Director:",
+      Details: viewData.person,
+    },
+    {
+      Information: capitalizeWords(viewkeys[7]),
+      Details: viewData.establish,
+    },
+    {
+      Information: capitalizeWords(viewkeys[8]),
+      Details: viewData.employee,
+    },
+    {
+      Information: "URL:",
+      Details: (
+        <a
+          href={website}
+          target={"_black"}
+          className="text-blue-700 hover:underline"
+        >
+          {website}
+        </a>
+      ),
+    },
+  ];
+  const personnel = [];
   return (
     <div className="flex flex-col mx-auto max-w-srceen-md items-center p-5">
       <div className="text-2xl p-3 font-bold">"{viewData.companyName}"</div>
       <div className="flex flex-col">
-        <div className="flex flex-col md:flex-row   ">
-          <p className="text-wrap text-sm    p-2">{viewData.address}</p>
-        </div>
         <div className="p-3 flex  justify-center">
           <Images
             src={viewData.imgLOGO}
             //style={{ width: "100px" }}
           />
         </div>
+        <div className="flex flex-wrap-reverse  justify-center">
+          <p className="text-wrap text-sm max-w-prose indent-8 p-2 ">
+            {viewData.description}
+          </p>
+        </div>
       </div>
       <section id="about">
-        <div className="text-2xl p-3 mt-10 font-bold text-center">
-          Information
-        </div>
-        <div className="flex flex-col ">
-          <div className="p-3 gap-3 flex  justify-center ">
+        <div className="flex flex-wrap max-w-screen-md">
+          <div className="p-3 gap-3 flex  justify-center  ">
             {getCompanyImages &&
               getCompanyImages.map((item, index) => (
                 <div className="" key={index}>
                   <Images
                     src={item.companyImage}
-                    style={{ width: "300px", height: "300px" }}
+                    style={{ width: "500px", height: "400px" }}
                     className="transform transition-transform duration-500 hover:scale-105"
                   />
                 </div>
               ))}
           </div>
-          <div className="flex flex-wrap-reverse  justify-center">
-            <p className="text-wrap text-sm max-w-prose indent-8 p-2 ">
-              {viewData.description}
-            </p>
-          </div>
         </div>
       </section>
       <section id="products">
-        <div className="text-2xl font-bold mt-5 p-2 text-center">Products</div>
+        <div className="text-2xl font-bold mt-5 p-2 text-center">
+          Sample Products
+        </div>
         <div className="flex max-w-screen-md ">
           <div className="flex flex-wrap justify-center">
             {getCompanyProduct &&
@@ -113,12 +169,16 @@ const Company = (props) => {
           </div>
         </div>
       </section>
-      <section id="personnel">
-        <div className="text-2xl font-bold mt-5 p-2">Personnel</div>
-        <div className=" max-w-screen-md p-3">
-          <Carousel items={personnelContent} />
-        </div>
-      </section>
+      {!personnel ? (
+        <section id="personnel">
+          <div className="text-2xl font-bold mt-5 p-2">Personnel</div>
+          <div className=" max-w-screen-md p-3">
+            <Carousel items={personnelContent} />
+          </div>
+        </section>
+      ) : (
+        ""
+      )}
       <section id="address">
         <div className="font-mono font-bold text-3xl text-center mt-5 p-5">
           Location
@@ -127,8 +187,27 @@ const Company = (props) => {
           <GoogleMapEmbed src={viewData.locationURL} />
         </div>
       </section>
+
+      <section id="CompanyInfo">
+        <div className="font-mono font-bold text-3xl text-center mt-5 p-5">
+          Company Info
+        </div>
+        <div className="p-2 mt-5">
+          <Table tblheader={tblheader} tblrow={tblrow} tbldata={tbldata} />
+        </div>
+        <div className="">
+          {getCompanySocial
+            ? getCompanySocial.map((item) => (
+                <div className="">
+                  <div className=""></div>
+                </div>
+              ))
+            : ""}
+        </div>
+      </section>
+
       <section id="contact" className="max-w-screen-md">
-        <ContactForm />
+        <ContactForm email={viewData.email} company={viewData.companyName} />
       </section>
     </div>
   );

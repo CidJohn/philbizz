@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { send } from "emailjs-com";
 
-function ContactForm() {
+function ContactForm(props) {
+  const { email, company } = props;
   const [formData, setFormData] = useState({
     email: "",
     subject: "",
     message: "",
+    company: company,
   });
   const { t } = useTranslation();
   const handleChange = (e) => {
@@ -18,15 +21,33 @@ function ContactForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you can implement your logic to handle the form submission,
-    // such as sending the data to a server, displaying a success message, etc.
-    console.log(formData);
-    // Reset the form after submission
-    setFormData({
-      email: "",
-      subject: "",
-      message: "",
-    });
+
+    const templateParams = {
+      from_email: formData.email,
+      to_email: email,
+      subject: formData.subject,
+      message: formData.message,
+      companyName: formData.company,
+    };
+
+    send(
+      "service_eh4kxgl",
+      "template_8lerwug",
+      templateParams,
+      "Fz-gbi6vz8SFHDHd-"
+    )
+      .then((response) => {
+        console.log("SUCCESS!", response.status, response.text);
+        setFormData({
+          email: "",
+          subject: "",
+          message: "",
+          company: company || "",
+        });
+      })
+      .catch((err) => {
+        console.log("FAILED...", err);
+      });
   };
 
   return (
@@ -95,7 +116,7 @@ function ContactForm() {
           </div>
           <button
             type="submit"
-            className="py-3 px-5 text-sm font-medium text-center text-dark rounded-lg bg-blue-100 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+            className="py-3 px-5 text-sm font-medium text-center text-dark rounded-lg bg-blue-500 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300  transform transition-transform duration-500 hover:scale-95"
           >
             {t("send_message")}
           </button>
