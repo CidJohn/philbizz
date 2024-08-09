@@ -35,6 +35,7 @@ const List = (props) => {
     default:
       sizeClass = "text-base";
   }
+
   return (
     <div className="flex flex-col mt-3">
       <ul className="space-y-2">
@@ -66,11 +67,11 @@ const List = (props) => {
                 </div>
               )}
             </div>
-            {binaryImage && (
+            {binaryImage ? (
               <div className="flex ">
                 <figure className="max-w-md p-4 ">
-                  <ImageBinary
-                    binaryData={binaryImage}
+                  <Images
+                    src={binaryImage}
                     alt={header || title}
                     style={imgstyle}
                   />
@@ -79,6 +80,8 @@ const List = (props) => {
                   </figcaption>
                 </figure>
               </div>
+            ) : (
+              ""
             )}
           </a>
         </li>

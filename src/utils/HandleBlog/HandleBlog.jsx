@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import List from "../../components/List/List";
 import Horizontal from "../../components/Horizontal/Horizontal";
 
 const HandleBlog = (props) => {
-  const { blogdata } = props;
+  const { blogdata, imagelink } = props;
+
   const renderData = (items) => {
     return items.map((item, index) => (
       <div className="p-2" key={index}>
@@ -13,8 +14,8 @@ const HandleBlog = (props) => {
           className={"border-none shadow-none"}
           user={item.username}
           link={item.title}
+          binaryImage={imagelink.image + item.imageURL}
           classreverse={"flex-row-reverse"}
-          binaryImage={item.image.data}
           imgstyle={{ width: "100px", height: "70px" }}
           datetime={item.created_at}
           classStyle={"text-2xl"}

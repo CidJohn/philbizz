@@ -3,11 +3,12 @@ import Textline from "../../../../components/Textline/Textline";
 import UploadImage from "../../../../components/UploadImage/UploadImage";
 import Button from "../../../../components/Button/Button";
 import useAlert from "../../../../helper/alert/useAlert";
+import { useBlogPost } from "../../../../helper/database/useBlogSettings";
 
 const BlogPost = (props) => {
-  const { handleOpen } = props;
-
+  const { handleOpen, userdata } = props;
   const initialData = {
+    username: userdata,
     title: "",
     image: null,
     description: "",
@@ -17,15 +18,13 @@ const BlogPost = (props) => {
   const [isTitleVisible, setIsTitleVisible] = useState(true);
   const [imagePreview, setImagePreview] = useState(null);
   const [currentStep, setCurrentStep] = useState(0);
+
+  const { fetchBlogTitle, fetchBlogDesc } = useBlogPost();
   const showAlert = useAlert();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-  };
-
-  const handleFileUpload = (file) => {
-    setFormData({ ...formData, image: file });
   };
 
   const handleFileChange = (event) => {
@@ -34,28 +33,26 @@ const BlogPost = (props) => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
-        const binaryString = reader.result.split(",")[1];
-        const binary = atob(binaryString);
-        const binaryLength = binary.length;
-        const bytes = new Uint8Array(binaryLength);
-        for (let i = 0; i < binaryLength; i++) {
-          bytes[i] = binary.charCodeAt(i);
-        }
-        setFormData({ ...formData, image: bytes });
+        setFormData({ ...formData, image: file });
       };
       reader.readAsDataURL(file);
     }
   };
+
   const handleAddClick = (event) => {
     event.preventDefault();
-    const { title, image, description } = formData;
+    const { username, title, image, description } = formData;
     if (description && image) {
       setDataArray((prevArray) => [
         ...prevArray,
-        { title, description, image },
+        { username, title, description, image },
       ]);
 
-      setFormData(initialData);
+      setFormData({
+        ...initialData,
+        username: userdata,
+        title: formData.title, // Preserve title
+      });
       setIsTitleVisible(false);
       setImagePreview(null);
       setCurrentStep((prevStep) => prevStep + 1);
@@ -72,15 +69,11 @@ const BlogPost = (props) => {
         title: previousData.title,
         description: previousData.description,
         image: previousData.image,
+        username: previousData.username,
       });
 
       if (previousData.image) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setImagePreview(reader.result);
-        };
-        const blob = new Blob([previousData.image], { type: "image/jpeg" });
-        reader.readAsDataURL(blob);
+        setImagePreview(URL.createObjectURL(previousData.image));
       } else {
         setImagePreview(null);
       }
@@ -93,7 +86,7 @@ const BlogPost = (props) => {
     try {
       const updatedDataArray = [...dataArray, formData];
       await uploadData(updatedDataArray);
-      showAlert("successfully", "Blog uploaded successfully!", "success");
+      showAlert("Success", "Blog uploaded successfully!", "success");
       setDataArray([]);
       setFormData(initialData);
       setImagePreview(null);
@@ -103,9 +96,19 @@ const BlogPost = (props) => {
       showAlert("Warning", "Failed to upload data.", "warning");
     }
   };
+
   const uploadData = async (data) => {
-    console.log("Uploading data:", data);
-    handleOpen();
+    const titleProps = data.slice(0, 1);
+    const descProps = data.slice(1);
+
+    try {
+      await fetchBlogTitle(titleProps);
+      await fetchBlogDesc(descProps);
+      handleOpen();
+    } catch (error) {
+      console.error("Error uploading blog:", error);
+      showAlert("Warning", "Failed to upload blog data.", "warning");
+    }
   };
 
   return (
@@ -162,7 +165,6 @@ const BlogPost = (props) => {
                 )}
 
                 <UploadImage
-                  onUpload={handleFileUpload}
                   imagePreview={imagePreview}
                   handleFileChange={handleFileChange}
                 />

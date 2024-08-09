@@ -6,13 +6,21 @@ import Button from "../../../components/Button/Button";
 import Spinner from "../../../components/Spinner/Spinner";
 import { useAuth } from "../../../helper/auth/useAuthContext";
 import BlogPost from "./BlogPost/BlogPost";
+import {
+  useProtect,
+  useUserData,
+} from "../../../helper/auth/useAuthentication";
+import restAPI from "../../../helper/database/restAPI";
 
 const Blog = () => {
   const { blogData, blogload } = useBlogSettings();
   const { isAuthenticated, authload } = useAuth();
-  const data = blogData ? blogData : "";
+  const datas = blogData ? blogData : "";
   const [isModalOpen, setModalOpen] = useState(false);
-
+  const { getData } = useUserData();
+  const { data, error, loadprotect } = useProtect();
+  const imagelink = restAPI();
+  const username = getData ? getData.username : "";
   if (blogload) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -38,7 +46,7 @@ const Blog = () => {
             <div className="flex">
               {authload ? (
                 <Spinner />
-              ) : isAuthenticated ? (
+              ) : isAuthenticated && data ? (
                 <div className=" flex items-center ">
                   <Button
                     type="button"
@@ -49,7 +57,7 @@ const Blog = () => {
                     onClick={handleModalOpen}
                   />
                 </div>
-              ) : ( 
+              ) : (
                 <p className="text-red-700 italic text-sm  flex items-center">
                   "Please login!"
                 </p>
@@ -58,11 +66,13 @@ const Blog = () => {
           </div>
         </div>
         <div className="px-5  ">
-          <HandleBlog blogdata={data} />
+          <HandleBlog blogdata={datas} imagelink={imagelink} />
         </div>
         <Pagination />
       </div>
-      {isModalOpen && <BlogPost handleOpen={handleModalOpen} />}
+      {isModalOpen && (
+        <BlogPost handleOpen={handleModalOpen} userdata={username} />
+      )}
     </div>
   );
 };
