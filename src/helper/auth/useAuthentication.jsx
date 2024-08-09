@@ -88,7 +88,7 @@ export const useProtect = () => {
     };
 
     fetchData();
-  });
+  }, []);
 
   return { data, error, loadprotect };
 };
@@ -98,21 +98,23 @@ export const useUserData = () => {
   const [userload, setLoading] = useState(true);
   const [userError, setError] = useState(null);
 
-  const fetchUser = async () => {
-    try {
-      const response = await axiosInstance.get("/user");
-      const res = response.data;
-      setData(res);
-    } catch (err) {
-      if (err.response?.data) {
-        setError(err.response?.data || "An error occurred");
-        console.error(err.response?.data || "");
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axiosInstance.get("/user");
+        const res = response.data;
+        setData(res);
+      } catch (err) {
+        if (err.response?.data) {
+          setError(err.response?.data || "An error occurred");
+          console.error(err.response?.data || "");
+        }
+      } finally {
+        setLoading(false);
       }
-    } finally {
-      setLoading(false);
-    }
-  };
-  fetchUser();
+    };
+    fetchUser();
+  }, []);
 
   return { getData, userload, userError };
 };

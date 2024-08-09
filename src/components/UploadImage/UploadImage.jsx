@@ -42,18 +42,4 @@ const UploadImage = ({
   );
 };
 
-// UploadImage.propTypes = {
-//   onUpload: PropTypes.func.isRequired,
-//   placeholder: PropTypes.string,
-//   className: PropTypes.string,
-//   imagePreview: PropTypes.string,
-//   handleFileChange: PropTypes.func.isRequired,
-// };
-
-// UploadImage.defaultProps = {
-//   placeholder: imageIcon,
-//   className: "",
-//   imagePreview: null,
-// };
-
 export default UploadImage;
