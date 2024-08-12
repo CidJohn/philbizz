@@ -6,10 +6,7 @@ import Button from "../../../components/Button/Button";
 import Spinner from "../../../components/Spinner/Spinner";
 import { useAuth } from "../../../helper/auth/useAuthContext";
 import BlogPost from "./BlogPost/BlogPost";
-import {
-  useProtect,
-  useUserData,
-} from "../../../helper/auth/useAuthentication";
+import { useUserData } from "../../../helper/auth/useAuthentication";
 import restAPI from "../../../helper/database/restAPI";
 
 const Blog = () => {
@@ -17,10 +14,10 @@ const Blog = () => {
   const { isAuthenticated, authload } = useAuth();
   const datas = blogData ? blogData : "";
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isCommentOpen, setCommentOpen] = useState(false);
   const { getData } = useUserData();
-  const { data, error, loadprotect } = useProtect();
   const imagelink = restAPI();
-  const username = getData ? getData.username : "";
+  const userid = getData ? getData.id : "";
   if (blogload) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -31,6 +28,9 @@ const Blog = () => {
 
   const handleModalOpen = () => {
     setModalOpen(!isModalOpen);
+  };
+  const handleCommentOpen = () => {
+    setCommentOpen(!isCommentOpen);
   };
   return (
     <div className="container mx-auto max-w-screen-md">
@@ -46,7 +46,7 @@ const Blog = () => {
             <div className="flex">
               {authload ? (
                 <Spinner />
-              ) : isAuthenticated && data ? (
+              ) : isAuthenticated ? (
                 <div className=" flex items-center ">
                   <Button
                     type="button"
@@ -66,12 +66,19 @@ const Blog = () => {
           </div>
         </div>
         <div className="px-5  ">
-          <HandleBlog blogdata={datas} imagelink={imagelink} />
+          <HandleBlog
+            blogdata={datas}
+            imagelink={imagelink}
+            handleCommentOpen={handleCommentOpen}
+            isCommentOpen={isCommentOpen}
+            userdata={userid}
+          />
         </div>
         <Pagination />
       </div>
+      
       {isModalOpen && (
-        <BlogPost handleOpen={handleModalOpen} userdata={username} />
+        <BlogPost handleOpen={handleModalOpen} userdata={userid} />
       )}
     </div>
   );

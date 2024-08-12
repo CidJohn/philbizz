@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import restAPI from "./restAPI";
+import { useSSR } from "react-i18next";
 
 const useBlogSettings = () => {
   const [blogData, setBlogData] = useState([]);
@@ -68,11 +69,11 @@ export const useBlogPost = () => {
     setError(null);
     try {
       for (const item of data) {
-        const { username, title, image, description } = item;
+        const { userid, title, image, description } = item;
 
         // Construct FormData
         const formData = new FormData();
-        if (username) formData.append("username", username);
+        if (userid) formData.append("userid", userid);
         if (title) formData.append("title", title.trim());
         if (image) formData.append("image", image); // Assuming `image` is a File object
         if (description) formData.append("desc", description.trim());
@@ -107,11 +108,11 @@ export const useBlogPost = () => {
     setError(null);
     try {
       for (const item of data) {
-        const { username, title, image, description } = item;
+        const { userid, title, image, description } = item;
 
         // Construct FormData
         const formData = new FormData();
-        if (username) formData.append("username", username);
+        if (userid) formData.append("userid", userid);
         if (title) formData.append("title", title.trim());
         if (image) formData.append("image", image); // Ensure image is a File object
         if (description) formData.append("desc", description.trim());
@@ -149,6 +150,49 @@ export const useBlogPost = () => {
     error,
     success,
   };
+};
+
+export const useBlogCommentContent = ({ id }) => {
+  const [commentData, setCommentData] = useState([]);
+  const [commentLoad, setLoading] = useState(true);
+  const API_CALL = restAPI();
+
+  useEffect(() => {
+    if (!id) return; // If no ID is provided, exit early
+    const params = new URLSearchParams();
+    const controller = new AbortController(); // Create an AbortController instance
+    if (id) params.append("id", id);
+    const fetchingCommentData = async () => {
+      try {
+        const response = await axios.get(
+          `${API_CALL.host}/comment-section?${params}`, // Correct URL path
+          { signal: controller.signal } // Attach the abort signal to the request
+        );
+        const res = response.data;
+        setCommentData(res);
+      } catch (error) {
+        if (axios.isCancel(error)) {
+          console.log("Request canceled:", error.message);
+        } else {
+          console.error(
+            "Error during fetching blog description:",
+            error.response?.data || error.message
+          );
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchingCommentData();
+
+    // Cleanup function to cancel the request if the component unmounts
+    return () => {
+      controller.abort();
+    };
+  }, [id, API_CALL.host]); // Only re-run when id or API_CALL.host changes
+
+  return { commentData, commentLoad };
 };
 
 export default useBlogSettings;
