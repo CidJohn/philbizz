@@ -48,7 +48,12 @@ export const Login = ({ handleModalOpen, handleRegistrationOpen }) => {
   };
 
   const handleCheckBox = (e) => {
-    setRememberMe(e.target.checked);
+    const isChecked = e.target.checked;
+    setRememberMe(isChecked);
+
+    if (!isChecked) {
+      sessionStorage.removeItem("token");
+    }
   };
 
   useEffect(() => {

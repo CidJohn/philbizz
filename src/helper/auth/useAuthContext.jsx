@@ -1,13 +1,24 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { useProtect } from "./useAuthentication";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const { data, isLoading, isError } = useProtect(); // Assume these are available
   const [isAuthenticated, setIsAuthenticated] = useState(
     !!localStorage.getItem("token") || !!sessionStorage.getItem("token")
   );
   const [rememberMe, setRememberMe] = useState(false);
   const [authload, setLoading] = useState(false);
+
+  useEffect(() => {
+    // Check if the token is valid on component mount
+    if (data && !isError && !isLoading) {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, [data, isLoading, isError]);
 
   const login = (token) => {
     setLoading(true);

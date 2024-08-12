@@ -8,7 +8,7 @@ import { useBlogPost } from "../../../../helper/database/useBlogSettings";
 const BlogPost = (props) => {
   const { handleOpen, userdata } = props;
   const initialData = {
-    username: userdata,
+    userid: userdata,
     title: "",
     image: null,
     description: "",
@@ -41,16 +41,16 @@ const BlogPost = (props) => {
 
   const handleAddClick = (event) => {
     event.preventDefault();
-    const { username, title, image, description } = formData;
+    const { userid, title, image, description } = formData;
     if (description && image) {
       setDataArray((prevArray) => [
         ...prevArray,
-        { username, title, description, image },
+        { userid, title, description, image },
       ]);
 
       setFormData({
         ...initialData,
-        username: userdata,
+        userid: userdata,
         title: formData.title, // Preserve title
       });
       setIsTitleVisible(false);
@@ -69,7 +69,7 @@ const BlogPost = (props) => {
         title: previousData.title,
         description: previousData.description,
         image: previousData.image,
-        username: previousData.username,
+        userid: previousData.userid,
       });
 
       if (previousData.image) {
@@ -98,6 +98,7 @@ const BlogPost = (props) => {
   };
 
   const uploadData = async (data) => {
+    console.log(data);
     const titleProps = data.slice(0, 1);
     const descProps = data.slice(1);
 

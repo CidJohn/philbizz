@@ -61,7 +61,7 @@ const SearchBar = ({ onSearch, handleModalOpen, hidden }) => {
       </button>
       {authload ? (
         <Spinner />
-      ) : isAuthenticated && data ? (
+      ) : isAuthenticated  ? (
         <Button
           type="button"
           className={
