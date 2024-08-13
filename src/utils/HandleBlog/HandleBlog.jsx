@@ -39,7 +39,8 @@ const HandleBlog = (props) => {
             <Button
               text={"comment"}
               className={"text-gray-500 hover:underline"}
-              onClick={() => handleCommentClick(item.commentID)} 
+              onClick={() => handleCommentClick(item.commentID)}
+              disabled={!userdata && true}
             />
           </div>
         </div>

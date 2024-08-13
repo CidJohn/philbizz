@@ -195,4 +195,36 @@ export const useBlogCommentContent = ({ id }) => {
   return { commentData, commentLoad };
 };
 
+export const useCommentPost = () => {
+  const [result, setResult] = useState([]);
+  const [postLoading, setLoading] = useState(true);
+  const API_CALL = restAPI();
+  const fetchCommentPost = async (data) => {
+    const { userid, commentID, comment } = data;
+    if (!userid || !commentID || !comment) return;
+    const params = new URLSearchParams();
+    params.append("userid", userid);
+    params.append("commentID", commentID);
+    params.append("comment", comment);
+    try {
+      const response = await axios.post(
+        `${API_CALL.host}/blog-post-comment`,
+        data
+      );
+      const res = response.data;
+      setResult(res);
+      return res;
+    } catch (error) {
+      console.error(
+        "Error during fetching blog comment:",
+        error.response?.data || error.message
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { fetchCommentPost, result, postLoading };
+};
+
 export default useBlogSettings;
