@@ -1,34 +1,51 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useBlogCommentContent } from "../../../../helper/database/useBlogSettings";
+import {
+  useBlogCommentContent,
+  useCommentPost,
+} from "../../../../helper/database/useBlogSettings";
 import Spinner from "../../../../components/Spinner/Spinner";
 import Horizontal from "../../../../components/Horizontal/Horizontal";
+import Button from "../../../../components/Button/Button";
 
 const BlogComment = (props) => {
   const { handleCommentOpen, comment, userid } = props;
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [firstID, setFirstID] = useState("");
+  const [userID, setUserID] = useState("");
   const firstCommentRef = useRef(1); // Initialize with a non-comment value
   const { commentData, commentLoad } = useBlogCommentContent({
     id: firstID,
   });
+  const initialData = {
+    userid: userID,
+    commentID: firstID,
+    comment: newComment,
+  };
+  const { fetchCommentPost, result, postLoading } = useCommentPost();
+
   useEffect(() => {
     // Check if the firstCommentRef is still holding its initial value
     if (firstCommentRef.current === 1) {
       firstCommentRef.current = comment; // Store the first comment value
       setFirstID(comment);
+      setUserID(userid);
     }
     const commentsData = commentData ? commentData.map((item) => item) : [];
     setComments(commentsData);
   }, [comment, commentData]);
 
-  const handleAddComment = () => {
+  const handleAddComment = async (e) => {
+    e.preventDefault();
     if (newComment.trim() !== "") {
-      setComments([...comments, newComment]);
-      setNewComment("");
+      const res = await fetchCommentPost(initialData);
+      if (res) {
+        setComments([...comments, newComment]);
+        setNewComment("");
+        console.log(result);
+      }
     }
   };
-
   if (commentLoad) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -82,7 +99,7 @@ const BlogComment = (props) => {
                         <div className="text-sm font-bold">
                           {comment.username}
                         </div>
-                        <div  className="flex text-xs  p-2 rounded ">
+                        <div className="flex text-xs  p-2 rounded ">
                           {comment.comment}
                         </div>
                       </div>
@@ -99,12 +116,11 @@ const BlogComment = (props) => {
                     className="w-full p-2 border rounded"
                     placeholder="Write a comment..."
                   />
-                  <button
+                  <Button
+                    text={"Comment"}
                     onClick={handleAddComment}
                     className="bg-blue-500 text-white px-4 py-2 rounded ml-2 hover:bg-blue-600"
-                  >
-                    Comment
-                  </button>
+                  />
                 </div>
               </form>
             </div>
