@@ -17,7 +17,7 @@ const Blog = () => {
   const [isCommentOpen, setCommentOpen] = useState(false);
   const { getData } = useUserData();
   const imagelink = restAPI();
-  const userid = getData ? getData.id : "";
+  const userid = getData ? { id: getData.id, username: getData.username } : "";
   if (blogload) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -25,7 +25,6 @@ const Blog = () => {
       </div>
     );
   }
-
   const handleModalOpen = () => {
     setModalOpen(!isModalOpen);
   };
@@ -76,7 +75,7 @@ const Blog = () => {
         </div>
         <Pagination />
       </div>
-      
+
       {isModalOpen && (
         <BlogPost handleOpen={handleModalOpen} userdata={userid} />
       )}

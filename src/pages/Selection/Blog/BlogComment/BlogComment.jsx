@@ -4,8 +4,8 @@ import {
   useCommentPost,
 } from "../../../../helper/database/useBlogSettings";
 import Spinner from "../../../../components/Spinner/Spinner";
-import Horizontal from "../../../../components/Horizontal/Horizontal";
 import Button from "../../../../components/Button/Button";
+import Textline from "../../../../components/Textline/Textline";
 
 const BlogComment = (props) => {
   const { handleCommentOpen, comment, userid } = props;
@@ -13,7 +13,7 @@ const BlogComment = (props) => {
   const [newComment, setNewComment] = useState("");
   const [firstID, setFirstID] = useState("");
   const [userID, setUserID] = useState("");
-  const firstCommentRef = useRef(1); // Initialize with a non-comment value
+  const firstCommentRef = useRef(1);
   const { commentData, commentLoad } = useBlogCommentContent({
     id: firstID,
   });
@@ -25,24 +25,26 @@ const BlogComment = (props) => {
   const { fetchCommentPost, result, postLoading } = useCommentPost();
 
   useEffect(() => {
-    // Check if the firstCommentRef is still holding its initial value
     if (firstCommentRef.current === 1) {
-      firstCommentRef.current = comment; // Store the first comment value
+      firstCommentRef.current = comment;
       setFirstID(comment);
-      setUserID(userid);
+      setUserID(userid.id);
     }
     const commentsData = commentData ? commentData.map((item) => item) : [];
     setComments(commentsData);
   }, [comment, commentData]);
+
 
   const handleAddComment = async (e) => {
     e.preventDefault();
     if (newComment.trim() !== "") {
       const res = await fetchCommentPost(initialData);
       if (res) {
-        setComments([...comments, newComment]);
+        setComments([
+          ...comments,
+          { username: userid.username, comment: newComment },
+        ]);
         setNewComment("");
-        console.log(result);
       }
     }
   };
@@ -109,7 +111,7 @@ const BlogComment = (props) => {
                   )}
                 </div>
                 <div className="flex p-5">
-                  <input
+                  <Textline
                     type="text"
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
