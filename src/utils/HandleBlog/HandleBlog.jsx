@@ -42,17 +42,14 @@ const HandleBlog = (props) => {
         [commentID]: result.liked,
       }));
     } else {
-      // Revert the optimistic update if there was an error
       setDataLiked((prevLikes) => ({
         ...prevLikes,
         [commentID]: currentLiked,
       }));
     }
   };
-  console.log(dataliked);
   const renderData = (items) => {
     return items.map((item, index) => {
-      // Calculate the displayed like count based on whether the post is liked or unliked
       const isLiked = dataliked[item.commentID] || false;
       const displayedLikeCount = isLiked
         ? item.like_counter + 1
@@ -87,7 +84,6 @@ const HandleBlog = (props) => {
                 text={"comment"}
                 className={"text-gray-500 hover:underline"}
                 onClick={() => handleCommentClick(item.commentID)}
-                disabled={!userdata}
               />
             </div>
           </div>

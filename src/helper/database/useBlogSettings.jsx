@@ -198,6 +198,7 @@ export const useCommentPost = () => {
   const [result, setResult] = useState("");
   const [postLoading, setLoading] = useState(true);
   const API_CALL = restAPI();
+
   const fetchCommentPost = async (data) => {
     const { userid, commentID, comment } = data;
     if (!userid || !commentID || !comment) return;
@@ -212,7 +213,7 @@ export const useCommentPost = () => {
       );
       const res = response.data;
       setResult(res);
-      //return res;
+      return res;
     } catch (error) {
       console.error(
         "Error during fetching blog comment:",
