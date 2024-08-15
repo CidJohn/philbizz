@@ -10,6 +10,7 @@ const Textline = ({
   label,
   textarea,
   labelclass,
+  disabled = false,
 }) => {
   return (
     <div className="">
@@ -21,6 +22,7 @@ const Textline = ({
       </label>
       {textarea ? (
         <textarea
+          disabled={disabled}
           type={type}
           name={name}
           value={value}
@@ -30,6 +32,7 @@ const Textline = ({
         ></textarea>
       ) : (
         <input
+          disabled={disabled}
           type={type}
           name={name}
           value={value}
