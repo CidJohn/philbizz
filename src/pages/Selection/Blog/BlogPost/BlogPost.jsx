@@ -8,7 +8,7 @@ import { useBlogPost } from "../../../../helper/database/useBlogSettings";
 const BlogPost = (props) => {
   const { handleOpen, userdata } = props;
   const initialData = {
-    userid: userdata,
+    userid: userdata.id,
     title: "",
     image: null,
     description: "",
@@ -50,7 +50,7 @@ const BlogPost = (props) => {
 
       setFormData({
         ...initialData,
-        userid: userdata,
+        userid: userdata.id,
         title: formData.title, // Preserve title
       });
       setIsTitleVisible(false);
@@ -60,7 +60,6 @@ const BlogPost = (props) => {
       showAlert("Warning", "Make sure your Image is not Empty!", "warning");
     }
   };
-
   const handleBackClick = () => {
     if (currentStep > 0) {
       const previousData = dataArray[currentStep - 1];

@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import restAPI from "./restAPI";
-import { useSSR } from "react-i18next";
 
 const useBlogSettings = () => {
   const [blogData, setBlogData] = useState([]);
@@ -196,7 +195,7 @@ export const useBlogCommentContent = ({ id }) => {
 };
 
 export const useCommentPost = () => {
-  const [result, setResult] = useState([]);
+  const [result, setResult] = useState("");
   const [postLoading, setLoading] = useState(true);
   const API_CALL = restAPI();
   const fetchCommentPost = async (data) => {
@@ -213,7 +212,7 @@ export const useCommentPost = () => {
       );
       const res = response.data;
       setResult(res);
-      return res;
+      //return res;
     } catch (error) {
       console.error(
         "Error during fetching blog comment:",
@@ -225,6 +224,54 @@ export const useCommentPost = () => {
   };
 
   return { fetchCommentPost, result, postLoading };
+};
+
+export const useBlogLiked = () => {
+  const [dataliked, setDataLiked] = useState({});
+  const API_CALL = restAPI();
+
+  const fetchBlogLike = async (data) => {
+    const { postid, userid } = data;
+    if (!postid || !userid) return;
+
+    try {
+      const response = await axios.post(`${API_CALL.host}/posts/like`, data);
+      const res = response.data.liked;
+
+      setDataLiked((prevDataLiked) => ({
+        ...prevDataLiked,
+        [postid]: res,
+      }));
+
+      return { liked: res }; // Return the liked status
+    } catch (error) {
+      console.error("Error liking post:", error);
+    }
+  };
+
+  const fetchInitialLikes = async (blogdata, id) => {
+    const likeStatuses = {};
+
+    for (const item of blogdata) {
+      try {
+        const response = await axios.post(
+          `${API_CALL.host}/posts/like-status`,
+          {
+            postid: item.commentID,
+            userid: id,
+          }
+        );
+
+        likeStatuses[item.commentID] = response.data.liked;
+      } catch (error) {
+        console.error("Error fetching like status:", error.message);
+      }
+    }
+
+    setDataLiked(likeStatuses);
+  };
+
+  return { fetchBlogLike, fetchInitialLikes, dataliked, setDataLiked };
 };
 
 export default useBlogSettings;
