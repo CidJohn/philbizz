@@ -57,8 +57,8 @@ export const HeroBanner = ({ darkMode }) => {
       className={`lg:flex items-center justify-center    ${darkMode && "dark"}`}
     >
       {" "}
-      <div className="flex flex-col-reverse lg:flex-row lg:w-[1024px] gap-8 ">
-        <div className="  flex  justify-center  lg:w-[200px] lg:block   ">
+      <div className="flex flex-col-reverse lg:flex-row lg:w-full gap-8 p-5 ">
+        <div className="  flex  justify-center  lg:w-52 lg:block   ">
           <div className="transform transition-transform duration-500 hover:scale-105 p-1">
             <Card
               src={
@@ -79,11 +79,11 @@ export const HeroBanner = ({ darkMode }) => {
           </div>
         </div>
         <div
-          className="relative md:w-full bg-no-repeat bg-cover h-[300px] md:h-[540px]  md:max-w-screen-md rounded-lg "
+          className="relative md:w-full bg-no-repeat bg-cover h-80 lg:h-auto  md:max-w-screen-md rounded-lg "
           style={{ backgroundImage: `url(${city})` }}
         >
           <div className="md:absolute inset-0 bg-black bg-opacity-50 rounded-lg ">
-            <div className="md:absolute inset-0 flex flex-col rounded-lg justify-center items-center text-center text-white  h-[300px] md:h-[540px]">
+            <div className="md:absolute inset-0 flex flex-col rounded-lg justify-center items-center text-center text-white  h-80 ">
               <div className="md:max-w-lg w-full md:w-auto">
                 <h1 className="text-lg md:text-5xl font-black mb-2 md:mb-4 font-serif">
                   {t("phil")}
@@ -137,7 +137,7 @@ export const HeroBanner = ({ darkMode }) => {
           <div
             className={`${
               selectResult === "Japan" ? "block" : "hidden"
-            } border-4 border-red-500 rounded-lg px-10 py-5 text-center bg-slate-950  transform transition-transform duration-500 hover:scale-105`}
+            } border-4 border-red-500 rounded-lg px-10  text-center bg-slate-950  transform transition-transform duration-500 hover:scale-105`}
           >
             <span className="text-sm md:text-2xl font-bold text-red-500">
               {currentTimeJST}
