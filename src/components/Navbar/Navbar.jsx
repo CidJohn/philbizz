@@ -214,7 +214,7 @@ export default function Navbar(props) {
       </div>
 
       {isMenuOpen && (
-        <div className="w-[650px] ms-5 me-5 md:hidden" id="mobile-menu">
+        <div className="max-w-md ms-5 me-5 md:hidden" id="mobile-menu">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             {navbarData.map((item, index) => (
               <div

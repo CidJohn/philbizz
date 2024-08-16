@@ -51,7 +51,7 @@ const Businessview = () => {
       {laodHeader ? (
         <Spinner />
       ) : (
-        <div className="flex flex-wrap max-w-screen-1xl mx-auto gap-2  justify-center">
+        <div className="flex flex-wrap md:max-w-screen-lg mx-auto gap-2  justify-center">
           <Listedcard
             section={"food"}
             title={"Food"}

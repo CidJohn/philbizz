@@ -15,6 +15,8 @@ const Blog = () => {
   const datas = blogData ? blogData : "";
   const [isModalOpen, setModalOpen] = useState(false);
   const [isCommentOpen, setCommentOpen] = useState(false);
+  const itemsPerPage = 2;
+  const [cardCurrentPage, setCardCurrentPage] = useState(1);
   const { getData } = useUserData();
   const imagelink = restAPI();
   const userid = getData ? { id: getData.id, username: getData.username } : "";
@@ -25,6 +27,15 @@ const Blog = () => {
       </div>
     );
   }
+  const cardTotalPages = Math.ceil(datas.length / itemsPerPage);
+
+  const currentPost = datas
+    ? datas.slice(
+        (cardCurrentPage - 1) * itemsPerPage,
+        cardCurrentPage * itemsPerPage
+      )
+    : [];
+
   const handleModalOpen = () => {
     setModalOpen(!isModalOpen);
   };
@@ -64,16 +75,21 @@ const Blog = () => {
             </div>
           </div>
         </div>
-        <div className="px-5  ">
+        <div className="px-5  " id="card-pagination">
           <HandleBlog
-            blogdata={datas}
+            blogdata={currentPost}
             imagelink={imagelink}
             handleCommentOpen={handleCommentOpen}
             isCommentOpen={isCommentOpen}
             userdata={userid}
           />
         </div>
-        <Pagination />
+        <Pagination
+          currentPage={cardCurrentPage}
+          totalPages={cardTotalPages}
+          onPageChange={setCardCurrentPage}
+          link="card-pagination"
+        />
       </div>
 
       {isModalOpen && (
