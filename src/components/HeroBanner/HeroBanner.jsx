@@ -1,22 +1,27 @@
 import { useEffect, useState } from "react";
-import city from "../../assets/img/manilanight.jpg";
 import { useTranslation } from "react-i18next";
 import Card from "../Card/Card";
-import Dropdown from "../Dropdown/Dropdown";
 import { useWeather } from "../../helper/fetchAPI/useWeather";
 import Weather from "../Weather/Weather";
 import useGeolocation from "../../helper/fetchAPI/useGeolocation";
+import Images from "../Image/Images";
+import cardContent from "../../content/cardContent";
+import DigitalClock from "../DigitalClock/DigitalClock";
+import useNewsFeed from "../../helper/fetchAPI/useNewsFeed";
+import NewsFeed from "../NewsFeed/NewsFeed";
 
 export const HeroBanner = ({ darkMode }) => {
   const [currentTimePHT, setCurrentTimePHT] = useState("");
   const [currentTimeKST, setCurrentTimeKST] = useState("");
   const [currentTimeJST, setCurrentTimeJST] = useState("");
   const [selectedOption, setSelectedOption] = useState("Philippines");
+  const [getArticles, setArticles] = useState([]);
   const [getLat, setLat] = useState();
   const [getLan, setLan] = useState();
   const { t } = useTranslation();
   const { location } = useGeolocation();
   const { weatherData, loading, error } = useWeather(getLat, getLan);
+  const { getNewsData } = useNewsFeed();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -31,6 +36,8 @@ export const HeroBanner = ({ darkMode }) => {
         now.toLocaleTimeString("en-US", { timeZone: "Asia/Tokyo" })
       );
     }, 1000);
+    const articles = getNewsData ? getNewsData.articles.slice(0, 3) : [];
+    setArticles(articles);
 
     const getlat = location ? location.lat : "";
     setLat(getlat);
@@ -38,27 +45,13 @@ export const HeroBanner = ({ darkMode }) => {
     setLan(getlan);
 
     return () => clearInterval(interval);
-  }, [location]);
-
-  const options = [
-    { value: "Philippines", label: "Philippines" },
-    { value: "Korea", label: "Korea" },
-    { value: "Japan", label: "Japan" },
-  ];
-
-  const handleChange = (e) => {
-    setSelectedOption(e.target.value);
-  };
-
-  const selectResult = selectedOption ? selectedOption : "";
+  }, [location, getNewsData]);
 
   return (
-    <div
-      className={`lg:flex items-center justify-center    ${darkMode && "dark"}`}
-    >
+    <div className={`lg:flex  flex-row  gap-3  ${darkMode && "dark"}`}>
       {" "}
-      <div className="flex flex-col-reverse lg:flex-row lg:w-full gap-8 p-5 ">
-        <div className="  flex  justify-center  lg:w-52 lg:block   ">
+      <div className="flex min-w-80 gap-3">
+        <div className="flex flex-col   border-gray-300 rounded-lg shadow-r p-2 min-w-80 border-2">
           <div className="transform transition-transform duration-500 hover:scale-105 p-1">
             <Card
               src={
@@ -78,83 +71,29 @@ export const HeroBanner = ({ darkMode }) => {
             />
           </div>
         </div>
-        <div
-          className="relative md:w-full bg-no-repeat bg-cover h-80 lg:h-auto  md:max-w-screen-md rounded-lg "
-          style={{ backgroundImage: `url(${city})` }}
-        >
-          <div className="md:absolute inset-0 bg-black bg-opacity-50 rounded-lg ">
-            <div className="md:absolute inset-0 flex flex-col rounded-lg justify-center items-center text-center text-white  h-80 ">
-              <div className="md:max-w-lg w-full md:w-auto">
-                <h1 className="text-lg md:text-5xl font-black mb-2 md:mb-4 font-serif">
-                  {t("phil")}
-                </h1>
-                <h2 className="text-sm md:text-3xl font-serif">
-                  필리핀 정보통(Philippines information network)
-                </h2>
-              </div>
-              <div className="flex justify-center mt-8 space-x-8 block lg:hidden">
-                <div className=" rounded-full px-6 py-2">
-                  <span className="text-sm md:text-lg">{currentTimePHT}</span>
-                  <span className="block">{t("Philippines")}</span>
+        <div className="flex flex-col p-5 gap-3   border-gray-300  border-2 rounded-lg">
+          <h1 className="text-2xl font-bold">News Updates</h1>
+          <div className="flex flex-col">
+            {getArticles.length > 0 ? (
+              <NewsFeed articles={getArticles} />
+            ) : (
+              cardContent.map((item) => (
+                <div className="flex p-5 border-b-2 rounded-lg items-center transform transition-transform duration-500 hover:scale-105">
+                  <Images src={item.images} style={{ width: "150px" }} />
+                  <div className="p-2">
+                    <h1 className="text-lg font-bold">{item.title}</h1>
+                    <span className="text-sx">{item.desc}</span>
+                  </div>
                 </div>
-                <div className=" rounded-full px-6 py-2">
-                  <span className="text-sm md:text-lg">{currentTimeKST}</span>
-                  <span className="block">{t("Korea")}</span>
-                </div>
-                <div className=" rounded-full px-6 py-2">
-                  <span className="text-sm md:text-lg">{currentTimeJST}</span>
-                  <span className="block">{t("Japan")}</span>
-                </div>
-              </div>
-            </div>
+              ))
+            )}
           </div>
         </div>
       </div>
-      <div className="flex md:flex-col justify-center  p-10 lg:px-3   ">
-        <div className=" flex flex-col py-5 items-center lg:w-[200px] hidden  lg:block  ">
-          <div
-            className={`${
-              selectResult === "Philippines" ? "block" : "hidden"
-            } border-4 border-red-500 rounded-lg px-10 py-5 text-center bg-slate-950  transform transition-transform duration-500 hover:scale-105`}
-          >
-            <span className="text-sm md:text-2xl font-bold text-red-500">
-              {currentTimePHT}
-            </span>
-            <span className="block text-gray-300  font-bold">
-              {t("Philippines")}
-            </span>
-          </div>
-          <div
-            className={`${
-              selectResult === "Korea" ? "block" : "hidden"
-            } border-4 border-red-500 rounded-lg px-10 py-5 text-center bg-slate-950  transform transition-transform duration-500 hover:scale-105`}
-          >
-            <span className="text-sm md:text-2xl font-bold text-red-500">
-              {currentTimeKST}
-            </span>
-            <span className="block text-gray-300 font-bold">{t("Korea")}</span>
-          </div>
-          <div
-            className={`${
-              selectResult === "Japan" ? "block" : "hidden"
-            } border-4 border-red-500 rounded-lg px-10  text-center bg-slate-950  transform transition-transform duration-500 hover:scale-105`}
-          >
-            <span className="text-sm md:text-2xl font-bold text-red-500">
-              {currentTimeJST}
-            </span>
-            <span className="block text-gray-300 font-bold">{t("Japan")}</span>
-          </div>
-          <div className="flex py-2">
-            <div className="mx-auto  flex ">
-              <Dropdown
-                name={"selection"}
-                options={options}
-                value={selectedOption}
-                onChange={handleChange}
-                placeholder={selectedOption}
-              />
-            </div>
-          </div>
+      <div className="flex md:flex-col justify-center  lg:px-3 border-gray-300 border-2  rounded-lg  gap-5 min-w-80 p-5">
+        <h1 className=" text-2xl text-center font-bold">Digital Clock</h1>
+        <div className="flex p-4 items-center mx-auto  rounded-lg shadow-md transform transition-transform duration-500 hover:scale-105">
+          <DigitalClock />
         </div>
         <div className="flex transform transition-transform duration-500 hover:scale-105 ">
           <div className="flex flex-col items-center justify-center mx-auto gap-3 ">
@@ -164,6 +103,7 @@ export const HeroBanner = ({ darkMode }) => {
                 temperature={weatherData.temperature}
                 condition={weatherData.condition}
                 iconUrl={weatherData.iconUrl}
+                weeklyForecast={weatherData.weeklyForecast} // Passing the weekly forecast data
               />
             )}
 

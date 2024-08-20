@@ -11,6 +11,8 @@ import Description from "./Description/Description";
 
 const Selection = () => {
   const locations = useLocation();
+  const { state } = useLocation();
+  const { id, path } = state || { id: null };
   const [selectedItem, setSelectedItem] = useState(null);
   const [currentPath, setCurrentPath] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -52,6 +54,11 @@ const Selection = () => {
       );
       setFilteredData(filteredResults);
     }
+    if (id) {
+      const selectedItemObj = data ? findItemById(data, id) : null;
+      setSelectedItem(selectedItemObj);
+      setFilteredData("");
+    }
   }, [
     currentPath,
     data,
@@ -85,11 +92,11 @@ const Selection = () => {
     return null;
   };
 
-  const handleItemClick = (id, path) => {
-    path = currentPath.path;
-    const selectedItemObj = data ? findItemById(data, id) : null;
+  const handleItemClick = (clickedId, clickedPath) => {
+    const selectedItemObj = data ? findItemById(data, clickedId || id) : null;
     setSelectedItem(selectedItemObj);
     setFilteredData("");
+    // You can also navigate to another page if needed
   };
 
   const handlePageChange = (pageNumber) => {

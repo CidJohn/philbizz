@@ -27,7 +27,7 @@ function Layout({ children }) {
         <div className="flex flex-row">
           <div className="flex-grow">{React.cloneElement(children)}</div>
         </div>
-        <div className="   ">
+        <div className="">
           <div className=" ">
             <Footer />
           </div>

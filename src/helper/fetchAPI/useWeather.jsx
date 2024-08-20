@@ -22,18 +22,23 @@ export const useWeather = (lat, lon) => {
             units: "metric", // Change to 'imperial' for Fahrenheit
           },
         });
-        // Example: Selecting the first entry from the list
-        const weatherEntry = response.data.list[0];
+
+        const currentWeather = response.data.list[0];
+        const weeklyForecast = response.data.list.slice(1, 8).map((entry) => ({
+          day: new Date(entry.dt * 1000).toLocaleDateString('en-US', { weekday: 'short' }),
+          temperature: entry.main.temp,
+          condition: entry.weather[0].description,
+          iconUrl: `http://openweathermap.org/img/wn/${entry.weather[0].icon}.png`,
+        }));
 
         setWeatherData({
           location: response.data.city.name, // Adjust according to actual response
-          temperature: weatherEntry.main.temp,
-          condition: weatherEntry.weather[0].description,
-          iconUrl: `http://openweathermap.org/img/wn/${weatherEntry.weather[0].icon}.png`,
-          sunrise: new Date(
-            weatherEntry.sys.sunrise * 1000
-          ).toLocaleTimeString(),
-          sunset: new Date(weatherEntry.sys.sunset * 1000).toLocaleTimeString(),
+          temperature: currentWeather.main.temp,
+          condition: currentWeather.weather[0].description,
+          iconUrl: `http://openweathermap.org/img/wn/${currentWeather.weather[0].icon}.png`,
+          sunrise: new Date(currentWeather.sys.sunrise * 1000).toLocaleTimeString(),
+          sunset: new Date(currentWeather.sys.sunset * 1000).toLocaleTimeString(),
+          weeklyForecast,
         });
       } catch (error) {
         console.error("Error fetching weather data:", error);

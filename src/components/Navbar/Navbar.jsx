@@ -6,18 +6,8 @@ import { useLocation } from "react-router-dom";
 import SearchBar from "../Searchbar/Searchbar";
 import { useTranslation } from "react-i18next";
 import Translation from "../Translation/Translation";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBuilding,
-  faBowlFood,
-  faMicrophone,
-  faFaceKiss,
-  faMedkit,
-  faTent,
-  faPlane,
-  faBlog,
-} from "@fortawesome/free-solid-svg-icons";
 import { Registration } from "../../pages/Login/Registration";
+import Images from "../Image/Images";
 
 export default function Navbar(props) {
   const { navbarData, loading, hidden } = props;
@@ -70,16 +60,6 @@ export default function Navbar(props) {
     return <div>Loading...</div>;
   }
 
-  const iconMap = {
-    Business: faBuilding,
-    Food: faBowlFood,
-    "Ktv/Jtv": faMicrophone,
-    Medical: faMedkit,
-    Festival: faTent,
-    Beauty: faFaceKiss,
-    Travel: faPlane,
-    Blog: faBlog,
-  };
   const navbarItem = (navitem) => {
     return navitem.map((item, index) => (
       <div
@@ -93,10 +73,8 @@ export default function Navbar(props) {
           onClick={handleClickDelete}
           target={item.name === "Business" ? "_black" : "_self"}
         >
-          <span className="text-2xl mx-auto border border-gray-300 hover:border-gray-900 shadow px-4 py-2   rounded ">
-            {iconMap[item.name] && (
-              <FontAwesomeIcon icon={iconMap[item.name]} />
-            )}{" "}
+          <span className="text-2xl  hover:border-gray-900  px-4 py-2   rounded ">
+            <Images src={item.iconPath} style={{ width: "45px" }} />
           </span>
           <span>{t(item.name)}</span>
         </a>
@@ -122,8 +100,8 @@ export default function Navbar(props) {
 
   return (
     <nav className={!hidden ? "bg-white " : "hidden"}>
-      <div className="hidden md:block">
-        <div className="flex items-center justify-between gap-10 container mx-auto max-w-screen-lg">
+      <div className="hidden md:block ">
+        <div className="flex items-center justify-between gap-10 container mx-auto max-w-screen-lg ">
           <div className="">
             <Translation />
           </div>
@@ -159,7 +137,7 @@ export default function Navbar(props) {
       <div className="bg-white max-w-auto  px-4 sm:px-6 lg:px-8 mt-1">
         <div className="flex items-center justify-between h-16 ">
           <div className="hidden md:block mx-auto">
-            <div className="ml-10 flex items-baseline space-x-1 relative">
+            <div className=" flex items-baseline space-x-1 relative">
               {!navbarData ? "" : !hidden ? navbarItem(navbarData) : ""}
             </div>
           </div>
