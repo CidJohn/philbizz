@@ -4,7 +4,7 @@ import Images from "../Image/Images";
 function Card({ title, src, desc, style, hidden, link, imgStyle }) {
   return (
     <div
-      className="max-w-xs mx-1 bg-white  rounded-lg   dark:bg-gray-800 dark:border-gray-700 shadow border"
+      className=" mx-1 bg-white  rounded-lg   dark:bg-gray-800 dark:border-gray-700 shadow border"
       style={style}
     >
       <a href={`/${link}`} className="block">

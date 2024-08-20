@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import Card from "../Card/Card";
 import List from "../List/List";
 import Dateformat from "../Dateformat/Dateformat";
+import Images from "../Image/Images";
 
 const Listedcard = (props) => {
   const { section, title, listclass, listclasses, listItems, cardItems } =
@@ -23,89 +24,60 @@ const Listedcard = (props) => {
   return (
     <div>
       <section id={section} className="">
-        <div className="flex items-center justify-center mt-5 md:mt-1">
-          <div className="flex flex-col gap-1">
-            <hr
-              className={`w-24 h-[2px] border-0 rounded ${
-                title === "Food"
-                  ? "bg-blue-700"
-                  : title === "Ktv/Jtv"
-                  ? "bg-red-700"
-                  : title === "Beauty"
-                  ? "bg-gray-700"
-                  : ""
-              }`}
-            />
-            <hr
-              className={`w-24 h-[2px] border-0 rounded ${
-                title === "Food"
-                  ? "bg-blue-700"
-                  : title === "Ktv/Jtv"
-                  ? "bg-red-700"
-                  : title === "Beauty"
-                  ? "bg-gray-700"
-                  : ""
-              } `}
-            />
-          </div>
+        <div className="flex items-center  mt-5 md:mt-1">
+          <div className="flex flex-col gap-1"></div>
           <h1 className="text-4xl font-serif mx-2">{t(title)}</h1>
-          <div className="flex flex-col gap-1">
-            <hr
-              className={`w-24 h-[2px]  border-0 rounded ${
-                title === "Food"
-                  ? "bg-blue-700"
-                  : title === "Ktv/Jtv"
-                  ? "bg-red-700"
-                  : title === "Beauty"
-                  ? "bg-gray-700"
-                  : ""
-              }`}
-            />
-            <hr
-              className={`w-24 h-[2px] border-0 rounded ${
-                title === "Food"
-                  ? "bg-blue-700"
-                  : title === "Ktv/Jtv"
-                  ? "bg-red-700"
-                  : title === "Beauty"
-                  ? "bg-gray-700"
-                  : ""
-              } `}
-            />
-          </div>
+          <div className="flex flex-col gap-1"></div>
         </div>
 
-        <div className="flex flex-col  py-5 items-center  ">
+        {/* <div className="flex flex-col  py-5 items-center   ">
           {cardItems
             ? cardItems.map((item) => (
-                <Card
-                  key={item.title}
-                  src={item.images}
-                  title={item.title}
-                  hidden={true}
-                  link={item.title}
-                  style={{ width: "900px" }}
-                />
-              ))
-            : ""}
-        </div>
-        <div className="flex flex-col max-w-96 ">
-          {listItems
-            ? listItems.map((item, index) => (
-                <div className="" key={index}>
-                  <List
+                <div className="">
+                  <Card
                     key={item.title}
-                    image={item.images}
+                    src={item.images}
                     title={item.title}
-                    titleClass={listclass}
-                    desc={<Dateformat dateString={item.created_at} />}
-                    className={listclasses}
-                    size={getSize(index)}
+                    hidden={true}
                     link={item.title}
-                    style={{ height: "100px" }}
-                    imgstyle={{ width: "100px", height: "70px" }}
+                    style={{ width: "100%" }}
                   />
                 </div>
+              ))
+            : ""}
+        </div> */}
+        <div className="flex flex-col  ">
+          {listItems
+            ? listItems.map((item, index) => (
+                <a
+                  href={`/${item.title}`}
+                  className="flex p-5 border-b-2 rounded-lg  items-center transform transition-transform duration-500 hover:scale-105"
+                >
+                  <Images
+                    src={item.images}
+                    style={{ width: "100px", height: "70px" }}
+                  />
+                  <div className="p-2">
+                    <h1 className="text-lg font-bold">{item.title}</h1>
+                    <span className="text-sx">
+                      <Dateformat dateString={item.created_at} />
+                    </span>
+                  </div>
+                </a>
+                // <div className="min-w-80" key={index}>
+                //   <List
+                //     key={item.title}
+                //     image={item.images}
+                //     title={item.title}
+                //     titleClass={listclass}
+                //     desc={<Dateformat dateString={item.created_at} />}
+                //     className={listclasses}
+                //     size={getSize(index)}
+                //     link={item.title}
+                //     style={{ height: "100px" }}
+                //     imgstyle={{ width: "100px", height: "70px" }}
+                //   />
+                // </div>
               ))
             : ""}
         </div>

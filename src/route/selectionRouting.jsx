@@ -27,7 +27,7 @@ export const useRoute = () => {
       const routes = limitedNavbarData.map((item, index) => (
         <Route
           key={`nav-${index}`}
-          path={item.path}
+          path={`${item.path}`}
           element={
             item.path === "/business" ? (
               <Business />
