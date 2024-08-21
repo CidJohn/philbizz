@@ -9,6 +9,7 @@ import cardContent from "../../content/cardContent";
 import DigitalClock from "../DigitalClock/DigitalClock";
 import useNewsFeed from "../../helper/fetchAPI/useNewsFeed";
 import NewsFeed from "../NewsFeed/NewsFeed";
+import Currency from "../Currency/Currency";
 
 export const HeroBanner = ({ darkMode }) => {
   const [currentTimePHT, setCurrentTimePHT] = useState("");
@@ -36,7 +37,7 @@ export const HeroBanner = ({ darkMode }) => {
         now.toLocaleTimeString("en-US", { timeZone: "Asia/Tokyo" })
       );
     }, 1000);
-    const articles = getNewsData ? getNewsData.articles.slice(0, 3) : [];
+    const articles = getNewsData ? getNewsData.articles : [];
     setArticles(articles);
 
     const getlat = location ? location.lat : "";
@@ -51,29 +52,17 @@ export const HeroBanner = ({ darkMode }) => {
     <div className={`lg:flex  flex-row  gap-3  ${darkMode && "dark"}`}>
       {" "}
       <div className="flex min-w-80 gap-3">
-        <div className="flex flex-col   border-gray-300 rounded-lg shadow-r p-2 min-w-80 border-2">
-          <div className="transform transition-transform duration-500 hover:scale-105 p-1">
-            <Card
-              src={
-                "https://lh3.googleusercontent.com/p/AF1QipMlprtNkiskp0-5IV_3_sKrIDneoRDwraoYfLHD=s680-w680-h510"
-              }
-              title={"Advertisement"}
-              hidden={true}
-            />
-          </div>
-          <div className="transform transition-transform duration-500 hover:scale-105 p-1">
-            <Card
-              src={
-                "https://lh3.googleusercontent.com/p/AF1QipMlprtNkiskp0-5IV_3_sKrIDneoRDwraoYfLHD=s680-w680-h510"
-              }
-              title={"Advertisement"}
-              hidden={true}
-            />
-          </div>
+        <div className="flex flex-col border-gray-300 hover:border-blue-300 rounded-lg shadow-r p-2 min-w-80 border-2">
+          {cardContent.slice(0, 2).map((item, index) => (
+            <div className="transform transition-transform duration-500 hover:scale-105 p-3">
+              <Card src={item.images} title={item.desc} hidden={true} />
+            </div>
+          ))}
         </div>
-        <div className="flex flex-col p-5 gap-3   border-gray-300  border-2 rounded-lg">
-          <h1 className="text-2xl font-bold">News Updates</h1>
-          <div className="flex flex-col">
+        <div className="flex flex-col p-5 gap-3   border-gray-300 hover:border-red-300  border-2 rounded-lg ">
+          <div className="flex flex-col transform transition-transform duration-500 hover:scale-105">
+            <h1 className="text-2xl font-bold">News Updates</h1>
+
             {getArticles.length > 0 ? (
               <NewsFeed articles={getArticles} />
             ) : (
@@ -88,30 +77,33 @@ export const HeroBanner = ({ darkMode }) => {
               ))
             )}
           </div>
+          <div className="flex flex-col transform transition-transform duration-500 hover:scale-105 ">
+            <h1 className="text-2xl font-bold">Weather Forecast</h1>
+            <div className="flex flex-col items-center justify-center mx-auto gap-3 ">
+              {weatherData && (
+                <Weather
+                  location={weatherData.location}
+                  temperature={weatherData.temperature}
+                  condition={weatherData.condition}
+                  iconUrl={weatherData.iconUrl}
+                  weeklyForecast={weatherData.weeklyForecast} // Passing the weekly forecast data
+                />
+              )}
+
+              {loading && <p>Loading weather data...</p>}
+              {error && (
+                <p className="text-red-500">Error fetching weather data</p>
+              )}
+            </div>
+          </div>
         </div>
       </div>
-      <div className="flex md:flex-col justify-center  lg:px-3 border-gray-300 border-2  rounded-lg  gap-5 min-w-80 p-5">
-        <h1 className=" text-2xl text-center font-bold">Digital Clock</h1>
-        <div className="flex p-4 items-center mx-auto  rounded-lg shadow-md transform transition-transform duration-500 hover:scale-105">
+      <div className="flex md:flex-col  lg:px-3 border-gray-300 hover:border-green-300 border-2  rounded-lg  gap-5 min-w-80 p-5">
+        <div className="flex p-4  mx-auto  rounded-lg shadow-md transform transition-transform duration-500 hover:scale-105">
           <DigitalClock />
         </div>
         <div className="flex transform transition-transform duration-500 hover:scale-105 ">
-          <div className="flex flex-col items-center justify-center mx-auto gap-3 ">
-            {weatherData && (
-              <Weather
-                location={weatherData.location}
-                temperature={weatherData.temperature}
-                condition={weatherData.condition}
-                iconUrl={weatherData.iconUrl}
-                weeklyForecast={weatherData.weeklyForecast} // Passing the weekly forecast data
-              />
-            )}
-
-            {loading && <p>Loading weather data...</p>}
-            {error && (
-              <p className="text-red-500">Error fetching weather data</p>
-            )}
-          </div>
+          <Currency />
         </div>
       </div>
     </div>
