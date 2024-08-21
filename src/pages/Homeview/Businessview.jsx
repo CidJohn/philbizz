@@ -67,8 +67,8 @@ const Businessview = () => {
       {laodHeader ? (
         <Spinner />
       ) : (
-        <div className="flex flex-row mx-auto gap-3 ">
-          <div className="flex flex-col min-w-80 border-2 border-gray-300 rounded-lg  p-5">
+        <div className="flex flex-row mx-auto gap-3 min-w-80 ">
+          <div className="flex flex-col min-w-80 border-2 border-gray-300 hover:border-violet-300 rounded-lg  p-2 ">
             {Object.keys(groupedTreeView).map((name) => (
               <div key={name}>
                 <h3 className="font-bold text-2xl my-2 font-serif">{name}</h3>
@@ -79,14 +79,14 @@ const Businessview = () => {
               </div>
             ))}
           </div>
-          <div className="flex flex-col p-10 min-w-80 mx-auto border-2 border-gray-300 rounded-lg">
+          <div className="flex flex-col  border-2 border-gray-300 hover:border-yellow-300 rounded-lg p-10 ">
             <Listedcard
               section={"food"}
               title={"Food"}
               cardItems={foodCard}
               listItems={foodList}
               listclass={"text-sm"}
-              listclasses={"hover:bg-slate-100 "}
+              listclasses={"hover:bg-slate-100  "}
             />
             <Listedcard
               section={"beauty"}
@@ -96,9 +96,6 @@ const Businessview = () => {
               listclass={"text-sm"}
               listclasses={"hover:bg-slate-100 "}
             />
-          </div>
-          <div className="flex min-w-80 border-2 rounded-lg border-gray-300 p-10">
-            <h1 className="text-2xl">Currency Changing</h1>
           </div>
         </div>
       )}

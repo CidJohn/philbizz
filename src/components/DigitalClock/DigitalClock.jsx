@@ -41,6 +41,8 @@ function DigitalClock() {
   return (
     <div>
       <div className="">
+        <h1 className=" text-2xl text-center font-bold p-5">Digital Clock</h1>
+
         <div
           className={`${
             selectResult === "Philippines" ? "block" : "hidden"

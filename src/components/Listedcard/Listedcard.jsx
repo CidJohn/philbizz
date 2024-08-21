@@ -22,48 +22,31 @@ const Listedcard = (props) => {
   };
 
   return (
-    <div>
-      <section id={section} className="">
-        <div className="flex items-center  mt-5 md:mt-1">
-          <div className="flex flex-col gap-1"></div>
+    <div className="min-w-full ">
+      <section id={section} className="min-w-full">
+        <div className="flex items-center  p-5 md:mt-1">
           <h1 className="text-4xl font-serif mx-2">{t(title)}</h1>
-          <div className="flex flex-col gap-1"></div>
         </div>
-
-        {/* <div className="flex flex-col  py-5 items-center   ">
-          {cardItems
-            ? cardItems.map((item) => (
-                <div className="">
-                  <Card
-                    key={item.title}
-                    src={item.images}
-                    title={item.title}
-                    hidden={true}
-                    link={item.title}
-                    style={{ width: "100%" }}
-                  />
-                </div>
-              ))
-            : ""}
-        </div> */}
-        <div className="flex flex-col  ">
+        <div className="flex flex-col min-w-80 ">
           {listItems
             ? listItems.map((item, index) => (
-                <a
+                <div
                   href={`/${item.title}`}
-                  className="flex p-5 border-b-2 rounded-lg  items-center transform transition-transform duration-500 hover:scale-105"
+                  className="flex items-center border-b-2 rounded-lg items-center transform transition-transform duration-500 hover:scale-105"
                 >
-                  <Images
-                    src={item.images}
-                    style={{ width: "100px", height: "70px" }}
-                  />
-                  <div className="p-2">
-                    <h1 className="text-lg font-bold">{item.title}</h1>
-                    <span className="text-sx">
-                      <Dateformat dateString={item.created_at} />
-                    </span>
-                  </div>
-                </a>
+                  <a href={`/${item.title}`} className="flex p-5 min-w-full ">
+                    <Images
+                      src={item.images}
+                      style={{ width: "100px", height: "70px" }}
+                    />
+                    <div className="p-2">
+                      <h1 className="text-lg font-bold">{item.title}</h1>
+                      <span className="text-sx">
+                        <Dateformat dateString={item.created_at} />
+                      </span>
+                    </div>
+                  </a>
+                </div>
                 // <div className="min-w-80" key={index}>
                 //   <List
                 //     key={item.title}
