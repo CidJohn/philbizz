@@ -23,22 +23,45 @@ export const useWeather = (lat, lon) => {
           },
         });
 
+        const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        const dailyForecast = [];
+
+        // Get the current date
+        const today = new Date();
+
+        // Iterate through the API response to get one forecast per day for the next 7 days
+        for (let i = 0; i < 7; i++) {
+          const dayIndex = (today.getDay() + i) % 7;
+          const forecastForDay = response.data.list.filter((entry) => {
+            const forecastDate = new Date(entry.dt * 1000);
+            return forecastDate.getDate() === today.getDate() + i;
+          })[0]; // Get the first forecast of the day
+
+          if (forecastForDay) {
+            dailyForecast.push({
+              day: daysOfWeek[dayIndex],
+              date: new Date(forecastForDay.dt * 1000).toLocaleDateString(),
+              temperature: forecastForDay.main.temp,
+              condition: forecastForDay.weather[0].description,
+              iconUrl: `http://openweathermap.org/img/wn/${forecastForDay.weather[0].icon}.png`,
+            });
+          }
+        }
+
         const currentWeather = response.data.list[0];
-        const weeklyForecast = response.data.list.slice(1, 8).map((entry) => ({
-          day: new Date(entry.dt * 1000).toLocaleDateString('en-US', { weekday: 'short' }),
-          temperature: entry.main.temp,
-          condition: entry.weather[0].description,
-          iconUrl: `http://openweathermap.org/img/wn/${entry.weather[0].icon}.png`,
-        }));
 
         setWeatherData({
-          location: response.data.city.name, // Adjust according to actual response
+          location: response.data.city.name,
           temperature: currentWeather.main.temp,
           condition: currentWeather.weather[0].description,
           iconUrl: `http://openweathermap.org/img/wn/${currentWeather.weather[0].icon}.png`,
-          sunrise: new Date(currentWeather.sys.sunrise * 1000).toLocaleTimeString(),
-          sunset: new Date(currentWeather.sys.sunset * 1000).toLocaleTimeString(),
-          weeklyForecast,
+          sunrise: new Date(
+            currentWeather.sys.sunrise * 1000
+          ).toLocaleTimeString(),
+          sunset: new Date(
+            currentWeather.sys.sunset * 1000
+          ).toLocaleTimeString(),
+          weeklyForecast: dailyForecast,
         });
       } catch (error) {
         console.error("Error fetching weather data:", error);

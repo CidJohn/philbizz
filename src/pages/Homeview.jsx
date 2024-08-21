@@ -1,7 +1,7 @@
 import React from "react";
-import { HeroBanner } from "../components/HeroBanner/HeroBanner";
 import { useTranslation } from "react-i18next";
-import Businessview from "./Homeview/Businessview";
+import Businessview from "./Homeview/Businessview/Businessview";
+import { HeroBanner } from "./Homeview/HeroBanner/HeroBanner";
 
 function Homeview() {
   const { t } = useTranslation();

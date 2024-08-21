@@ -22,19 +22,19 @@ const Listedcard = (props) => {
   };
 
   return (
-    <div className="min-w-full ">
-      <section id={section} className="min-w-full">
-        <div className="flex items-center  p-5 md:mt-1">
-          <h1 className="text-4xl font-serif mx-2">{t(title)}</h1>
+    <div className=" ">
+      <section id={section} className="">
+        <div className="flex items-center   md:mt-1">
+          <h1 className="text-4xl font-serif mx-2 font-bold">{t(title)}</h1>
         </div>
-        <div className="flex flex-col min-w-80 ">
+        <div className="flex flex-col  gap-3 ">
           {listItems
             ? listItems.map((item, index) => (
                 <div
                   href={`/${item.title}`}
-                  className="flex items-center border-b-2 rounded-lg items-center transform transition-transform duration-500 hover:scale-105"
+                  className="flex items-center border-b-2 rounded-lg items-center hover:bg-slate-100 "
                 >
-                  <a href={`/${item.title}`} className="flex p-5 min-w-full ">
+                  <a href={`/${item.title}`} className="flex p-5  ">
                     <Images
                       src={item.images}
                       style={{ width: "100px", height: "70px" }}
@@ -47,20 +47,6 @@ const Listedcard = (props) => {
                     </div>
                   </a>
                 </div>
-                // <div className="min-w-80" key={index}>
-                //   <List
-                //     key={item.title}
-                //     image={item.images}
-                //     title={item.title}
-                //     titleClass={listclass}
-                //     desc={<Dateformat dateString={item.created_at} />}
-                //     className={listclasses}
-                //     size={getSize(index)}
-                //     link={item.title}
-                //     style={{ height: "100px" }}
-                //     imgstyle={{ width: "100px", height: "70px" }}
-                //   />
-                // </div>
               ))
             : ""}
         </div>
