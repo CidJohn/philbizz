@@ -34,19 +34,16 @@ const Businessview = () => {
       const filteredBeauty = header
         .filter((item) => item.Header === "Beauty")
         .slice(0, 5);
-
       setBeauty(filteredBeauty);
 
       const filteredFood = header
         .filter((item) => item.Header === "Food")
         .slice(0, 5);
-
       setFood(filteredFood);
 
       const filteredKtv = header
         .filter((item) => item.Header === "Ktv/Jtv")
         .slice(0, 5);
-
       setKtvjtv(filteredKtv);
     }
 
@@ -132,7 +129,7 @@ const Businessview = () => {
             </div>
           </div>
           <div className="flex flex-col border-2 rounded-lg min-w-80 p-5 hover:border-orange-300">
-            <div className="sticky top-0">
+            <div className="sticky top-5">
               <div className="transform transition-transform duration-500 hover:scale-105 ">
                 <h1 className="text-4xl font-serif mx-2 font-bold">Calendar</h1>
                 <Calendar onDateSelect={handleDateSelect} />

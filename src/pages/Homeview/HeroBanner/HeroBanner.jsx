@@ -10,15 +10,21 @@ import DigitalClock from "../../../components/DigitalClock/DigitalClock";
 import useNewsFeed from "../../../helper/fetchAPI/useNewsFeed";
 import NewsFeed from "../../../components/NewsFeed/NewsFeed";
 import Currency from "../../../components/Currency/Currency";
+import useBlogSettings from "../../../helper/database/useBlogSettings";
+import restAPI from "../../../helper/database/restAPI";
 
 export const HeroBanner = ({ darkMode }) => {
   const [getArticles, setArticles] = useState([]);
   const [getLat, setLat] = useState();
   const [getLan, setLan] = useState();
+  const [getBlog, setBlog] = useState([]);
+
   const { t } = useTranslation();
   const { location } = useGeolocation();
   const { weatherData, loading, error } = useWeather(getLat, getLan);
   const { getNewsData } = useNewsFeed();
+  const { blogData, blogload } = useBlogSettings();
+  const imagelink = restAPI();
 
   useEffect(() => {
     const articles = getNewsData ? getNewsData.articles : [];
@@ -28,18 +34,33 @@ export const HeroBanner = ({ darkMode }) => {
     setLat(getlat);
     const getlan = location ? location.lon : "";
     setLan(getlan);
-  }, [location, getNewsData]);
+
+    if (blogData) {
+      const filterBlog = blogData ? blogData.slice(0, 3) : [];
+      setBlog(filterBlog);
+    }
+  }, [location, getNewsData, blogData]);
+
+  console.log(getBlog);
 
   return (
     <div className={`lg:flex  flex-row  gap-3  ${darkMode && "dark"}`}>
       {" "}
       <div className="flex flex-col-reverse md:flex-row min-w-80 gap-3">
         <div className="flex flex-col border-gray-300 hover:border-blue-300 rounded-lg shadow-r p-2  border-2">
-          {cardContent.slice(0, 2).map((item, index) => (
-            <div className="transform transition-transform duration-500 hover:scale-105 p-3 max-w-96 md:min-w-80">
-              <Card src={item.images} title={item.desc} hidden={true} />
-            </div>
-          ))}
+          {getBlog
+            ? getBlog.map((item, index) => (
+                <div className="transform transition-transform duration-500 hover:scale-105 p-3 max-w-96 md:min-w-80">
+                  <Card
+                    src={imagelink.image + item.imageURL}
+                    title={item.title}
+                    desc={item.description}
+                    link={item.title}
+                    hidden={true}
+                  />
+                </div>
+              ))
+            : ""}
         </div>
         <div className="flex flex-col p-5 gap-3   border-gray-300 hover:border-red-300  border-2 rounded-lg ">
           <div className="flex flex-col transform transition-transform duration-500 hover:scale-105">
