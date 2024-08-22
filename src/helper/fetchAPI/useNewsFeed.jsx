@@ -7,7 +7,7 @@ const useNewsFeed = () => {
   const [getCountry, setCountry] = useState("kr");
   const [getCategory, setCategory] = useState("business");
   const apiKey = process.env.REACT_APP_API_NEWS;
-  const BASE_URL = `https://newsapi.org/v2/top-headlines`;
+  const BASE_URL = process.env.REACT_APP_API_NEWS_URL;
   const pageSize = 10;
 
   useEffect(() => {

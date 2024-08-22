@@ -12,11 +12,14 @@ import { useTreeview } from "../../../helper/database/useTreeview";
 import { useNavbarcontent } from "../../../helper/database/useNavbarcontent";
 import { useNavigate } from "react-router-dom";
 import Calendar from "../../../components/Calendar/Calendar";
+import cardContent from "../../../content/cardContent";
+import Images from "../../../components/Image/Images";
 
 const Businessview = () => {
   const { t } = useTranslation();
   const [getBeauty, setBeauty] = useState([]);
   const [getFood, setFood] = useState([]);
+  const [getKtvjtv, setKtvjtv] = useState([]);
   const [groupedTreeView, setGroupedTreeView] = useState({});
   const [getfilterNav, setNavbar] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -28,15 +31,27 @@ const Businessview = () => {
 
   useEffect(() => {
     if (header) {
-      const filteredBeauty = header.filter((item) => item.Header === "Beauty");
+      const filteredBeauty = header
+        .filter((item) => item.Header === "Beauty")
+        .slice(0, 5);
+
       setBeauty(filteredBeauty);
 
-      const filteredFood = header.filter((item) => item.Header === "Food");
+      const filteredFood = header
+        .filter((item) => item.Header === "Food")
+        .slice(0, 5);
+
       setFood(filteredFood);
+
+      const filteredKtv = header
+        .filter((item) => item.Header === "Ktv/Jtv")
+        .slice(0, 5);
+
+      setKtvjtv(filteredKtv);
     }
 
     if (navbarData) {
-      const filterNav = navbarData.map((node) => node.path);
+      const filterNav = navbarData.map((node) => node.name);
       setNavbar(filterNav);
     }
 
@@ -51,12 +66,6 @@ const Businessview = () => {
       setGroupedTreeView(groupedData);
     }
   }, [header, navbarData, data]);
-
-  const beautyList = Array.isArray(getBeauty) ? getBeauty.slice(0, 4) : [];
-  const beautyCard = Array.isArray(getBeauty) ? getBeauty.slice(0, 1) : [];
-
-  const foodList = Array.isArray(getFood) ? getFood.slice(0, 4) : [];
-  const foodCard = Array.isArray(getFood) ? getFood.slice(0, 1) : [];
 
   const carousel = Array.isArray(getCardInfo) ? getCardInfo.slice(0, 10) : [];
 
@@ -97,8 +106,7 @@ const Businessview = () => {
                 <Listedcard
                   section={"food"}
                   title={"Food"}
-                  cardItems={foodCard}
-                  listItems={foodList}
+                  listItems={getFood}
                   listclass={"text-sm"}
                   listclasses={"hover:bg-slate-100 "}
                 />
@@ -107,8 +115,16 @@ const Businessview = () => {
                 <Listedcard
                   section={"beauty"}
                   title={"Beauty"}
-                  cardItems={beautyCard}
-                  listItems={beautyList}
+                  listItems={getBeauty}
+                  listclass={"text-sm"}
+                  listclasses={"hover:bg-slate-100 "}
+                />
+              </div>
+              <div className="min-w-full p-5">
+                <Listedcard
+                  section={"ktvjtv"}
+                  title={"Ktv/Jtv"}
+                  listItems={getKtvjtv}
                   listclass={"text-sm"}
                   listclasses={"hover:bg-slate-100 "}
                 />
@@ -116,14 +132,28 @@ const Businessview = () => {
             </div>
           </div>
           <div className="flex flex-col border-2 rounded-lg min-w-80 p-5 hover:border-orange-300">
-            <div className="transform transition-transform duration-500 hover:scale-105 sticky top-0">
-              <h1 className="text-4xl font-serif mx-2 font-bold">Calendar</h1>
-              <Calendar onDateSelect={handleDateSelect} />
-              {selectedDate && (
-                <div className="mt-4">
-                  Selected Date: {selectedDate.toDateString()}
-                </div>
-              )}
+            <div className="sticky top-0">
+              <div className="transform transition-transform duration-500 hover:scale-105 ">
+                <h1 className="text-4xl font-serif mx-2 font-bold">Calendar</h1>
+                <Calendar onDateSelect={handleDateSelect} />
+                {selectedDate && (
+                  <div className="mt-4">
+                    Selected Date: {selectedDate.toDateString()}
+                  </div>
+                )}
+              </div>
+              <div className="">
+                {cardContent.map((item) => (
+                  <div className="flex">
+                    <a
+                      href={"/"}
+                      className="transform transition-transform duration-500 hover:scale-105"
+                    >
+                      <Images src={item.imageURL} style={{ width: "250px" }} />
+                    </a>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

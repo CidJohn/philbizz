@@ -83,7 +83,7 @@ export const HeroBanner = ({ darkMode }) => {
         </div>
       </div>
       <div className="flex md:flex-col  lg:px-3 border-gray-300 hover:border-green-300 border-2  rounded-lg  gap-5 min-w-80 p-5">
-        <div className="flex   mx-auto  rounded-lg shadow-md transform transition-transform duration-500 hover:scale-105">
+        <div className="flex  z-50 mx-auto  rounded-lg shadow-md transform transition-transform duration-500 hover:scale-105">
           <DigitalClock />
         </div>
         <div className="flex transform transition-transform duration-500 hover:scale-105 ">

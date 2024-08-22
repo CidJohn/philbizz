@@ -7,13 +7,12 @@ const useCurrency = () => {
   const [exchangeRate, setExchangeRate] = useState(1);
   const [baseCurrency, setBaseCurrency] = useState("PHP");
   const [targetCurrency, setTargetCurrency] = useState("KRW");
+  const URL = process.env.REACT_APP_API_CURRENCY_URL;
 
   useEffect(() => {
     const fetchExchangeRate = async () => {
       try {
-        const response = await axios.get(
-          `https://api.exchangerate-api.com/v4/latest/${baseCurrency}`
-        );
+        const response = await axios.get(URL + baseCurrency);
         setExchangeRate(response.data.rates[targetCurrency]);
       } catch (error) {
         console.error("Error fetching exchange rate:", error);
