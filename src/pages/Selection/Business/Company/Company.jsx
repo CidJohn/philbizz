@@ -9,8 +9,6 @@ import { useCompanyView } from "../../../../helper/database/useBusinessData";
 import Maintenance from "../../../../components/Maintenance/Maintenance";
 import Spinner from "../../../../components/Spinner/Spinner";
 import Table from "../../../../components/Table/Table";
-import { Browser, Facebook } from "../../../../components/svg/Icons";
-import Horizontal from "../../../../components/Horizontal/Horizontal";
 
 const Company = (props) => {
   const { CompanyData } = props;

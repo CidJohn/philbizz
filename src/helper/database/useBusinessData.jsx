@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import restAPI from "./restAPI";
 
 const useBusinessData = () => {
@@ -30,6 +30,7 @@ const useBusinessData = () => {
 export const useHomeBusiness = () => {
   const [header, setHeader] = useState([]);
   const [laodHeader, setLaodHeader] = useState(true);
+  const isFetched = useRef(false);
   const API_CALL = restAPI();
 
   useEffect(() => {
@@ -44,8 +45,11 @@ export const useHomeBusiness = () => {
         setLaodHeader(false);
       }
     };
-
-    fetchingData();
+    
+    if (!isFetched.current) {
+      fetchingData();
+      isFetched.current = true;
+    }
   }, []);
 
   return { header, laodHeader };
@@ -54,7 +58,9 @@ export const useHomeBusiness = () => {
 export const useBusinessSettings = () => {
   const [getCardInfo, setCardInfo] = useState([]);
   const [getCompanyLoad, setLoading] = useState(true);
+  const isFetched = useRef(false);
   const API_CALL = restAPI();
+
   useEffect(() => {
     const fecthCompanyInfo = async () => {
       try {
@@ -67,8 +73,10 @@ export const useBusinessSettings = () => {
         setLoading(false);
       }
     };
-
-    fecthCompanyInfo();
+    if (!isFetched.current) {
+      fecthCompanyInfo();
+      isFetched.current = true;
+    }
   }, []);
 
   return { getCardInfo, getCompanyLoad };

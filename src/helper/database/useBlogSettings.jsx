@@ -1,10 +1,11 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import restAPI from "./restAPI";
 
 const useBlogSettings = () => {
   const [blogData, setBlogData] = useState([]);
   const [blogload, setLoading] = useState(true);
+  const isFetched = useRef(false);
   const API_CALL = restAPI();
 
   useEffect(() => {
@@ -19,7 +20,10 @@ const useBlogSettings = () => {
         setLoading(false);
       }
     };
-    fetchBlogData();
+    if (!isFetched.current) {
+      fetchBlogData();
+      isFetched.current = true;
+    }
   }, []);
 
   return { blogData, blogload };
@@ -31,7 +35,7 @@ export const useBlogContent = (title) => {
   const API_CALL = restAPI();
 
   useEffect(() => {
-    const trimmedTitle = title?.trim(); // Remove trailing spaces from the title
+    const trimmedTitle = title?.trim();
 
     const fetchContent = async () => {
       if (!trimmedTitle) return;

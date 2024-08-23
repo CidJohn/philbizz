@@ -16,9 +16,9 @@ export const useRoute = () => {
   const [getcardroute, setCardRoute] = useState([]);
   const [getcompanyroute, setCompanyRoute] = useState([]);
   const [getblog, setBlog] = useState([]);
-  const { navbarData } = useNavbarcontent();
+  const { navbarData, loading } = useNavbarcontent();
   const { cardpath, load } = useCardPath();
-  const { getCardInfo } = useBusinessSettings();
+  const { getCardInfo, getCompanyLoad } = useBusinessSettings();
   const { blogData } = useBlogSettings();
 
   useEffect(() => {
@@ -30,11 +30,11 @@ export const useRoute = () => {
           path={`${item.path}`}
           element={
             item.path === "/business" ? (
-              <Business />
+              <Business businessSettings={{businessSettings: getCardInfo, getCompanyLoad: getCompanyLoad}} />
             ) : item.path === "/blog" ? (
               <Blog />
             ) : (
-              <Selection />
+              <Selection navbar={navbarData} />
             )
           }
         />
@@ -76,5 +76,14 @@ export const useRoute = () => {
     }
   }, [navbarData, cardpath, getCardInfo, blogData, load]);
 
-  return { getnavroute, getcardroute, getcompanyroute, getblog };
+  return {
+    getnavroute,
+    getcardroute,
+    getcompanyroute,
+    getblog,
+    blogData,
+    getCardInfo,
+    navbarData,
+    loading
+  };
 };

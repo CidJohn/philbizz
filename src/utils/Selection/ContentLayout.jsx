@@ -70,6 +70,22 @@ const ContentLayout = ({
             </div>
           </div>
         </section>
+        <div className="mt-5 grid justify-items-end">
+          {!selectedItem?.id ? (
+            filterData.length === 0 ? (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+                link={"cards"}
+              />
+            ) : (
+              ""
+            )
+          ) : (
+            ""
+          )}
+        </div>
       </div>
       <div className="flex max-w-screen-md hidden lg:block ">
         <div className="mt-5 sticky top-0">

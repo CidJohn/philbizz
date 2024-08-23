@@ -15,7 +15,8 @@ import Calendar from "../../../components/Calendar/Calendar";
 import cardContent from "../../../content/cardContent";
 import Images from "../../../components/Image/Images";
 
-const Businessview = () => {
+const Businessview = (props) => {
+  const { navbar, businessCarousel } = props;
   const { t } = useTranslation();
   const [getBeauty, setBeauty] = useState([]);
   const [getFood, setFood] = useState([]);
@@ -24,9 +25,7 @@ const Businessview = () => {
   const [getfilterNav, setNavbar] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const { header, laodHeader } = useHomeBusiness();
-  const { getCardInfo } = useBusinessSettings();
   const { data } = useTreeview();
-  const { navbarData } = useNavbarcontent();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,13 +46,13 @@ const Businessview = () => {
       setKtvjtv(filteredKtv);
     }
 
-    if (navbarData) {
-      const filterNav = navbarData.map((node) => node.name);
+    if (navbar) {
+      const filterNav = navbar.map((node) => node.name);
       setNavbar(filterNav);
     }
 
-    if (data && navbarData) {
-      const groupedData = navbarData.reduce((acc, navItem) => {
+    if (data && navbar) {
+      const groupedData = navbar.reduce((acc, navItem) => {
         const filterData = data.filter((node) => node.path === navItem.path);
         if (filterData.length > 0) {
           acc[navItem.name] = filterData;
@@ -62,9 +61,11 @@ const Businessview = () => {
       }, {});
       setGroupedTreeView(groupedData);
     }
-  }, [header, navbarData, data]);
+  }, [header, navbar, data]);
 
-  const carousel = Array.isArray(getCardInfo) ? getCardInfo.slice(0, 10) : [];
+  const carousel = Array.isArray(businessCarousel)
+    ? businessCarousel.slice(0, 10)
+    : [];
 
   const handleClick = (id, path) => {
     navigate(path, { state: { id } });
@@ -77,7 +78,9 @@ const Businessview = () => {
   return (
     <div className="flex flex-wrap ">
       {laodHeader ? (
-        <Spinner />
+        <div className="flex items-center justify-center min-h-screen mx-auto">
+          <Spinner />
+        </div>
       ) : (
         <div className=" flex flex-col md:flex-row  gap-3  ">
           <div className="flex flex-col  border-2 border-gray-300 hover:border-violet-300 rounded-lg  p-2 ">
@@ -131,7 +134,7 @@ const Businessview = () => {
           <div className="flex flex-col border-2 rounded-lg min-w-80 p-5 hover:border-orange-300">
             <div className="sticky top-5">
               <div className="transform transition-transform duration-500 hover:scale-105 ">
-                <h1 className="text-4xl font-serif mx-2 font-bold">Calendar</h1>
+                <h1 className="text-3xl font-serif mx-2 font-bold">Calendar</h1>
                 <Calendar onDateSelect={handleDateSelect} />
                 {selectedDate && (
                   <div className="mt-4">
@@ -139,9 +142,12 @@ const Businessview = () => {
                   </div>
                 )}
               </div>
-              <div className="">
-                {cardContent.map((item) => (
-                  <div className="flex">
+              <div className="mt-5 shadow-lg p-3">
+                <h1 className="text-3xl font-serif mx-2 font-bold">
+                  Social media
+                </h1>
+                {cardContent.map((item, index) => (
+                  <div className="flex " key={index}>
                     <a
                       href={"/"}
                       className="transform transition-transform duration-500 hover:scale-105"

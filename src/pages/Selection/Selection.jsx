@@ -9,7 +9,7 @@ import HandleCards from "../../utils/HandleCards/handleCards";
 import useCardSettings from "../../helper/database/useCardSettings"; // Import the custom hook
 import Description from "./Description/Description";
 
-const Selection = () => {
+const Selection = ({navbar}) => {
   const locations = useLocation();
   const { state } = useLocation();
   const { id, path } = state || { id: null };
@@ -21,7 +21,6 @@ const Selection = () => {
   const [business, setBusiness] = useState("");
   const [dropdownValue, setDropdownValue] = useState("");
   const { data, loading } = useTreeview();
-  const { navbarData } = useNavbarcontent();
 
   const { businessTypes } = useCardSettings(currentPath.businessPath);
   const [filteredData, setFilteredData] = useState(businessTypes);
@@ -33,13 +32,13 @@ const Selection = () => {
       setSelectedItem(selectedItemObj);
     }
 
-    const selectedItemPath = navbarData
-      ? findingPath(navbarData, locations.pathname)
+    const selectedItemPath = navbar
+      ? findingPath(navbar, locations.pathname)
       : "";
     setCurrentPath(selectedItemPath || "");
 
-    if (navbarData) {
-      const matchedItem = navbarData.find(
+    if (navbar) {
+      const matchedItem = navbar.find(
         (item) => item.path === currentPath.path
       );
       if (matchedItem) {
@@ -62,7 +61,7 @@ const Selection = () => {
   }, [
     currentPath,
     data,
-    navbarData,
+    navbar,
     locations.pathname,
     businessTypes,
     dropdownValue,

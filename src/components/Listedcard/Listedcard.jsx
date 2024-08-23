@@ -16,10 +16,6 @@ const Listedcard = (props) => {
     setLink(link);
   }, [listItems]);
   const links = Array.isArray(getlink) ? getlink.slice(0, 1) : [];
-  const getSize = (index) => {
-    const sizes = ["small", "medium", "large"];
-    return sizes[index % sizes.length];
-  };
 
   return (
     <div className=" ">
@@ -31,7 +27,7 @@ const Listedcard = (props) => {
           {listItems
             ? listItems.map((item, index) => (
                 <div
-                  href={`/${item.title}`}
+                  key={index}
                   className="flex items-center border-b-2 rounded-lg items-center hover:bg-slate-100 "
                 >
                   <a href={`/${item.title}`} className="flex p-5  ">

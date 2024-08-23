@@ -22,10 +22,9 @@ const useCardSettings = (type) => {
     };
 
     fetchData();
-  }, [type]); // Trigger fetch when `type` prop changes
+  }, [type]);
 
   return { businessTypes, searchload };
 };
-
 
 export default useCardSettings;
