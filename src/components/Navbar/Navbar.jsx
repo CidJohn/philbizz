@@ -8,9 +8,10 @@ import { useTranslation } from "react-i18next";
 import Translation from "../Translation/Translation";
 import { Registration } from "../../pages/Login/Registration";
 import Images from "../Image/Images";
+import Swal from "sweetalert2"; // Import SweetAlert2
 
 export default function Navbar(props) {
-  const { navbarData, loading, hidden } = props;
+  const { navbarData, hidden } = props;
   const [showDropdown, setShowDropdown] = useState(true);
   const [showDropdown2, setShowDropdown2] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,16 +25,12 @@ export default function Navbar(props) {
     const storedItem = localStorage.getItem("selectedItem");
     if (storedItem) {
       const itemToStore = JSON.parse(storedItem);
-
       delete itemToStore.id;
     } else {
       console.log("No item found in localStorage");
     }
     localStorage.setItem("selectedItem", JSON.stringify({ path }));
   };
-  // const toggleDropdown = () => {
-  //   setShowDropdown(!showDropdown);
-  // };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -56,9 +53,28 @@ export default function Navbar(props) {
     setIsModalOpen(false);
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  const handleKtvJtvClick = (item) => (e) => {
+    e.preventDefault(); // Prevent the default link click behavior
+
+    Swal.fire({
+      title: "Age Restriction",
+      text: "You must be 19 years or older to access this content. Are you 19 or older?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, I'm 19 or older",
+      cancelButtonText: "No, I'm not",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = item.path; // Redirect the user if they confirm
+      } else {
+        Swal.fire(
+          "Access Denied",
+          "You must be 19 or older to view this content.",
+          "error"
+        );
+      }
+    });
+  };
 
   const navbarItem = (navitem) => {
     return navitem.map((item, index) => (
@@ -70,17 +86,19 @@ export default function Navbar(props) {
         <a
           href={item.path}
           className="flex flex-col text-gray-600 hover:text-gray-900 hover:font-bold items-center  transform transition-transform duration-500 hover:scale-110 "
-          onClick={handleClickDelete}
-          target={item.name === "Business" ? "_black" : "_self"}
+          onClick={
+            item.restrict === 19 ? handleKtvJtvClick(item) : handleClickDelete
+          }
+          target={item.name === "Business" ? "_blank" : "_self"}
         >
-          <span className="text-2xl  hover:border-gray-900  px-4 py-2   rounded ">
+          <span className="text-2xl hover:border-gray-900 px-4 py-2 rounded ">
             <Images src={item.iconPath} style={{ width: "45px" }} />
           </span>
           <span>{t(item.name)}</span>
         </a>
         {item.children && showDropdown === item.name && (
           <div
-            className="absolute  bg-white  rounded-lg shadow-lg z-50"
+            className="absolute bg-white rounded-lg shadow-lg z-50"
             onMouseLeave={() => setShowDropdown(false)}
           >
             {item.children.map((childItem, childIndex) => (
@@ -134,7 +152,7 @@ export default function Navbar(props) {
         </div>
       </div>
 
-      <div className="bg-white max-w-auto  px-4 sm:px-6 lg:px-8 mt-1">
+      <div className="bg-white max-w-auto px-4 sm:px-6 lg:px-8 mt-1">
         <div className="flex items-center justify-between h-16 ">
           <div className="hidden md:block mx-auto">
             <div className=" flex items-baseline space-x-1 relative">
@@ -204,9 +222,13 @@ export default function Navbar(props) {
                 <a
                   href={item.path}
                   className=" text-gray-600 hover:text-gray-900 "
-                  onClick={handleClickDelete}
+                  onClick={
+                    item.name === "Ktv/jtv"
+                      ? handleKtvJtvClick(item)
+                      : handleClickDelete
+                  }
                 >
-                  <div className=" border rounded p-4  hover:bg-gray-400">
+                  <div className=" border rounded p-4 hover:bg-gray-400">
                     {t(item.name)}
                   </div>
                 </a>

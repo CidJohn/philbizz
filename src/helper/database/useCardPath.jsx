@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import restAPI from "./restAPI";
 import axios from "axios";
 
 export const useCardPath = () => {
   const [load, setLoad] = useState(true);
   const [cardpath, setCardPath] = useState([]);
+  const isFetched = useRef(false);
   const API_CALL = restAPI();
 
   useEffect(() => {
@@ -20,7 +21,10 @@ export const useCardPath = () => {
       }
     };
 
-    fetchData();
+    if (!isFetched.current) {
+      fetchData();
+      isFetched.current = true;
+    }
   }, []); // Trigger fetch when `type` prop changes
 
   return { cardpath, load };
@@ -29,6 +33,7 @@ export const useCardPath = () => {
 export const useCardDesc = (type) => {
   const [descload, setDescLoad] = useState(true);
   const [businesses, setBusinesses] = useState([]);
+  const isFetched = useRef(false);
   const API_CALL = restAPI();
   useEffect(() => {
     const fetchData = async () => {
@@ -45,7 +50,10 @@ export const useCardDesc = (type) => {
       }
     };
 
-    fetchData();
+    if (!isFetched.current) {
+      fetchData();
+      isFetched.current = true;
+    }
   }, [type]); // Trigger fetch when `type` prop changes
 
   return { businesses, descload };

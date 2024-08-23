@@ -11,13 +11,12 @@ import {
 import Spinner from "../../../components/Spinner/Spinner";
 import HandleCompanyCard from "../../../utils/HandleCompanyCard/handleCompanyCard";
 
-const Business = () => {
+const Business = ({ businessSettings }) => {
   const [getLocation, setLocation] = useState("");
   const [getDataInfo, setDataInfo] = useState([]);
   const [filterFound, setFilterFound] = useState();
   const [getdropDown, setDropdown] = useState("");
   const { getCategory, loadCategory } = useBusinessCategory();
-  const { getCardInfo, getCompanyLoad } = useBusinessSettings();
 
   const { CompanyFilter } = useCompanyFilter({
     name: getLocation,
@@ -28,10 +27,10 @@ const Business = () => {
   const category = getCategory ? getCategory : "";
 
   useEffect(() => {
-    if (getCardInfo) {
-      setDataInfo(getCardInfo);
+    if (businessSettings.businessSettings) {
+      setDataInfo(businessSettings.businessSettings);
     }
-  }, [getCardInfo]);
+  }, [businessSettings.businessSettings]);
 
   const handleLocation = (e) => {
     const selectedLocation = e.target.innerText;
@@ -63,7 +62,7 @@ const Business = () => {
     })),
   ];
 
-  if (getCompanyLoad) {
+  if (businessSettings.getCompanyLoad) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Spinner />

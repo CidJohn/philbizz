@@ -5,7 +5,7 @@ import Pagination from "../../components/Pagination/Pagination";
 import Horizontal from "../../components/Horizontal/Horizontal";
 
 const HandleCompanyCard = (props) => {
-  const { getDataInfo, category } = props;
+  const { category } = props;
 
   const cardData = Array.isArray(category) ? category.slice(0, 115) : [];
   const listData = Array.isArray(category) ? category.slice(115) : [];

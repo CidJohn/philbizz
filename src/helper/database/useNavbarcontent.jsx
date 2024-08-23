@@ -20,10 +20,12 @@ export const useNavbarcontent = () => {
         setLoading(false);
       }
     };
+
     if (!isFetched.current) {
       fetchData();
       isFetched.current = true;
     }
-  }, [API_CALL.host]);
+  }, []);
+
   return { navbarData, loading };
 };

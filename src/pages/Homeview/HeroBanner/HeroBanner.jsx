@@ -12,8 +12,9 @@ import NewsFeed from "../../../components/NewsFeed/NewsFeed";
 import Currency from "../../../components/Currency/Currency";
 import useBlogSettings from "../../../helper/database/useBlogSettings";
 import restAPI from "../../../helper/database/restAPI";
+import Image from "../../../components/Image/Image";
 
-export const HeroBanner = ({ darkMode }) => {
+export const HeroBanner = ({ blogData }) => {
   const [getArticles, setArticles] = useState([]);
   const [getLat, setLat] = useState();
   const [getLan, setLan] = useState();
@@ -23,7 +24,6 @@ export const HeroBanner = ({ darkMode }) => {
   const { location } = useGeolocation();
   const { weatherData, loading, error } = useWeather(getLat, getLan);
   const { getNewsData } = useNewsFeed();
-  const { blogData, blogload } = useBlogSettings();
   const imagelink = restAPI();
 
   useEffect(() => {
@@ -41,16 +41,17 @@ export const HeroBanner = ({ darkMode }) => {
     }
   }, [location, getNewsData, blogData]);
 
-  console.log(getBlog);
-
   return (
-    <div className={`lg:flex  flex-row  gap-3  ${darkMode && "dark"}`}>
+    <div className={`lg:flex  flex-row  gap-3 `}>
       {" "}
       <div className="flex flex-col-reverse md:flex-row min-w-80 gap-3">
         <div className="flex flex-col border-gray-300 hover:border-blue-300 rounded-lg shadow-r p-2  border-2">
           {getBlog
             ? getBlog.map((item, index) => (
-                <div className="transform transition-transform duration-500 hover:scale-105 p-3 max-w-96 md:min-w-80">
+                <div
+                  key={index}
+                  className="transform transition-transform duration-500 hover:scale-105 p-3 max-w-96 md:min-w-80"
+                >
                   <Card
                     src={imagelink.image + item.imageURL}
                     title={item.title}
@@ -69,8 +70,11 @@ export const HeroBanner = ({ darkMode }) => {
             {getArticles.length > 0 ? (
               <NewsFeed articles={getArticles} />
             ) : (
-              cardContent.map((item) => (
-                <div className="flex p-5 border-b-2 rounded-lg items-center transform transition-transform duration-500 hover:scale-105">
+              cardContent.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex p-5 border-b-2 rounded-lg items-center transform transition-transform duration-500 hover:scale-105"
+                >
                   <Images src={item.images} style={{ width: "150px" }} />
                   <div className="p-2">
                     <h1 className="text-lg font-bold">{item.title}</h1>

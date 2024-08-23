@@ -5,15 +5,27 @@ import Homeview from "./pages/Homeview";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./pages/Layout";
 import { useRoute } from "./route/selectionRouting";
-import BlogPost from "./pages/Selection/Blog/BlogPost/BlogPost";
 
 function App() {
-  const { getnavroute, getcardroute, getcompanyroute, getblog } = useRoute();
+  const {
+    getnavroute,
+    getcardroute,
+    getcompanyroute,
+    getblog,
+    blogData,
+    navbarData,
+    getCardInfo,
+    loading
+  } = useRoute();
   return (
     <BrowserRouter>
-      <Layout>
+      <Layout navbar={{navbar: navbarData, navload: loading} }>
         <Routes>
-          <Route path="/" element={<Homeview />} key={"home"} />
+          <Route
+            path="/"
+            element={<Homeview data={{blogData:blogData, navbar: navbarData, businessSettings: getCardInfo}}  />}
+            key={"home"}
+          />
           {getnavroute}
           {getcardroute}
           {getcompanyroute}
