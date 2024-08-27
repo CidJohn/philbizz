@@ -24,11 +24,7 @@ const ContentLayout = ({
   sideAds,
 }) => {
   if (currentItems.length === 0) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <MaintenancePage />
-      </div>
-    );
+    return <MaintenancePage />;
   }
   return (
     <div className="container mx-auto flex">
