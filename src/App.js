@@ -5,6 +5,8 @@ import Homeview from "./pages/Homeview";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./pages/Layout";
 import { useRoute } from "./route/selectionRouting";
+import Home from "./pages/Dashboard/Home/Home";
+import DashboardLayout from "./pages/Dashboard/DashboardLayout";
 
 function App() {
   const {
@@ -15,15 +17,23 @@ function App() {
     blogData,
     navbarData,
     getCardInfo,
-    loading
+    loading,
   } = useRoute();
   return (
     <BrowserRouter>
-      <Layout navbar={{navbar: navbarData, navload: loading} }>
+      <Layout navbar={{ navbar: navbarData, navload: loading }}>
         <Routes>
           <Route
             path="/"
-            element={<Homeview data={{blogData:blogData, navbar: navbarData, businessSettings: getCardInfo}}  />}
+            element={
+              <Homeview
+                data={{
+                  blogData: blogData,
+                  navbar: navbarData,
+                  businessSettings: getCardInfo,
+                }}
+              />
+            }
             key={"home"}
           />
           {getnavroute}
@@ -32,6 +42,11 @@ function App() {
           {getblog}
         </Routes>
       </Layout>
+      <DashboardLayout>
+        <Routes>
+          <Route path="/dashboard" element={<Home />} key={"dashboard"} />
+        </Routes>
+      </DashboardLayout>
     </BrowserRouter>
   );
 }

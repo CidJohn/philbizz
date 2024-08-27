@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  useBusinessSettings,
-  useHomeBusiness,
-} from "../../../helper/database/useBusinessData";
+import { useHomeBusiness } from "../../../helper/database/useBusinessData";
 import Listedcard from "../../../components/Listedcard/Listedcard";
 import Spinner from "../../../components/Spinner/Spinner";
 import Carousel from "../../../components/Carousel/Carousel";
 import TreeView from "../../../components/Treeviews/Treeview";
 import { useTreeview } from "../../../helper/database/useTreeview";
-import { useNavbarcontent } from "../../../helper/database/useNavbarcontent";
 import { useNavigate } from "react-router-dom";
 import Calendar from "../../../components/Calendar/Calendar";
-import cardContent from "../../../content/cardContent";
+import { socialContent } from "../../../content/cardContent";
 import Images from "../../../components/Image/Images";
 
 const Businessview = (props) => {
@@ -21,6 +17,7 @@ const Businessview = (props) => {
   const [getBeauty, setBeauty] = useState([]);
   const [getFood, setFood] = useState([]);
   const [getKtvjtv, setKtvjtv] = useState([]);
+  const [getFestival, setFestival] = useState([]);
   const [groupedTreeView, setGroupedTreeView] = useState({});
   const [getfilterNav, setNavbar] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -32,18 +29,23 @@ const Businessview = (props) => {
     if (header) {
       const filteredBeauty = header
         .filter((item) => item.Header === "Beauty")
-        .slice(0, 5);
+        .slice(0, 4);
       setBeauty(filteredBeauty);
 
       const filteredFood = header
         .filter((item) => item.Header === "Food")
-        .slice(0, 5);
+        .slice(0, 4);
       setFood(filteredFood);
 
       const filteredKtv = header
         .filter((item) => item.Header === "Ktv/Jtv")
-        .slice(0, 5);
+        .slice(0, 4);
       setKtvjtv(filteredKtv);
+
+      const filteredFestival = header
+        .filter((item) => item.Header === "Festival")
+        .slice(0, 4);
+      setFestival(filteredFestival);
     }
 
     if (navbar) {
@@ -62,7 +64,12 @@ const Businessview = (props) => {
       setGroupedTreeView(groupedData);
     }
   }, [header, navbar, data]);
-
+  const listItems = [
+    { title: "Food", list: getFood },
+    { title: "Beauty", list: getBeauty },
+    { title: "Ktv/Jtv", list: getKtvjtv },
+    { title: "Festival", list: getFestival },
+  ];
   const carousel = Array.isArray(businessCarousel)
     ? businessCarousel.slice(0, 10)
     : [];
@@ -102,36 +109,20 @@ const Businessview = (props) => {
           </div>
           <div className="">
             <div className="flex flex-wrap  border-2 border-gray-300 hover:border-yellow-300 rounded-lg ">
-              <div className="min-w-full p-5 ">
-                <Listedcard
-                  section={"food"}
-                  title={"Food"}
-                  listItems={getFood}
-                  listclass={"text-sm"}
-                  listclasses={"hover:bg-slate-100 "}
-                />
-              </div>
-              <div className="min-w-full p-5">
-                <Listedcard
-                  section={"beauty"}
-                  title={"Beauty"}
-                  listItems={getBeauty}
-                  listclass={"text-sm"}
-                  listclasses={"hover:bg-slate-100 "}
-                />
-              </div>
-              <div className="min-w-full p-5">
-                <Listedcard
-                  section={"ktvjtv"}
-                  title={"Ktv/Jtv"}
-                  listItems={getKtvjtv}
-                  listclass={"text-sm"}
-                  listclasses={"hover:bg-slate-100 "}
-                />
-              </div>
+              {listItems.map((item) => (
+                <div className="min-w-full p-5 ">
+                  <Listedcard
+                    section={item.title}
+                    title={item.title}
+                    listItems={item.list}
+                    listclass={"text-sm"}
+                    listclasses={"hover:bg-slate-100 "}
+                  />
+                </div>
+              ))}
             </div>
           </div>
-          <div className="flex flex-col border-2 rounded-lg min-w-80 p-5 hover:border-orange-300">
+          <div className="flex flex-col border-2 rounded-lg  min-w-80 p-5 hover:border-orange-300">
             <div className="sticky top-5">
               <div className="transform transition-transform duration-500 hover:scale-105 ">
                 <h1 className="text-3xl font-serif mx-2 font-bold">Calendar</h1>
@@ -142,15 +133,15 @@ const Businessview = (props) => {
                   </div>
                 )}
               </div>
-              <div className="mt-5 shadow-lg p-3">
+              <div className="mt-5 rounded-lg shadow-lg p-3">
                 <h1 className="text-3xl font-serif mx-2 font-bold">
                   Social media
                 </h1>
-                {cardContent.map((item, index) => (
+                {socialContent.map((item, index) => (
                   <div className="flex " key={index}>
                     <a
                       href={"/"}
-                      className="transform transition-transform duration-500 hover:scale-105"
+                      className="transform transition-transform duration-500 hover:scale-105 p-5"
                     >
                       <Images src={item.imageURL} style={{ width: "250px" }} />
                     </a>

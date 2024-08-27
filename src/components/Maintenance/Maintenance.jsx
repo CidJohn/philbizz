@@ -1,62 +1,39 @@
 import React, { useEffect, useState } from "react";
 
 const MaintenancePage = () => {
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  });
-
-  useEffect(() => {
-    const countDown = () => {
-      const countDay = new Date("December 28, 2024 00:00:00");
-      const now = new Date();
-      const counter = countDay - now;
-
-      const second = 1000;
-      const minute = second * 60;
-      const hour = minute * 60;
-      const day = hour * 24;
-
-      setTimeLeft({
-        days: Math.floor(counter / day),
-        hours: Math.floor((counter % day) / hour),
-        minutes: Math.floor((counter % hour) / minute),
-        seconds: Math.floor((counter % minute) / second),
-      });
-    };
-
-    const intervalId = setInterval(countDown, 1000);
-    return () => clearInterval(intervalId);
-  }, []);
-
   return (
-    <div className=" text-center py-10 text-gray-700">
-      <article className="max-w-2xl mx-auto">
-        <h1 className="text-5xl mb-4">We&rsquo;ll be back soon!</h1>
-        <div>
-          <p className="mb-4">
-            Sorry for the inconvenience but we&rsquo;re performing some
-            maintenance at the moment. If you need to you can always{" "}
-            <a
-              href="https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox?compose=GTvVlcSBpRjzbCfpHSjPLWnlSwBfzHqFGSmVKxKMJfKxQqdtqgdWQzmJBQTnscMTXLJDdmBqpLXnL"
-              className="text-yellow-500 hover:text-gray-200"
-            >
-              contact us
-            </a>
-            , otherwise we&rsquo;ll be back online shortly!
+    <>
+      {/*
+      This example requires updating your template:
+
+      ```
+      <html class="h-full">
+      <body class="h-full">
+      ```
+    */}
+      <main className="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
+        <div className="text-center">
+          <p className="text-base font-semibold text-indigo-600">404</p>
+          <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+            Page not found
+          </h1>
+          <p className="mt-6 text-base leading-7 text-gray-600">
+            Sorry, we couldn’t find the page you’re looking for.
           </p>
-          <p>&mdash; Dev Team</p>
+          <div className="mt-10 flex items-center justify-center gap-x-6">
+            <a
+              href="/"
+              className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              Go back home
+            </a>
+            <a href="#  " className="text-sm font-semibold text-gray-900">
+              Contact support <span aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
         </div>
-        <div className="flex flex-row items- justify-center gap-5 mt-4">
-          <p className="day">{timeLeft.days} Days</p>
-          <p className="hour">{timeLeft.hours} Hours</p>
-          <p className="minute">{timeLeft.minutes} Minutes</p>
-          <p className="second">{timeLeft.seconds} Seconds</p>
-        </div>
-      </article>
-    </div>
+      </main>
+    </>
   );
 };
 

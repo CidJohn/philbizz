@@ -17,15 +17,19 @@ const cardContent = [
       "https://media.vaticannews.va/media/content/dam-archive/vaticannews/agenzie/images/afp/2019/01/09/01/philippines-religion-black-nazarene-1546992527761.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
     desc: "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.",
   },
+  
+];
+
+export const socialContent = [
   {
     socialmedia: "Facebook",
     imageURL:
-      "https://logos-world.net/wp-content/uploads/2020/05/Facebook-Logo.png",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Facebook_Logo_%282019%29.svg/1280px-Facebook_Logo_%282019%29.svg.png",
   },
   {
     socialmedia: "Youtube",
     imageURL:
-      "https://logos-world.net/wp-content/uploads/2020/04/YouTube-Logo.png",
+      "https://upload.wikimedia.org/wikipedia/commons/3/34/YouTube_logo_%282017%29.png",
   },
   {
     socialmedia: "Instagram",
@@ -35,8 +39,8 @@ const cardContent = [
   {
     socialmedia: "Google",
     imageURL:
-      "https://duet-cdn.vox-cdn.com/thumbor/0x0:2012x1341/640x427/filters:focal(1006x670:1007x671):format(webp)/cdn.vox-cdn.com/uploads/chorus_asset/file/15483559/google2.0.0.1441125613.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/a/ab/Gmail2020.logo.png",
   },
-];
+]
 
 export default cardContent;
