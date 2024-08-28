@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button/Button";
 import Textline from "../../components/Textline/Textline";
-import { useLogin } from "../../helper/auth/useAuthentication";
+import { useLogin, useUserData } from "../../helper/auth/useAuthentication";
 import useAlert from "../../helper/alert/useAlert";
-import Spinner from "../../components/Spinner/Spinner";
 import { useAuth } from "../../helper/auth/useAuthContext";
 
 export const Login = ({ handleModalOpen, handleRegistrationOpen }) => {
@@ -13,7 +12,6 @@ export const Login = ({ handleModalOpen, handleRegistrationOpen }) => {
     password: "",
   };
   const [formData, setFormData] = useState(initializeData);
-  const [getData, setData] = useState([]);
   const [errors, setErrors] = useState([]);
   const { fetchingLogin, token, loginLoad, error } = useLogin();
   const { login, setRememberMe } = useAuth();
@@ -55,7 +53,6 @@ export const Login = ({ handleModalOpen, handleRegistrationOpen }) => {
       sessionStorage.removeItem("token");
     }
   };
-
   useEffect(() => {
     if (token) {
       showAlert("Welcome", `Login Successfully!`, "success");

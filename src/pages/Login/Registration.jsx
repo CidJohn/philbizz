@@ -3,7 +3,6 @@ import Textline from "../../components/Textline/Textline";
 import Button from "../../components/Button/Button";
 import { useRegistration } from "../../helper/auth/useAuthentication";
 import useAlert from "../../helper/alert/useAlert";
-import Spinner from "../../components/Spinner/Spinner";
 
 export const Registration = ({ handleRegistrationClose, handleLoginOpen }) => {
   const initialData = {
