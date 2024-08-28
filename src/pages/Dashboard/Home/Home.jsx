@@ -10,7 +10,7 @@ function Home() {
 
   return (
     <div className="flex flex-col">
-      {loc === "#dashboard" && (
+      {(!loc || loc === "#dashboard") && (
         <section id="dashboard">
           <Dashboard />
         </section>
@@ -21,7 +21,7 @@ function Home() {
         </section>
       )}
       {loc === "#users" && (
-        <section id="menus">
+        <section id="users">
           <Accounts />
         </section>
       )}
