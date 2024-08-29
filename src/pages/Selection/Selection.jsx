@@ -9,7 +9,7 @@ import HandleCards from "../../utils/HandleCards/handleCards";
 import useCardSettings from "../../helper/database/useCardSettings"; // Import the custom hook
 import Description from "./Description/Description";
 
-const Selection = ({navbar}) => {
+const Selection = ({ navbar }) => {
   const locations = useLocation();
   const { state } = useLocation();
   const { id, path } = state || { id: null };
@@ -38,9 +38,7 @@ const Selection = ({navbar}) => {
     setCurrentPath(selectedItemPath || "");
 
     if (navbar) {
-      const matchedItem = navbar.find(
-        (item) => item.path === currentPath.path
-      );
+      const matchedItem = navbar.find((item) => item.path === currentPath.path);
       if (matchedItem) {
         setBusiness(matchedItem);
       }

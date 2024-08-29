@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Card from "../Card/Card";
-import List from "../List/List";
 import Dateformat from "../Dateformat/Dateformat";
 import Images from "../Image/Images";
 
@@ -36,7 +34,7 @@ const Listedcard = (props) => {
                       style={{ width: "100px", height: "70px" }}
                     />
                     <div className="p-2">
-                      <h1 className="text-lg font-bold">{item.title}</h1>
+                      <h1 className="text-lg font-bold ">{item.title}</h1>
                       <span className="text-sx">
                         <Dateformat dateString={item.created_at} />
                       </span>

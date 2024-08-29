@@ -25,7 +25,6 @@ const TreeItem = ({ item, onItemClick }) => {
       >
         {/* <span className="toggle text-lg">{isOpen ? "" : ">"}</span> */}
         <Button
-          to={item.path || "#"}
           className="text-gray-900 hover:underline decoration-sky-500 underline-offset-8 decoration-4 hover:py-2 "
           onClick={handleItemClick}
           text={t(item.name)}

@@ -56,6 +56,9 @@ const Businessview = (props) => {
     if (data && navbar) {
       const groupedData = navbar.reduce((acc, navItem) => {
         const filterData = data.filter((node) => node.path === navItem.path);
+        if (navItem.name === "Ktv/Jtv") {
+          return acc;
+        }
         if (filterData.length > 0) {
           acc[navItem.name] = filterData;
         }
@@ -66,9 +69,8 @@ const Businessview = (props) => {
   }, [header, navbar, data]);
   const listItems = [
     { title: "Food", list: getFood },
-    { title: "Beauty", list: getBeauty },
-    { title: "Ktv/Jtv", list: getKtvjtv },
     { title: "Festival", list: getFestival },
+    { title: "Beauty", list: getBeauty },
   ];
   const carousel = Array.isArray(businessCarousel)
     ? businessCarousel.slice(0, 10)
@@ -90,10 +92,10 @@ const Businessview = (props) => {
         </div>
       ) : (
         <div className=" flex flex-col md:flex-row  gap-3  ">
-          <div className="flex flex-col  border-2 border-gray-300 hover:border-violet-300 rounded-lg  p-2 ">
-            <div className="sticky top-0 min-w-80">
+          <div className="flex flex-col  border-2 border-gray-300 hover:border-violet-300 rounded-lg ">
+            <div className=" min-w-80">
               {Object.keys(groupedTreeView).map((name) => (
-                <div key={name}>
+                <div key={name} className="p-2">
                   <h3 className="font-bold text-2xl my-2 font-serif bg-blue-300 px-2">
                     {name}
                   </h3>
@@ -107,22 +109,22 @@ const Businessview = (props) => {
               ))}
             </div>
           </div>
-          <div className="">
-            <div className="flex flex-wrap  border-2 border-gray-300 hover:border-yellow-300 rounded-lg ">
-              {listItems.map((item) => (
-                <div className="min-w-full p-5 ">
+          <div className="min-w-80">
+            <div className="flex flex-wrap border-2 border-gray-300 hover:border-yellow-300 rounded-lg ">
+              {listItems.map((item, index) => (
+                <div className=" p-5 min-w-80 mx-auto" key={index}>
                   <Listedcard
                     section={item.title}
                     title={item.title}
                     listItems={item.list}
                     listclass={"text-sm"}
-                    listclasses={"hover:bg-slate-100 "}
+                    listclasses={"hover:bg-slate-100  "}
                   />
                 </div>
               ))}
             </div>
           </div>
-          <div className="flex flex-col border-2 rounded-lg  min-w-80 p-5 hover:border-orange-300">
+          <div className="flex flex-col border-2 rounded-lg  min-w-80 p-2 hover:border-orange-300">
             <div className="sticky top-5">
               <div className="transform transition-transform duration-500 hover:scale-105 ">
                 <h1 className="text-3xl font-serif mx-2 font-bold">Calendar</h1>
