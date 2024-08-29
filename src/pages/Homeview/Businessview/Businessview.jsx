@@ -142,7 +142,7 @@ const Businessview = (props) => {
                 {socialContent.map((item, index) => (
                   <div className="flex " key={index}>
                     <a
-                      href={"/"}
+                      href={item.link}
                       className="transform transition-transform duration-500 hover:scale-105 p-5"
                     >
                       <Images src={item.imageURL} style={{ width: "250px" }} />

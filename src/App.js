@@ -7,6 +7,7 @@ import Layout from "./pages/Layout";
 import { useRoute } from "./route/selectionRouting";
 import Home from "./pages/Dashboard/Home/Home";
 import DashboardLayout from "./pages/Dashboard/DashboardLayout";
+import Contact from "./pages/Homeview/Contact/Contact";
 
 function App() {
   const {
@@ -23,6 +24,7 @@ function App() {
     <BrowserRouter>
       <Layout navbar={{ navbar: navbarData, navload: loading }}>
         <Routes>
+          <Route path="/contact" element={<Contact />} />
           <Route
             path="/"
             element={
