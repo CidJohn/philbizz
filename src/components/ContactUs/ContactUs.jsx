@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { send } from "emailjs-com";
+import useAlert from "../../helper/alert/useAlert";
 
 function ContactForm(props) {
   const { email, company } = props;
+  const showAlert = useAlert();
   const [formData, setFormData] = useState({
     email: "",
     subject: "",
@@ -37,6 +39,8 @@ function ContactForm(props) {
       "Fz-gbi6vz8SFHDHd-"
     )
       .then((response) => {
+        if (response.text === "OK")
+          showAlert("Send Email", "Successfully!!", "success");
         console.log("SUCCESS!", response.status, response.text);
         setFormData({
           email: "",

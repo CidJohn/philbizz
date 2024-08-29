@@ -1,6 +1,11 @@
 import React from "react";
 import Image from "../../components/Image/Image";
-import { Kakaotalk, Messenger, Telegram } from "../../components/svg/Icons";
+import {
+  Gmail,
+  Kakaotalk,
+  Messenger,
+  Telegram,
+} from "../../components/svg/Icons";
 import Link from "../../components/Link/Link";
 
 function Footer() {
@@ -28,9 +33,7 @@ function Footer() {
               </li>
               <li className="  h-full max-h-24">
                 <Link
-                  to={
-                    "https://www.kakaocorp.com/page/service/service/KakaoTalk?lang=en"
-                  }
+                  to={"https://open.kakao.com/o/Philbizz"}
                   className={" me-4 md:me-6"}
                 >
                   <div className="  transform transition-transform duration-500 hover:scale-110">
@@ -39,12 +42,16 @@ function Footer() {
                 </Link>
               </li>
               <li className="  h-full max-h-24">
-                <Link
-                  to={"https://web.telegram.org/a/"}
-                  className={" me-4 md:me-6"}
-                >
+                <Link to={"https://t.me/cidjohn31"} className={" me-4 md:me-6"}>
                   <div className="  transform transition-transform duration-500 hover:scale-110">
                     <Telegram width={"50"} />
+                  </div>
+                </Link>
+              </li>
+              <li className="  h-full max-h-24">
+                <Link to={"/contact"} className={" me-4 md:me-6"}>
+                  <div className="  transform transition-transform duration-500 hover:scale-110">
+                    <Gmail width={"50"} />
                   </div>
                 </Link>
               </li>
