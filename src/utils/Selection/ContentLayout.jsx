@@ -37,7 +37,7 @@ const ContentLayout = ({
             ""
           )}
         </div>
-        <section id="cards">
+        <section id="cards" className="sticky top-5">
           <div className="flex flex-col">
             <Horizontal />
             <div className="flex flex-col lg:flex-row items-center justify-center mt-5">

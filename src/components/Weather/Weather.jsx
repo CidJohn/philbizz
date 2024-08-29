@@ -10,7 +10,7 @@ const Weather = ({
   weeklyForecast,
 }) => {
   return (
-    <div className="max-w-full bg-white shadow-md rounded-lg overflow-hidden">
+    <div className=" bg-white shadow-md rounded-lg overflow-hidden">
       <div className="p-4">
         <h2 className="text-2xl font-bold text-gray-800">{location}</h2>
         <Images src={iconUrl} alt={condition} className="w-16 h-16 mx-auto" />

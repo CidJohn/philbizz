@@ -51,7 +51,7 @@ const BlogPost = (props) => {
       setFormData({
         ...initialData,
         userid: userdata.id,
-        title: formData.title, // Preserve title
+        title: formData.title, 
       });
       setIsTitleVisible(false);
       setImagePreview(null);
@@ -60,6 +60,7 @@ const BlogPost = (props) => {
       showAlert("Warning", "Make sure your Image is not Empty!", "warning");
     }
   };
+
   const handleBackClick = () => {
     if (currentStep > 0) {
       const previousData = dataArray[currentStep - 1];
@@ -97,7 +98,6 @@ const BlogPost = (props) => {
   };
 
   const uploadData = async (data) => {
-    console.log(data);
     const titleProps = data.slice(0, 1);
     const descProps = data.slice(1);
 
@@ -119,9 +119,9 @@ const BlogPost = (props) => {
         aria-hidden="true"
         className="fixed inset-0 z-50 flex items-center justify-center w-full h-full bg-gray-800 bg-opacity-50"
       >
-        <div className="relative p-4 w-full max-w-screen-md max-h-full">
-          <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+        <div className="relative p-4 w-full max-w-screen-md max-h-full overflow-hidden">
+          <div className="relative bg-white rounded-lg shadow dark:bg-gray-700 ">
+            <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 ">
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                 Posting{" "}
                 {currentStep === 0 ? "Title Page" : `Image #${currentStep}`}
@@ -149,8 +149,8 @@ const BlogPost = (props) => {
                 <span className="sr-only">Close modal</span>
               </button>
             </div>
-            <div className="p-4 md:p-5 flex justify-center text-center">
-              <form className="space-y-4" onSubmit={handleAddClick}>
+            <div className="p-4 md:p-5 flex justify-center text-center overflow-y-auto max-h-[70vh]">
+              <form className="space-y-4 " onSubmit={handleAddClick}>
                 {isTitleVisible && (
                   <Textline
                     label={"Title Page"}
@@ -173,7 +173,9 @@ const BlogPost = (props) => {
                   label={"Image Description"}
                   type={"text"}
                   name="description"
-                  className={"border rounded p-2 min-w-full"}
+                  className={
+                    "border-2 rounded-lg p-2 min-w-full hover:border-blue-300 scroll-pb-[10px] "
+                  }
                   placeholder={"Description"}
                   value={formData.description}
                   onChange={handleChange}

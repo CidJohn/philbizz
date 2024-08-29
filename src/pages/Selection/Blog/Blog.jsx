@@ -15,7 +15,7 @@ const Blog = () => {
   const datas = blogData ? blogData : "";
   const [isModalOpen, setModalOpen] = useState(false);
   const [isCommentOpen, setCommentOpen] = useState(false);
-  const itemsPerPage = 2;
+  const itemsPerPage = 5;
   const [cardCurrentPage, setCardCurrentPage] = useState(1);
   const { getData } = useUserData();
   const imagelink = restAPI();

@@ -40,7 +40,7 @@ function DigitalClock() {
 
   return (
     <div>
-      <div className=" p-2">
+      <div className=" p-5 min-h-80">
         <h1 className=" text-4xl font-serif m-2 font-bold">Digital Clock</h1>
 
         <div
@@ -76,7 +76,7 @@ function DigitalClock() {
           <span className="block text-gray-700 font-bold">{t("Japan")}</span>
         </div>
         <div className=" flex py-2 ">
-          <div className="mx-auto  flex ">
+          <div className="mx-auto flex ">
             <Dropdown
               name={"selection"}
               options={options}
