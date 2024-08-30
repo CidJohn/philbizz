@@ -5,9 +5,7 @@ import { AuthProvider } from "../../helper/auth/useAuthContext";
 
 const DashboardLayout = ({ children }) => {
   const location = useLocation();
-
-  const hiddenDash = location.pathname === "/dashboard" ? true : false;
-
+  const hiddenDash = location.pathname.includes("dashboard");
   return (
     <>
       <AuthProvider>

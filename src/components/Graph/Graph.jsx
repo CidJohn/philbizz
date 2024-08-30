@@ -38,10 +38,11 @@ const Graph = ({ title, data }) => {
                 className="flex-1 flex flex-col-reverse text-center"
               >
                 <div
-                  className="rounded-b-md"
+                  className={`rounded-b-md ${percentage > 0 ? 'animate-growFromBottom' : ''}`}
                   style={{
                     height: `${percentage}%`,
                     backgroundColor: getColor(percentage),
+                    '--bar-height': `${percentage}%`,
                   }}
                 ></div>
                 <p className="mt-2 text-xs text-gray-700 flex flex-col">

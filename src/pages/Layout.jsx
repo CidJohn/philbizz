@@ -5,13 +5,13 @@ import { useLocation } from "react-router-dom";
 import Spinner from "../components/Spinner/Spinner";
 import BusinessNavbar from "../components/BusinessNavbar/BusinessNavbar";
 import { AuthProvider } from "../helper/auth/useAuthContext";
-import Home from "./Dashboard/Home/Home";
 
 function Layout({ children, navbar }) {
   const location = useLocation();
 
-  const hidden = location.pathname === "/business" ? true : false;
-  const hiddenDash = location.pathname === "/dashboard" ? false : true;
+  const hidden = location.pathname.includes("business");
+  const hiddenDash = !location.pathname.includes("dashboard");
+
   if (navbar.loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
