@@ -47,10 +47,10 @@ export const socialContent = [
 ];
 
 export const Likeddata = [
-  { label: "item 1", value: 30 },
-  { label: "item 2", value: 59 },
+  { label: "item 1", value: 150 },
+  { label: "item 2", value: 70 },
   { label: "item 3", value: 99 },
-  { label: "item 4", value: 63 },
+  { label: "item 4", value: 13 },
   { label: "item 5", value: 47 },
   { label: "item 6", value: 20 },
 ];
@@ -63,5 +63,122 @@ export const Commentdata = [
   { label: "item 5", value: 90 },
   { label: "item 6", value: 70 },
 ];
+
+export const options = {
+  series: [
+    {
+      name: "Blog",
+      data: [100, 200, 400, 333, 111, 555, 777],
+      color: "#1A56DB",
+    },
+    {
+      name: "Business",
+      data: [432, 456, 123, 678, 534, 567, 123],
+      color: "#7E3BF2",
+    },
+    {
+      name: "Food",
+      data: [267, 854, 346, 975, 999, 666, 777],
+      color: "#1abfdc",
+    },
+    {
+      name: "Festival",
+      data: [123, 435, 756, 897, 111, 222, 333],
+      color: "#51dc1a",
+    },
+    {
+      name: "Beauty",
+      data: [112, 134, 543, 235, 764, 777, 800],
+      color: "#dc1abc",
+    },
+    {
+      name: "Travel",
+      data: [630, 642, 615, 672, 635, 644, 676],
+      color: "#1adc92",
+    },
+    {
+      name: "Medical",
+      data: [300, 428, 156, 726, 353, 446, 766],
+      color: "#1aa2dc",
+    },
+    {
+      name: "Ktv/Jtv",
+      data: [600, 628, 656, 626, 353, 446, 766],
+      color: "#1adc92",
+    },
+    {
+      name: "Massage",
+      data: [630, 648, 156, 676, 633, 646, 676],
+      color: "#dc1a92",
+    },
+  ],
+  chart: {
+    height: "100%",
+    maxWidth: "100%",
+    type: "area",
+    fontFamily: "Inter, sans-serif",
+    dropShadow: {
+      enabled: false,
+    },
+    toolbar: {
+      show: false,
+    },
+  },
+  tooltip: {
+    enabled: true,
+    x: {
+      show: false,
+    },
+  },
+  fill: {
+    type: "gradient",
+    gradient: {
+      opacityFrom: 0.55,
+      opacityTo: 0,
+      shade: "#1C64F2",
+      gradientToColors: ["#1C64F2"],
+    },
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  stroke: {
+    width: 6,
+  },
+  grid: {
+    show: false,
+    strokeDashArray: 4,
+    padding: {
+      left: 2,
+      right: 2,
+      top: 0,
+    },
+  },
+
+  xaxis: {
+    categories: [
+      "01 Monday",
+      "02 Tuesday",
+      "03 Wednesday",
+      "04 Thursday",
+      "05 Friday",
+      "06 Saturday",
+      "07 Sunday",
+    ],
+    labels: {
+      show: false,
+    },
+    axisBorder: {
+      show: false,
+    },
+    axisTicks: {
+      show: false,
+    },
+  },
+  yaxis: {
+    show: false,
+  },
+};
+
 
 export default cardContent;

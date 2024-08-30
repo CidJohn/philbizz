@@ -1,32 +1,22 @@
 import React, { useEffect, useState } from "react";
 import DigitalClock from "../../../components/DigitalClock/DigitalClock";
 import Calendar from "../../../components/Calendar/Calendar";
-import { useWeather } from "../../../helper/fetchAPI/useWeather";
-import useGeolocation from "../../../helper/fetchAPI/useGeolocation";
-import Weather from "../../../components/Weather/Weather";
-import Graph from "../../../components/Graph/Graph";
-import { Commentdata, Likeddata } from "../../../content/cardContent";
+import Graph, { LineGraph } from "../../../components/Graph/Graph";
+import { Commentdata, Likeddata, options } from "../../../content/cardContent";
 
 function Dashboard() {
-  const [getLat, setLat] = useState();
-  const [getLan, setLan] = useState();
+  const [selectedDate, setSelectedDate] = useState(null);
 
-  const { location } = useGeolocation();
-  const { weatherData, loading, error } = useWeather(getLat, getLan);
-
-  useEffect(() => {
-    const getlat = location ? location.lat : "";
-    setLat(getlat);
-    const getlan = location ? location.lon : "";
-    setLan(getlan);
-  }, [location]);
+  const handleDateSelect = (date) => {
+    setSelectedDate(date);
+  };
 
   return (
     <div>
       <div className="p-5">
         <h1 className="text-2xl  font-bold">Dashboard</h1>
-        <div className="flex flex-wrap  p-5 gap-4">
-          <div className="flex flex-col border-2  border-dashed rounded-lg gap-2 items-center">
+        <div className="flex flex-wrap  p-2 gap-2">
+          <div className="flex flex-col  rounded-lg  items-center">
             <h1 className="text-2xl  font-bold">Blog Analysis</h1>
 
             <div className="flex min-w-80 p-2 rounded-lg ">
@@ -40,31 +30,25 @@ function Dashboard() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col  border-2  border-dashed  min-w-64 gap-2">
-            <h1 className="text-2xl  font-bold text-center">Weather </h1>
+          <div className="flex flex-col   min-w-64 ">
+            <h1 className="text-2xl  font-bold text-center">Page Board</h1>
             <div className="flex  rounded-lg gap-2 ">
-              <div className="flex flex-col  p-2 min-w-full transform transition-transform duration-500 hover:scale-105">
-                {weatherData && (
-                  <Weather
-                    location={weatherData.location}
-                    temperature={weatherData.temperature}
-                    condition={weatherData.condition}
-                    iconUrl={weatherData.iconUrl}
-                    weeklyForecast={weatherData.weeklyForecast} // Passing the weekly forecast data
-                  />
-                )}
-
-                {loading && <p>Loading weather data...</p>}
-                {error && (
-                  <p className="text-red-500">Error fetching weather data</p>
-                )}
+              <div className="flex flex-wrap  p-2 min-w-full ">
+                <div className="z-10 flex min-w-full p-2 bg-gray-100  border-2 rounded-lg shadow-lg transform transition-transform duration-500 hover:scale-105">
+                  <LineGraph title={"Page views"} data={options} />
+                </div>
               </div>
             </div>
             <div className="flex flex-row  gap-2 ">
-              <div className="flex  rounded-lg transform transition-transform duration-500 hover:scale-105">
-                <Calendar />
+              <div className="flex flex-col p-2 bg-gray-100  rounded-lg transform transition-transform duration-500 hover:scale-105">
+                <Calendar onDateSelect={handleDateSelect} />
+                {selectedDate && (
+                  <div className="mt-4">
+                    Selected Date: {selectedDate.toDateString()}
+                  </div>
+                )}
               </div>
-              <div className="flex rounded-lg transform transition-transform duration-500 hover:scale-105">
+              <div className="flex p-2 rounded-lg bg-gray-100 transform transition-transform duration-500 hover:scale-105 shadow-lg border">
                 <DigitalClock />
               </div>
             </div>

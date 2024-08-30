@@ -10,7 +10,7 @@ import Link from "../../components/Link/Link";
 
 function Footer() {
   return (
-    <footer className="bg-white rounded-lg shadow dark:bg-gray-900 mt-4 p-1 max-w-5xl  md:mx-auto ">
+    <footer className="bg-white rounded-lg shadow dark:bg-gray-900 mt-4 p-1 min-w-full  md:mx-auto ">
       <div className="  p-4 md:py-5 ">
         <div className="flex flex-wrap items-center justify-between h-full max-h-24 max-w-screen-xl">
           <a href="/" className="flex items-center mb-4 sm:mb-0 space-x-3  ">
