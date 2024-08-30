@@ -19,6 +19,7 @@ function App() {
     navbarData,
     getCardInfo,
     loading,
+    getcardContent,
   } = useRoute();
   return (
     <BrowserRouter>
@@ -47,6 +48,7 @@ function App() {
       <DashboardLayout>
         <Routes>
           <Route path="/dashboard" element={<Home />} key={"dashboard"} />
+          {getcardContent}
         </Routes>
       </DashboardLayout>
     </BrowserRouter>

@@ -10,12 +10,16 @@ import Blog from "../pages/Selection/Blog/Blog";
 import Defaultpage from "../pages/Selection/Defaultpage/Defaultpage";
 import useBlogSettings from "../helper/database/useBlogSettings";
 import BlogContent from "../pages/Selection/Blog/BlogContent/BlogContent";
+import cardContent from "../content/cardContent";
+import ViewAccount from "../pages/Dashboard/Accounts/ViewAccount/ViewAccount";
+import sampleItem from "../content/sampleItem";
 
 export const useRoute = () => {
   const [getnavroute, setNavRoute] = useState([]);
   const [getcardroute, setCardRoute] = useState([]);
   const [getcompanyroute, setCompanyRoute] = useState([]);
   const [getblog, setBlog] = useState([]);
+  const [getcardContent, setCardContent] = useState([]);
   const { navbarData, loading } = useNavbarcontent();
   const { cardpath, load } = useCardPath();
   const { getCardInfo, getCompanyLoad } = useBusinessSettings();
@@ -30,7 +34,12 @@ export const useRoute = () => {
           path={`${item.path}`}
           element={
             item.path === "/business" ? (
-              <Business businessSettings={{businessSettings: getCardInfo, getCompanyLoad: getCompanyLoad}} />
+              <Business
+                businessSettings={{
+                  businessSettings: getCardInfo,
+                  getCompanyLoad: getCompanyLoad,
+                }}
+              />
             ) : item.path === "/blog" ? (
               <Blog />
             ) : (
@@ -74,6 +83,17 @@ export const useRoute = () => {
       ));
       setBlog(getBlog);
     }
+
+    if (sampleItem) {
+      const getcontent = sampleItem.map((item, index) => (
+        <Route
+          key={`sample-${index}`}
+          path={`/dashboard/${item.name}`}
+          element={<ViewAccount />}
+        />
+      ));
+      setCardContent(getcontent);
+    }
   }, [navbarData, cardpath, getCardInfo, blogData, load]);
 
   return {
@@ -84,6 +104,7 @@ export const useRoute = () => {
     blogData,
     getCardInfo,
     navbarData,
-    loading
+    loading,
+    getcardContent,
   };
 };
