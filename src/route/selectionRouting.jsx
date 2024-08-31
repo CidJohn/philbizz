@@ -10,9 +10,9 @@ import Blog from "../pages/Selection/Blog/Blog";
 import Defaultpage from "../pages/Selection/Defaultpage/Defaultpage";
 import useBlogSettings from "../helper/database/useBlogSettings";
 import BlogContent from "../pages/Selection/Blog/BlogContent/BlogContent";
-import cardContent from "../content/cardContent";
 import ViewAccount from "../pages/Dashboard/Accounts/ViewAccount/ViewAccount";
 import sampleItem from "../content/sampleItem";
+import Menus from "../pages/Dashboard/Menus/Menus";
 
 export const useRoute = () => {
   const [getnavroute, setNavRoute] = useState([]);
@@ -20,6 +20,7 @@ export const useRoute = () => {
   const [getcompanyroute, setCompanyRoute] = useState([]);
   const [getblog, setBlog] = useState([]);
   const [getcardContent, setCardContent] = useState([]);
+  const [getsidebar, setSideBar] = useState([]);
   const { navbarData, loading } = useNavbarcontent();
   const { cardpath, load } = useCardPath();
   const { getCardInfo, getCompanyLoad } = useBusinessSettings();
@@ -48,6 +49,14 @@ export const useRoute = () => {
           }
         />
       ));
+      const sideroute = navbarData.map((item, index) => (
+        <Route
+          key={`sidebar-${index}`}
+          path={`/dashboard${item.path}`}
+          element={<Menus />}
+        />
+      ));
+      setSideBar(sideroute);
       setNavRoute(routes);
     }
 
@@ -83,7 +92,7 @@ export const useRoute = () => {
       ));
       setBlog(getBlog);
     }
-
+    // user route sample
     if (sampleItem) {
       const getcontent = sampleItem.map((item, index) => (
         <Route
@@ -106,5 +115,6 @@ export const useRoute = () => {
     navbarData,
     loading,
     getcardContent,
+    getsidebar
   };
 };

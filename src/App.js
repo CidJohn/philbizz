@@ -20,6 +20,7 @@ function App() {
     getCardInfo,
     loading,
     getcardContent,
+    getsidebar,
   } = useRoute();
   return (
     <BrowserRouter>
@@ -45,10 +46,11 @@ function App() {
           {getblog}
         </Routes>
       </Layout>
-      <DashboardLayout>
+      <DashboardLayout props={{ navbar: navbarData }}>
         <Routes>
           <Route path="/dashboard" element={<Home />} key={"dashboard"} />
           {getcardContent}
+          {getsidebar}
         </Routes>
       </DashboardLayout>
     </BrowserRouter>
