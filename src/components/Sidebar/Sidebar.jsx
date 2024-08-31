@@ -9,6 +9,8 @@ function Sidebar(props) {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isDropdownOpenAchived, setIsDropdownOpenAchived] = useState(false);
+
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
@@ -17,8 +19,18 @@ function Sidebar(props) {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  const toggleDropdownArchived = () => {
+    setIsDropdownOpenAchived(!isDropdownOpenAchived);
+  };
+
   const handleSidebar = (path, name) => {
     navigate(`/dashboard${path}`, { state: { name: name, path: path } });
+  };
+
+  const handleArchived = (path, name) => {
+    navigate(`/dashboard/archived${path}`, {
+      state: { name: name, path: path },
+    });
   };
   return (
     <>
@@ -100,7 +112,7 @@ function Sidebar(props) {
             </li>
             <li>
               <a
-                href="#"
+                href="/dashboard#inbox"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <svg
@@ -160,8 +172,8 @@ function Sidebar(props) {
             </li>
             <li>
               <a
-                href="/dashboard#"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                onClick={toggleDropdownArchived}
+                className="cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <svg
                   className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -174,6 +186,27 @@ function Sidebar(props) {
                 </svg>
                 <span className="flex-1 ms-3 whitespace-nowrap">Archived</span>
               </a>
+              <ul
+                className={`ms-4 overflow-hidden hover:overflow-y-scroll transition-all duration-500 ease-in-out scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200  ${
+                  isDropdownOpenAchived
+                    ? "max-h-40 opacity-100"
+                    : "max-h-0 opacity-0"
+                }`}
+              >
+                {navbar &&
+                  navbar.map((item, index) => (
+                    <li key={index} className="ms-6">
+                      <button
+                        type="button"
+                        className="flex p-1 gap-2"
+                        onClick={() => handleArchived(item.path, item.name)}
+                      >
+                        <Image src={item.iconPath} style={{ width: "20px" }} />
+                        {item.name}
+                      </button>
+                    </li>
+                  ))}
+              </ul>
             </li>
             <li>
               <a

@@ -43,7 +43,7 @@ const TreeItem = ({ item, onItemClick }) => {
 
 const TreeView = ({ treeViewContent, onItemClick }) => {
   return (
-    <ul className="tree  font-bold txt-sm lg:text-2xl ">
+    <ul className="tree  font-bold txt-sm lg:text-md ">
       {treeViewContent.map((item, index) => (
         <TreeItem key={index} item={item} onItemClick={onItemClick} />
       ))}

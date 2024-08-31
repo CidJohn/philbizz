@@ -24,7 +24,6 @@ const Selection = ({ navbar }) => {
 
   const { businessTypes } = useCardSettings(currentPath.businessPath);
   const [filteredData, setFilteredData] = useState(businessTypes);
-
   useEffect(() => {
     const savedItem = JSON.parse(localStorage.getItem("selectedItem"));
     if (savedItem) {
