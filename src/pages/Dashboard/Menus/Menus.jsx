@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
-import List from "../../../components/List/List";
-import sampleItem from "../../../content/sampleItem";
 import Button from "../../../components/Button/Button";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTreeview } from "../../../helper/database/useTreeview";
 import TreeView from "../../../components/Treeviews/Treeview";
-import HandleCards from "../../../utils/HandleCards/handleCards";
 import useCardSettings from "../../../helper/database/useCardSettings";
 import Table from "../../../components/Table/Table";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAdd, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import Searchbar from "../../../components/Searchbar/Searchbar";
+import { faEdit } from "@fortawesome/free-regular-svg-icons";
+import Blogmenu from "./Blogmenu/Blogmenu";
+
 function Menus() {
   const { state } = useLocation();
   const { name, path } = state || { name: null, path: null };
@@ -16,9 +19,8 @@ function Menus() {
   const [selectedItem, setSelectectItem] = useState([]);
   const [childname, setTreeChild] = useState([]);
   const [card, setCard] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [itemsMainPage, setItemsMainPage] = useState(15);
+  const [treeviewFilter, setTreeviewFilter] = useState([]);
+  const [getSearchValue, setSearchValue] = useState([]);
   const navigate = useNavigate();
   const { businessTypes } = useCardSettings(
     name.toLowerCase() === "ktv/jtv" ? "ktv_jtv" : name.toLowerCase()
@@ -31,19 +33,24 @@ function Menus() {
         : [];
       setTreeview(filterTreeview);
 
-      const selectedItems = filterTreeview
-        ? filterTreeview.map((node) =>
-            node.children.filter((item) =>
-              item.id === selectedItem ? setTreeChild(item.name) : []
-            )
-          )
-        : [];
+      filterTreeview.forEach((node) => {
+        const foundChild = node.children.find(
+          (item) => item.id === selectedItem
+        );
+        if (foundChild) {
+          setTreeChild(foundChild.name);
+        }
+      });
     }
+    if (businessTypes) {
+      const getcard = businessTypes ? businessTypes : [];
+      setCard(getcard);
 
-    const getcard = businessTypes
-      ? businessTypes.filter((node) => node.location === childname)
-      : [];
-    setCard(getcard);
+      const treeviewFilter = businessTypes
+        ? businessTypes.filter((node) => node.location === childname)
+        : [];
+      setTreeviewFilter(treeviewFilter);
+    }
   }, [data, path, businessTypes, name, selectedItem, childname]);
 
   const handleBack = () => {
@@ -61,49 +68,106 @@ function Menus() {
     console.log(data);
   };
 
+  const handleSearch = async (e) => {
+    if (e.title === "") {
+      setSearchValue([]);
+    } else {
+      setTreeviewFilter([]);
+      const filteredResults = await businessTypes.filter((item) =>
+        item.title.toLowerCase().includes(e.title)
+      );
+      setSearchValue(filteredResults);
+    }
+  };
+
+  const renderTable = (data) => {
+    return (
+      <Table
+        tblheader={["Title", "Address"]}
+        tbldata={data}
+        tblrow={["title", "description"]}
+        onView={handlOnView}
+        onDelete={handleOnDelete}
+      />
+    );
+  };
+
   return (
     <div>
-      <div className="flex flex-col p-5 ">
-        <div className="flex p-2 gap-1">
-          <Button
-            onClick={handleBack}
-            text={"<<"}
-            className={
-              "px-2 text-lg text-gray-800 hover:bg-blue-500 hover:text-gray-100 rounded-full border "
-            }
-          />
-          <h1 className="text-2xl font-bold">Menus {name}</h1>
-        </div>
-        <div className="flex flex-row p-5 gap-4 min-w-80  justify-center">
-          <div className="flex flex-col">
-            <div className="flex p-2 border-2 border-dashed rounded-lg px-10 h-[70vh] overflow-hidden hover:overflow-y-scroll ">
-              {getTreeview.length ? (
-                <TreeView
-                  treeViewContent={getTreeview}
-                  onItemClick={handleTreeview}
-                />
-              ) : (
-                ""
-              )}
+      {name === "Blog" ? (
+        <Blogmenu handleBack={handleBack} pageName={name} />
+      ) : (
+        <div className="flex flex-col p-5 ">
+          <div className="flex px-5 gap-1 justify-between">
+            <div className="flex items-center">
+              <Button
+                onClick={handleBack}
+                icon={<FontAwesomeIcon icon={faArrowLeft} className="mr-2" />}
+                className={
+                  "px-2 text-lg text-gray-800 transform  transition-transform duration-500 hover:translate-x-3"
+                }
+              />
+              <h1 className="text-2xl font-bold">Menu - {name} Page </h1>
+            </div>
+            <div className="flex ">
+              <Searchbar hidden={true} onSearch={handleSearch} />
             </div>
           </div>
-          <div className="flex border-2 min-w-80 h-[70vh] border-dashed rounded-lg  ">
-            {card.length ? (
-              <Table
-                tblheader={["Title", "Address"]}
-                tbldata={card}
-                tblrow={["title", "description"]}
-                onView={handlOnView}
-                onDelete={handleOnDelete}
-              />
-            ) : (
-              <div className="text-2xl font-bold flex items-center mx-auto">
-                Please Select Place
+          <div className="flex flex-row p-5 gap-4 min-w-80  justify-center">
+            <div className="flex flex-col">
+              <div className="min-w-full h-10 bg-gray-100 border-t-2 border-r-2 border-l-2 border-dashed rounded-t-lg  flex items-center p-2 text-lg font-bold">
+                {name} Tree View
               </div>
-            )}
+              <div className="flex flex-col p-2 border-b-2 border-r-2 border-l-2  border-dashed rounded-b-lg px-10 h-[70vh] overflow-hidden hover:overflow-y-scroll ">
+                {getTreeview.length ? (
+                  <TreeView
+                    treeViewContent={getTreeview}
+                    onItemClick={handleTreeview}
+                  />
+                ) : (
+                  ""
+                )}
+              </div>
+              <div className="flex py-2">
+                <Button
+                  text={"Edit Tree Content"}
+                  icon={<FontAwesomeIcon icon={faEdit} className="" />}
+                  className={
+                    "p-2 border-2 gap-2 flex items-center font-bold hover:border-gray-100 hover:bg-blue-700 hover:text-gray-100 rounded-lg"
+                  }
+                />
+              </div>
+            </div>
+            <div className="flex flex-col  ">
+              <div className="min-w-full h-10 bg-gray-100 border-t-2 border-r-2 border-l-2 border-dashed rounded-t-lg  flex items-center p-2 text-lg font-bold">
+                {name} Table of Content
+              </div>
+              <div className="flex  min-w-80 h-[70vh] border-b-2 border-r-2 border-l-2  border-dashed rounded-b-lg">
+                {treeviewFilter.length > 0 ? (
+                  renderTable(treeviewFilter)
+                ) : getSearchValue.length > 0 ? (
+                  renderTable(getSearchValue)
+                ) : card.length > 0 ? (
+                  renderTable(card)
+                ) : (
+                  <div className="text-2xl font-bold flex items-center mx-auto">
+                    Please Select Place
+                  </div>
+                )}
+              </div>
+              <div className="flex py-2">
+                <Button
+                  text={"Add Content  "}
+                  icon={<FontAwesomeIcon icon={faAdd} className="" />}
+                  className={
+                    "p-2 border-2 gap-2 flex items-center font-bold hover:border-gray-100 hover:bg-blue-700 hover:text-gray-100 rounded-lg"
+                  }
+                />
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

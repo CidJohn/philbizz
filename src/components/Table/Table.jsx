@@ -30,7 +30,7 @@ const Table = ({ tblheader, tbldata, tblrow, onView, onDelete }) => {
                   key={rowIndex}
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 "
                 >
-                  <td className="px-6 py-4">{rowIndex}</td>
+                  <td className="px-6 py-4">{rowIndex + 1}</td>
                   {tblrow.map((row, cellIndex) => (
                     <td className="px-6 py-4" key={cellIndex}>
                       {data[row] || "N/A"}

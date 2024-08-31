@@ -8,6 +8,7 @@ import { useRoute } from "./route/selectionRouting";
 import Home from "./pages/Dashboard/Home/Home";
 import DashboardLayout from "./pages/Dashboard/DashboardLayout";
 import Contact from "./pages/Homeview/Contact/Contact";
+import Inbox from "./pages/Dashboard/Inbox/Inbox";
 
 function App() {
   const {

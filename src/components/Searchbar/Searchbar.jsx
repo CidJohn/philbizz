@@ -29,7 +29,7 @@ const SearchBar = ({ onSearch, handleModalOpen, hidden }) => {
   };
 
   const renderTextline = (name, placeholder) => (
-    <div className="relative w-full">
+    <div className="relative w-full ">
       <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
         <Searchinput />
       </div>
@@ -47,21 +47,24 @@ const SearchBar = ({ onSearch, handleModalOpen, hidden }) => {
   );
 
   return (
-    <form onSubmit={handleSubmit} className="flex items-center max-w-sm gap-3">
+    <form
+      onSubmit={handleSubmit}
+      className="flex items-center max-w-sm gap-3  "
+    >
       <label htmlFor="simple-search-title" className="sr-only">
         {t("search")}
       </label>
       {renderTextline("title", t("Search Name"))}{" "}
       <button
         type="submit"
-        className="flex items-center justify-center border rounded px-4 py-2 bg-gray-600 hover:bg-gray-100 text-gray-100 hover:text-gray-900"
+        className="flex items-center justify-center border rounded px-4 py-2  bg-gray-600 hover:bg-gray-100 text-gray-100 hover:text-gray-900"
       >
         <SearchIcons />
         <span className="sr-only">{t("search")}</span>
       </button>
       {authload ? (
         <Spinner />
-      ) : isAuthenticated  ? (
+      ) : isAuthenticated ? (
         <Button
           type="button"
           className={

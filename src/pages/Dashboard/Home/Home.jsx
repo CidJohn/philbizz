@@ -3,6 +3,8 @@ import Dashboard from "../Dashboard/Dashboard";
 import Menus from "../Menus/Menus";
 import { useLocation } from "react-router-dom";
 import Accounts from "../Accounts/Accounts";
+import Inbox from "../Inbox/Inbox";
+import Archived from "../Archived/Archived";
 
 function Home(props) {
   const location = useLocation();
@@ -15,14 +17,20 @@ function Home(props) {
           <Dashboard />
         </section>
       )}
-      {loc === "#menus" && (
-        <section id="menus">
-          <Menus />
-        </section>
-      )}
+
       {loc === "#users" && (
         <section id="users">
           <Accounts />
+        </section>
+      )}
+      {loc === "#inbox" && (
+        <section id="inbox">
+          <Inbox />
+        </section>
+      )}
+      {loc === "#archived" && (
+        <section id="archived">
+          <Archived />
         </section>
       )}
     </div>

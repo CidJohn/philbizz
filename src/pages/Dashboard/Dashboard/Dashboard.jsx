@@ -15,7 +15,7 @@ function Dashboard(props) {
     <div>
       <div className="p-5">
         <h1 className="text-2xl  font-bold">Dashboard</h1>
-        <div className="flex flex-wrap  p-2 gap-2">
+        <div className="flex flex-row  p-2 gap-2">
           <div className="flex flex-col  rounded-lg  items-center">
             <h1 className="text-2xl  font-bold">Blog Analysis</h1>
 
