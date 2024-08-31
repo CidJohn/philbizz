@@ -4,7 +4,7 @@ import Menus from "../Menus/Menus";
 import { useLocation } from "react-router-dom";
 import Accounts from "../Accounts/Accounts";
 
-function Home() {
+function Home(props) {
   const location = useLocation();
   const loc = location.hash;
 

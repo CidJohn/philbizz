@@ -4,7 +4,7 @@ import Calendar from "../../../components/Calendar/Calendar";
 import Graph, { LineGraph } from "../../../components/Graph/Graph";
 import { Commentdata, Likeddata, options } from "../../../content/cardContent";
 
-function Dashboard() {
+function Dashboard(props) {
   const [selectedDate, setSelectedDate] = useState(null);
 
   const handleDateSelect = (date) => {
