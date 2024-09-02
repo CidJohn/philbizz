@@ -23,6 +23,7 @@ function App() {
     getcardContent,
     getsidebar,
     getdashcompanyroute,
+    getdashcardroute,
   } = useRoute();
   return (
     <BrowserRouter>
@@ -54,6 +55,7 @@ function App() {
           {getcardContent}
           {getsidebar}
           {getdashcompanyroute}
+          {getdashcardroute}
         </Routes>
       </DashboardLayout>
     </BrowserRouter>

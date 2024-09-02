@@ -2,6 +2,7 @@ import React from "react";
 import Card from "../../components/Card/Card";
 import useCardSettings from "../../helper/database/useCardSettings";
 import Spinner from "../../components/Spinner/Spinner";
+import { useNavigate } from "react-router-dom";
 
 const HandleCards = ({
   currentPath,
@@ -13,6 +14,11 @@ const HandleCards = ({
   const { businessTypes, searchload } = useCardSettings(
     currentPath.businessPath
   );
+  const nav = useNavigate();
+
+  const handleLink = (data) => {
+    nav(`/${data}`, { state: { title: data } });
+  };
 
   if (searchload) {
     return (
@@ -28,7 +34,6 @@ const HandleCards = ({
       </div>
     );
   }
-
   const renderCards = (items) => {
     return items.map((item, index) => (
       <div className="bg-cover mx-auto mt-5" key={index}>
@@ -43,7 +48,7 @@ const HandleCards = ({
               height: "350px",
             }}
             hidden={true}
-            link={item.title}
+            onLink={() => handleLink(item.title)}
           />
         </div>
       </div>
@@ -83,7 +88,7 @@ const HandleCards = ({
                       height: "350px",
                     }}
                     hidden={true}
-                    link={select.title}
+                    onLink={() => handleLink(select.title)}
                   />
                 </div>
               )}
@@ -115,7 +120,7 @@ const HandleCards = ({
                           height: "350px",
                         }}
                         hidden={true}
-                        link={select.title}
+                        onLink={() => handleLink(select.title)}
                       />
                     </div>
                   </React.Fragment>

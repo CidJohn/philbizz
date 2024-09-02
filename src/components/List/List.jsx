@@ -11,9 +11,8 @@ const List = (props) => {
     image,
     header,
     className,
-    titleClass,
     size,
-    link,
+    onLink,
     style,
     imgstyle,
     user,
@@ -44,7 +43,7 @@ const List = (props) => {
           className={`bg-white shadow-md rounded-lg  border gap-2 ${className} `}
           style={style}
         >
-          <a href={`/${link}`} className={`flex items-center  `}>
+          <a onClick={onLink} className={`flex items-center cursor-pointer `}>
             {image && (
               <figure className="max-w-md p-4 ">
                 <Images src={image} alt={header || title} style={imgstyle} />

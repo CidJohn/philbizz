@@ -14,12 +14,18 @@ export const BlogView = (props) => {
       </div>
       <div className=" flex flex-col items-center p-5">
         <div className="max-w-screen-lg">
-          <Images src={imagelink.image + content.image} />
+          {content.lenght > 0 ? (
+            <Images src={imagelink.image + content.image} />
+          ) : (
+            <div className="text-2xl font-bold flex items-center mx-auto">
+              Please Select Blog
+            </div>
+          )}
         </div>
       </div>
       <div className="flex flex-col items-center p-5 ">
         <div className="mx-auto">
-          {blogImage &&
+          {blogImage ? (
             blogImage.map((item, index) => (
               <div key={index} className="flex items-center p-10">
                 <figure className=" p-4 mx-auto ">
@@ -33,7 +39,12 @@ export const BlogView = (props) => {
                   </figcaption>
                 </figure>
               </div>
-            ))}
+            ))
+          ) : (
+            <div className="text-2xl font-bold flex items-center mx-auto">
+              Please Select Place
+            </div>
+          )}
         </div>
       </div>
     </div>
