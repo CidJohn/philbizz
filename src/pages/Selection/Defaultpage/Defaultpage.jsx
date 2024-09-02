@@ -17,17 +17,17 @@ function Defaultpage(props) {
   const { cardpath, load } = props;
   const [getTitle, setTitle] = useState("");
   const [getCard, setCard] = useState("");
-  const locationName = useLocation();
+  const { state } = useLocation();
+  const { title } = state || { title: null };
   const { getData, getURL, loadData } = useCardInfo(getTitle);
   const { getImage, loadImage } = useImgCardURL(getTitle);
+  console.log(title);
+
   useEffect(() => {
-    const decodedPathname = decodeURIComponent(locationName.pathname);
-    const path =
-      cardpath?.find((item) => `/${item.title}` === decodedPathname)?.title ||
-      "";
+    const path = cardpath?.find((item) => item.title === title)?.title || "";
     setCard(path);
     setTitle(path);
-  }, [cardpath, locationName.pathname]);
+  }, [cardpath, title]);
 
   const copyToClipboard = (text, message) => {
     navigator.clipboard

@@ -11,6 +11,7 @@ const Blogmenu = (props) => {
   const { handleBack, pageName, blog } = props;
   const [blogTitle, setBlogTitle] = useState("");
   const [blogImage, setBlogImage] = useState("");
+  const [dataBlog, setDataBlog] = useState([]);
   const { content, contentload } = useBlogContent(blogTitle);
 
   useEffect(() => {
@@ -25,9 +26,31 @@ const Blogmenu = (props) => {
   };
 
   const handleSearch = async (e) => {
-    console.log(e.title);
+    if (e.title === "") {
+      setDataBlog([]);
+    } else {
+      const filterBlog = blog
+        ? blog.filter((item) => item.title.toLowerCase().includes(e.title))
+        : "";
+      setDataBlog(filterBlog);
+    }
   };
 
+  const renderTable = (data) => {
+    return (
+      <>
+        <div className="flex flex-col justify-center  ">
+          <Table
+            tblheader={["Name", "Title", "Date Time"]}
+            tbldata={data}
+            tblrow={["username", "title", "created_at"]}
+            onView={handleBlogView}
+            onDelete={handleBlogDelete}
+          />
+        </div>
+      </>
+    );
+  };
   return (
     <>
       <div className="flex p-5 flex-col gap-3  ">
@@ -49,24 +72,24 @@ const Blogmenu = (props) => {
         <div className="flex border-2 min-w-full">
           <div className="flex flex-col bg-gray-100 rounded-lg shadow-lg p-2 ">
             <h1 className="text-2xl font-bold p-2">{pageName} list</h1>
-            {blog && (
-              <div className="flex flex-col justify-center min-w-80 min-w-[70vh] max-h-[80vh] ">
-                <Table
-                  tblheader={["Name", "Title", "Date Time"]}
-                  tbldata={blog}
-                  tblrow={["username", "title", "created_at"]}
-                  onView={handleBlogView}
-                  onDelete={handleBlogDelete}
-                />
-              </div>
-            )}
+            {dataBlog.length > 0
+              ? renderTable(dataBlog)
+              : blog.length > 0
+              ? renderTable(blog)
+              : ""}
           </div>
           <div className="flex flex-col  bg-gray-100 rounded-lg shadow-lg p-2 ">
             <div className="sticky top-0 bg-gray-100">
               <h1 className="text-2xl font-bold p-2 ">View Blog Content</h1>
             </div>
             <div className="flex bg-white min-w-[70vh] max-h-[80vh] overflow-y-scroll p-2 rounded-lg">
-              {content && <BlogView content={content} blogImage={blogImage} />}
+              {content ? (
+                <BlogView content={content} blogImage={blogImage} />
+              ) : (
+                <div className="text-2xl font-bold flex items-center mx-auto">
+                  Please Select Place
+                </div>
+              )}
             </div>
           </div>
         </div>

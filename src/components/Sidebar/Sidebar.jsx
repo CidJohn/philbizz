@@ -33,7 +33,7 @@ function Sidebar(props) {
     });
   };
   return (
-    <>
+    <div className="sticky top-0">
       <button
         data-drawer-target="default-sidebar"
         data-drawer-toggle="default-sidebar"
@@ -228,7 +228,7 @@ function Sidebar(props) {
           </ul>
         </div>
       </aside>
-    </>
+    </div>
   );
 }
 

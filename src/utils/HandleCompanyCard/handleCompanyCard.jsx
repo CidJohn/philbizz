@@ -59,7 +59,7 @@ const HandleCompanyCard = (props) => {
         <List
           image={item.image}
           title={item.title}
-          link={item.title}
+          onLink={() => handleLink(item.title)}
           desc={item.description}
           className={"hover:bg-slate-100 md:w-[1000px]"}
           imgstyle={{ width: "100px", height: "70px" }}

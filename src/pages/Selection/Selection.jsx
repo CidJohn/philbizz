@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Spinner from "../../components/Spinner/Spinner";
 import ContentLayout from "../../utils/Selection/ContentLayout";
 import { useTreeview } from "../../helper/database/useTreeview";
@@ -13,6 +13,7 @@ const Selection = ({ navbar }) => {
   const locations = useLocation();
   const { state } = useLocation();
   const { id, path } = state || { id: null };
+  const nav = useNavigate();
   const [selectedItem, setSelectedItem] = useState(null);
   const [currentPath, setCurrentPath] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -133,6 +134,7 @@ const Selection = ({ navbar }) => {
   const handleDropdownChange = (e) => {
     setDropdownValue(e.target.value);
   };
+
   const businessDesc = business ? business : "";
   const totalPages = Math.ceil(
     selectedItem?.id

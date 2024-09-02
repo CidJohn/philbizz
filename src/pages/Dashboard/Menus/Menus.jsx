@@ -92,6 +92,10 @@ function Menus(props) {
       navigate(`/dashboard/business/${data.title}`, {
         state: { title: data.title },
       });
+    } else {
+      navigate(`/dashboard/viewpage/${data.title}`, {
+        state: { title: data.title },
+      });
     }
   };
   const handleOnDelete = (data) => {

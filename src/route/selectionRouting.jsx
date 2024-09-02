@@ -17,6 +17,7 @@ import Menus from "../pages/Dashboard/Menus/Menus";
 export const useRoute = () => {
   const [getnavroute, setNavRoute] = useState([]);
   const [getcardroute, setCardRoute] = useState([]);
+  const [getdashcardroute, setDashCardRoute] = useState([]);
   const [getcompanyroute, setCompanyRoute] = useState([]);
   const [getdashcompanyroute, setDashCompanyRoute] = useState([]);
   const [getblog, setBlog] = useState([]);
@@ -70,6 +71,14 @@ export const useRoute = () => {
         />
       ));
       setCardRoute(cardRoutes);
+      const cardDashRoutes = cardpath.map((item, index) => (
+        <Route
+          key={`card-dashboard-${index}`}
+          path={`/dashboard/viewpage/${item.title}`}
+          element={<Defaultpage cardpath={cardpath} load={load} />}
+        />
+      ));
+      setDashCardRoute(cardDashRoutes);
     }
 
     if (getCardInfo) {
@@ -130,5 +139,6 @@ export const useRoute = () => {
     getcardContent,
     getsidebar,
     getdashcompanyroute,
+    getdashcardroute,
   };
 };

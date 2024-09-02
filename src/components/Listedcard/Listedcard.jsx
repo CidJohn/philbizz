@@ -2,18 +2,23 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Dateformat from "../Dateformat/Dateformat";
 import Images from "../Image/Images";
+import { useNavigate } from "react-router-dom";
 
 const Listedcard = (props) => {
   const { section, title, listclass, listclasses, listItems, cardItems } =
     props;
   const { t } = useTranslation();
   const [getlink, setLink] = useState("");
-
+  const nav = useNavigate();
   useEffect(() => {
     const link = listItems ? listItems.map((item) => item.descname) : "";
     setLink(link);
   }, [listItems]);
   const links = Array.isArray(getlink) ? getlink.slice(0, 1) : [];
+
+  const handleLink = (data) => {
+    nav(`/${data}`, { state: { title: data } });
+  };
 
   return (
     <div className=" ">
@@ -28,7 +33,10 @@ const Listedcard = (props) => {
                   key={index}
                   className="flex items-center border-b-2 rounded-lg items-center hover:bg-slate-100 "
                 >
-                  <a href={`/${item.title}`} className="flex p-5  ">
+                  <a
+                    onClick={() => handleLink(item.title)}
+                    className="flex p-5 cursor-pointer "
+                  >
                     <Images
                       src={item.images}
                       style={{ width: "100px", height: "70px" }}
