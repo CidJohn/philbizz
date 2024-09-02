@@ -18,6 +18,7 @@ export const useRoute = () => {
   const [getnavroute, setNavRoute] = useState([]);
   const [getcardroute, setCardRoute] = useState([]);
   const [getcompanyroute, setCompanyRoute] = useState([]);
+  const [getdashcompanyroute, setDashCompanyRoute] = useState([]);
   const [getblog, setBlog] = useState([]);
   const [getcardContent, setCardContent] = useState([]);
   const [getsidebar, setSideBar] = useState([]);
@@ -53,7 +54,7 @@ export const useRoute = () => {
         <Route
           key={`sidebar-${index}`}
           path={`/dashboard${item.path}`}
-          element={<Menus />}
+          element={<Menus blogData={blogData} business={getCardInfo} />}
         />
       ));
       setSideBar(sideroute);
@@ -73,13 +74,25 @@ export const useRoute = () => {
 
     if (getCardInfo) {
       const getCompany = getCardInfo.map((item, index) => (
-        <Route
-          key={`company-${index}`}
-          path={`/${item.title}`}
-          element={<Company CompanyData={getCardInfo} />}
-        />
+        <>
+          <Route
+            key={`company-${index}`}
+            path={`/${item.title}`}
+            element={<Company CompanyData={getCardInfo} />}
+          />
+        </>
+      ));
+      const getDashCompany = getCardInfo.map((item, index) => (
+        <>
+          <Route
+            key={`company-dashboard-${index}`}
+            path={`/dashboard/business/${item.title}`}
+            element={<Company CompanyData={getCardInfo} />}
+          />
+        </>
       ));
       setCompanyRoute(getCompany);
+      setDashCompanyRoute(getDashCompany);
     }
 
     if (blogData) {
@@ -115,6 +128,7 @@ export const useRoute = () => {
     navbarData,
     loading,
     getcardContent,
-    getsidebar
+    getsidebar,
+    getdashcompanyroute,
   };
 };

@@ -109,11 +109,7 @@ const Business = ({ businessSettings }) => {
             </div>
             <div className="flex flex-col mt-5">
               <div className="flex flex-wrap pt-10">
-                <HandleCompanyCard
-                  getDataInfo={getDataInfo}
-                  category={CompanyFilter}
-                  dropDown={getdropDown}
-                />
+                <HandleCompanyCard category={CompanyFilter} />
               </div>
             </div>
           </div>

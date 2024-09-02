@@ -1,13 +1,13 @@
 import React from "react";
 import Images from "../Image/Images";
 
-function Card({ title, src, desc, style, hidden, link, imgStyle }) {
+function Card({ title, src, desc, style, hidden, link, onLink }) {
   return (
     <div
-      className=" mx-1 bg-white  rounded-lg   dark:bg-gray-800 dark:border-gray-700 shadow border"
+      className=" mx-1 bg-white  rounded-lg   dark:bg-gray-800 dark:border-gray-700 shadow border cursor-pointer"
       style={style}
     >
-      <a href={`/${link}`} className="block">
+      <a className="block" onClick={onLink}>
         <div className=" w-full overflow-hidden rounded-t-lg">
           <div className="h-full">
             <Images
@@ -19,7 +19,7 @@ function Card({ title, src, desc, style, hidden, link, imgStyle }) {
         </div>
       </a>
       <div className="p-4">
-        <a href={`/${link}`} className="block">
+        <a className="block cursor-pointer" onClick={onLink}>
           <h5 className=" text-md font-bold tracking-tight text-gray-900 dark:text-white">
             {title}
           </h5>

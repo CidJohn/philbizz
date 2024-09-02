@@ -22,6 +22,7 @@ function App() {
     loading,
     getcardContent,
     getsidebar,
+    getdashcompanyroute,
   } = useRoute();
   return (
     <BrowserRouter>
@@ -52,6 +53,7 @@ function App() {
           <Route path="/dashboard" element={<Home />} key={"dashboard"} />
           {getcardContent}
           {getsidebar}
+          {getdashcompanyroute}
         </Routes>
       </DashboardLayout>
     </BrowserRouter>

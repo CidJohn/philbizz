@@ -12,18 +12,18 @@ import Table from "../../../../components/Table/Table";
 
 const Company = (props) => {
   const { CompanyData } = props;
-  const location = useLocation();
+  const { location, state } = useLocation();
+  const { title } = state || { title: null };
   const [getCompanyInfo, setCompanyInfo] = useState([]);
   const [getCompanyImages, setCompanyImages] = useState([]);
   const [getCompanyProduct, setCompanyProduct] = useState([]);
   const [getCompanySocial, setCompanySocial] = useState([]);
   const { viewData, vieloading, fecthCompanyView } = useCompanyView();
-
   useEffect(() => {
-    const decodelocation = decodeURIComponent(location.pathname);
     const cardname = CompanyData
-      ? CompanyData?.find((item) => `/${item.title}` === decodelocation)
-          ?.title || ""
+      ? CompanyData?.find(
+          (item) => `/${item.title}` === title || item.title === title
+        )?.title || ""
       : "";
     const getCompanyInfo = CompanyData
       ? CompanyData.find((item) => item.title === cardname)
