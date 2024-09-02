@@ -3,10 +3,11 @@ import Card from "../../components/Card/Card";
 import List from "../../components/List/List";
 import Pagination from "../../components/Pagination/Pagination";
 import Horizontal from "../../components/Horizontal/Horizontal";
+import { useNavigate } from "react-router-dom";
 
 const HandleCompanyCard = (props) => {
   const { category } = props;
-
+  const nav = useNavigate();
   const cardData = Array.isArray(category) ? category.slice(0, 115) : [];
   const listData = Array.isArray(category) ? category.slice(115) : [];
 
@@ -26,6 +27,10 @@ const HandleCompanyCard = (props) => {
     (listCurrentPage - 1) * itemsPerPage,
     listCurrentPage * itemsPerPage
   );
+  const handleLink = (title) => {
+    nav(`/${title}`, { state: { title: title } });
+  };
+
   const renderCard = (item, index) => (
     <div
       className="flex items-center justify-center mx-auto"
@@ -36,7 +41,7 @@ const HandleCompanyCard = (props) => {
           src={item.image}
           desc={item.description}
           title={item.title}
-          link={item.title}
+          onLink={() => handleLink(item.title)}
           hidden={true}
           style={{
             width: "300px",
