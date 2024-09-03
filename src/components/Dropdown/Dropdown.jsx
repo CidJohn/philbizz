@@ -19,7 +19,9 @@ const Dropdown = ({ name, value, onChange, options, placeholder }) => {
         type="button"
         onClick={handleToggle}
       >
-        {placeholder}
+        {value
+          ? options.find((option) => option.value === value)?.label
+          : placeholder}
         <svg
           className="w-2.5 h-2.5 ms-3"
           aria-hidden="true"
@@ -45,7 +47,7 @@ const Dropdown = ({ name, value, onChange, options, placeholder }) => {
             {options.map((option, index) => (
               <li key={index}>
                 <a
-                  href="#card"
+                  //href="#card"
                   className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   onClick={() => handleOptionClick(option.value)}
                 >

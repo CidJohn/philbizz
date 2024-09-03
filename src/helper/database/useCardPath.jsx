@@ -38,8 +38,9 @@ export const useCardDesc = (type) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        if (!type) return;
         const response = await axios.get(
-          `${API_CALL.host}/card-desciption/${type}`
+          `${API_CALL.host}/card-desciption/${type.toLowerCase()}`
         );
         const data = await response.data;
         setBusinesses(data);
@@ -55,6 +56,5 @@ export const useCardDesc = (type) => {
       isFetched.current = true;
     }
   }, [type]); // Trigger fetch when `type` prop changes
-
   return { businesses, descload };
 };
