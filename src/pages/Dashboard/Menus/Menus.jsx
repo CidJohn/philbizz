@@ -12,6 +12,7 @@ import { faEdit } from "@fortawesome/free-regular-svg-icons";
 import Blogmenu from "./Blogmenu/Blogmenu";
 import useBusinessCategory from "../../../helper/database/usebusinessCategory";
 import Categories from "../../../components/Categories/Categories";
+import Swal from "sweetalert2";
 
 function Menus(props) {
   const { blogData, business } = props;
@@ -99,7 +100,29 @@ function Menus(props) {
     }
   };
   const handleOnDelete = (data) => {
-    console.log(data);
+    Swal.fire({
+      title: "Are you sure?",
+      text: `You are about to delete: ${data.title}`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Proceed with deletion
+        console.log(`Deleted: ${data}`);
+        // Here you can call the function to delete the data or make an API request
+        Swal.fire(
+          "Deleted!",
+          `Your data "${data}" has been deleted.`,
+          "success"
+        );
+      } else {
+        console.log("Deletion canceled");
+      }
+    });
   };
 
   const handleSearch = async (e) => {
@@ -127,6 +150,23 @@ function Menus(props) {
 
   const handleCategory = (e) => {
     setFilterCategory(e.target.innerText);
+  };
+
+  const handlCreateTree = (e) => {
+    navigate(`/dashboard/Form/Create`, {
+      state: { name: name, path: path, content: e.target.innerText },
+    });
+  };
+
+  const handleAddContent = (e) => {
+    navigate(`/dashboard/Form/Create`, {
+      state: {
+        name: name,
+        path: path,
+        content: e.target.innerText,
+        treeviewdata: data,
+      },
+    });
   };
 
   const renderTable = (data) => {
@@ -197,8 +237,11 @@ function Menus(props) {
               </div>
               <div className="flex py-2">
                 <Button
-                  text={"Edit Tree Content"}
+                  text={
+                    name === "Business" ? "Add Category" : "Edit Tree Content"
+                  }
                   icon={<FontAwesomeIcon icon={faEdit} className="" />}
+                  onClick={handlCreateTree}
                   className={
                     "p-2 border-2 gap-2 flex items-center font-bold hover:border-gray-100 hover:bg-blue-700 hover:text-gray-100 rounded-lg"
                   }
@@ -236,11 +279,12 @@ function Menus(props) {
               </div>
               <div className="flex py-2">
                 <Button
-                  text={"Add Content  "}
+                  text={"Add Content "}
                   icon={<FontAwesomeIcon icon={faAdd} className="" />}
                   className={
                     "p-2 border-2 gap-2 flex items-center font-bold hover:border-gray-100 hover:bg-blue-700 hover:text-gray-100 rounded-lg"
                   }
+                  onClick={handleAddContent}
                 />
               </div>
             </div>

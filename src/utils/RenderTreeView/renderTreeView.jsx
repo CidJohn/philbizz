@@ -7,7 +7,7 @@ const RenderTreeView = ({ currentPath, data, handleItemClick }) => {
   const filteredData = data.filter((node) => node.path === currentPath.path);
 
   return (
-    <div className="sticky top-0">
+    <div className="sticky top-5">
       {filteredData.length === 0 ? (
         ""
       ) : (

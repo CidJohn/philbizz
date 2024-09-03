@@ -10,6 +10,7 @@ import {
 } from "../../../helper/database/useBusinessData";
 import Spinner from "../../../components/Spinner/Spinner";
 import HandleCompanyCard from "../../../utils/HandleCompanyCard/handleCompanyCard";
+import { useTranslation } from "react-i18next";
 
 const Business = ({ businessSettings }) => {
   const [getLocation, setLocation] = useState("");
@@ -17,7 +18,7 @@ const Business = ({ businessSettings }) => {
   const [filterFound, setFilterFound] = useState();
   const [getdropDown, setDropdown] = useState("");
   const { getCategory, loadCategory } = useBusinessCategory();
-
+  const { t } = useTranslation();
   const { CompanyFilter } = useCompanyFilter({
     name: getLocation,
     title: filterFound,
@@ -76,7 +77,22 @@ const Business = ({ businessSettings }) => {
           <div className="flex flex-col">
             <div className="flex flex-col container ">
               <div className="flex">
-                <Description type={"business"} path={"Business"} />
+                <div className="px-2 flex mt-5">
+                  <div className="flex flex-col ">
+                    <h1 className="text-4xl md:text-6xl mb-4 font-serif">
+                      {t("Business")}
+                    </h1>
+                    <p className="text-left mb-4 ">
+                      We present a range of local Philippine businesses
+                      categorized by industry! We also include interviews with
+                      business professionals operating in the Philippines, as
+                      well as serialized pieces written by specialists in law,
+                      accounting, market research, and other areas. For anyone
+                      who work in the Philippines or are thinking about doing
+                      business there, we offer helpful business information.
+                    </p>
+                  </div>
+                </div>
               </div>
               <div className="flex block">
                 <Categories

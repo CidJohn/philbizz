@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../../styles/Navbar.css";
 import { Login } from "../../pages/Login/Login";
 import Image from "../Image/Image";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SearchBar from "../Searchbar/Searchbar";
 import { useTranslation } from "react-i18next";
 import Translation from "../Translation/Translation";
@@ -17,19 +17,11 @@ export default function Navbar(props) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRegistration, setRegistration] = useState(false);
-  const location = useLocation();
+  const navigation = useNavigate();
   const { t } = useTranslation();
 
-  const handleClickDelete = () => {
-    const path = location.pathname;
-    const storedItem = localStorage.getItem("selectedItem");
-    if (storedItem) {
-      const itemToStore = JSON.parse(storedItem);
-      delete itemToStore.id;
-    } else {
-      console.log("No item found in localStorage");
-    }
-    localStorage.setItem("selectedItem", JSON.stringify({ path }));
+  const handleClickDelete = (item) => {
+    navigation(item.path, { state: { path: item.path, pageName: item.name } });
   };
 
   const toggleMenu = () => {
@@ -65,7 +57,9 @@ export default function Navbar(props) {
       cancelButtonText: "No, I'm not",
     }).then((result) => {
       if (result.isConfirmed) {
-        window.location.href = item.path; // Redirect the user if they confirm
+        navigation(item.path, {
+          state: { path: item.path, pageName: item.name },
+        }); // Redirect the user if they confirm
       } else {
         Swal.fire(
           "Access Denied",
@@ -84,10 +78,11 @@ export default function Navbar(props) {
         onMouseEnter={() => setShowDropdown(item.name)}
       >
         <a
-          href={item.path}
-          className="flex flex-col text-gray-600 hover:text-gray-900 hover:font-bold items-center  transform transition-transform duration-500 hover:scale-110 "
+          className="cursor-pointer flex flex-col text-gray-600 hover:text-gray-900 hover:font-bold items-center  transform transition-transform duration-500 hover:scale-110 "
           onClick={
-            item.restrict === 19 ? handleKtvJtvClick(item) : handleClickDelete
+            item.restrict === 19
+              ? handleKtvJtvClick(item)
+              : () => handleClickDelete(item)
           }
           target={item.name === "Business" ? "_blank" : "_self"}
         >

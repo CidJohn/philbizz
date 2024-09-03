@@ -18,23 +18,18 @@ const ContentLayout = ({
   dropdownOptions,
   dropdownValue,
   filterData,
-  business,
+  adName,
   totalPages,
   currentItems,
   sideAds,
+  handleDesc,
 }) => {
   return (
     <div className="container mx-auto flex ">
       <div className="mt-10">{renderTreeView()}</div>
       <div className="flex flex-col">
         <div className="flex flex-col min-w-80">
-          <div className="">
-            {!selectedItem?.id ? (
-              <Description type={business.businessPath} path={business.name} />
-            ) : (
-              ""
-            )}
-          </div>
+          <div className="">{handleDesc()}</div>
           <section id="cards" className="sticky top-5">
             <div className="flex flex-col">
               <Horizontal />
@@ -85,7 +80,7 @@ const ContentLayout = ({
       <div className="flex max-w-screen-md hidden lg:block ">
         <div className="mt-5 sticky top-0">
           <h1 className="text-2xl font-bold mb-4 text-center">
-            {business.name} Ads
+            {adName} Latest Ads
           </h1>
           {sideAds.map((item, index) => (
             <div className="flex p-2" key={index}>

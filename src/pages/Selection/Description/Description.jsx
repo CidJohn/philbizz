@@ -3,16 +3,14 @@ import { useTranslation } from "react-i18next";
 import { useCardDesc } from "../../../helper/database/useCardPath";
 import Images from "../../../components/Image/Images";
 
-const Description = ({ type, path }) => {
+const Description = ({ type , pageName}) => {
   const { t } = useTranslation();
-  const { businesses } = useCardDesc(type);
-
   return (
     <>
-      {businesses
-        ? businesses.map(
+      {type
+        ? type.map(
             (item, index) =>
-              item.header === path && (
+              item.header === pageName && (
                 <div className="" key={index}>
                   <div className="px-2 flex mt-5">
                     <div className="flex flex-col ">

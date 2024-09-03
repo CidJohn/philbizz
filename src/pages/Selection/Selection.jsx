@@ -3,46 +3,41 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Spinner from "../../components/Spinner/Spinner";
 import ContentLayout from "../../utils/Selection/ContentLayout";
 import { useTreeview } from "../../helper/database/useTreeview";
-import { useNavbarcontent } from "../../helper/database/useNavbarcontent";
 import RenderTreeView from "../../utils/RenderTreeView/renderTreeView";
 import HandleCards from "../../utils/HandleCards/handleCards";
 import useCardSettings from "../../helper/database/useCardSettings"; // Import the custom hook
 import Description from "./Description/Description";
+import { useCardDesc } from "../../helper/database/useCardPath";
 
 const Selection = ({ navbar }) => {
-  const locations = useLocation();
+  const navigate = useNavigate();
   const { state } = useLocation();
-  const { id, path } = state || { id: null };
-  const nav = useNavigate();
+  const { id, path, pageName } = state || {
+    id: null,
+    path: null,
+    pageName: null,
+  };
   const [selectedItem, setSelectedItem] = useState(null);
   const [currentPath, setCurrentPath] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [itemsMainPage, setItemsMainPage] = useState(15);
-  const [business, setBusiness] = useState("");
   const [dropdownValue, setDropdownValue] = useState("");
   const { data, loading } = useTreeview();
-
-  const { businessTypes } = useCardSettings(currentPath.businessPath);
+  const { businessTypes } = useCardSettings(
+    pageName.toLowerCase() === "ktv/jtv" ? "ktv_jtv" : pageName.toLowerCase()
+  );
   const [filteredData, setFilteredData] = useState(businessTypes);
+  const { businesses } = useCardDesc(pageName);
+
   useEffect(() => {
-    const savedItem = JSON.parse(localStorage.getItem("selectedItem"));
-    if (savedItem) {
-      const selectedItemObj = data ? findItemById(data, savedItem.id) : null;
+    if (data) {
+      const selectedItemObj = data ? findItemById(data, path) : null;
       setSelectedItem(selectedItemObj);
     }
-
-    const selectedItemPath = navbar
-      ? findingPath(navbar, locations.pathname)
-      : "";
+    const selectedItemPath = navbar ? findingPath(navbar, path) : "";
     setCurrentPath(selectedItemPath || "");
 
-    if (navbar) {
-      const matchedItem = navbar.find((item) => item.path === currentPath.path);
-      if (matchedItem) {
-        setBusiness(matchedItem);
-      }
-    }
     if (!dropdownValue) {
       setFilteredData("");
     } else {
@@ -51,20 +46,13 @@ const Selection = ({ navbar }) => {
       );
       setFilteredData(filteredResults);
     }
+
     if (id) {
       const selectedItemObj = data ? findItemById(data, id) : null;
       setSelectedItem(selectedItemObj);
       setFilteredData("");
     }
-  }, [
-    currentPath,
-    data,
-    navbar,
-    locations.pathname,
-    businessTypes,
-    dropdownValue,
-  ]);
-
+  }, [path, data, navbar, currentPath, businessTypes, dropdownValue]);
   const findItemById = (items, id) => {
     if (!items) return null;
     for (const item of items) {
@@ -90,10 +78,18 @@ const Selection = ({ navbar }) => {
   };
 
   const handleItemClick = (clickedId, clickedPath) => {
+    navigate(`${path}#cards`, {
+      state: { id: id, pageName: pageName, path: path },
+    });
     const selectedItemObj = data ? findItemById(data, clickedId || id) : null;
     setSelectedItem(selectedItemObj);
     setFilteredData("");
-    // You can also navigate to another page if needed
+    setTimeout(() => {
+      const section = document.getElementById("cards");
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 100); // Small delay to ensure the element is rendered before scrolling
   };
 
   const handlePageChange = (pageNumber) => {
@@ -110,6 +106,7 @@ const Selection = ({ navbar }) => {
       setFilteredData(filteredResults);
     }
   };
+
   const indexOfLastItem =
     currentPage * (selectedItem?.id ? itemsPerPage : itemsMainPage);
   const indexOfFirstItem =
@@ -135,7 +132,6 @@ const Selection = ({ navbar }) => {
     setDropdownValue(e.target.value);
   };
 
-  const businessDesc = business ? business : "";
   const totalPages = Math.ceil(
     selectedItem?.id
       ? businessTypes.length / itemsPerPage
@@ -145,10 +141,10 @@ const Selection = ({ navbar }) => {
     (currentPage - 1) * (selectedItem?.id ? itemsPerPage : itemsMainPage),
     currentPage * (selectedItem?.id ? itemsPerPage : itemsMainPage)
   );
-  const sideAds = Array.isArray(businessTypes)
-    ? businessTypes.slice(76, 79)
+  const sideAds = Array.isArray(currentItems) ? currentItems.slice(0, 3) : [];
+  const currentCardItem = Array.isArray(currentItems)
+    ? currentItems.slice(4)
     : [];
-
   if (!data) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -156,7 +152,6 @@ const Selection = ({ navbar }) => {
       </div>
     );
   }
-
   return (
     <ContentLayout
       renderTreeView={() => (
@@ -170,12 +165,13 @@ const Selection = ({ navbar }) => {
         <HandleCards
           currentPath={currentPath}
           selectedItem={selectedItem}
-          currentItems={currentItems}
+          currentItems={currentCardItem}
           currentPage={currentPage}
           itemsPerPage={itemsPerPage}
           searchResult={filteredData}
         />
       )}
+      handleDesc={() => <Description type={businesses} pageName={pageName} />}
       loading={loading}
       data={data}
       currentPage={currentPage}
@@ -184,15 +180,14 @@ const Selection = ({ navbar }) => {
       selectedItem={selectedItem}
       handlePageChange={handlePageChange}
       handleOnSearch={handleOnSearch}
-      handleDescription={() => <Description />}
       handleDropdownChange={handleDropdownChange}
       dropdownOptions={dropdownOptions}
       dropdownValue={dropdownValue}
       filterData={filteredData}
-      business={businessDesc}
       totalPages={totalPages}
       currentItems={currentItemsPage}
       sideAds={sideAds}
+      adName={pageName}
     ></ContentLayout>
   );
 };
