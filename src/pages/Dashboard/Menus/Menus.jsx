@@ -154,7 +154,13 @@ function Menus(props) {
 
   const handlCreateTree = (e) => {
     navigate(`/dashboard/Form/Create`, {
-      state: { name: name, path: path, content: e.target.innerText },
+      state: {
+        name: name,
+        path: path,
+        content: e.target.innerText,
+        treeviewdata: data,
+        businessCategory: getCategory
+      },
     });
   };
 
@@ -165,6 +171,7 @@ function Menus(props) {
         path: path,
         content: e.target.innerText,
         treeviewdata: data,
+        businessCategory: getCategory
       },
     });
   };
@@ -240,7 +247,7 @@ function Menus(props) {
                   text={
                     name === "Business" ? "Add Category" : "Edit Tree Content"
                   }
-                  icon={<FontAwesomeIcon icon={faEdit} className="" />}
+                  icon={<FontAwesomeIcon icon={faAdd} className="" />}
                   onClick={handlCreateTree}
                   className={
                     "p-2 border-2 gap-2 flex items-center font-bold hover:border-gray-100 hover:bg-blue-700 hover:text-gray-100 rounded-lg"

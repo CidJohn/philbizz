@@ -3,7 +3,7 @@ import Textline from "../../../../../components/Textline/Textline";
 import Button from "../../../../../components/Button/Button";
 
 const Treeviewcreate = (props) => {
-  const { path } = props;
+  const { path, treeview } = props;
   const [parent, setParent] = useState("");
   const [child, setChild] = useState("");
   const [treeViewChild, setTreeViewChild] = useState([]);

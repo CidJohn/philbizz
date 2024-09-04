@@ -6,27 +6,59 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Treeviewcreate from "./Treeviewcreate/Treeviewcreate";
 import Contentcreate from "./Contentcreate/Contentcreate";
+import Treeviewupdate from "./Treeviewcreate/Treeviewupdate";
 
 const Createmenu = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { name, path, content, treeviewdata } = state || {
+  const { name, path, content, treeviewdata, businessCategory } = state || {
     name: null,
     path: null,
     content: null,
-    treeviewdata: null
+    treeviewdata: null,
+    businessCategory: null
   };
+  const [isCreateOpen, setCreateOpen] = useState(false);
 
   const handleBack = () => {
     navigate(-1);
   };
 
+  const handleCreateView = () => {
+    setCreateOpen(!isCreateOpen);
+  };
   const renderTreeContent = () => {
-    return <Treeviewcreate path={path} />;
+    return (
+      <>
+        <Button
+          text={"Update Treeview"}
+          className={
+            " ms-2 px-2 py-1 border hover:bg-green-500 hover:border-none hover:text-white text-sm  rounded-lg"
+          }
+          onClick={handleCreateView}
+        />
+        <Treeviewcreate path={path} treeview={treeviewdata} />
+      </>
+    );
   };
 
   const renderCardContent = () => {
     return <Contentcreate name={name} path={path} downTree={treeviewdata} />;
+  };
+
+  const renderTreeview = () => {
+    return (
+      <>
+        <Button
+          text={"Create New"}
+          className={
+            "ms-2  px-2 py-1 border hover:bg-green-500 hover:border-none hover:text-white text-sm rounded-lg "
+          }
+          onClick={handleCreateView}
+        />
+        <Treeviewupdate treeview={treeviewdata} name={name} path={path} business={businessCategory} />
+      </>
+    );
   };
 
   return (
@@ -41,9 +73,13 @@ const Createmenu = () => {
         />
         <h1 className="text-2xl font-bold">Menu - {name} Page </h1>
       </div>
-      {content === "Edit Tree Content" || content === "Add Category"
-        ? renderTreeContent()
-        : renderCardContent()}
+      <div className="p-2">
+        {content === "Edit Tree Content" || content === "Add Category"
+          ? isCreateOpen
+            ? renderTreeContent()
+            : renderTreeview()
+          : renderCardContent()}
+      </div>
     </div>
   );
 };
