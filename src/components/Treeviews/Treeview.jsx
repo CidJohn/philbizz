@@ -20,7 +20,7 @@ const TreeItem = ({ item, onItemClick }) => {
 
   const handleItemClick = (e) => {
     if (item.id) {
-      onItemClick(item.id, item.path); // Pass the clicked item's id to the parent component
+      onItemClick(item.id, item.path, item.name); // Pass the clicked item's id to the parent component
     }
   };
 

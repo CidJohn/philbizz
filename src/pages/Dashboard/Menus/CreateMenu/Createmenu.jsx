@@ -43,7 +43,7 @@ const Createmenu = () => {
   };
 
   const renderCardContent = () => {
-    return <Contentcreate name={name} path={path} downTree={treeviewdata} />;
+    return <Contentcreate name={name} path={path} downTree={treeviewdata} category={businessCategory} />;
   };
 
   const renderTreeview = () => {

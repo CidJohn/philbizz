@@ -29,7 +29,7 @@ const Selection = ({ navbar }) => {
   );
   const [filteredData, setFilteredData] = useState(businessTypes);
   const { businesses } = useCardDesc(pageName);
-
+  console.log(pageName);
   useEffect(() => {
     if (data) {
       const selectedItemObj = data ? findItemById(data, path) : null;
@@ -89,10 +89,13 @@ const Selection = ({ navbar }) => {
       if (section) {
         section.scrollIntoView({ behavior: "smooth", block: "start" });
       }
-    }, 100); // Small delay to ensure the element is rendered before scrolling
+    }, 100); 
   };
 
   const handlePageChange = (pageNumber) => {
+    navigate(`${path}#cards`, {
+      state: { id: id, pageName: pageName, path: path },
+    });
     setCurrentPage(pageNumber);
   };
 

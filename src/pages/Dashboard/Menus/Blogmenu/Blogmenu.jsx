@@ -39,7 +39,7 @@ const Blogmenu = (props) => {
   const renderTable = (data) => {
     return (
       <>
-        <div className="flex flex-col justify-center  ">
+        <div className="flex flex-col justify-center  max-h-[70vh]">
           <Table
             tblheader={["Name", "Title", "Date Time"]}
             tbldata={data}
@@ -69,8 +69,8 @@ const Blogmenu = (props) => {
             <SearchBar hidden={true} onSearch={handleSearch} />
           </div>
         </div>
-        <div className="flex border-2 min-w-full">
-          <div className="flex flex-col bg-gray-100 rounded-lg shadow-lg p-2 ">
+        <div className="flex  min-w-full">
+          <div className="flex flex-col bg-gray-100 rounded-lg shadow-lg p-2 min-w-[70vh] max-h-[80vh]">
             <h1 className="text-2xl font-bold p-2">{pageName} list</h1>
             {dataBlog.length > 0
               ? renderTable(dataBlog)
@@ -82,7 +82,7 @@ const Blogmenu = (props) => {
             <div className="sticky top-0 bg-gray-100">
               <h1 className="text-2xl font-bold p-2 ">View Blog Content</h1>
             </div>
-            <div className="flex bg-white min-w-[70vh] max-h-[80vh] overflow-y-scroll p-2 rounded-lg">
+            <div className="flex bg-white min-w-[70vh] max-h-[70vh] overflow-y-scroll p-2 rounded-lg">
               {content ? (
                 <BlogView content={content} blogImage={blogImage} />
               ) : (

@@ -55,13 +55,15 @@ const SearchBar = ({ onSearch, handleModalOpen, hidden }) => {
         {t("search")}
       </label>
       {renderTextline("title", t("Search Name"))}{" "}
-      <button
-        type="submit"
-        className="flex items-center justify-center border rounded px-4 py-2  bg-gray-600 hover:bg-gray-100 text-gray-100 hover:text-gray-900"
-      >
-        <SearchIcons />
-        <span className="sr-only">{t("search")}</span>
-      </button>
+      <div className="flex items-center ">
+        <button
+          type="submit"
+          className="flex items-center justify-center border rounded px-4 py-2  bg-gray-600 hover:bg-gray-100 text-gray-100 hover:text-gray-900"
+        >
+          <SearchIcons />
+          <span className="sr-only">{t("search")}</span>
+        </button>
+      </div>
       {authload ? (
         <Spinner />
       ) : isAuthenticated ? (
