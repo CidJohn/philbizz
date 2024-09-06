@@ -77,7 +77,9 @@ const Businessview = (props) => {
     : [];
 
   const handleClick = (id, path) => {
-    navigate(path, { state: { id } });
+    const formattedPath = path.startsWith("/") ? path.replace("/", "") : path;
+
+    navigate(path, { state: { id: id, path: path, pageName: formattedPath } });
   };
 
   const handleDateSelect = (date) => {
@@ -93,7 +95,7 @@ const Businessview = (props) => {
       ) : (
         <div className=" flex flex-col md:flex-row  gap-3  ">
           <div className="flex flex-col  border-2 border-gray-300 hover:border-violet-300 rounded-lg ">
-            <div className=" min-w-80">
+            <div className=" min-w-80 sticky top-0">
               {Object.keys(groupedTreeView).map((name) => (
                 <div key={name} className="p-2">
                   <h3 className="font-bold text-2xl my-2 font-serif bg-blue-300 px-2">

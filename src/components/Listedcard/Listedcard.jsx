@@ -39,13 +39,16 @@ const Listedcard = (props) => {
                   >
                     <Images
                       src={item.images}
-                      style={{ width: "100px", height: "70px" }}
+                      style={{ minWidth: "200px", height: "130px" }}
                     />
                     <div className="p-2">
                       <h1 className="text-lg font-bold ">{item.title}</h1>
-                      <span className="text-sx">
-                        <Dateformat dateString={item.created_at} />
-                      </span>
+                      <div className="flex flex-col">
+                        <span className="text-sx italic">
+                          <Dateformat dateString={item.created_at} />
+                        </span>
+                        <span className="text-sx">{item.description}</span>
+                      </div>
                     </div>
                   </a>
                 </div>

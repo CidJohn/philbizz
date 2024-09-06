@@ -159,7 +159,7 @@ function Menus(props) {
         path: path,
         content: e.target.innerText,
         treeviewdata: data,
-        businessCategory: getCategory
+        businessCategory: getCategory,
       },
     });
   };
@@ -171,7 +171,7 @@ function Menus(props) {
         path: path,
         content: e.target.innerText,
         treeviewdata: data,
-        businessCategory: getCategory
+        businessCategory: getCategory,
       },
     });
   };
@@ -213,7 +213,7 @@ function Menus(props) {
               <div className="min-w-full h-10 bg-gray-100 border-t-2 border-r-2 border-l-2 border-dashed rounded-t-lg  flex items-center p-2 text-lg font-bold">
                 {name === "Business" ? `${name} Category` : `${name} Tree View`}
               </div>
-              <div className="capitalize flex flex-col p-2 border-b-2 border-r-2 border-l-2  border-dashed rounded-b-lg px-10 h-[70vh] overflow-hidden hover:overflow-y-scroll ">
+              <div className="bg-white capitalize flex flex-col p-2 border-b-2 border-r-2 border-l-2  border-dashed rounded-b-lg px-10 h-[70vh] overflow-hidden hover:overflow-y-scroll ">
                 {getTreeview.length ? (
                   <TreeView
                     treeViewContent={getTreeview}

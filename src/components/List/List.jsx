@@ -60,9 +60,11 @@ const List = (props) => {
                   <p className="text-gray-700 text-xs italic text-wrap truncate">
                     - {user}
                   </p>
-                  <p className="text-gray-700 text-xs  text-wrap truncate">
-                    <Dateformat dateString={datetime} />
-                  </p>
+                  {datetime && (
+                    <p className="text-gray-700 text-xs  text-wrap truncate">
+                      <Dateformat dateString={datetime} />
+                    </p>
+                  )}
                 </div>
               )}
             </div>

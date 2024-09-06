@@ -7,7 +7,7 @@ export const BlogView = (props) => {
   const imagelink = restAPI();
 
   return (
-    <div className="max-w-screen-md mx-auto mt-5">
+    <div className="w-full mx-auto mt-5">
       <div className=" text-center">
         <div className="text-2xl">{content.title}</div>
         <p className="text-wrap">{content.description}</p>

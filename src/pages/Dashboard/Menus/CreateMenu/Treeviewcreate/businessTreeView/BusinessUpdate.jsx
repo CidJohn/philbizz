@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Textline from "../../../../../../components/Textline/Textline";
 import Button from "../../../../../../components/Button/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
 
 function BusinessUpdate(props) {
   const { business } = props;
@@ -39,7 +41,6 @@ function BusinessUpdate(props) {
       header: headerCategory,
       child: childCategory,
     };
-
     console.log(initialData);
   };
 
@@ -90,6 +91,7 @@ function BusinessUpdate(props) {
             {addTextline[item.title]?.map((textline) => (
               <div key={textline.id} className="flex flex-wrap">
                 <Textline
+                placeholder={"Enter New Child Name"}
                   value={textline.value}
                   onChange={(e) =>
                     handleDynamicTextlineChange(
@@ -103,9 +105,14 @@ function BusinessUpdate(props) {
               </div>
             ))}
             <Button
-              text={"add"}
+              icon={
+                <FontAwesomeIcon
+                  icon={faAdd}
+                  className="w-4 hover:text-green-700 hover:bg-blue-300 p-1 flex items-center"
+                />
+              }
               onClick={() => handleAdd(item.title)}
-              className={"px-1 border rounded-full "}
+              className={"px-1"}
             />
           </div>
         </div>
