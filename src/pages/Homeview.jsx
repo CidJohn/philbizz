@@ -11,7 +11,7 @@ function Homeview({ data }) {
       <div className="container  w-full mx-auto mt-5">
         <HeroBanner blogData={data.blogData} />
         {/* <Herobanners /> */}
-        <div className="mt-5">
+        <div className="mt-2">
           <Businessview navbar={data.navbar} businessCarousel={data.businessSettings} />
         </div>
       </div>

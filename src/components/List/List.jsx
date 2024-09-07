@@ -55,7 +55,7 @@ const List = (props) => {
             <div className="flex-1 max-w-screen-lg ">
               <div className={`font-semibold   ${classStyle}`}>{title}</div>
               <p className="text-gray-700 text-xs text-wrap truncate">{desc}</p>
-              {user && (
+              {user || datetime && (
                 <div className="">
                   <p className="text-gray-700 text-xs italic text-wrap truncate">
                     - {user}

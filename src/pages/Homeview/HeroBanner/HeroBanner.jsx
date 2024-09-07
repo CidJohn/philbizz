@@ -40,7 +40,6 @@ export const HeroBanner = ({ blogData }) => {
       setBlog(filterBlog);
     }
   }, [location, getNewsData, blogData]);
-
   return (
     <div className={`flex  flex-col lg:flex-row  gap-3 `}>
       {" "}
@@ -65,7 +64,7 @@ export const HeroBanner = ({ blogData }) => {
         </div>
         <div className="flex flex-col p-5 gap-3 min-w-80   border-gray-300 hover:border-red-300  border-2 rounded-lg ">
           <div className="flex flex-col transform transition-transform duration-500 hover:scale-105">
-            <h1 className="text-4xl font-serif m-2 font-bold">News Updates</h1>
+            <h1 className="text-4xl  m-2 font-bold">News Updates</h1>
 
             {getArticles.length > 0 ? (
               <NewsFeed articles={getArticles} />
@@ -85,9 +84,7 @@ export const HeroBanner = ({ blogData }) => {
             )}
           </div>
           <div className="flex flex-col transform transition-transform duration-500 hover:scale-105 ">
-            <h1 className="text-4xl font-serif m-2 font-bold">
-              Weather Forecast
-            </h1>
+            <h1 className="text-4xl  m-2 font-bold">Weather Forecast</h1>
             <div className="flex flex-col p-2 ">
               {weatherData && (
                 <Weather
