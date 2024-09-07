@@ -15,13 +15,18 @@ function Contentcreate(props) {
   const [editorContent, setEditorContent] = useState("");
   const [addTextLine, setAddTextLine] = useState([{ id: 1, value: "" }]);
   const [newTextLine, setNewTextLine] = useState({});
-  const [TextLine, setTextLine] = useState("");
+  const [TextLine, setTextLine] = useState({
+    title: "",
+    description: "",
+    image: "",
+  });
 
   const initials = {
-    parent: selectedValue,
-    child: selectChildValue,
+    Treeview: { parent: selectedValue, child: selectChildValue },
     TextLine: { required: TextLine, option: newTextLine },
+    TextEditor: editorContent,
   };
+  
   useEffect(() => {
     if (name === "Business") {
       if (category) {
@@ -126,7 +131,11 @@ function Contentcreate(props) {
   };
 
   const handleTextLineChange = (e) => {
-    setTextLine(e.target.value);
+    const { name, value } = e.target;
+    setTextLine((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   const handleDeleteTextline = (id) => {
@@ -157,38 +166,42 @@ function Contentcreate(props) {
       <div className="flex flex-col border rounded-lg shadow-lg min-w-80 min-h-80">
         <div className="text-2xl font-bold p-4">Create Form Content</div>
         <form className="flex flex-col p-3 gap-2">
-          <div className="flex gap-3">
-            <div className="flex flex-col">
-              <label htmlFor="parent">Parent Name:</label>
-              <Dropdown
-                id="parent"
-                placeholder={selectedValue ? selectedValue : "Select Parent"}
-                value={selectedValue}
-                options={dropdownOptions}
-                onChange={handleParentDropdownChange}
-              />
+          {name === "Blog" ? (
+            ""
+          ) : (
+            <div className="flex gap-3">
+              <div className="flex flex-col">
+                <label htmlFor="parent">Parent Name:</label>
+                <Dropdown
+                  id="parent"
+                  placeholder={selectedValue ? selectedValue : "Select Parent"}
+                  value={selectedValue}
+                  options={dropdownOptions}
+                  onChange={handleParentDropdownChange}
+                />
+              </div>
+              <div className="flex flex-col ">
+                <label htmlFor="child">Child Name:</label>
+                <Dropdown
+                  id="child"
+                  placeholder={
+                    !selectedValue
+                      ? "Select Parent First"
+                      : selectChildValue
+                      ? selectChildValue
+                      : "Select Child"
+                  }
+                  value={selectChildValue}
+                  options={
+                    !selectedValue
+                      ? [{ value: "", label: "Select Parent First" }]
+                      : dropdownChildOptions
+                  }
+                  onChange={handleChildDropdownChange}
+                />
+              </div>
             </div>
-            <div className="flex flex-col ">
-              <label htmlFor="child">Child Name:</label>
-              <Dropdown
-                id="child"
-                placeholder={
-                  !selectedValue
-                    ? "Select Parent First"
-                    : selectChildValue
-                    ? selectChildValue
-                    : "Select Child"
-                }
-                value={selectChildValue}
-                options={
-                  !selectedValue
-                    ? [{ value: "", label: "Select Parent First" }]
-                    : dropdownChildOptions
-                }
-                onChange={handleChildDropdownChange}
-              />
-            </div>
-          </div>
+          )}
           <div className="flex flex-wrap gap-3">
             <div className="flex flex-col w-full">
               <label htmlFor="Title">Title</label>
@@ -198,6 +211,9 @@ function Contentcreate(props) {
                 }
                 type={"text"}
                 placeholder={"Enter Title"}
+                value={TextLine.title}
+                name={"title"}
+                onChange={handleTextLineChange}
               />
             </div>
             <div className="flex  flex-col w-full">
@@ -208,6 +224,9 @@ function Contentcreate(props) {
                 }
                 type={"text"}
                 placeholder={"Enter Address"}
+                value={TextLine.description}
+                name={"description"}
+                onChange={handleTextLineChange}
               />
             </div>
             <div className="flex  flex-col w-full">
@@ -231,7 +250,8 @@ function Contentcreate(props) {
                       className="min-w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
                       type="text"
                       placeholder={"Enter Image link (Required)"}
-                      value={TextLine}
+                      value={TextLine.image}
+                      name={"image"}
                       onChange={handleTextLineChange}
                       required={true}
                     />
@@ -239,7 +259,7 @@ function Contentcreate(props) {
                 </div>
 
                 {/* Conditionally render the dynamically added Textlines only if at least one has been added */}
-                {TextLine.length > 0 && (
+                {TextLine.image.length > 0 && (
                   <div className=" min-w-full ">
                     {addTextLine.map((textLine, index) => (
                       <div key={textLine.id} className="flex w-full gap-1 mt-2">

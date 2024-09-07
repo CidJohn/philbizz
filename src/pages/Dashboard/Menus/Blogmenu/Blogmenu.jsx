@@ -6,9 +6,11 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Button from "../../../../components/Button/Button";
 import { useBlogContent } from "../../../../helper/database/useBlogSettings";
 import { BlogView } from "../BlogView/BlogView";
+import { useNavigate } from "react-router-dom";
 
 const Blogmenu = (props) => {
-  const { handleBack, pageName, blog } = props;
+  const { handleBack, pageName, blog, path } = props;
+  const navigate = useNavigate();
   const [blogTitle, setBlogTitle] = useState("");
   const [blogImage, setBlogImage] = useState("");
   const [dataBlog, setDataBlog] = useState([]);
@@ -39,11 +41,11 @@ const Blogmenu = (props) => {
   const renderTable = (data) => {
     return (
       <>
-        <div className="flex flex-col justify-center  max-h-[70vh]">
+        <div className="flex flex-col justify-center  max-h-[65vh]">
           <Table
-            tblheader={["Name", "Title", "Date Time"]}
+            tblheader={["Title", "Date Time"]}
             tbldata={data}
-            tblrow={["username", "title", "created_at"]}
+            tblrow={["title", "created_at"]}
             onView={handleBlogView}
             onDelete={handleBlogDelete}
           />
@@ -51,6 +53,13 @@ const Blogmenu = (props) => {
       </>
     );
   };
+
+  const handleCreate = () => {
+    navigate("/dashboard/Form/Create", {
+      state: { name: pageName, path: path },
+    });
+  };
+
   return (
     <>
       <div className="flex p-5 flex-col gap-3  ">
@@ -70,13 +79,22 @@ const Blogmenu = (props) => {
           </div>
         </div>
         <div className="flex  min-w-full">
-          <div className="flex flex-col bg-gray-100 rounded-lg shadow-lg p-2 min-w-[70vh] max-h-[80vh]">
-            <h1 className="text-2xl font-bold p-2">{pageName} list</h1>
-            {dataBlog.length > 0
-              ? renderTable(dataBlog)
-              : blog.length > 0
-              ? renderTable(blog)
-              : ""}
+          <div className="flex flex-col bg-gray-100 rounded-lg shadow-lg p-2 gap-2 min-w-[70vh] max-h-[80vh]">
+            <div className="flex flex-col ">
+              <h1 className="text-2xl font-bold p-2 ">{pageName} list</h1>
+              {dataBlog.length > 0
+                ? renderTable(dataBlog)
+                : blog.length > 0
+                ? renderTable(blog)
+                : ""}
+            </div>
+            <div className="flex min-w-full justify-center">
+              <Button
+                text={"Create New Post"}
+                className={"border p-2 hover:bg-blue-500 rounded-lg min-w-full"}
+                onClick={handleCreate}
+              />
+            </div>
           </div>
           <div className="flex flex-col  bg-gray-100 rounded-lg shadow-lg p-2 ">
             <div className="sticky top-0 bg-gray-100">
