@@ -190,7 +190,7 @@ function Menus(props) {
   return (
     <div>
       {name === "Blog" ? (
-        <Blogmenu handleBack={handleBack} pageName={name} blog={blogData} />
+        <Blogmenu handleBack={handleBack} path={path} pageName={name} blog={blogData} />
       ) : (
         <div className="flex flex-col p-5 ">
           <div className="flex px-5 gap-1 justify-between">
