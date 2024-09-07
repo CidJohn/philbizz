@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import Dateformat from "../Dateformat/Dateformat";
 import Images from "../Image/Images";
 import { useNavigate } from "react-router-dom";
+import List from "../List/List";
 
 const Listedcard = (props) => {
   const { section, title, listclass, listclasses, listItems, cardItems } =
@@ -23,34 +24,24 @@ const Listedcard = (props) => {
   return (
     <div className=" ">
       <section id={section} className="">
-        <div className="flex items-center   md:mt-1">
-          <h1 className="text-4xl font-serif mx-2 font-bold">{t(title)}</h1>
+        <div className="flex   md:mt-1">
+          <h1 className="text-4xl  mx-2 font-bold">{t(title)}</h1>
         </div>
-        <div className="flex flex-col  gap-3 ">
+        <div className=" ">
           {listItems
             ? listItems.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex items-center border-b-2 rounded-lg items-center hover:bg-slate-100 "
-                >
-                  <a
-                    onClick={() => handleLink(item.title)}
-                    className="flex p-5 cursor-pointer "
-                  >
-                    <Images
-                      src={item.images}
-                      style={{ minWidth: "200px", height: "130px" }}
-                    />
-                    <div className="p-2">
-                      <h1 className="text-lg font-bold ">{item.title}</h1>
-                      <div className="flex flex-col">
-                        <span className="text-sx italic">
-                          <Dateformat dateString={item.created_at} />
-                        </span>
-                        <span className="text-sx">{item.description}</span>
-                      </div>
-                    </div>
-                  </a>
+                <div key={index} className=" border-b-2 rounded-lg ">
+                  <List
+                    onLink={() => handleLink(item.title)}
+                    title={item.title}
+                    desc={item.description}
+                    image={item.images}
+                    datetime={item.created_at}
+                    imgstyle={{ width: "15vw", height: "15vh" }}
+                    className={
+                      "w-full border-none shadow-none hover:bg-slate-100 "
+                    }
+                  />
                 </div>
               ))
             : ""}

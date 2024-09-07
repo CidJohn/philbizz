@@ -131,7 +131,7 @@ function Treeviewupdate(props) {
                 icon={
                   <FontAwesomeIcon
                     icon={faAdd}
-                    className="w-4 hover:text-green-700 hover:bg-blue-300 p-1 flex items-center"
+                    className="border p-3 mt-2 rounded-lg hover:bg-blue-500 hover:text-white"
                   />
                 }
                 onClick={() => handleAdd(item.name)}

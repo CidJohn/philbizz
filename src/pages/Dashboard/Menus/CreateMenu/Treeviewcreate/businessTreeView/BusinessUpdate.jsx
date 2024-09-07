@@ -91,7 +91,7 @@ function BusinessUpdate(props) {
             {addTextline[item.title]?.map((textline) => (
               <div key={textline.id} className="flex flex-wrap">
                 <Textline
-                placeholder={"Enter New Child Name"}
+                  placeholder={"Enter New Child Name"}
                   value={textline.value}
                   onChange={(e) =>
                     handleDynamicTextlineChange(
@@ -108,7 +108,7 @@ function BusinessUpdate(props) {
               icon={
                 <FontAwesomeIcon
                   icon={faAdd}
-                  className="w-4 hover:text-green-700 hover:bg-blue-300 p-1 flex items-center"
+                  className="border p-3 mt-2 rounded-lg hover:bg-blue-500 hover:text-white"
                 />
               }
               onClick={() => handleAdd(item.title)}

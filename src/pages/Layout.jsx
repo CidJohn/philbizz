@@ -12,7 +12,7 @@ function Layout({ children, navbar }) {
   const hidden = location.pathname.includes("business");
   const hiddenDash = !location.pathname.includes("dashboard");
 
-  if (navbar.loading) {
+  if (navbar.navload) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Spinner />
