@@ -5,6 +5,7 @@ import Button from "../../../../../components/Button/Button";
 import TextEditor from "../../../../../components/Texteditor/Texteditor";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd, faMinus } from "@fortawesome/free-solid-svg-icons";
+import UploadImage from "../../../../../components/UploadImage/UploadImage";
 
 function Contentcreate(props) {
   const { downTree, path, category, name } = props;
@@ -20,13 +21,22 @@ function Contentcreate(props) {
     description: "",
     image: "",
   });
+  const [entries, setEntries] = useState([
+    {
+      id: Date.now(),
+      imagePreview: null,
+      personnelName: "",
+      position: "",
+    },
+  ]);
 
   const initials = {
     Treeview: { parent: selectedValue, child: selectChildValue },
     TextLine: { required: TextLine, option: newTextLine },
     TextEditor: editorContent,
+    Personnel: { entries },
   };
-  
+
   useEffect(() => {
     if (name === "Business") {
       if (category) {
@@ -118,6 +128,7 @@ function Contentcreate(props) {
   const handleAddLink = () => {
     setAddTextLine([...addTextLine, { id: addTextLine.length + 1, value: "" }]);
   };
+
   const handleTextlineChange = (id, newValue) => {
     setAddTextLine(
       addTextLine.map((textLine) =>
@@ -159,6 +170,49 @@ function Contentcreate(props) {
 
       return newState;
     });
+  };
+
+  // Handle file change and update the image preview
+  const handleFileChange = (index, e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setEntries((prevEntries) =>
+          prevEntries.map((entry, i) =>
+            i === index ? { ...entry, imagePreview: reader.result } : entry
+          )
+        );
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Handle input changes for personnelName and position
+  const handleInputChange = (index, e) => {
+    const { name, value } = e.target;
+    setEntries((prevEntries) => {
+      const updatedEntries = [...prevEntries];
+      updatedEntries[index] = {
+        ...updatedEntries[index],
+        [name]: value, // Set the input value for the correct index
+      };
+      return updatedEntries;
+    });
+  };
+
+  // Add a new entry with a corresponding image object
+  const handleAddNewEntry = () => {
+    const newId = Date.now(); // Generate unique ID for new entry and image
+    setEntries((prevEntries) => [
+      ...prevEntries,
+      {
+        id: newId,
+        imagePreview: null,
+        personnelName: "",
+        position: "",
+      },
+    ]);
   };
 
   return (
@@ -300,7 +354,50 @@ function Contentcreate(props) {
                 )}
               </div>
             </div>
-
+            {name === "Business" && (
+              <div className="flex flex-col w-full">
+                <label htmlFor="personel">Personnel </label>
+                <div className="grid grid-cols-3 gap-2">
+                  {entries.map((entry, index) => (
+                    <div className="px-5" key={entry.id}>
+                      <div>
+                        <UploadImage
+                          imagePreview={entry.imagePreview}
+                          handleFileChange={(e) => handleFileChange(index, e)}
+                        />
+                      </div>
+                      <Textline
+                        className="w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
+                        type="text"
+                        placeholder="Personnel Name"
+                        name="personnelName"
+                        value={entry.personnelName}
+                        onChange={(e) => handleInputChange(index, e)}
+                      />
+                      <Textline
+                        className="w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
+                        type="text"
+                        placeholder="Position"
+                        name="position"
+                        value={entry.position}
+                        onChange={(e) => handleInputChange(index, e)}
+                      />
+                    </div>
+                  ))}
+                  {entries.length < 10 && (
+                    <div className="flex p-5">
+                      <Button
+                        icon={<FontAwesomeIcon icon={faAdd} />}
+                        className={
+                          "border-2 border-dashed min-w-[20vw] min-h-80 rounded-lg"
+                        }
+                        onClick={handleAddNewEntry}
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
             <div className="flex  flex-wrap w-full p-2 gap-3">
               <div className="flex flex-col">
                 <label htmlFor="Title">Telegram link</label>

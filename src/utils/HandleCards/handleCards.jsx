@@ -10,15 +10,12 @@ const HandleCards = ({
   currentItems,
   searchError,
   searchResult,
+  handleLink
 }) => {
   const { businessTypes, searchload } = useCardSettings(
     currentPath.businessPath
   );
-  const nav = useNavigate();
 
-  const handleLink = (data) => {
-    nav(`/${data}`, { state: { title: data } });
-  };
 
   if (searchload) {
     return (

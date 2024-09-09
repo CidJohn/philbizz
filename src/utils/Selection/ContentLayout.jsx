@@ -23,6 +23,7 @@ const ContentLayout = ({
   currentItems,
   sideAds,
   handleDesc,
+  handleLink,
 }) => {
   return (
     <div className="container mx-auto flex ">
@@ -94,7 +95,7 @@ const ContentLayout = ({
                   height: "350px",
                 }}
                 hidden={true}
-                link={item.title}
+                onLink={() => handleLink(item.title)}
               />
             </div>
           ))}
