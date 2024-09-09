@@ -89,7 +89,7 @@ const Selection = ({ navbar }) => {
       if (section) {
         section.scrollIntoView({ behavior: "smooth", block: "start" });
       }
-    }, 100); 
+    }, 100);
   };
 
   const handlePageChange = (pageNumber) => {
@@ -135,6 +135,10 @@ const Selection = ({ navbar }) => {
     setDropdownValue(e.target.value);
   };
 
+  const handleLink = (data) => {
+    navigate(`/${data}`, { state: { title: data } });
+  };
+
   const totalPages = Math.ceil(
     selectedItem?.id
       ? businessTypes.length / itemsPerPage
@@ -172,6 +176,7 @@ const Selection = ({ navbar }) => {
           currentPage={currentPage}
           itemsPerPage={itemsPerPage}
           searchResult={filteredData}
+          handleLink={handleLink}
         />
       )}
       handleDesc={() => <Description type={businesses} pageName={pageName} />}
@@ -191,6 +196,7 @@ const Selection = ({ navbar }) => {
       currentItems={currentItemsPage}
       sideAds={sideAds}
       adName={pageName}
+      handleLink={handleLink}
     ></ContentLayout>
   );
 };

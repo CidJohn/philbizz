@@ -20,8 +20,8 @@ const Spinner = (style) => {
             fill="currentFill"
           />
         </svg>
-        <span className="sr-only">Loading...</span>
       </div>
+      <span className="sr-only">Loading...</span>
     </div>
   );
 };
