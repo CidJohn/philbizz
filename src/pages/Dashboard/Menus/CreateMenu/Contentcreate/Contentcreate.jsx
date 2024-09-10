@@ -6,6 +6,7 @@ import TextEditor from "../../../../../components/Texteditor/Texteditor";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd, faMinus } from "@fortawesome/free-solid-svg-icons";
 import UploadImage from "../../../../../components/UploadImage/UploadImage";
+import Pako from "pako";
 
 function Contentcreate(props) {
   const { downTree, path, category, name } = props;
@@ -20,6 +21,10 @@ function Contentcreate(props) {
     title: "",
     description: "",
     image: "",
+    contact: 0,
+    email: "",
+    location: "",
+    service: "",
   });
   const [entries, setEntries] = useState([
     {
@@ -30,10 +35,15 @@ function Contentcreate(props) {
     },
   ]);
 
+  const compressedEditorContent = Pako.deflate(editorContent, { to: "string" });
   const initials = {
-    Treeview: { parent: selectedValue, child: selectChildValue },
+    Treeview: {
+      parent: selectedValue,
+      child: selectChildValue,
+      name: name,
+    },
     TextLine: { required: TextLine, option: newTextLine },
-    TextEditor: editorContent,
+    TextEditor: compressedEditorContent,
     Personnel: { entries },
   };
 
@@ -119,6 +129,7 @@ function Contentcreate(props) {
   };
   const handleSave = (e) => {
     e.preventDefault();
+    if (name === "Business") console.log(initials.Personnel);
     console.log(initials);
   };
   const handleContentChange = (content) => {
@@ -283,6 +294,60 @@ function Contentcreate(props) {
                 onChange={handleTextLineChange}
               />
             </div>
+            <div className="flex w-full gap-2">
+              <div className="flex  flex-col w-full">
+                <label htmlFor="Description">Contact</label>
+                <Textline
+                  className={
+                    "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
+                  }
+                  type={"number"}
+                  placeholder={"Enter Contact"}
+                  value={TextLine.contact}
+                  name={"contact"}
+                  onChange={handleTextLineChange}
+                />
+              </div>
+              <div className="flex  flex-col w-full">
+                <label htmlFor="Description">Email</label>
+                <Textline
+                  className={
+                    "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
+                  }
+                  type={"email"}
+                  placeholder={"Enter Email"}
+                  value={TextLine.email}
+                  name={"email"}
+                  onChange={handleTextLineChange}
+                />
+              </div>
+              <div className="flex  flex-col w-full">
+                <label htmlFor="Description">Service Type</label>
+                <Textline
+                  className={
+                    "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
+                  }
+                  type={"text"}
+                  placeholder={"Enter Email"}
+                  value={TextLine.service}
+                  name={"service"}
+                  onChange={handleTextLineChange}
+                />
+              </div>
+            </div>
+            <div className="flex  flex-col w-full">
+              <label htmlFor="Description">Location</label>
+              <Textline
+                className={
+                  "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
+                }
+                type={"text"}
+                placeholder={"Enter Google Map link"}
+                value={TextLine.location}
+                name={"location"}
+                onChange={handleTextLineChange}
+              />
+            </div>
             <div className="flex  flex-col w-full">
               <label htmlFor="Body">Body Content</label>
               <TextEditor
@@ -293,6 +358,16 @@ function Contentcreate(props) {
                   "min-h-full bg-white p-4 shadow-sm rounded-lg border"
                 }
               />
+              {/* 
+              const sanitizedContent = DOMPurify.sanitize(editorContent);
+              <div
+                dangerouslySetInnerHTML={{ __html: editorContent }}
+                style={{
+                  border: "1px solid #ccc",
+                  padding: "10px",
+                  marginTop: "10px",
+                }}
+              /> */}
             </div>
             <div className="flex  flex-col w-full">
               <label htmlFor="Image">Image Title</label>

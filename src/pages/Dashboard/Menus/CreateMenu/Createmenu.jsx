@@ -37,7 +37,7 @@ const Createmenu = () => {
           }
           onClick={handleCreateView}
         />
-        <Treeviewcreate path={path} treeview={treeviewdata} />
+        <Treeviewcreate path={path} treeview={treeviewdata} name={name} />
       </>
     );
   };
