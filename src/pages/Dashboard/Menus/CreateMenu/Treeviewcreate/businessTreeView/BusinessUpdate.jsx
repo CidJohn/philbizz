@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 
 function BusinessUpdate(props) {
-  const { business } = props;
+  const { business, path } = props;
   const [addTextline, setTextLine] = useState({});
   const [headerCategory, setHeaderCategory] = useState(() =>
     business.reduce((acc, item) => {
@@ -40,6 +40,8 @@ function BusinessUpdate(props) {
     const initialData = {
       header: headerCategory,
       child: childCategory,
+      addNew: addTextline,
+      path: path
     };
     console.log(initialData);
   };
@@ -58,13 +60,13 @@ function BusinessUpdate(props) {
     setTextLine((prev) => ({
       ...prev,
       [header]: prev[header].map((item) =>
-        item.id === id ? { ...item, value: newValue } : item
+        item.id === id ? { ...item, header: header, value: newValue } : item
       ),
     }));
-    setChildCategory((prev) => ({
-      ...prev,
-      [header]: { parent: header, name: newValue },
-    }));
+    // setChildCategory((prev) => ({
+    //   ...prev,
+    //   [header]: { parent: header, name: newValue },
+    // }));
   };
 
   return (

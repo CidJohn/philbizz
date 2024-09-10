@@ -23,7 +23,7 @@ function Treeviewupdate(props) {
         parentTextLines[item.name] = item.name;
         if (item.children) {
           item.children.forEach((child) => {
-            childTextLines[child.id] = child.name;
+            childTextLines[child.id] = { id: child.id, name: child.name };
           });
         }
       }
@@ -37,12 +37,13 @@ function Treeviewupdate(props) {
     if (isChild) {
       setTextLinesChild((prev) => ({
         ...prev,
-        [name]: newValue,
+        [name]: { id: name, name: newValue },
       }));
     } else {
       setTextLinesParent((prev) => ({
         ...prev,
         [name]: newValue,
+        path: path,
       }));
     }
   };
@@ -52,6 +53,7 @@ function Treeviewupdate(props) {
       parent: textLinesParent,
       child: textLinesChild,
       addNew: addTextline,
+      path: path
     };
     console.log(data);
   };
@@ -60,13 +62,13 @@ function Treeviewupdate(props) {
     setTextLine((prev) => ({
       ...prev,
       [header]: prev[header].map((item) =>
-        item.id === id ? { ...item, value: newValue } : item
+        item.id === id ? { ...item, parent: header, value: newValue } : item
       ),
     }));
-    setTextLinesChild((prev) => ({
-      ...prev,
-      [header]: { parent: header, name: newValue },
-    }));
+    // setTextLinesChild((prev) => ({
+    //   ...prev,
+    //   [header]: { parent: header, name: newValue },
+    // }));
   };
 
   const handleAdd = (header) => {
@@ -88,14 +90,18 @@ function Treeviewupdate(props) {
       .filter((item) => item.path === path)
       .map((item, index) => (
         <div className="flex flex-col" key={`${item.name}-${index}`}>
-          <div className="text-lg">Parent Name:</div>
-          <div className="flex mb-3">
-            <Textline
-              value={textLinesParent[item.name] || ""}
-              type={"text"}
-              className={"border rounded-lg p-2"}
-              onChange={(e) => handleTextlineChange(item.name, e.target.value)}
-            />
+          <div className="flex items-center gap-1">
+            <div className="text-lg">Parent Name:</div>
+            <div className="flex mb-3">
+              <Textline
+                value={textLinesParent[item.name] || ""}
+                type={"text"}
+                className={"border rounded-lg p-2"}
+                onChange={(e) =>
+                  handleTextlineChange(item.name, e.target.value)
+                }
+              />
+            </div>
           </div>
           <div className="text-lg">Child Name:</div>
           {item.children && item.children.length > 0 && (
@@ -103,7 +109,7 @@ function Treeviewupdate(props) {
               {item.children.map((child, childIndex) => (
                 <Textline
                   key={`${child.name}-${childIndex}`}
-                  value={textLinesChild[child.id] || ""}
+                  value={textLinesChild[child.id]?.name || ""}
                   type={"text"}
                   className={"border rounded-lg p-2"}
                   onChange={(e) =>
@@ -143,7 +149,7 @@ function Treeviewupdate(props) {
       ));
   };
   const renderBusinessUpdate = () => {
-    return <BusinessUpdate business={business} />;
+    return <BusinessUpdate business={business} path={path} />;
   };
 
   const renderTreeData = () => {

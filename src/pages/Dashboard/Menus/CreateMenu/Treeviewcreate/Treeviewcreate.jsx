@@ -3,14 +3,16 @@ import Textline from "../../../../../components/Textline/Textline";
 import Button from "../../../../../components/Button/Button";
 
 const Treeviewcreate = (props) => {
-  const { path, treeview } = props;
+  const { path, treeview, name } = props;
   const [parent, setParent] = useState("");
   const [child, setChild] = useState("");
   const [treeViewChild, setTreeViewChild] = useState([]);
 
-  const parentAdd = {
+  const treeAdd = {
     parent: parent,
+    child: treeViewChild,
     path: path,
+    name: name,
   };
 
   const handleChildAdd = (e) => {
@@ -21,14 +23,15 @@ const Treeviewcreate = (props) => {
   };
 
   const handleCreate = () => {
-    console.log(parentAdd);
-    console.log(treeViewChild);
+    console.log(treeAdd);
   };
 
   return (
     <div className="flex gap-2  p-2 w-full">
       <div className="border-2 p-5 rounded-lg shadow-md min-w-96 min-h-80 bg-white">
-        <div className="text-2xl p-2 font-bold">Add Treeview</div>
+        <div className="text-2xl p-2 font-bold">
+          {name === "Business" ? "Add Cateogry" : "Add Treeview"}
+        </div>
         <form className="space-y-4 ">
           <div>
             <label
@@ -78,8 +81,10 @@ const Treeviewcreate = (props) => {
         </form>
       </div>
       <div className="border-2 p-5 rounded-lg shadow-md min-w-96 min-h-80 bg-white">
-        <div className="text-2xl font-bold p-2">Display Treeview</div>
-        <div className="text-lg font-bold">{parentAdd.parent}</div>
+        <div className="text-2xl font-bold p-2">
+          {name === "Business" ? "Display Cateogry" : "Display Treeview"}
+        </div>
+        <div className="text-lg font-bold">{treeAdd.parent}</div>
         <div className="max-h-64 h-screen overflow-hidden hover:overflow-y-scroll">
           <ul className="p-2">
             {treeViewChild.map((item, index) => (
