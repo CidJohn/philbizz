@@ -6,7 +6,6 @@ import TextEditor from "../../../../../components/Texteditor/Texteditor";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd, faMinus } from "@fortawesome/free-solid-svg-icons";
 import UploadImage from "../../../../../components/UploadImage/UploadImage";
-import Pako from "pako";
 
 function Contentcreate(props) {
   const { downTree, path, category, name } = props;
@@ -25,6 +24,7 @@ function Contentcreate(props) {
     email: "",
     location: "",
     service: "",
+    website: ""
   });
   const [entries, setEntries] = useState([
     {
@@ -35,17 +35,25 @@ function Contentcreate(props) {
     },
   ]);
 
-  const compressedEditorContent = Pako.deflate(editorContent, { to: "string" });
-  const initials = {
+  const initialSelectionContent = {
     Treeview: {
       parent: selectedValue,
       child: selectChildValue,
       name: name,
     },
     TextLine: { required: TextLine, option: newTextLine },
-    TextEditor: compressedEditorContent,
-    Personnel: { entries },
+    TextEditor: editorContent,
   };
+  const initialBusinessContent = {
+    Treeview: {
+      parent: selectedValue,
+      child: selectChildValue,
+      name: name,
+    },
+    TextLine: { required: TextLine, option: newTextLine },
+    TextEditor: editorContent,
+    Personnel: { entries },
+  }
 
   useEffect(() => {
     if (name === "Business") {
@@ -129,8 +137,8 @@ function Contentcreate(props) {
   };
   const handleSave = (e) => {
     e.preventDefault();
-    if (name === "Business") console.log(initials.Personnel);
-    console.log(initials);
+    if (name === "Business") console.log(initialBusinessContent);
+    console.log(initialSelectionContent);
   };
   const handleContentChange = (content) => {
     setEditorContent(content);
@@ -183,7 +191,6 @@ function Contentcreate(props) {
     });
   };
 
-  // Handle file change and update the image preview
   const handleFileChange = (index, e) => {
     const file = e.target.files[0];
     if (file) {
@@ -199,22 +206,20 @@ function Contentcreate(props) {
     }
   };
 
-  // Handle input changes for personnelName and position
   const handleInputChange = (index, e) => {
     const { name, value } = e.target;
     setEntries((prevEntries) => {
       const updatedEntries = [...prevEntries];
       updatedEntries[index] = {
         ...updatedEntries[index],
-        [name]: value, // Set the input value for the correct index
+        [name]: value,
       };
       return updatedEntries;
     });
   };
 
-  // Add a new entry with a corresponding image object
   const handleAddNewEntry = () => {
-    const newId = Date.now(); // Generate unique ID for new entry and image
+    const newId = Date.now(); 
     setEntries((prevEntries) => [
       ...prevEntries,
       {
@@ -328,7 +333,7 @@ function Contentcreate(props) {
                     "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
                   }
                   type={"text"}
-                  placeholder={"Enter Email"}
+                  placeholder={"Enter Service Type"}
                   value={TextLine.service}
                   name={"service"}
                   onChange={handleTextLineChange}
@@ -348,6 +353,7 @@ function Contentcreate(props) {
                 onChange={handleTextLineChange}
               />
             </div>
+            
             <div className="flex  flex-col w-full">
               <label htmlFor="Body">Body Content</label>
               <TextEditor
@@ -358,16 +364,6 @@ function Contentcreate(props) {
                   "min-h-full bg-white p-4 shadow-sm rounded-lg border"
                 }
               />
-              {/* 
-              const sanitizedContent = DOMPurify.sanitize(editorContent);
-              <div
-                dangerouslySetInnerHTML={{ __html: editorContent }}
-                style={{
-                  border: "1px solid #ccc",
-                  padding: "10px",
-                  marginTop: "10px",
-                }}
-              /> */}
             </div>
             <div className="flex  flex-col w-full">
               <label htmlFor="Image">Image Title</label>

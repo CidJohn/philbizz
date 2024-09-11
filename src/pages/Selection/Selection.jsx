@@ -29,7 +29,6 @@ const Selection = ({ navbar }) => {
   );
   const [filteredData, setFilteredData] = useState(businessTypes);
   const { businesses } = useCardDesc(pageName);
-  console.log(pageName);
   useEffect(() => {
     if (data) {
       const selectedItemObj = data ? findItemById(data, path) : null;

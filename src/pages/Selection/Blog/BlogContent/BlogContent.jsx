@@ -6,18 +6,17 @@ import { useLocation } from "react-router-dom";
 import restAPI from "../../../../helper/database/restAPI";
 
 const BlogContent = (props) => {
+  const { state } = useLocation();
+  const { title } = state || { title: null };
   const [getidblog, setIdBlog] = useState();
   const [blogImage, setBlogImage] = useState([]);
   const { blogdata } = props;
   const { content, contentload } = useBlogContent(getidblog);
-  const location = useLocation();
   const imagelink = restAPI();
 
   useEffect(() => {
-    const decodelocation = decodeURIComponent(location.pathname);
     const idblog = blogdata
-      ? blogdata?.find((item) => `/${item.title}` === decodelocation)?.title ||
-        ""
+      ? blogdata?.find((item) => item.title === title)?.title || ""
       : [];
     const imageblog = content.images ? content.images.map((item) => item) : [];
     setBlogImage(imageblog);

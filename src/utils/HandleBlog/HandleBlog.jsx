@@ -7,7 +7,7 @@ import BlogComment from "../../pages/Selection/Blog/BlogComment/BlogComment";
 import { useBlogLiked } from "../../helper/database/useBlogSettings";
 
 const HandleBlog = (props) => {
-  const { blogdata, imagelink, handleCommentOpen, isCommentOpen, userdata } =
+  const { blogdata, imagelink, handleCommentOpen, isCommentOpen, userdata, handleLink } =
     props;
   const [getCommentID, setCommentID] = useState(null);
 
@@ -62,7 +62,7 @@ const HandleBlog = (props) => {
             desc={item.description}
             className={"border-none shadow-none"}
             user={item.username}
-            link={item.title}
+            onLink={() => handleLink(item.title)}
             binaryImage={imagelink.image + item.imageURL}
             classreverse={"flex-row-reverse"}
             imgstyle={{ width: "100px", height: "70px" }}
