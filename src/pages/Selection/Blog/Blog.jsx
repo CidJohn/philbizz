@@ -8,8 +8,10 @@ import { useAuth } from "../../../helper/auth/useAuthContext";
 import BlogPost from "./BlogPost/BlogPost";
 import { useUserData } from "../../../helper/auth/useAuthentication";
 import restAPI from "../../../helper/database/restAPI";
+import { useNavigate } from "react-router-dom";
 
 const Blog = () => {
+  const navigate = useNavigate();
   const { blogData, blogload } = useBlogSettings();
   const { isAuthenticated, authload } = useAuth();
   const datas = blogData ? blogData : "";
@@ -42,6 +44,10 @@ const Blog = () => {
   const handleCommentOpen = () => {
     setCommentOpen(!isCommentOpen);
   };
+  const handleLink = (item) => {
+    navigate(`/${item}`, { state: { title: item } });
+  }
+
   return (
     <div className="container mx-auto max-w-screen-md">
       <div className="flex flex-col gap-3 mt-10  mx-auto ">
@@ -82,6 +88,7 @@ const Blog = () => {
             handleCommentOpen={handleCommentOpen}
             isCommentOpen={isCommentOpen}
             userdata={userid}
+            handleLink={handleLink}
           />
         </div>
         <Pagination

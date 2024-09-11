@@ -12,19 +12,22 @@ import { Gmail, Kakaotalk, Telegram } from "../../../components/svg/Icons";
 import Swal from "sweetalert2";
 import GoogleMapEmbed from "../../../components/GoogleMapEmbed/GoogleMapEmbed";
 import MaintenancePage from "../../../components/Maintenance/Maintenance";
+import DOMPurify from "dompurify";
 
 function Defaultpage(props) {
   const { cardpath, load } = props;
   const [getTitle, setTitle] = useState("");
   const [getCard, setCard] = useState("");
+  const [getContent, setContent] = useState({});
   const { state } = useLocation();
   const { title } = state || { title: null };
   const { getData, getURL, loadData } = useCardInfo(getTitle);
   const { getImage, loadImage } = useImgCardURL(getTitle);
-  console.log(title);
 
   useEffect(() => {
     const path = cardpath?.find((item) => item.title === title)?.title || "";
+    const content = getData ? getData.map((item) => item.Content) : [];
+    setContent(content);
     setCard(path);
     setTitle(path);
   }, [cardpath, title]);
@@ -64,7 +67,6 @@ function Defaultpage(props) {
       </div>
     );
   }
-
   return (
     <div className="container mx-auto mt-10 max-w-screen-md">
       <h1 className="font-mono font-bold text-3xl text-center">{getCard}</h1>
@@ -81,12 +83,26 @@ function Defaultpage(props) {
                 {item.desc}
               </p>
             </div>
-            <div className="mx-auto">
+            <div className="mx-auto ">
               <Images src={item.icon_image} alt={getCard} />
             </div>
             <div className="flex flex-wrap">
               <Horizontal />
-              <div className="mt-5">
+              <div className="">
+                <div className="flex ">
+                  {getContent ? (
+                    <div
+                      dangerouslySetInnerHTML={{ __html: getContent }}
+                      style={{
+                        padding: "10px",
+                        marginTop: "10px",
+                      }}
+                      className="min-w-full text-center"
+                    />
+                  ) : (
+                    ""
+                  )}
+                </div>
                 <h1 className="font-mono font-bold text-3xl text-center mt-5">
                   {item.type}
                 </h1>
@@ -107,6 +123,7 @@ function Defaultpage(props) {
                     )}
                   </div>
                 </div>
+
                 <Horizontal />
                 <h1 className="font-mono font-bold text-3xl text-center my-5">
                   Menus
