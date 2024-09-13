@@ -67,6 +67,7 @@ const Carousel = ({ items }) => {
             <Card
               title={item.title}
               link={item.title}
+              desc={item.desc}
               src={item.image}
               hidden={true}
               style={{ width: "200px", height: "300px" }}
