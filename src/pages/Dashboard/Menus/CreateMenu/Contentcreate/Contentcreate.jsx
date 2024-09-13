@@ -6,6 +6,8 @@ import TextEditor from "../../../../../components/Texteditor/Texteditor";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd, faMinus } from "@fortawesome/free-solid-svg-icons";
 import UploadImage from "../../../../../components/UploadImage/UploadImage";
+import { useBusinessPost } from "../../../../../helper/database/useBusinessData";
+import socialmedia from "../../../../../content/socialmedia.json";
 
 function Contentcreate(props) {
   const { downTree, path, category, name } = props;
@@ -16,6 +18,7 @@ function Contentcreate(props) {
   const [editorContent, setEditorContent] = useState("");
   const [addTextLine, setAddTextLine] = useState([{ id: 1, value: "" }]);
   const [newTextLine, setNewTextLine] = useState({});
+  const { fetchBusinessContent, result, businessLoad } = useBusinessPost();
   const [TextLine, setTextLine] = useState({
     title: "",
     description: "",
@@ -24,7 +27,7 @@ function Contentcreate(props) {
     email: "",
     location: "",
     service: "",
-    website: ""
+    website: "",
   });
   const [entries, setEntries] = useState([
     {
@@ -32,6 +35,13 @@ function Contentcreate(props) {
       imagePreview: null,
       personnelName: "",
       position: "",
+    },
+  ]);
+  const [socialText, setSocialText] = useState([
+    {
+      id: 1,
+      link: "",
+      social: "",
     },
   ]);
 
@@ -44,16 +54,17 @@ function Contentcreate(props) {
     TextLine: { required: TextLine, option: newTextLine },
     TextEditor: editorContent,
   };
+
   const initialBusinessContent = {
     Treeview: {
       parent: selectedValue,
       child: selectChildValue,
       name: name,
     },
-    TextLine: { required: TextLine, option: newTextLine },
+    TextLine: { required: TextLine, option: newTextLine, social: socialText },
     TextEditor: editorContent,
     Personnel: { entries },
-  }
+  };
 
   useEffect(() => {
     if (name === "Business") {
@@ -135,10 +146,14 @@ function Contentcreate(props) {
   const handleChildDropdownChange = (e) => {
     setSelectChildValue(e.target.value);
   };
+
   const handleSave = (e) => {
     e.preventDefault();
-    if (name === "Business") console.log(initialBusinessContent);
-    console.log(initialSelectionContent);
+    if (name === "Business") {
+      fetchBusinessContent(initialBusinessContent);
+    } else {
+      console.log(initialSelectionContent);
+    }
   };
   const handleContentChange = (content) => {
     setEditorContent(content);
@@ -219,7 +234,7 @@ function Contentcreate(props) {
   };
 
   const handleAddNewEntry = () => {
-    const newId = Date.now(); 
+    const newId = Date.now();
     setEntries((prevEntries) => [
       ...prevEntries,
       {
@@ -231,6 +246,34 @@ function Contentcreate(props) {
     ]);
   };
 
+  // Handle text input changes for link field
+  const handleSocialText = (e, index) => {
+    const { name, value } = e.target;
+    setSocialText((prev) =>
+      prev.map((item, i) => (i === index ? { ...item, [name]: value } : item))
+    );
+  };
+
+  const handleSocialDropDown = (selectedOption, index) => {
+
+    setSocialText((prev) =>
+      prev.map((item, i) =>
+        i === index ? { ...item, social: selectedOption.target.value } : item
+      )
+    );
+  };
+
+  const handleAddSocial = () => {
+    setSocialText((prev) => [
+      ...prev,
+      {
+        id: Date.now(), 
+        social: "",
+        link: "",
+      },
+    ]);
+  };
+  console.log(socialText);
   return (
     <div className="p-5">
       <div className="flex flex-col border rounded-lg shadow-lg min-w-80 min-h-80">
@@ -353,7 +396,7 @@ function Contentcreate(props) {
                 onChange={handleTextLineChange}
               />
             </div>
-            
+
             <div className="flex  flex-col w-full">
               <label htmlFor="Body">Body Content</label>
               <TextEditor
@@ -366,7 +409,9 @@ function Contentcreate(props) {
               />
             </div>
             <div className="flex  flex-col w-full">
-              <label htmlFor="Image">Image Title</label>
+              <label htmlFor="Image">
+                {name === "Business" ? "Product Image Link" : "Image Link"}
+              </label>
               <div className="flex flex-wrap  max-w-full gap-1">
                 {/* Default Textline */}
                 <div className="flex gap-2 min-w-full">
@@ -470,34 +515,40 @@ function Contentcreate(props) {
               </div>
             )}
             <div className="flex  flex-wrap w-full p-2 gap-3">
-              <div className="flex flex-col">
-                <label htmlFor="Title">Telegram link</label>
-                <Textline
-                  className={
-                    "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
+              {socialText.map((item, index) => (
+                <div className="flex flex-col" key={item.id}>
+                  <Dropdown
+                    options={socialmedia.dropdown}
+                    name="social"
+                    placeholder={
+                      item.social === "" ? "Select Social Media" : item.social
+                    } // Show placeholder if no value is selected
+                    value={item.social || ""} // If item.social is undefined, fallback to an empty string
+                    onChange={(selectedOption) =>
+                      handleSocialDropDown(selectedOption, index)
+                    } // Update the selected value
+                  />
+                  <Textline
+                    className={
+                      "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
+                    }
+                    type={"text"}
+                    name="link" // This should match the name field used in `handleSocialText`
+                    value={item.link}
+                    onChange={(e) => handleSocialText(e, index)}
+                    placeholder={"Enter social media link (optional)"}
+                  />
+                </div>
+              ))}
+              <div className=" flex items-center">
+                <Button
+                  icon={
+                    <FontAwesomeIcon
+                      icon={faAdd}
+                      className="border p-3 mt-2 rounded-lg hover:bg-blue-500 hover:text-white"
+                    />
                   }
-                  type={"text"}
-                  placeholder={"Enter Telegram link Optional"}
-                />
-              </div>
-              <div className="flex flex-col">
-                <label htmlFor="Title">Gmail link</label>
-                <Textline
-                  className={
-                    "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
-                  }
-                  type={"text"}
-                  placeholder={"Enter gmail link Optional"}
-                />
-              </div>
-              <div className="flex flex-col">
-                <label htmlFor="Title">Kakaotalk link</label>
-                <Textline
-                  className={
-                    "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
-                  }
-                  type={"text"}
-                  placeholder={"Enter Kakaotalk link Optional"}
+                  onClick={handleAddSocial} // Use onClick for adding new social field
                 />
               </div>
             </div>

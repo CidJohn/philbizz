@@ -45,7 +45,7 @@ export const useHomeBusiness = () => {
         setLaodHeader(false);
       }
     };
-    
+
     if (!isFetched.current) {
       fetchingData();
       isFetched.current = true;
@@ -113,33 +113,54 @@ export const useCompanyFilter = (props) => {
   return { CompanyFilter, CompanyLoading };
 };
 
-export const useCompanyView = () => {
+export const useCompanyView = (companydata) => {
   const [viewData, setViewData] = useState([]);
   const [viewloading, setLoading] = useState(true);
   const API_CALL = restAPI();
+  useEffect(() => {
+    const fecthCompanyView = async () => {
+      if (!companydata) return;
+      try {
+        const param = new URLSearchParams();
+        if (companydata) param.append("company", companydata);
+        const response = await axios.get(
+          `${API_CALL.host}/business-company-viewpage?${param.toString()}`
+        );
+        const res = response.data;
+        setViewData(res);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const fecthCompanyView = async (companydata) => {
-    if (!companydata) return;
+    fecthCompanyView();
+  }, [companydata]);
+
+  return { viewData, viewloading };
+};
+
+export const useBusinessPost = () => {
+  const [result, setResult] = useState("");
+  const [businessLoad, setLoading] = useState(true);
+  const API_CALL = restAPI();
+
+  const fetchBusinessContent = async (initialData) => {
     try {
-      const param = new URLSearchParams();
-      if (companydata) param.append("company", companydata);
-      const response = await axios.get(
-        `${API_CALL.host}/business-company-viewpage?${param.toString()}`
+      const response = await axios.post(
+        `${API_CALL.host}/company/content/data`,
+        initialData
       );
-      const res = response.data;
-      setViewData(res);
+      const res = await response.data;
+      setResult(res);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    fecthCompanyView();
-  }, []);
-
-  return { viewData, viewloading, fecthCompanyView };
+  return { fetchBusinessContent, result, businessLoad };
 };
 
 export default useBusinessData;

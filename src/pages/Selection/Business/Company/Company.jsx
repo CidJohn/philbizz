@@ -12,18 +12,19 @@ import Table from "../../../../components/Table/Table";
 
 const Company = (props) => {
   const { CompanyData } = props;
-  const { location, state } = useLocation();
+  const { state } = useLocation();
   const { title } = state || { title: null };
   const [getCompanyInfo, setCompanyInfo] = useState([]);
+  const [companyName, setCompanyName] = useState("");
   const [getCompanyImages, setCompanyImages] = useState([]);
   const [getCompanyProduct, setCompanyProduct] = useState([]);
   const [getCompanySocial, setCompanySocial] = useState([]);
-  const { viewData, vieloading, fecthCompanyView } = useCompanyView();
+  const [personnel, setPersonnel] = useState([]);
+  const { viewData, vieloading } = useCompanyView(companyName);
+
   useEffect(() => {
     const cardname = CompanyData
-      ? CompanyData?.find(
-          (item) => `/${item.title}` === title || item.title === title
-        )?.title || ""
+      ? CompanyData?.find((item) => item.title === title)?.title || ""
       : "";
     const getCompanyInfo = CompanyData
       ? CompanyData.find((item) => item.title === cardname)
@@ -35,12 +36,16 @@ const Company = (props) => {
     const getSocial = viewData.socials
       ? viewData.socials.map((item) => item)
       : [];
+    const getPerson = viewData.personnel
+      ? viewData.personnel.map((item) => item)
+      : [];
 
+    setPersonnel(getPerson);
     setCompanySocial(getSocial);
     setCompanyImages(getImage);
     setCompanyProduct(getProduct);
     setCompanyInfo(getCompanyInfo);
-    fecthCompanyView(cardname);
+    setCompanyName(cardname);
   }, [CompanyData, viewData]);
 
   if (!viewData.companyName) {
@@ -98,7 +103,7 @@ const Company = (props) => {
     },
     {
       Information: "URL:",
-      Details: (
+      Details: website.length ? (
         <a
           href={website}
           target={"_black"}
@@ -106,10 +111,12 @@ const Company = (props) => {
         >
           {website}
         </a>
+      ) : (
+        "N/A"
       ),
     },
   ];
-  const personnel = [];
+  console.log(viewData);
   return (
     <div className="flex flex-col mx-auto max-w-srceen-md items-center p-5">
       <div className="text-2xl p-3 font-bold">"{viewData.companyName}"</div>
@@ -136,6 +143,14 @@ const Company = (props) => {
                     src={item.companyImage}
                     style={{ width: "500px", height: "400px" }}
                     className="transform transition-transform duration-500 hover:scale-105"
+                  />
+                  <div
+                    dangerouslySetInnerHTML={{ __html: item.content }}
+                    style={{
+                      padding: "10px",
+                      marginTop: "10px",
+                    }}
+                    className="min-w-full text-center"
                   />
                 </div>
               ))}
@@ -167,11 +182,11 @@ const Company = (props) => {
           </div>
         </div>
       </section>
-      {!personnel ? (
+      {personnel ? (
         <section id="personnel">
           <div className="text-2xl font-bold mt-5 p-2">Personnel</div>
           <div className=" max-w-screen-md p-3">
-            <Carousel items={personnelContent} />
+            <Carousel items={personnel} />
           </div>
         </section>
       ) : (

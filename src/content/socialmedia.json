@@ -1,0 +1,28 @@
+{
+    "dropdown": [
+        {
+            "label":"Facebook",
+            "value":"facebook"
+        },
+        {
+            "label":"Telegram",
+            "value":"telegram"
+        },
+        {
+            "label":"Kakaotalk",
+            "value":"kakaotalk"
+        },
+        {
+            "label":"Website",
+            "value":"website"
+        },
+        {
+            "label":"WhatsApps",
+            "value":"whatsapps"
+        },
+        {
+            "label":"WeChat",
+            "value":"wechat"
+        }
+    ]
+}
