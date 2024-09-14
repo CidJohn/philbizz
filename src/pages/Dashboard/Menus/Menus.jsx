@@ -8,10 +8,8 @@ import Table from "../../../components/Table/Table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Searchbar from "../../../components/Searchbar/Searchbar";
-import { faEdit } from "@fortawesome/free-regular-svg-icons";
 import Blogmenu from "./Blogmenu/Blogmenu";
 import useBusinessCategory from "../../../helper/database/usebusinessCategory";
-import Categories from "../../../components/Categories/Categories";
 import Swal from "sweetalert2";
 
 function Menus(props) {
@@ -190,7 +188,12 @@ function Menus(props) {
   return (
     <div>
       {name === "Blog" ? (
-        <Blogmenu handleBack={handleBack} path={path} pageName={name} blog={blogData} />
+        <Blogmenu
+          handleBack={handleBack}
+          path={path}
+          pageName={name}
+          blog={blogData}
+        />
       ) : (
         <div className="flex flex-col p-5 ">
           <div className="flex px-5 gap-1 justify-between">
@@ -214,32 +217,36 @@ function Menus(props) {
                 {name === "Business" ? `${name} Category` : `${name} Tree View`}
               </div>
               <div className="bg-white capitalize flex flex-col p-2 border-b-2 border-r-2 border-l-2  border-dashed rounded-b-lg px-10 h-[70vh] overflow-hidden hover:overflow-y-scroll ">
-                {getTreeview.length ? (
+                {name === "Business" ? (
+                  getCategory ? (
+                    getCategory.map((item, index) => (
+                      <>
+                        <div className="text-lg bg-blue-500 p-1 min-w-full font-bold">
+                          {item.title}
+                        </div>
+                        <ul className="px-4 py-2">
+                          {item.links.map((items, index) => (
+                            <>
+                              <Button
+                                className="flex flex-col hover:ms-2 hover:underline underline-offset-4 hover:font-bold text-md decoration-pink-500 decoration-2"
+                                text={items.name}
+                                onClick={handleCategory}
+                              />
+                            </>
+                          ))}
+                        </ul>
+                      </>
+                    ))
+                  ) : (
+                    "Add New"
+                  )
+                ) : getTreeview.length ? (
                   <TreeView
                     treeViewContent={getTreeview}
                     onItemClick={handleTreeview}
                   />
-                ) : getCategory ? (
-                  getCategory.map((item, index) => (
-                    <>
-                      <div className="text-lg bg-blue-500 p-1 min-w-full font-bold">
-                        {item.title}
-                      </div>
-                      <ul className="px-4 py-2">
-                        {item.links.map((items, index) => (
-                          <>
-                            <Button
-                              className="flex flex-col hover:ms-2 hover:underline underline-offset-4 hover:font-bold text-md decoration-pink-500 decoration-2"
-                              text={items.name}
-                              onClick={handleCategory}
-                            />
-                          </>
-                        ))}
-                      </ul>
-                    </>
-                  ))
                 ) : (
-                  ""
+                  "Add New"
                 )}
               </div>
               <div className="flex py-2">

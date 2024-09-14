@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import Textline from "../../../../../components/Textline/Textline";
 import Button from "../../../../../components/Button/Button";
+import { useCreateTreeView } from "../../../../../helper/database/useCardSettings";
 
 const Treeviewcreate = (props) => {
   const { path, treeview, name } = props;
   const [parent, setParent] = useState("");
   const [child, setChild] = useState("");
   const [treeViewChild, setTreeViewChild] = useState([]);
+  const { fetchTreeCreate, resultNew, treeload } = useCreateTreeView();
 
   const treeAdd = {
     parent: parent,
     child: treeViewChild,
     path: path,
-    name: name,
   };
 
   const handleChildAdd = (e) => {
@@ -23,7 +24,8 @@ const Treeviewcreate = (props) => {
   };
 
   const handleCreate = () => {
-    console.log(treeAdd);
+    fetchTreeCreate(treeAdd);
+    console.log(resultNew);
   };
 
   return (
