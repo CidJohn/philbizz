@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Textline from "../../../../../components/Textline/Textline";
 import Button from "../../../../../components/Button/Button";
 import { useCreateTreeView } from "../../../../../helper/database/useCardSettings";
+import { useCreateNewCategory } from "../../../../../helper/database/useBusinessData";
 
 const Treeviewcreate = (props) => {
   const { path, treeview, name } = props;
@@ -9,6 +10,8 @@ const Treeviewcreate = (props) => {
   const [child, setChild] = useState("");
   const [treeViewChild, setTreeViewChild] = useState([]);
   const { fetchTreeCreate, resultNew, treeload } = useCreateTreeView();
+  const { fetchCreateNewCategory, resultCategoryNew, loadNew } =
+    useCreateNewCategory();
 
   const treeAdd = {
     parent: parent,
@@ -24,8 +27,13 @@ const Treeviewcreate = (props) => {
   };
 
   const handleCreate = () => {
-    fetchTreeCreate(treeAdd);
-    console.log(resultNew);
+    if (name === "Business") {
+      fetchCreateNewCategory(treeAdd);
+      console.log(resultCategoryNew);
+    } else {
+      fetchTreeCreate(treeAdd);
+      console.log(resultNew);
+    }
   };
 
   return (

@@ -163,4 +163,104 @@ export const useBusinessPost = () => {
   return { fetchBusinessContent, result, businessLoad };
 };
 
+export const useCategoryHeaderUp = () => {
+  const [resultHeader, setResult] = useState();
+  const [loadHeader, setLoader] = useState(true);
+  const API_CALL = restAPI();
+  const fetchCategoryHeader = async (data) => {
+    const { header, path } = data;
+    const initializeData = {
+      header: header,
+      path: path,
+    };
+    try {
+      const response = await axios.put(
+        `${API_CALL.host}/category/put/header/data`,
+        initializeData
+      );
+      const res = await response.data;
+      setResult(res);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  return { fetchCategoryHeader, resultHeader, loadHeader };
+};
+
+export const useChildCategory = () => {
+  const [resultChild, setResult] = useState("");
+  const [loaderChild, setLoader] = useState(true);
+  const API_CALL = restAPI();
+
+  const fetchChildCategory = async (data) => {
+    try {
+      const response = await axios.put(
+        `${API_CALL.host}/category/child/put/data`,
+        { child: data.child }
+      );
+      const res = await response.data;
+      setResult(res);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  return { fetchChildCategory, resultChild, loaderChild };
+};
+
+export const useCategoryAddChild = () => {
+  const [addResult, setResult] = useState("");
+  const [loadNewAdd, setLoader] = useState(true);
+  const API_CALL = restAPI();
+  const fetchCateogryAddNewChild = async (data) => {
+    const initialAddNew = {
+      path: data.path,
+      addNew: data.addNew,
+    };
+    if (!data.addNew) return;
+    try {
+      const response = await axios.post(
+        `${API_CALL.host}/category/post/child-update/data`,
+        initialAddNew
+      );
+      const res = await response.data;
+      setResult(res);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  return { fetchCateogryAddNewChild, addResult, loadNewAdd };
+};
+
+export const useCreateNewCategory = () => {
+  const [resultCategoryNew, setResult] = useState("");
+  const [loadNew, setLoader] = useState(true);
+  const API_CALL = restAPI();
+
+  const fetchCreateNewCategory = async (data) => {
+    try {
+      const response = await axios.post(
+        `${API_CALL.host}/category/post/data`,
+        data
+      );
+      const res = await response.data;
+      setResult(res);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  return { fetchCreateNewCategory, resultCategoryNew, loadNew };
+};
+
 export default useBusinessData;
