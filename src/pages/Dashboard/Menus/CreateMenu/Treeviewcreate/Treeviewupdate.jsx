@@ -4,15 +4,21 @@ import Button from "../../../../../components/Button/Button";
 import BusinessUpdate from "./businessTreeView/BusinessUpdate";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
+import {
+  useTreeChildUp,
+  useTreevieUpdate,
+  useTreeViewCreate,
+} from "../../../../../helper/database/useCardSettings";
 
 function Treeviewupdate(props) {
   const { treeview, name, path, business } = props;
-
-  // Manage the state of the text lines based on the path
   const [textLinesParent, setTextLinesParent] = useState({});
   const [textLinesChild, setTextLinesChild] = useState({});
   const [initialsData, setInitialsData] = useState(null);
   const [addTextline, setTextLine] = useState({});
+  const { fetchTreeChildUp, resultChild } = useTreeChildUp();
+  const { fetchTreeUpdate, resultUp } = useTreevieUpdate();
+  const { fetchTreeCreate, resultNew } = useTreeViewCreate();
 
   useEffect(() => {
     const parentTextLines = {};
@@ -43,7 +49,6 @@ function Treeviewupdate(props) {
       setTextLinesParent((prev) => ({
         ...prev,
         [name]: newValue,
-        path: path,
       }));
     }
   };
@@ -53,9 +58,12 @@ function Treeviewupdate(props) {
       parent: textLinesParent,
       child: textLinesChild,
       addNew: addTextline,
-      path: path
+      path: path,
     };
-    console.log(data);
+
+    fetchTreeChildUp(data);
+    fetchTreeCreate(data);
+    fetchTreeUpdate(data);
   };
 
   const handleDynamicTextlineChange = (header, id, newValue) => {
