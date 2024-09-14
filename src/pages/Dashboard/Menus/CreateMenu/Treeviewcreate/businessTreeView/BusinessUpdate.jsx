@@ -3,9 +3,20 @@ import Textline from "../../../../../../components/Textline/Textline";
 import Button from "../../../../../../components/Button/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
+import {
+  useCategoryAddChild,
+  useCategoryHeaderUp,
+  useChildCategory,
+} from "../../../../../../helper/database/useBusinessData";
 
 function BusinessUpdate(props) {
   const { business, path } = props;
+  const { fetchCategoryHeader, resultHeader, loadHeader } =
+    useCategoryHeaderUp();
+  const { fetchCateogryAddNewChild, addResult, loadNewAdd } =
+    useCategoryAddChild();
+  const { fetchChildCategory, resultChild, loaderChild } = useChildCategory();
+
   const [addTextline, setTextLine] = useState({});
   const [headerCategory, setHeaderCategory] = useState(() =>
     business.reduce((acc, item) => {
@@ -26,7 +37,7 @@ function BusinessUpdate(props) {
     if (isChild) {
       setChildCategory((prev) => ({
         ...prev,
-        [key]: newValue,
+        [key]: { id: key, name: newValue },
       }));
     } else {
       setHeaderCategory((prev) => ({
@@ -41,9 +52,11 @@ function BusinessUpdate(props) {
       header: headerCategory,
       child: childCategory,
       addNew: addTextline,
-      path: path
+      path: path,
     };
-    console.log(initialData);
+    fetchCategoryHeader(initialData);
+    fetchCateogryAddNewChild(initialData);
+    fetchChildCategory(initialData);
   };
 
   const handleAdd = (header) => {
