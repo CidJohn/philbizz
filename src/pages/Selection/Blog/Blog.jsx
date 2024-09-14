@@ -44,9 +44,9 @@ const Blog = () => {
   const handleCommentOpen = () => {
     setCommentOpen(!isCommentOpen);
   };
-  const handleLink = (item) => {
-    navigate(`/${item}`, { state: { title: item } });
-  }
+  const handleLink = (item, user) => {
+    navigate(`/${item}`, { state: { title: item, user: user } });
+  };
 
   return (
     <div className="container mx-auto max-w-screen-md">

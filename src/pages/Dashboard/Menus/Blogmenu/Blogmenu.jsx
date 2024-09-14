@@ -24,7 +24,7 @@ const Blogmenu = (props) => {
     console.log(data);
   };
   const handleBlogView = (data) => {
-    setBlogTitle(data.title);
+    setBlogTitle({title:data.title, user:data.username});
   };
 
   const handleSearch = async (e) => {

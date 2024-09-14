@@ -7,8 +7,14 @@ import BlogComment from "../../pages/Selection/Blog/BlogComment/BlogComment";
 import { useBlogLiked } from "../../helper/database/useBlogSettings";
 
 const HandleBlog = (props) => {
-  const { blogdata, imagelink, handleCommentOpen, isCommentOpen, userdata, handleLink } =
-    props;
+  const {
+    blogdata,
+    imagelink,
+    handleCommentOpen,
+    isCommentOpen,
+    userdata,
+    handleLink,
+  } = props;
   const [getCommentID, setCommentID] = useState(null);
 
   const { fetchBlogLike, fetchInitialLikes, dataliked, setDataLiked } =
@@ -62,8 +68,10 @@ const HandleBlog = (props) => {
             desc={item.description}
             className={"border-none shadow-none"}
             user={item.username}
-            onLink={() => handleLink(item.title)}
-            binaryImage={imagelink.image + item.imageURL}
+            onLink={() => handleLink(item.title, item.username)}
+            binaryImage={
+              !item.image ? imagelink.image + item.imageURL : item.image
+            }
             classreverse={"flex-row-reverse"}
             imgstyle={{ width: "100px", height: "70px" }}
             datetime={item.created_at}

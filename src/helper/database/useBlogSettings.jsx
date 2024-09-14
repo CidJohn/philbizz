@@ -29,22 +29,25 @@ const useBlogSettings = () => {
   return { blogData, blogload };
 };
 
-export const useBlogContent = (title) => {
+export const useBlogContent = (props) => {
+  const { title, user } = props;
   const [content, setContent] = useState([]);
   const [contentload, setLoading] = useState(true);
   const API_CALL = restAPI();
 
   useEffect(() => {
     const trimmedTitle = title?.trim();
-
+    const trimmedUser = user?.trim();
+    const initialData = {
+      title: trimmedTitle,
+      username: trimmedUser,
+    };
     const fetchContent = async () => {
-      if (!trimmedTitle) return;
+      if (!trimmedTitle || !trimmedUser) return;
       try {
-        const param = new URLSearchParams();
-        if (trimmedTitle) param.append("title", trimmedTitle);
-        const response = await axios.get(
-          `${API_CALL.host}/blog-content?${param.toString()}`
-        );
+        const response = await axios.get(`${API_CALL.host}/blog-content`, {
+          params: initialData,
+        });
         const res = response.data;
         setContent(res);
       } catch (error) {
@@ -55,7 +58,7 @@ export const useBlogContent = (title) => {
     };
 
     fetchContent();
-  }, [title]);
+  }, [title, user]);
 
   return { content, contentload };
 };
@@ -277,6 +280,29 @@ export const useBlogLiked = () => {
   };
 
   return { fetchBlogLike, fetchInitialLikes, dataliked, setDataLiked };
+};
+
+export const usePostBlogContent = () => {
+  const [result, setResult] = useState("");
+  const [postloading, setLoading] = useState(true);
+  const API_CALL = restAPI();
+
+  const fetchPostBlog = async (initialData) => {
+    try {
+      const response = await axios.post(
+        `${API_CALL.host}/blog/content/data`,
+        initialData
+      );
+      const res = await response.data;
+      setResult(res);
+    } catch (error) {
+      console.error("Error fetching like status:", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { result, postloading, fetchPostBlog };
 };
 
 export default useBlogSettings;

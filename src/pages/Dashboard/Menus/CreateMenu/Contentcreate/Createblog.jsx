@@ -3,9 +3,11 @@ import Textline from "../../../../../components/Textline/Textline";
 import TextEditor from "../../../../../components/Texteditor/Texteditor";
 import UploadImage from "../../../../../components/UploadImage/UploadImage";
 import Button from "../../../../../components/Button/Button";
+import { usePostBlogContent } from "../../../../../helper/database/useBlogSettings";
 
 function Createblog(props) {
   const { name, path } = props;
+  const { fetchPostBlog, result, postloading } = usePostBlogContent();
   const [editorContent, setEditorContent] = useState("");
   const [imageInsert, setImageInsert] = useState([
     {
@@ -49,7 +51,9 @@ function Createblog(props) {
       header: { text: textline, image: imageInsert.imagePreview },
       content: editorContent,
     };
+    fetchPostBlog(initials);
     console.log(initials);
+    console.log(result);
   };
 
   return (
