@@ -12,7 +12,6 @@ import { Gmail, Kakaotalk, Telegram } from "../../../components/svg/Icons";
 import Swal from "sweetalert2";
 import GoogleMapEmbed from "../../../components/GoogleMapEmbed/GoogleMapEmbed";
 import MaintenancePage from "../../../components/Maintenance/Maintenance";
-import DOMPurify from "dompurify";
 
 function Defaultpage(props) {
   const { cardpath, load } = props;
@@ -30,7 +29,7 @@ function Defaultpage(props) {
     setContent(content);
     setCard(path);
     setTitle(path);
-  }, [cardpath, title]);
+  }, [cardpath, title, getData]);
 
   const copyToClipboard = (text, message) => {
     navigator.clipboard
