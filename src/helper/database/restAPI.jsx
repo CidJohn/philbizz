@@ -4,9 +4,9 @@ const restAPI = () => {
   const imageURL = process.env.REACT_APP_IMAGE_URL;
   const imageURL2 = process.env.REACT_APP_IMAGE_SERVER;
   const API_CALL = {
-    host: apiUrl2 + "/content",
-    auth: apiUrl2 + "/auth",
-    image: imageURL2 + "/images/",
+    host: apiUrl + "/content",
+    auth: apiUrl + "/auth",
+    image: imageURL + "/images/",
   };
   return API_CALL;
 };
