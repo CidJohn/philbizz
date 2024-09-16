@@ -44,7 +44,7 @@ export const HeroBanner = ({ blogData }) => {
     <div className={`flex  flex-col lg:flex-row  gap-3 `}>
       {" "}
       <div className="flex flex-col-reverse lg:flex-row min-w-80 gap-3">
-        <div className="flex flex-wrap justify-center border-gray-300 hover:border-blue-300 rounded-lg shadow-r p-2  border-2 lg:max-w-80">
+        <div className="flex flex-wrap justify-center  rounded-lg shadow-r p-2   lg:max-w-80">
           {getBlog
             ? getBlog.map((item, index) => (
                 <div

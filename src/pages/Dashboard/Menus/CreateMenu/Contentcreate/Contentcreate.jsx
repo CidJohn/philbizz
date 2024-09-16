@@ -10,19 +10,24 @@ import { useBusinessPost } from "../../../../../helper/database/useBusinessData"
 import socialmedia from "../../../../../content/socialmedia.json";
 import { useCreateCardContent } from "../../../../../helper/database/useCardSettings";
 import Createblog from "./Createblog";
+import {
+  useCardInfo,
+  useImgCardURL,
+} from "../../../../../helper/database/useCardInfo";
 
 function Contentcreate(props) {
-  const { downTree, path, category, name } = props;
+  const { downTree, path, category, name, title, location } = props;
   const [dropdownOptions, setDropdownOptions] = useState([]);
   const [dropdownChildOptions, setDropDownChild] = useState([]);
   const [selectedValue, setSelectedValue] = useState("");
   const [selectChildValue, setSelectChildValue] = useState("");
   const [editorContent, setEditorContent] = useState("");
-  const [addTextLine, setAddTextLine] = useState([{ id: 1, value: "" }]);
+  const [addTextLine, setAddTextLine] = useState([{}]);
   const [newTextLine, setNewTextLine] = useState({});
   const { fetchBusinessContent, result, businessLoad } = useBusinessPost();
   const { fetchCreateCard, resultCard, cardload } = useCreateCardContent();
-
+  const { getData, getURL, loadData } = useCardInfo(title);
+  const { getImage, loadImage } = useImgCardURL(title);
   const [TextLine, setTextLine] = useState({
     title: "",
     description: "",
@@ -48,7 +53,6 @@ function Contentcreate(props) {
       social: "",
     },
   ]);
-
   const initialSelectionContent = {
     Treeview: {
       parent: selectedValue,
@@ -69,6 +73,26 @@ function Contentcreate(props) {
     TextEditor: editorContent,
     Personnel: { entries },
   };
+
+  useEffect(() => {
+    if (getData) {
+      getData.map((item) => {
+        setTextLine({
+          title: item.Name,
+          description: item.desc,
+          image: item.icon_image,
+          contact: item.contact,
+          email: item.email,
+          service: item.type,
+          location: getURL,
+        });
+        setEditorContent(item.Content);
+      });
+    }
+    const textLink = getImage ? getImage.map((item) => item.imageURL) : [];
+
+    setAddTextLine((prev) => [...textLink.map((url) => ({ value: url }))]);
+  }, [getData, getURL, getImage]);
 
   useEffect(() => {
     if (name === "Business") {
@@ -106,7 +130,7 @@ function Contentcreate(props) {
             label: location,
           })),
         ];
-
+        console.log(downTree);
         setDropdownOptions(optionsList);
 
         if (optionsList.length > 0) {
@@ -305,7 +329,9 @@ function Contentcreate(props) {
                   id="child"
                   placeholder={
                     !selectedValue
-                      ? "Select Parent First"
+                      ? location
+                        ? location
+                        : "Select Parent First"
                       : selectChildValue
                       ? selectChildValue
                       : "Select Child"
@@ -313,7 +339,12 @@ function Contentcreate(props) {
                   value={selectChildValue}
                   options={
                     !selectedValue
-                      ? [{ value: "", label: "Select Parent First" }]
+                      ? [
+                          {
+                            value: location ? location : "",
+                            label: location ? location : "Select Parent First",
+                          },
+                        ]
                       : dropdownChildOptions
                   }
                   onChange={handleChildDropdownChange}
