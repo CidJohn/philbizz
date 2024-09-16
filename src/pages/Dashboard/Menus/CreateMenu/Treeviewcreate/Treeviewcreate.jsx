@@ -5,7 +5,7 @@ import { useCreateTreeView } from "../../../../../helper/database/useCardSetting
 import { useCreateNewCategory } from "../../../../../helper/database/useBusinessData";
 
 const Treeviewcreate = (props) => {
-  const { path, treeview, name } = props;
+  const { path, name } = props;
   const [parent, setParent] = useState("");
   const [child, setChild] = useState("");
   const [treeViewChild, setTreeViewChild] = useState([]);

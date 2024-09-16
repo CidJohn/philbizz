@@ -1,7 +1,8 @@
 import React from "react";
 import Dateformat from "../Dateformat/Dateformat";
 
-const Table = ({ tblheader, tbldata, tblrow, onView, onDelete }) => {
+const Table = (props) => {
+  const { tblheader, tbldata, tblrow, onView, onDelete, onUpdate } = props
   return (
     <div className="relative overflow-hidden hover:overflow-x-auto hover:overflow-y-scroll">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 ">
@@ -41,8 +42,16 @@ const Table = ({ tblheader, tbldata, tblrow, onView, onDelete }) => {
                       )}
                     </td>
                   ))}
-                  {onView || onDelete ? (
+                  {onView || onDelete || onUpdate ? (
                     <td className="px-6 py-4 flex space-x-2 sticky right-0 bg-white">
+                      {onUpdate && (
+                        <button
+                          onClick={() => onUpdate(data)}
+                          className="text-green-600 hover:underline"
+                        >
+                          Update
+                        </button>
+                      )}
                       {onView && (
                         <button
                           onClick={() => onView(data)}

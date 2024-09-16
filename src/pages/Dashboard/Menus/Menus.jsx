@@ -86,14 +86,22 @@ function Menus(props) {
     setSelectectItem(id);
   };
 
-  const handlOnView = (data) => {
+  const handlOnUpdate = (item) => {
     if (name === "Business") {
-      navigate(`/dashboard/business/${data.title}`, {
-        state: { title: data.title },
+      navigate(`/dashboard/business/${item.title}`, {
+        state: { title: item.title },
       });
     } else {
-      navigate(`/dashboard/viewpage/${data.title}`, {
-        state: { title: data.title },
+      navigate(`/dashboard/Form/Create`, {
+        state: {
+          title: item.title,
+          name: name,
+          path: path,
+          treeviewdata: data,
+          cardlocation: card
+            ? card.find((items) => items.title === item.title)?.location
+            : [],
+        },
       });
     }
   };
@@ -180,7 +188,7 @@ function Menus(props) {
         tblheader={["Title", "Address"]}
         tbldata={data}
         tblrow={["title", "description"]}
-        onView={handlOnView}
+        onUpdate={handlOnUpdate}
         onDelete={handleOnDelete}
       />
     );

@@ -11,19 +11,28 @@ import Treeviewupdate from "./Treeviewcreate/Treeviewupdate";
 const Createmenu = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { name, path, content, treeviewdata, businessCategory } = state || {
+  const {
+    name,
+    path,
+    content,
+    treeviewdata,
+    businessCategory,
+    title,
+    cardlocation,
+  } = state || {
     name: null,
     path: null,
     content: null,
     treeviewdata: null,
-    businessCategory: null
+    businessCategory: null,
+    title: null,
+    cardlocation: null,
   };
   const [isCreateOpen, setCreateOpen] = useState(false);
 
   const handleBack = () => {
     navigate(-1);
   };
-
   const handleCreateView = () => {
     setCreateOpen(!isCreateOpen);
   };
@@ -43,7 +52,16 @@ const Createmenu = () => {
   };
 
   const renderCardContent = () => {
-    return <Contentcreate name={name} path={path} downTree={treeviewdata} category={businessCategory} />;
+    return (
+      <Contentcreate
+        name={name}
+        path={path}
+        downTree={treeviewdata}
+        category={businessCategory}
+        title={title}
+        location={cardlocation}
+      />
+    );
   };
 
   const renderTreeview = () => {
@@ -56,7 +74,12 @@ const Createmenu = () => {
           }
           onClick={handleCreateView}
         />
-        <Treeviewupdate treeview={treeviewdata} name={name} path={path} business={businessCategory} />
+        <Treeviewupdate
+          treeview={treeviewdata}
+          name={name}
+          path={path}
+          business={businessCategory}
+        />
       </>
     );
   };
