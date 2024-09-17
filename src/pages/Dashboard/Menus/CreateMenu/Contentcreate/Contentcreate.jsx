@@ -6,7 +6,10 @@ import TextEditor from "../../../../../components/Texteditor/Texteditor";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd, faMinus } from "@fortawesome/free-solid-svg-icons";
 import UploadImage from "../../../../../components/UploadImage/UploadImage";
-import { useBusinessPost } from "../../../../../helper/database/useBusinessData";
+import {
+  useBusinessPost,
+  useCompanyView,
+} from "../../../../../helper/database/useBusinessData";
 import socialmedia from "../../../../../content/socialmedia.json";
 import { useCreateCardContent } from "../../../../../helper/database/useCardSettings";
 import Createblog from "./Createblog";
@@ -28,6 +31,8 @@ function Contentcreate(props) {
   const { fetchCreateCard, resultCard, cardload } = useCreateCardContent();
   const { getData, getURL, loadData } = useCardInfo(title);
   const { getImage, loadImage } = useImgCardURL(title);
+  const { viewData, vieloading } = useCompanyView(title);
+
   const [TextLine, setTextLine] = useState({
     title: "",
     description: "",
@@ -53,26 +58,88 @@ function Contentcreate(props) {
       social: "",
     },
   ]);
+
   const initialSelectionContent = {
     Treeview: {
       parent: selectedValue,
-      child: selectChildValue,
+      child: !selectChildValue ? location : selectChildValue,
       name: name,
+      title: title,
+      childloc: location,
     },
     TextLine: { required: TextLine, option: newTextLine, social: socialText },
     TextEditor: editorContent,
   };
-
   const initialBusinessContent = {
     Treeview: {
       parent: selectedValue,
       child: selectChildValue,
       name: name,
+      title: title,
+      childloc: location,
     },
     TextLine: { required: TextLine, option: newTextLine, social: socialText },
     TextEditor: editorContent,
     Personnel: { entries },
   };
+  console.log(initialBusinessContent);
+  useEffect(() => {
+    if (viewData.info) {
+      viewData.info.map((item) => {
+        setTextLine({
+          title: item.companyName,
+          description: item.address,
+          image: item.imgLOGO,
+          contact: item.contact,
+          email: item.email,
+          location: item.locationURL,
+          service: item.person,
+          website: "",
+        });
+      });
+    }
+    if (viewData.images) {
+      viewData.images.map((item) => {
+        setEditorContent(item.content);
+      });
+    }
+    if (viewData.personnels) {
+      const personnel = viewData.personnels
+        ? viewData.personnels.map((item) => item)
+        : [];
+      setEntries(() => [
+        ...personnel.map((item) => ({
+          personnelName: item.personName,
+          position: item.position,
+          imagePreview: item.personPhoto,
+        })),
+      ]);
+    }
+    if (viewData.product) {
+      const product = viewData.product
+        ? viewData.product.map((item) => item)
+        : [];
+      setAddTextLine(() => [
+        ...product.map((item) => ({
+          value: item.productImage,
+        })),
+      ]);
+      setNewTextLine(() => [
+        ...product.map((item) => ({
+          value: item.productImage,
+        })),
+      ]);
+    }
+    if (viewData.socials) {
+      const socials = viewData.socials.map((item) => item);
+      setSocialText(() => [
+        ...socials.map((item) => ({
+          social: item.SocialMedia,
+          link: item.SocialValue,
+        })),
+      ]);
+    }
+  }, [viewData.info, viewData.images, viewData.personnels, viewData.socials]);
 
   useEffect(() => {
     if (getData) {
@@ -89,9 +156,14 @@ function Contentcreate(props) {
         setEditorContent(item.Content);
       });
     }
-    const textLink = getImage ? getImage.map((item) => item.imageURL) : [];
+    const textLink = getImage ? getImage.map((item) => item) : [];
 
-    setAddTextLine((prev) => [...textLink.map((url) => ({ value: url }))]);
+    setAddTextLine((prev) => [
+      ...textLink.map((url) => ({ id: url.childID, value: url.imageURL })),
+    ]);
+    setNewTextLine(() => ({
+      ...textLink.map((url) => ({ id: url.childID, value: url.imageURL })),
+    }));
   }, [getData, getURL, getImage]);
 
   useEffect(() => {
@@ -130,7 +202,6 @@ function Contentcreate(props) {
             label: location,
           })),
         ];
-        console.log(downTree);
         setDropdownOptions(optionsList);
 
         if (optionsList.length > 0) {
@@ -449,7 +520,6 @@ function Contentcreate(props) {
                   {name === "Business" ? "Product Image Link" : "Image Link"}
                 </label>
                 <div className="flex flex-wrap  max-w-full gap-1">
-                  {/* Default Textline */}
                   <div className="flex gap-2 min-w-full">
                     <div className="w-full">
                       <Textline
@@ -465,7 +535,7 @@ function Contentcreate(props) {
                   </div>
 
                   {/* Conditionally render the dynamically added Textlines only if at least one has been added */}
-                  {TextLine.image.length > 0 && (
+                  {TextLine.image !== "" && (
                     <div className=" min-w-full ">
                       {addTextLine.map((textLine, index) => (
                         <div
@@ -557,31 +627,33 @@ function Contentcreate(props) {
                 </div>
               )}
               <div className="flex  flex-wrap w-full p-2 gap-3">
-                {socialText.map((item, index) => (
-                  <div className="flex flex-col" key={item.id}>
-                    <Dropdown
-                      options={socialmedia.dropdown}
-                      name="social"
-                      placeholder={
-                        item.social === "" ? "Select Social Media" : item.social
-                      } // Show placeholder if no value is selected
-                      value={item.social || ""} // If item.social is undefined, fallback to an empty string
-                      onChange={(selectedOption) =>
-                        handleSocialDropDown(selectedOption, index)
-                      } // Update the selected value
-                    />
-                    <Textline
-                      className={
-                        "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
-                      }
-                      type={"text"}
-                      name="link" // This should match the name field used in `handleSocialText`
-                      value={item.link}
-                      onChange={(e) => handleSocialText(e, index)}
-                      placeholder={"Enter social media link (optional)"}
-                    />
-                  </div>
-                ))}
+                {socialText &&
+                  socialText.map((item, index) => (
+                    <div className="flex flex-col" key={index}>
+                      <Dropdown
+                        options={socialmedia.dropdown}
+                        name="social"
+                        placeholder={
+                          item.social === ""
+                            ? "Select Social Media"
+                            : item.social
+                        }
+                        value={item.social}
+                        onChange={(selectedOption) =>
+                          handleSocialDropDown(selectedOption, index)
+                        }
+                      />
+                      <Textline
+                        className="w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
+                        type={"text"}
+                        name="link"
+                        value={item.link}
+                        onChange={(e) => handleSocialText(e, index)}
+                        placeholder="Enter social media link (optional)"
+                      />
+                    </div>
+                  ))}
+
                 <div className=" flex items-center">
                   <Button
                     icon={
