@@ -62,8 +62,8 @@ export const HeroBanner = ({ blogData }) => {
               ))
             : ""}
         </div>
-        <div className="flex flex-col p-5 gap-3 min-w-80   border-gray-300 hover:border-red-300  border-2 rounded-lg ">
-          <div className="flex flex-col transform transition-transform duration-500 hover:scale-105">
+        <div className="flex flex-col p-5 gap-3 min-w-80    rounded-lg ">
+          <div className="flex flex-col transform transition-transform duration-500 hover:scale-100">
             <h1 className="text-4xl  m-2 font-bold">News Updates</h1>
 
             {getArticles.length > 0 ? (
@@ -72,7 +72,7 @@ export const HeroBanner = ({ blogData }) => {
               cardContent.map((item, index) => (
                 <div
                   key={index}
-                  className="flex p-5 border-b-2 rounded-lg items-center transform transition-transform duration-500 hover:scale-105"
+                  className="flex p-5  items-center transform transition-transform duration-500 hover:scale-105"
                 >
                   <Images src={item.images} style={{ width: "150px" }} />
                   <div className="p-2">
@@ -104,7 +104,7 @@ export const HeroBanner = ({ blogData }) => {
           </div>
         </div>
       </div>
-      <div className="flex md:flex-col  lg:px-3 border-gray-300 hover:border-green-300 border-2  rounded-lg  gap-5 lg:min-w-80 py-5 ">
+      <div className="flex md:flex-col  lg:px-3   gap-5 lg:min-w-80 py-5 ">
         <div className="z-20 flex mx-auto  rounded-lg shadow-md transform transition-transform duration-500 hover:scale-105 ">
           <DigitalClock />
         </div>

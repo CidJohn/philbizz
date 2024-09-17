@@ -29,7 +29,7 @@ function Layout({ children, navbar }) {
             <div className="flex-grow">{React.cloneElement(children)}</div>
           </div>
           <div className="">
-            <div className=" ">
+            <div className="">
               <Footer />
             </div>
           </div>

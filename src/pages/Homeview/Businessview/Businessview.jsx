@@ -95,7 +95,8 @@ const Businessview = (props) => {
         </div>
       ) : (
         <div className=" flex flex-col md:flex-row  gap-3  ">
-          <div className="flex flex-col  border-2 border-gray-300 hover:border-violet-300 rounded-lg ">
+          <div className="flex flex-col   rounded-lg ">
+            {/*sticky top-0 */}
             <div className=" min-w-80 sticky top-0">
               {Object.keys(groupedTreeView).map((name) => (
                 <div key={name} className="p-2">
@@ -113,12 +114,11 @@ const Businessview = (props) => {
             </div>
           </div>
           <div className="flex">
-            <div className="flex flex-col border-2 border-gray-300 hover:border-yellow-300 rounded-lg ">
+            <div className="flex flex-col  rounded-lg ">
               {listItems.map((item, index) => (
                 <div className=" p-5 min-w-full mx-auto" key={index}>
                   <Listedcard
                     section={item.title}
-                    title={item.title}
                     listItems={item.list}
                     listclass={"text-sm"}
                     listclasses={"hover:bg-slate-100  "}
@@ -127,7 +127,7 @@ const Businessview = (props) => {
               ))}
             </div>
           </div>
-          <div className="flex flex-col border-2 rounded-lg  min-w-80 p-2 hover:border-orange-300">
+          <div className="flex flex-col min-w-80 p-2 ">
             <div className="sticky top-5">
               <div className="transform transition-transform duration-500 hover:scale-105 ">
                 <h1 className="text-3xl  mx-2 font-bold">Calendar</h1>
@@ -155,14 +155,14 @@ const Businessview = (props) => {
           </div>
         </div>
       )}
-      <div className="max-w-screen-sm md:max-w-screen-md lg:min-w-full mt-3 mx-auto border-2 rounded-lg p-2">
+      {/* <div className="max-w-screen-sm md:max-w-screen-md lg:min-w-full mt-3 mx-auto border-2 rounded-lg p-2">
         <h1 className="text-4xl   underline decoration-sky-500 decoration-double decoration-2 underline-offset-8">
           {t("Companies")}
         </h1>
         <div className="flex mx-auto">
           <Carousel items={carousel} />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
