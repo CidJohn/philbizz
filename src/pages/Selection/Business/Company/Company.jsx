@@ -116,7 +116,7 @@ const Company = (props) => {
       ),
     },
   ];
-  console.log(viewData);
+  
   return (
     <div className="flex flex-col mx-auto max-w-srceen-md items-center p-5">
       <div className="text-2xl p-3 font-bold">"{viewData.companyName}"</div>

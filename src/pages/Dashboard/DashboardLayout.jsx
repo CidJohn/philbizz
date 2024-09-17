@@ -15,7 +15,7 @@ const DashboardLayout = ({ children, props }) => {
             <div className="flex sticky top-0 h-screen  ">
               <Sidebar navbar={navbar} />
             </div>
-            <div className="flex min-w-80 h-screen">
+            <div className="flex min-w-80 h-full">
               {React.cloneElement(children)}
             </div>
           </div>

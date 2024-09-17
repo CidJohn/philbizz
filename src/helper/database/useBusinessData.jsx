@@ -117,6 +117,7 @@ export const useCompanyView = (companydata) => {
   const [viewData, setViewData] = useState([]);
   const [viewloading, setLoading] = useState(true);
   const API_CALL = restAPI();
+
   useEffect(() => {
     const fecthCompanyView = async () => {
       if (!companydata) return;
@@ -124,9 +125,33 @@ export const useCompanyView = (companydata) => {
         const param = new URLSearchParams();
         if (companydata) param.append("company", companydata);
         const response = await axios.get(
-          `${API_CALL.host}/business-company-viewpage?${param.toString()}`
+          `${API_CALL.host}/business-company-viewpage`,
+          { params: { company: companydata } }
         );
-        const res = response.data;
+        const responseImageUrl = await axios.get(
+          `${API_CALL.host}/business-company-images`,
+          { params: { company: companydata } }
+        );
+        const responsePersonnel = await axios.get(
+          `${API_CALL.host}/business-company-personnel`,
+          { params: { company: companydata } }
+        );
+        const responseProduct = await axios.get(
+          `${API_CALL.host}/business-company-product`,
+          { params: { company: companydata } }
+        );
+        const responseSocial = await axios.get(
+          `${API_CALL.host}/business-company-socials`,
+          { params: { company: companydata } }
+        );
+        const res = {
+          info: response.data,
+          images: responseImageUrl.data,
+          personnels: responsePersonnel.data,
+          product: responseProduct.data,
+          socials: responseSocial.data,
+        };
+
         setViewData(res);
       } catch (error) {
         console.error("Error fetching data:", error);

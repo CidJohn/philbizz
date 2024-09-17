@@ -88,8 +88,16 @@ function Menus(props) {
 
   const handlOnUpdate = (item) => {
     if (name === "Business") {
-      navigate(`/dashboard/business/${item.title}`, {
-        state: { title: item.title },
+      navigate(`/dashboard/Form/Create`, {
+        state: {
+          title: item.title,
+          name: name,
+          path: path,
+          businessCategory: getCategory,
+          cardlocation: getBusiness
+            ? getBusiness.find((items) => items.name === item.name)?.parentName
+            : [],
+        },
       });
     } else {
       navigate(`/dashboard/Form/Create`, {
@@ -140,14 +148,14 @@ function Menus(props) {
     } else {
       setTreeviewFilter([]);
       setFilterCategoryData([]);
-      if (getBusiness) {
+      if (name === "Business") {
         const filteredResults = await getBusiness.filter((item) =>
-          item.title.toLowerCase().includes(e.title)
+          item.title.toLowerCase().includes(e.title.toLowerCase())
         );
         setSearchValueBusiness(filteredResults);
       } else {
         const filteredResults = await businessTypes.filter((item) =>
-          item.title.toLowerCase().includes(e.title)
+          item.title.toLowerCase().includes(e.title.toLowerCase())
         );
         setSearchValue(filteredResults);
       }

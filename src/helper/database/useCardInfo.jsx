@@ -39,9 +39,9 @@ export const useImgCardURL = (type) => {
   useEffect(() => {
     const fetchingData = async () => {
       try {
-        if (!type) return; // Add a check for undefined type
+        if (!type) return; 
         const results = await axios.get(`${API_CALL.host}/imageURL/${type}`);
-        const data = await results.data; // No need for await here since results.data is synchronous
+        const data = await results.data; 
         setImage(data);
       } catch (error) {
         console.error("Error fetching data:", error);
