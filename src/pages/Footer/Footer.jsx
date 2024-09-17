@@ -10,9 +10,9 @@ import Link from "../../components/Link/Link";
 
 function Footer() {
   return (
-    <footer className="bg-white rounded-lg shadow dark:bg-gray-900 mt-4 p-1 min-w-full  md:mx-auto ">
-      <div className="  p-4 md:py-5 ">
-        <div className="flex flex-wrap items-center justify-between h-full max-h-24 max-w-screen-xl">
+    <footer className="bg-white dark:bg-gray-900 mt-4 p-1 w-[85vw]  md:mx-auto  ">
+      <div className="  p-4 md:py-5 flex flex-col justify-center ">
+        <div className="flex flex-wrap items-center justify-between h-full max-h-24 min-w-full  ">
           <a href="/" className="flex items-center mb-4 sm:mb-0 space-x-3  ">
             <Image src={"philbizz.png"} style={{ width: "200px" }} />
           </a>
