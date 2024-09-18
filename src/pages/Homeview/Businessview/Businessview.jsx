@@ -47,6 +47,7 @@ const Businessview = (props) => {
         .filter((item) => item.Header === "Festival")
         .slice(0, 4);
       setFestival(filteredFestival);
+
     }
 
     if (navbar) {
@@ -68,11 +69,13 @@ const Businessview = (props) => {
       setGroupedTreeView(groupedData);
     }
   }, [header, navbar, data]);
+
   const listItems = [
     { title: "Food", list: getFood },
     { title: "Festival", list: getFestival },
     { title: "Beauty", list: getBeauty },
   ];
+
   const carousel = Array.isArray(businessCarousel)
     ? businessCarousel.slice(0, 10)
     : [];
@@ -90,20 +93,20 @@ const Businessview = (props) => {
   return (
     <div className="flex flex-wrap ">
       {laodHeader ? (
-        <div className="flex items-center justify-center min-h-screen mx-auto">
+        <div className="flex  justify-center min-h-screen mx-auto">
           <Spinner />
         </div>
       ) : (
-        <div className=" flex flex-col md:flex-row  gap-3  ">
+        <div className=" flex flex-col md:flex-row  gap-3   mx-auto">
           <div className="flex flex-col   rounded-lg ">
             {/*sticky top-0 */}
-            <div className=" min-w-80 sticky top-0">
+            <div className=" min-w-64 sticky top-0">
               {Object.keys(groupedTreeView).map((name) => (
-                <div key={name} className="p-2">
+                <div key={name} className="p-2 ">
                   <h3 className="font-bold text-2xl my-2  bg-blue-300 px-2">
                     {name}
                   </h3>
-                  <div className="p-2">
+                  <div className="p-2 border">
                     <TreeView
                       treeViewContent={groupedTreeView[name]}
                       onItemClick={handleClick}

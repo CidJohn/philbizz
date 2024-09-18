@@ -42,6 +42,7 @@ function Contentcreate(props) {
     location: "",
     service: "",
     website: "",
+    address: "",
   });
   const [entries, setEntries] = useState([
     {
@@ -82,26 +83,26 @@ function Contentcreate(props) {
     TextEditor: editorContent,
     Personnel: { entries },
   };
-  console.log(initialBusinessContent);
   useEffect(() => {
     if (viewData.info) {
       viewData.info.map((item) => {
         setTextLine({
           title: item.companyName,
-          description: item.address,
+          description: item.description,
           image: item.imgLOGO,
           contact: item.contact,
           email: item.email,
           location: item.locationURL,
           service: item.person,
           website: "",
+          address: item.address,
         });
       });
     }
     if (viewData.images) {
-      viewData.images.map((item) => {
-        setEditorContent(item.content);
-      });
+      // Assuming you only want the first image's content, otherwise handle array properly
+      const imageContent = viewData.images.map((item) => item.content).join("");
+      setEditorContent(imageContent);
     }
     if (viewData.personnels) {
       const personnel = viewData.personnels
@@ -109,6 +110,7 @@ function Contentcreate(props) {
         : [];
       setEntries(() => [
         ...personnel.map((item) => ({
+          id: item.id,
           personnelName: item.personName,
           position: item.position,
           imagePreview: item.personPhoto,
@@ -121,11 +123,13 @@ function Contentcreate(props) {
         : [];
       setAddTextLine(() => [
         ...product.map((item) => ({
+          id: item.id,
           value: item.productImage,
         })),
       ]);
       setNewTextLine(() => [
         ...product.map((item) => ({
+          id: item.id,
           value: item.productImage,
         })),
       ]);
@@ -134,6 +138,7 @@ function Contentcreate(props) {
       const socials = viewData.socials.map((item) => item);
       setSocialText(() => [
         ...socials.map((item) => ({
+          id: item.id,
           social: item.SocialMedia,
           link: item.SocialValue,
         })),
@@ -249,11 +254,18 @@ function Contentcreate(props) {
   const handleSave = (e) => {
     e.preventDefault();
     if (name === "Business") {
-      fetchBusinessContent(initialBusinessContent);
+      if (title) {
+        console.log(initialBusinessContent);
+        //console.log(editorContent);
+      } else {
+        console.log("hi");
+        console.log(initialBusinessContent);
+        //fetchBusinessContent(initialBusinessContent);
+      }
     } else {
       fetchCreateCard(initialSelectionContent);
     }
-    console.log(result || resultCard);
+    //console.log(result || resultCard);
   };
   const handleContentChange = (content) => {
     setEditorContent(content);
@@ -372,7 +384,6 @@ function Contentcreate(props) {
       },
     ]);
   };
-
   return (
     <div className="p-5">
       {name === "Blog" ? (
@@ -437,13 +448,26 @@ function Contentcreate(props) {
                 />
               </div>
               <div className="flex  flex-col w-full">
+                <label htmlFor="Description">Address</label>
+                <Textline
+                  className={
+                    "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
+                  }
+                  type={"text"}
+                  placeholder={"Enter Description"}
+                  value={TextLine.address}
+                  name={"address"}
+                  onChange={handleTextLineChange}
+                />
+              </div>
+              <div className="flex  flex-col w-full">
                 <label htmlFor="Description">Description</label>
                 <Textline
                   className={
                     "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
                   }
                   type={"text"}
-                  placeholder={"Enter Address"}
+                  placeholder={"Enter Description"}
                   value={TextLine.description}
                   name={"description"}
                   onChange={handleTextLineChange}

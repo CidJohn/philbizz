@@ -95,7 +95,8 @@ function Menus(props) {
           path: path,
           businessCategory: getCategory,
           cardlocation: getBusiness
-            ? getBusiness.find((items) => items.name === item.name)?.parentName
+            ? getBusiness.find((items) => items.title === item.title)
+                ?.parentName
             : [],
         },
       });
