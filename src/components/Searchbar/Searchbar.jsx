@@ -49,7 +49,7 @@ const SearchBar = ({ onSearch, handleModalOpen, hidden }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex items-center max-w-sm gap-3  "
+      className="flex items-center max-w-sm gap-3 "
     >
       <label htmlFor="simple-search-title" className="sr-only">
         {t("search")}

@@ -10,16 +10,17 @@ import DigitalClock from "../../../components/DigitalClock/DigitalClock";
 import useNewsFeed from "../../../helper/fetchAPI/useNewsFeed";
 import NewsFeed from "../../../components/NewsFeed/NewsFeed";
 import Currency from "../../../components/Currency/Currency";
-import useBlogSettings from "../../../helper/database/useBlogSettings";
 import restAPI from "../../../helper/database/restAPI";
-import Image from "../../../components/Image/Image";
+import { useHomeBusiness } from "../../../helper/database/useBusinessData";
+import Imagecarousel from "../../../components/Carousel/Imagecarousel";
 
 export const HeroBanner = ({ blogData }) => {
   const [getArticles, setArticles] = useState([]);
   const [getLat, setLat] = useState();
   const [getLan, setLan] = useState();
   const [getBlog, setBlog] = useState([]);
-
+  const [getImgCarousel, setImgCarousel] = useState([]);
+  const { header, laodHeader } = useHomeBusiness();
   const { t } = useTranslation();
   const { location } = useGeolocation();
   const { weatherData, loading, error } = useWeather(getLat, getLan);
@@ -39,12 +40,18 @@ export const HeroBanner = ({ blogData }) => {
       const filterBlog = blogData ? blogData.slice(0, 3) : [];
       setBlog(filterBlog);
     }
+
+    const filterTypes = header.filter((item) => item.types && item.title);
+    setImgCarousel(filterTypes);
   }, [location, getNewsData, blogData]);
+
   return (
-    <div className={`flex  flex-col lg:flex-row  gap-3 `}>
+    <div className={`flex  flex-col lg:flex-row  gap-3 justify-center`}>
       {" "}
-      <div className="flex flex-col-reverse lg:flex-row min-w-80 gap-3">
-        <div className="flex flex-wrap justify-center  rounded-lg shadow-r p-2   lg:max-w-80">
+      <div className="flex flex-col-reverse lg:flex-row min-w-80 gap-3  ">
+        <div className="flex flex-wrap justify-center  rounded-lg shadow-r p-5   lg:max-w-80">
+        <h1 className="text-4xl p-2 font-bold">Top Blogs</h1>
+
           {getBlog
             ? getBlog.map((item, index) => (
                 <div
@@ -62,29 +69,20 @@ export const HeroBanner = ({ blogData }) => {
               ))
             : ""}
         </div>
-        <div className="flex flex-col p-5 gap-3 min-w-80    rounded-lg ">
+        <div className="flex flex-col p-5 gap-3 w-full   ">
           <div className="flex flex-col transform transition-transform duration-500 hover:scale-100">
-            <h1 className="text-4xl  m-2 font-bold">News Updates</h1>
+            <h1 className="text-4xl p-2 font-bold">Top Headlines</h1>
 
             {getArticles.length > 0 ? (
               <NewsFeed articles={getArticles} />
             ) : (
-              cardContent.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex p-5  items-center transform transition-transform duration-500 hover:scale-105"
-                >
-                  <Images src={item.images} style={{ width: "150px" }} />
-                  <div className="p-2">
-                    <h1 className="text-lg font-bold">{item.title}</h1>
-                    <span className="text-sx">{item.desc}</span>
-                  </div>
-                </div>
-              ))
+              <div className="flex ">
+                <Imagecarousel images={getImgCarousel} />
+              </div>
             )}
           </div>
           <div className="flex flex-col transform transition-transform duration-500 hover:scale-105 ">
-            <h1 className="text-4xl  m-2 font-bold">Weather Forecast</h1>
+            <h1 className="text-4xl  p-2 font-bold">Weather Forecast</h1>
             <div className="flex flex-col p-2 ">
               {weatherData && (
                 <Weather
@@ -92,7 +90,7 @@ export const HeroBanner = ({ blogData }) => {
                   temperature={weatherData.temperature}
                   condition={weatherData.condition}
                   iconUrl={weatherData.iconUrl}
-                  weeklyForecast={weatherData.weeklyForecast} // Passing the weekly forecast data
+                  weeklyForecast={weatherData.weeklyForecast}
                 />
               )}
 
@@ -103,15 +101,16 @@ export const HeroBanner = ({ blogData }) => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="flex md:flex-col  lg:px-3   gap-5 lg:min-w-80 py-5 ">
-        <div className="z-20 flex mx-auto  rounded-lg shadow-md transform transition-transform duration-500 hover:scale-105 ">
+        <div className="flex md:flex-col  lg:px-3   gap-5 lg:min-w-80 py-5 ">
+        <div className="z-20 flex rounded-lg shadow transform transition-transform duration-500 hover:scale-105 ">
           <DigitalClock />
         </div>
         <div className="flex transform transition-transform duration-500 hover:scale-105 ">
           <Currency />
         </div>
       </div>
+      </div>
+      
     </div>
   );
 };

@@ -40,8 +40,8 @@ function DigitalClock() {
 
   return (
     <div>
-      <div className=" p-5 min-h-80 bg-white rounded-lg shadow-lg">
-        <h1 className=" text-4xl  m-2 font-bold">Digital Clock</h1>
+      <div className=" p-5 min-h-80 bg-white rounded-lg flex flex-col justify-center">
+        <h1 className=" text-4xl px-4 font-bold">Digital Clock</h1>
 
         <div
           className={`${

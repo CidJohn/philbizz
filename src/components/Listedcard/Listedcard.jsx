@@ -37,7 +37,7 @@ const Listedcard = (props) => {
                     desc={item.description}
                     image={item.images}
                     datetime={item.created_at}
-                    imgstyle={{ width: "15vw", height: "15vh" }}
+                    imgstyle={{ width: "10vw", height: "10vh" }}
                     className={
                       "w-full border-none shadow-none hover:bg-slate-100 "
                     }
@@ -46,14 +46,14 @@ const Listedcard = (props) => {
               ))
             : ""}
         </div>
-        <div className="mt-5 text-center">
+        {/* <div className="mt-5 text-center">
           <a
             href={`/${links}`}
             className=" p-2  text-gray-700 border  hover:bg-blue-500 hover:text-gray-100 rounded-lg"
           >
             View More {`>>`}
           </a>
-        </div>
+        </div> */}
       </section>
     </div>
   );

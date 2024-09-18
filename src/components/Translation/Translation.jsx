@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "../Button/Button";
 import i18n from "../../i18n/i18n";
+import Images from "../Image/Images";
 
 const Translation = ({ IsOpenMenu }) => {
   const changeLanguage = (lng) => {
@@ -13,30 +14,30 @@ const Translation = ({ IsOpenMenu }) => {
     >
       <Button
         onClick={() => changeLanguage("en")}
-        text={"English"}
+        icon={<Images src={"flagIcon/english.png"} style={{width: "20px"}} />}
         className={
           IsOpenMenu
             ? "flex items-start justify-start border rounded p-4 hover:bg-gray-400 text-gray-600 hover:text-gray-900"
-            : " border rounded p-2 hover:bg-gray-400 text-gray-600 hover:text-gray-900"
+            : " border rounded-full p-2 hover:bg-gray-400 text-gray-600 hover:text-gray-900"
         }
       />
 
       <Button
         onClick={() => changeLanguage("ko")}
-        text={"Korean"}
+        icon={<Images src={"flagIcon/korean.png"} style={{width: "20px"}} />}
         className={
           IsOpenMenu
             ? "flex items-start justify-start border rounded p-4 hover:bg-gray-400 text-gray-600 hover:text-gray-900"
-            : " border rounded p-2 hover:bg-gray-400 text-gray-600 hover:text-gray-900"
+            : " border rounded-full p-2 hover:bg-gray-400 text-gray-600 hover:text-gray-900"
         }
       />
       <Button
         onClick={() => changeLanguage("ja")}
-        text={"Japanese"}
+        icon={<Images src={"flagIcon/japanese.png"} style={{width: "20px"}} />}
         className={
           IsOpenMenu
             ? "flex items-start justify-start border rounded p-4 hover:bg-gray-400 text-gray-600 hover:text-gray-900"
-            : " border rounded p-2 hover:bg-gray-400 text-gray-600 hover:text-gray-900"
+            : " border rounded-full p-2 hover:bg-gray-400 text-gray-600 hover:text-gray-900"
         }
       />
     </div>
