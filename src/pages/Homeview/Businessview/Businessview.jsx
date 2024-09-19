@@ -100,7 +100,7 @@ const Businessview = (props) => {
         <div className=" flex flex-col md:flex-row  gap-3   mx-auto">
           <div className="flex flex-col   rounded-lg ">
             {/*sticky top-0 */}
-            <div className=" min-w-64 sticky top-0">
+            <div className=" min-w-64 ">
               {Object.keys(groupedTreeView).map((name) => (
                 <div key={name} className="p-2 ">
                   <h3 className="font-bold text-2xl my-2  bg-blue-300 px-2">

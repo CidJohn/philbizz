@@ -17,9 +17,10 @@ import {
   useCardInfo,
   useImgCardURL,
 } from "../../../../../helper/database/useCardInfo";
+import { useBlogContent } from "../../../../../helper/database/useBlogSettings";
 
 function Contentcreate(props) {
-  const { downTree, path, category, name, title, location } = props;
+  const { downTree, path, category, name, title, location, blogTitle } = props;
   const [dropdownOptions, setDropdownOptions] = useState([]);
   const [dropdownChildOptions, setDropDownChild] = useState([]);
   const [selectedValue, setSelectedValue] = useState("");
@@ -32,6 +33,7 @@ function Contentcreate(props) {
   const { getData, getURL, loadData } = useCardInfo(title);
   const { getImage, loadImage } = useImgCardURL(title);
   const { viewData, vieloading } = useCompanyView(title);
+  const { content, contentload } = useBlogContent(blogTitle ? blogTitle : "");
 
   const [TextLine, setTextLine] = useState({
     title: "",
@@ -388,7 +390,12 @@ function Contentcreate(props) {
     <div className="p-5">
       {name === "Blog" ? (
         <div className="flex min-w-full ">
-          <Createblog name={name} path={path} />
+          <Createblog
+            name={name}
+            path={path}
+            title={title}
+            blogContent={content}
+          />
         </div>
       ) : (
         <div className="flex flex-col border rounded-lg shadow-lg min-w-80 min-h-80  bg-gray-100">

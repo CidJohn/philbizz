@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Textline from "../../../../../components/Textline/Textline";
 import TextEditor from "../../../../../components/Texteditor/Texteditor";
 import UploadImage from "../../../../../components/UploadImage/UploadImage";
 import Button from "../../../../../components/Button/Button";
 import { usePostBlogContent } from "../../../../../helper/database/useBlogSettings";
+import restAPI from "../../../../../helper/database/restAPI";
 
 function Createblog(props) {
-  const { name, path } = props;
+  const imagelink = restAPI();
+  const { name, path, title, blogContent } = props;
   const { fetchPostBlog, result, postloading } = usePostBlogContent();
   const [editorContent, setEditorContent] = useState("");
   const [imageInsert, setImageInsert] = useState([
@@ -15,11 +17,32 @@ function Createblog(props) {
       imagePreview: null,
     },
   ]);
+
   const [textline, setTextLine] = useState({
     title: "",
     description: "",
   });
 
+  useEffect(() => {
+    if (blogContent) {
+      setTextLine({
+        title: blogContent.title ? blogContent.title : "",
+        description: blogContent.description ? blogContent.description : "",
+      });
+      setImageInsert({
+        imagePreview: blogContent.image2
+          ? blogContent.image2
+          : blogContent.image1
+          ? imagelink.image + blogContent.image1
+          : "",
+      });
+    }
+    if (blogContent.images) {
+      blogContent.images.map((item) => {
+        setEditorContent(item.content);
+      });
+    }
+  }, [blogContent]);
   const handleContentChange = (content) => {
     setEditorContent(content);
   };

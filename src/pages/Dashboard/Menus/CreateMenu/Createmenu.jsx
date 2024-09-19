@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Textline from "../../../../components/Textline/Textline";
 import Button from "../../../../components/Button/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
@@ -19,6 +18,7 @@ const Createmenu = () => {
     businessCategory,
     title,
     cardlocation,
+    blogTitle,
   } = state || {
     name: null,
     path: null,
@@ -27,15 +27,18 @@ const Createmenu = () => {
     businessCategory: null,
     title: null,
     cardlocation: null,
+    blogTitle: null,
   };
   const [isCreateOpen, setCreateOpen] = useState(false);
 
   const handleBack = () => {
     navigate(-1);
   };
+
   const handleCreateView = () => {
     setCreateOpen(!isCreateOpen);
   };
+
   const renderTreeContent = () => {
     return (
       <>
@@ -50,7 +53,6 @@ const Createmenu = () => {
       </>
     );
   };
-
   const renderCardContent = () => {
     return (
       <Contentcreate
@@ -60,6 +62,7 @@ const Createmenu = () => {
         category={businessCategory}
         title={title}
         location={cardlocation}
+        blogTitle={blogTitle}
       />
     );
   };

@@ -120,7 +120,7 @@ export const useCompanyView = (companydata) => {
 
   useEffect(() => {
     const fecthCompanyView = async () => {
-      if (!companydata) return;
+      if (!companydata) return "";
       try {
         const param = new URLSearchParams();
         if (companydata) param.append("company", companydata);
