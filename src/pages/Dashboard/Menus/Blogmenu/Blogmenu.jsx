@@ -20,11 +20,12 @@ const Blogmenu = (props) => {
     const imageblog = content.images ? content.images.map((item) => item) : [];
     setBlogImage(imageblog);
   }, [content]);
+
   const handleBlogDelete = (data) => {
     console.log(data);
   };
   const handleBlogView = (data) => {
-    setBlogTitle({title:data.title, user:data.username});
+    setBlogTitle({ title: data.title, user: data.username });
   };
 
   const handleSearch = async (e) => {
@@ -37,6 +38,17 @@ const Blogmenu = (props) => {
       setDataBlog(filterBlog);
     }
   };
+  const handleBlogUpdate = (item) => {
+    navigate("/dashboard/Form/Create", {
+      state: {
+        name: pageName,
+        path: path,
+        title: item.title,
+        user: item.username,
+        blogTitle: { title: item.title, user: item.username },
+      },
+    });
+  };
 
   const renderTable = (data) => {
     return (
@@ -46,8 +58,9 @@ const Blogmenu = (props) => {
             tblheader={["Title", "Date Time"]}
             tbldata={data}
             tblrow={["title", "created_at"]}
-            onView={handleBlogView}
+            onUpdate={handleBlogUpdate}
             onDelete={handleBlogDelete}
+            onView={handleBlogView}
           />
         </div>
       </>
@@ -56,7 +69,7 @@ const Blogmenu = (props) => {
 
   const handleCreate = () => {
     navigate("/dashboard/Form/Create", {
-      state: { name: pageName, path: path },
+      state: { name: pageName, path: path, title: blogTitle.title },
     });
   };
 

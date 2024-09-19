@@ -5,7 +5,7 @@ import Images from "../../../../components/Image/Images";
 export const BlogView = (props) => {
   const { content, blogImage } = props;
   const imagelink = restAPI();
-  console.log(content);
+ 
   return (
     <div className="w-full mx-auto mt-5">
       <div className=" text-center">
@@ -53,7 +53,7 @@ export const BlogView = (props) => {
           {blogImage ? (
             blogImage.map((item) => (
               <>
-                {console.log(item.content)}
+                
                 <div
                   dangerouslySetInnerHTML={{ __html: item.content }}
                   style={{

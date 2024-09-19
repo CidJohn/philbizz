@@ -43,7 +43,7 @@ export const useBlogContent = (props) => {
       username: trimmedUser,
     };
     const fetchContent = async () => {
-      if (!trimmedTitle || !trimmedUser) return;
+      if (!trimmedTitle || !trimmedUser || !props) return;
       try {
         const response = await axios.get(`${API_CALL.host}/blog-content`, {
           params: initialData,
