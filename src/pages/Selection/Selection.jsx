@@ -176,6 +176,7 @@ const Selection = ({ navbar }) => {
           itemsPerPage={itemsPerPage}
           searchResult={filteredData}
           handleLink={handleLink}
+          navbar={navbar}
         />
       )}
       handleDesc={() => <Description type={businesses} pageName={pageName} />}

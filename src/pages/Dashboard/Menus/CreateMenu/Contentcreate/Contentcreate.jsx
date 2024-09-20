@@ -386,6 +386,7 @@ function Contentcreate(props) {
       },
     ]);
   };
+
   return (
     <div className="p-5">
       {name === "Blog" ? (

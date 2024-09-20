@@ -40,13 +40,12 @@ function DigitalClock() {
 
   return (
     <div>
-      <div className=" p-5 min-h-80 bg-white rounded-lg flex flex-col justify-center">
-        <h1 className=" text-4xl px-4 font-bold">Digital Clock</h1>
+      <div className=" p-5 min-h-64 bg-white rounded-lg flex flex-col justify-center ">
 
         <div
           className={`${
             selectResult === "Philippines" ? "block" : "hidden"
-          } border-4 border-gray-500 rounded-lg px-10 py-5 text-center   `}
+          } border-4 border-gray-500 rounded-lg  py-4 text-center   `}
         >
           <span className="text-sm md:text-2xl font-bold text-gray-900">
             {currentTimePHT}
@@ -58,7 +57,7 @@ function DigitalClock() {
         <div
           className={`${
             selectResult === "Korea" ? "block" : "hidden"
-          } border-4 border-gray-500 rounded-lg px-10 py-5 text-center   `}
+          } border-4 border-gray-500 rounded-lg  py-4 text-center   `}
         >
           <span className="text-sm md:text-2xl font-bold text-gray-900">
             {currentTimeKST}
@@ -68,7 +67,7 @@ function DigitalClock() {
         <div
           className={`${
             selectResult === "Japan" ? "block" : "hidden"
-          } border-4 border-gray-500 rounded-lg px-10 py-5  text-center   `}
+          } border-4 border-gray-500 rounded-lg  py-4  text-center   `}
         >
           <span className="text-sm md:text-2xl font-bold text-gray-900">
             {currentTimeJST}
