@@ -26,6 +26,7 @@ function Createblog(props) {
   useEffect(() => {
     if (blogContent) {
       setTextLine({
+        id: blogContent.blogToken,
         title: blogContent.title ? blogContent.title : "",
         description: blogContent.description ? blogContent.description : "",
       });
@@ -43,6 +44,7 @@ function Createblog(props) {
       });
     }
   }, [blogContent]);
+
   const handleContentChange = (content) => {
     setEditorContent(content);
   };
@@ -75,6 +77,18 @@ function Createblog(props) {
       content: editorContent,
     };
     fetchPostBlog(initials);
+    console.log(initials);
+    console.log(result);
+  };
+  const handleUpdate = () => {
+    const initials = {
+      header: {
+        oldTitle: title,
+        text: textline,
+        image: imageInsert.imagePreview,
+      },
+      content: editorContent,
+    };
     console.log(initials);
     console.log(result);
   };
@@ -132,11 +146,11 @@ function Createblog(props) {
         </div>
         <div className="flex justify-center p-2 ">
           <Button
-            text={"Create New Post"}
+            text={title ? "Update Post" : "Create New Post"}
             className={
               "border p-2 bg-white rounded-lg hover:bg-green-700 hover:text-white"
             }
-            onClick={handleSavePost}
+            onClick={title ? handleUpdate : handleSavePost}
           />
         </div>
       </div>

@@ -97,7 +97,7 @@ const Businessview = (props) => {
           <Spinner />
         </div>
       ) : (
-        <div className=" flex flex-col md:flex-row  gap-3   mx-auto">
+        <div className=" flex flex-col md:flex-row  gap-3 w-[75vw]  mx-auto">
           <div className="flex flex-col   rounded-lg ">
             {/*sticky top-0 */}
             <div className=" min-w-64 ">

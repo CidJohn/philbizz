@@ -23,7 +23,6 @@ const Currency = () => {
 
   return (
     <div className=" mx-auto bg-white shadow-md rounded-lg p-6">
-      <h1 className="text-4xl  mx-2 font-bold">Currency Converter</h1>
 
       <div className="mb-4">
         <label className="block text-gray-700">Amount:</label>

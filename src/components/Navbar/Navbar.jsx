@@ -74,7 +74,7 @@ export default function Navbar(props) {
     return navitem.map((item, index) => (
       <div
         key={index}
-        className=" rounded p-2 relative mt-2 hover:text-gray-900  "
+        className="  p-2 relative mt-2 hover:text-gray-900  "
         onMouseEnter={() => setShowDropdown(item.name)}
       >
         <a
@@ -114,7 +114,7 @@ export default function Navbar(props) {
   return (
     <nav className={!hidden ? "bg-white " : "hidden"}>
       <div className="hidden md:block ">
-        <div className="flex items-center mx-auto  gap-10 max-w-[50vw] ">
+        <div className="flex items-center w-[75vw]  mx-auto">
           <div className="">
             <Translation />
           </div>
@@ -147,8 +147,8 @@ export default function Navbar(props) {
         </div>
       </div>
 
-      <div className="bg-white max-w-[55vw] px-4 sm:px-6 lg:px-8 mt-1 flex items-center justify-center mx-auto">
-        <div className="flex items-center justify-between h-16 ">
+      <div className="bg-white w-[75vw] border-b px-4 sm:px-6 lg:px-8  mx-auto shadow-inner">
+        <div className="flex items-center justify-between  ">
           <div className="hidden md:block mx-auto">
             <div className=" flex items-baseline space-x-1 relative gap-5 ">
               {!navbarData ? "" : !hidden ? navbarItem(navbarData) : ""}
