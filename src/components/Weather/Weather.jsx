@@ -13,7 +13,7 @@ const Weather = ({
     <div className=" bg-white shadow-md rounded-lg overflow-hidden">
       <div className="p-4">
         <h2 className="text-2xl font-bold text-gray-800">{location}</h2>
-        <Images src={iconUrl} alt={condition} className="w-16 h-16 mx-auto" />
+        <Images src={iconUrl} alt={condition} className="w-16 h-[13vh] mx-auto" />
         <p className="text-xl font-semibold text-gray-600">{temperature}°C</p>
         <p className="text-lg text-gray-500">{condition}</p>
       </div>

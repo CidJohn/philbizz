@@ -4,11 +4,11 @@ import Images from "../Image/Images";
 function Card({ title, src, desc, style, hidden, link, onLink }) {
   return (
     <div
-      className=" mx-1 bg-white  rounded-lg   dark:bg-gray-800 dark:border-gray-700 shadow border cursor-pointer"
+      className=" mx-1 bg-white   dark:bg-gray-800 dark:border-gray-700 shadow border cursor-pointer"
       style={style}
     >
       <a className="block" onClick={onLink}>
-        <div className=" w-full overflow-hidden rounded-t-lg">
+        <div className=" w-full overflow-hidden ">
           <div className="h-full">
             <Images
               src={src}

@@ -46,15 +46,15 @@ export const HeroBanner = ({ blogData }) => {
   }, [location, getNewsData, blogData]);
 
   return (
-    <div className="flex flex-col lg:flex-row w-[75vw]  mx-auto ">
-      <div className="flex flex-col-reverse lg:flex-row w-full">
-        <div className="flex flex-wrap justify-center rounded-lg p-5 lg:max-w-80">
+    <div className="flex flex-col lg:flex-row w-[75vw]   mx-auto">
+      <div className="flex flex-col-reverse lg:flex-row gap-2 ">
+        <div className="flex flex-col ">
           <h1 className="text-4xl p-2 font-bold">Top Blogs</h1>
           {getBlog
             ? getBlog.map((item, index) => (
                 <div
                   key={index}
-                  className="transform transition-transform duration-500 hover:scale-105 p-2 max-w-96 md:min-w-80"
+                  className="min-w-[15vw]  p-1 transform transition-transform duration-500 hover:scale-95"
                 >
                   <Card
                     src={imagelink.image + item.imageURL}
@@ -68,7 +68,7 @@ export const HeroBanner = ({ blogData }) => {
             : ""}
         </div>
 
-        <div className="flex flex-col p-5 gap-3 w-full">
+        <div className="flex flex-col  gap-3 w-full ">
           <div className="flex flex-col">
             <h1 className="text-4xl p-2 font-bold">Top Headlines</h1>
             {getArticles.length > 0 ? (
@@ -80,7 +80,7 @@ export const HeroBanner = ({ blogData }) => {
             )}
           </div>
 
-          <div className="flex flex-col transform transition-transform duration-500 hover:scale-105">
+          <div className="flex flex-col transform transition-transform duration-500 hover:scale-95  h-full ">
             <h1 className="text-4xl p-2 font-bold">Weather Forecast</h1>
             <div className="flex flex-col p-2">
               {weatherData && (
@@ -99,16 +99,16 @@ export const HeroBanner = ({ blogData }) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col lg:flex-col lg:px-3 gap-5 lg:min-w-80 py-5 w-full">
+        <div className="flex flex-col lg:flex-col lg:px-2  lg:min-w-80 py-5 w-[10vw] ">
         <h1 className=" text-2xl px-2 font-bold">Digital Clock</h1>
-          <div className="z-20 flex rounded-lg shadow transform transition-transform duration-500 hover:scale-105 w-full">
+          <div className="z-20 flex rounded-lg shadow transform transition-transform duration-500 hover:scale-95 w-full">
             <div className="w-full">
               <DigitalClock />
             </div>
           </div>
 
           <h1 className="text-2xl p-2 font-bold">Currency Converter</h1>
-          <div className="flex  transform transition-transform duration-500 hover:scale-105 w-full p-5">
+          <div className="flex  transform transition-transform duration-500 hover:scale-95 w-full ">
             <div className="w-full">
               <Currency />
             </div>

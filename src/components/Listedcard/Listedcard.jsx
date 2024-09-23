@@ -30,12 +30,12 @@ const Listedcard = (props) => {
         <div className=" ">
           {listItems
             ? listItems.map((item, index) => (
-                <div key={index} className=" border-b-2 rounded-lg ">
+                <div key={index} className=" border-b ">
                   <List
                     onLink={() => handleLink(item.title)}
                     title={item.title}
                     desc={item.description}
-                    image={item.images}
+                    image={item.images || item.image}
                     datetime={item.created_at}
                     imgstyle={{ width: "10vw", height: "10vh" }}
                     className={
