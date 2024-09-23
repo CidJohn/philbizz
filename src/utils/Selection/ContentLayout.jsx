@@ -22,15 +22,20 @@ const ContentLayout = ({
   totalPages,
   currentItems,
   sideAds,
-  handleDesc,
+  desc,
   handleLink,
 }) => {
   return (
-    <div className="container mx-auto flex ">
-      <div className="mt-10">{renderTreeView()}</div>
+    <div className="container mx-auto flex  w-[75vw] gap-3 ">
+      <div className=" mt-2">
+       
+        {renderTreeView()}
+      </div>
       <div className="flex flex-col">
-        <div className="flex flex-col min-w-80">
-          <div className="">{handleDesc()}</div>
+        <div className="flex flex-col ">
+          <div className="">
+            <Description type={desc} pageName={adName} />
+          </div>
           <section id="cards" className="sticky top-5">
             <div className="flex flex-col">
               <Horizontal />
@@ -55,7 +60,7 @@ const ContentLayout = ({
                   <SearchBar hidden={true} onSearch={handleOnSearch} />
                 </div>
               </div>
-              <div className=" mt-5 flex flex-wrap justify-center ">
+              <div className=" mt-3 grid grid-cols-3  gap-2 ">
                 {handleCards(currentItems)}
               </div>
             </div>
@@ -78,8 +83,8 @@ const ContentLayout = ({
           )}
         </div>
       </div>
-      <div className="flex max-w-screen-md hidden lg:block ">
-        <div className="mt-5 sticky top-0">
+      <div className="flex  hidden lg:block mt-2 ">
+        <div className="sticky top-5">
           <h1 className="text-2xl font-bold mb-4 text-center">
             {adName} Latest Ads
           </h1>
@@ -90,7 +95,7 @@ const ContentLayout = ({
                 title={item.title}
                 desc={item.description}
                 style={{
-                  width: "300px",
+                  width: "200px",
                   backgroundSize: "cover",
                   height: "350px",
                 }}

@@ -68,17 +68,22 @@ const Businessview = (props) => {
       }, {});
       setGroupedTreeView(groupedData);
     }
+
   }, [header, navbar, data]);
+
+  const carousel = Array.isArray(businessCarousel)
+  ? businessCarousel.slice(0, 4)
+  : [];
+
 
   const listItems = [
     { title: "Food", list: getFood },
     { title: "Festival", list: getFestival },
     { title: "Beauty", list: getBeauty },
+    { title: "Company", list: carousel },
   ];
 
-  const carousel = Array.isArray(businessCarousel)
-    ? businessCarousel.slice(0, 10)
-    : [];
+
 
   const handleClick = (id, path) => {
     const formattedPath = path.startsWith("/") ? path.replace("/", "") : path;
@@ -91,7 +96,7 @@ const Businessview = (props) => {
   };
 
   return (
-    <div className="flex flex-wrap ">
+    <div className="flex flex-wrap border w-[75vw] mx-auto">
       {laodHeader ? (
         <div className="flex  justify-center min-h-screen mx-auto">
           <Spinner />
@@ -100,7 +105,7 @@ const Businessview = (props) => {
         <div className=" flex flex-col md:flex-row  gap-3 w-[75vw]  mx-auto">
           <div className="flex flex-col   rounded-lg ">
             {/*sticky top-0 */}
-            <div className=" min-w-64 ">
+            <div className=" w-[16vw] ">
               {Object.keys(groupedTreeView).map((name) => (
                 <div key={name} className="p-2 ">
                   <h3 className="font-bold text-2xl my-2  bg-blue-300 px-2">
@@ -117,9 +122,9 @@ const Businessview = (props) => {
             </div>
           </div>
           <div className="flex">
-            <div className="flex flex-col  rounded-lg ">
+            <div className="flex flex-col   ">
               {listItems.map((item, index) => (
-                <div className=" p-5 min-w-full mx-auto" key={index}>
+                <div className="  min-w-full mx-auto" key={index}>
                   <Listedcard
                     section={item.title}
                     listItems={item.list}

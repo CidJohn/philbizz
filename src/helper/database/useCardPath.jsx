@@ -33,7 +33,7 @@ export const useCardPath = () => {
 export const useCardDesc = (type) => {
   const [descload, setDescLoad] = useState(true);
   const [businesses, setBusinesses] = useState([]);
-  const isFetched = useRef(false);
+  //const isFetched = useRef(false);
   const API_CALL = restAPI();
   useEffect(() => {
     const fetchData = async () => {
@@ -51,10 +51,11 @@ export const useCardDesc = (type) => {
       }
     };
 
-    if (!isFetched.current) {
-      fetchData();
-      isFetched.current = true;
-    }
+    fetchData()
+    // if (!isFetched.current) {
+    //   fetchData();
+    //   isFetched.current = true;
+    // }
   }, [type]); // Trigger fetch when `type` prop changes
   return { businesses, descload };
 };

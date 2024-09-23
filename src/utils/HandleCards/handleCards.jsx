@@ -72,7 +72,7 @@ const HandleCards = ({
         return currentItems.map((select, index) => (
           <React.Fragment key={index}>
             {select.header === currentPath.name && (
-              <div className="bg-cover mx-auto p-2 rounded">
+              <div className="bg-cover mx-auto ">
                 <Card
                   src={select.card_image}
                   title={select.title}

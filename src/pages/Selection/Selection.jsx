@@ -23,12 +23,16 @@ const Selection = ({ navbar }) => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [itemsMainPage, setItemsMainPage] = useState(15);
   const [dropdownValue, setDropdownValue] = useState("");
+  const [desc, setDesc] = useState([]);
   const { data, loading } = useTreeview();
   const { businessTypes } = useCardSettings(
     pageName.toLowerCase() === "ktv/jtv" ? "ktv_jtv" : pageName.toLowerCase()
   );
   const [filteredData, setFilteredData] = useState(businessTypes);
-  const { businesses } = useCardDesc(pageName);
+  const { businesses } = useCardDesc(
+    pageName.toLowerCase() === "ktv/jtv" ? "ktv_jtv" : pageName.toLowerCase()
+  );
+
   useEffect(() => {
     if (data) {
       const selectedItemObj = data ? findItemById(data, path) : null;
@@ -52,6 +56,12 @@ const Selection = ({ navbar }) => {
       setFilteredData("");
     }
   }, [path, data, navbar, currentPath, businessTypes, dropdownValue]);
+
+  useEffect(() => {
+    const desc = businesses ? businesses : [];
+    setDesc(desc)
+  },[businesses])
+
   const findItemById = (items, id) => {
     if (!items) return null;
     for (const item of items) {
@@ -165,6 +175,7 @@ const Selection = ({ navbar }) => {
           currentPath={currentPath}
           data={data}
           handleItemClick={handleItemClick}
+          adName={pageName}
         />
       )}
       handleCards={() => (
@@ -179,7 +190,7 @@ const Selection = ({ navbar }) => {
           navbar={navbar}
         />
       )}
-      handleDesc={() => <Description type={businesses} pageName={pageName} />}
+      desc={desc}
       loading={loading}
       data={data}
       currentPage={currentPage}

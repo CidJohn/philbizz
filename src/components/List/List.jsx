@@ -40,7 +40,7 @@ const List = (props) => {
       <ul className="space-y-2">
         <li
           key={id}
-          className={`bg-white shadow-md rounded-lg  border gap-2 ${className} `}
+          className={`bg-white shadow-md  border  ${className} `}
           style={style}
         >
           <a onClick={onLink} className={`flex items-center cursor-pointer `}>

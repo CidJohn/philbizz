@@ -34,7 +34,7 @@ const Currency = () => {
         />
       </div>
 
-      <div className="mb-4">
+      <div className="mb-4 flex items-center flex-col">
         <label className="block text-gray-700">Base Currency:</label>
         <Dropdown
           name="baseCurrency"
@@ -48,7 +48,7 @@ const Currency = () => {
         />
       </div>
 
-      <div className="mb-4">
+      <div className="mb-4 flex items-center flex-col ">
         <label className="block text-gray-700">Target Currency:</label>
         <Dropdown
           name="targetCurrency"
