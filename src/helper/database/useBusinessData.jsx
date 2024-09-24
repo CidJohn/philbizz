@@ -288,4 +288,25 @@ export const useCreateNewCategory = () => {
   return { fetchCreateNewCategory, resultCategoryNew, loadNew };
 };
 
+export const useUpdateCompanyContent = () => {
+  const [resultUpdate, setResult ] = useState();
+  const [companyLoad, setLoading] = useState(true);
+  const API_CALL = restAPI();
+
+  const fetchUpdateCompany = async (data) => {
+    if(!data) return
+    try {
+      const response = await axios.put(`${API_CALL.host}/company-content/put/data`, data)
+      const res = response.data;
+      setResult(res);
+    }  catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+  return {fetchUpdateCompany, resultUpdate, companyLoad}
+}
+
+
 export default useBusinessData;

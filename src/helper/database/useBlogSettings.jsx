@@ -305,6 +305,25 @@ export const usePostBlogContent = () => {
   return { result, postloading, fetchPostBlog };
 };
 
+export const useUpdateBlogContent = () => {
+  const [resultBlogUpdate, setResult] = useState("");
+  const [blogLoading, setLoading] = useState(true);
+  const API_CALL = restAPI();
 
+  const fetchBlogUpdate = async (data) => {
+    if(!data) return
+    try {
+      const response = await axios.put(`${API_CALL.host}/blog-content/put/data`, data)
+      const res = response.data;
+      setResult(res);
+    }  catch (error) {
+      console.error("Error fetching like status:", error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+ 
+  return {fetchBlogUpdate, resultBlogUpdate, blogLoading}
+}
 
 export default useBlogSettings;

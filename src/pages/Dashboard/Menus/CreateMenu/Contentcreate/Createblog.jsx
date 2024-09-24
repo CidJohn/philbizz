@@ -3,13 +3,17 @@ import Textline from "../../../../../components/Textline/Textline";
 import TextEditor from "../../../../../components/Texteditor/Texteditor";
 import UploadImage from "../../../../../components/UploadImage/UploadImage";
 import Button from "../../../../../components/Button/Button";
-import { usePostBlogContent } from "../../../../../helper/database/useBlogSettings";
+import {
+  usePostBlogContent,
+  useUpdateBlogContent,
+} from "../../../../../helper/database/useBlogSettings";
 import restAPI from "../../../../../helper/database/restAPI";
 
 function Createblog(props) {
   const imagelink = restAPI();
   const { name, path, title, blogContent } = props;
   const { fetchPostBlog, result, postloading } = usePostBlogContent();
+  const { fetchBlogUpdate, resultBlogUpdate, blogLoading } = useUpdateBlogContent();
   const [editorContent, setEditorContent] = useState("");
   const [imageInsert, setImageInsert] = useState([
     {
@@ -89,6 +93,7 @@ function Createblog(props) {
       },
       content: editorContent,
     };
+    fetchBlogUpdate(initials);
     console.log(initials);
     console.log(result);
   };
@@ -148,7 +153,9 @@ function Createblog(props) {
           <Button
             text={title ? "Update Post" : "Create New Post"}
             className={
-              "border p-2 bg-white rounded-lg hover:bg-green-700 hover:text-white"
+              title
+                ? "border p-2 bg-white rounded-lg hover:bg-green-700 hover:text-white"
+                : "border p-2 bg-white rounded-lg hover:bg-blue-700 hover:text-white"
             }
             onClick={title ? handleUpdate : handleSavePost}
           />
