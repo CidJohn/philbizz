@@ -30,7 +30,6 @@ const Createmenu = () => {
     blogTitle: null,
   };
   const [isCreateOpen, setCreateOpen] = useState(false);
-
   const handleBack = () => {
     navigate(-1);
   };
@@ -63,6 +62,7 @@ const Createmenu = () => {
         title={title}
         location={cardlocation}
         blogTitle={blogTitle}
+        handleBack={() => handleBack}
       />
     );
   };

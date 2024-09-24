@@ -9,15 +9,22 @@ import UploadImage from "../../../../../components/UploadImage/UploadImage";
 import {
   useBusinessPost,
   useCompanyView,
+  useUpdateCompanyContent,
 } from "../../../../../helper/database/useBusinessData";
 import socialmedia from "../../../../../content/socialmedia.json";
-import { useCreateCardContent } from "../../../../../helper/database/useCardSettings";
+import {
+  useCreateCardContent,
+  useUpdateCardContent,
+} from "../../../../../helper/database/useCardSettings";
 import Createblog from "./Createblog";
 import {
   useCardInfo,
   useImgCardURL,
 } from "../../../../../helper/database/useCardInfo";
 import { useBlogContent } from "../../../../../helper/database/useBlogSettings";
+import useAlert from "../../../../../helper/alert/useAlert";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function Contentcreate(props) {
   const { downTree, path, category, name, title, location, blogTitle } = props;
@@ -30,11 +37,16 @@ function Contentcreate(props) {
   const [newTextLine, setNewTextLine] = useState({});
   const { fetchBusinessContent, result, businessLoad } = useBusinessPost();
   const { fetchCreateCard, resultCard, cardload } = useCreateCardContent();
+  const { fetchUpdateCompany, resultUpdate, companyLoad } =
+    useUpdateCompanyContent();
+  const { fetchUpdateCard, resultCardUpdate, cardLoading } =
+    useUpdateCardContent();
   const { getData, getURL, loadData } = useCardInfo(title);
   const { getImage, loadImage } = useImgCardURL(title);
   const { viewData, vieloading } = useCompanyView(title);
   const { content, contentload } = useBlogContent(blogTitle ? blogTitle : "");
-
+  const showAlert = useAlert();
+  const navigate = useNavigate();
   const [TextLine, setTextLine] = useState({
     title: "",
     description: "",
@@ -101,11 +113,12 @@ function Contentcreate(props) {
         });
       });
     }
+
     if (viewData.images) {
-      // Assuming you only want the first image's content, otherwise handle array properly
       const imageContent = viewData.images.map((item) => item.content).join("");
       setEditorContent(imageContent);
     }
+
     if (viewData.personnels) {
       const personnel = viewData.personnels
         ? viewData.personnels.map((item) => item)
@@ -119,6 +132,7 @@ function Contentcreate(props) {
         })),
       ]);
     }
+
     if (viewData.product) {
       const product = viewData.product
         ? viewData.product.map((item) => item)
@@ -136,6 +150,7 @@ function Contentcreate(props) {
         })),
       ]);
     }
+
     if (viewData.socials) {
       const socials = viewData.socials.map((item) => item);
       setSocialText(() => [
@@ -193,7 +208,6 @@ function Contentcreate(props) {
       }
     } else {
       if (downTree) {
-        // Update parent dropdown options
         const uniqueLocations = Array.from(
           new Set(
             downTree
@@ -256,19 +270,50 @@ function Contentcreate(props) {
   const handleSave = (e) => {
     e.preventDefault();
     if (name === "Business") {
-      if (title) {
-        console.log(initialBusinessContent);
-        //console.log(editorContent);
-      } else {
-        console.log("hi");
-        console.log(initialBusinessContent);
-        //fetchBusinessContent(initialBusinessContent);
-      }
+      console.log(initialBusinessContent);
+      fetchBusinessContent(initialBusinessContent);
+      Swal.fire(
+        "Business Content",
+        `New ${name} content has been created successfully.`,
+        "success"
+      ).then(() => {
+        navigate(-1);
+      });
     } else {
       fetchCreateCard(initialSelectionContent);
+      Swal.fire(
+        "Card Created",
+        `A new ${name} has been created successfully.`,
+        "success"
+      ).then(() => {
+        navigate(-1);
+      });
     }
-    //console.log(result || resultCard);
+    console.log(result || resultCard);
   };
+
+  const handleUpdate = () => {
+    if (name === "Business") {
+      fetchUpdateCompany(initialBusinessContent);
+      showAlert(
+        "Business Updated",
+        `The ${name} has been updated successfully.`,
+        "success"
+      ).then(() => {
+        navigate(-1);
+      });
+    } else {
+      fetchUpdateCard(initialSelectionContent);
+      showAlert(
+        "Card Updated",
+        `The ${name} content card has been updated successfully.`,
+        "success"
+      ).then(() => {
+        navigate(-1 );
+      });
+    }
+  };
+
   const handleContentChange = (content) => {
     setEditorContent(content);
   };
@@ -694,17 +739,19 @@ function Contentcreate(props) {
                         className="border p-3 mt-2 rounded-lg hover:bg-blue-500 hover:text-white"
                       />
                     }
-                    onClick={handleAddSocial} // Use onClick for adding new social field
+                    onClick={handleAddSocial}
                   />
                 </div>
               </div>
               <div className="flex p-2 w-full justify-center">
                 <Button
-                  text={"Create"}
+                  text={title ? "Update" : "Create"}
                   className={
-                    "min-w-64 border p-2  rounded-lg hover:bg-blue-500 hover:text-gray-100 hover:border-none"
+                    title
+                      ? "min-w-64 border p-2  rounded-lg hover:bg-green-500 hover:text-gray-100 hover:border-none"
+                      : "min-w-64 border p-2  rounded-lg hover:bg-blue-500 hover:text-gray-100 hover:border-none"
                   }
-                  onClick={handleSave}
+                  onClick={title ? handleUpdate : handleSave}
                 />
               </div>
             </div>

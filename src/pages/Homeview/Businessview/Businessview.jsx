@@ -96,7 +96,7 @@ const Businessview = (props) => {
   };
 
   return (
-    <div className="flex flex-wrap border w-[75vw] mx-auto">
+    <div className="flex flex-wrap   w-[75vw] mx-auto">
       {laodHeader ? (
         <div className="flex  justify-center min-h-screen mx-auto">
           <Spinner />

@@ -14,8 +14,9 @@ import Swal from "sweetalert2";
 
 function Menus(props) {
   const { blogData, business } = props;
+  const navigate = useNavigate();
   const { state } = useLocation();
-  const { name, path } = state || { name: null, path: null };
+  const { name, path } = state || { name: null, path: null};
   const { data } = useTreeview();
   const [getTreeview, setTreeview] = useState([]);
   const [selectedItem, setSelectectItem] = useState([]);
@@ -27,7 +28,6 @@ function Menus(props) {
   const [getFilterCategory, setFilterCategory] = useState([]);
   const [getFilterCategoryData, setFilterCategoryData] = useState([]);
   const [getSearchValueBusiness, setSearchValueBusiness] = useState([]);
-  const navigate = useNavigate();
   const { businessTypes } = useCardSettings(
     name.toLowerCase() === "ktv/jtv" ? "ktv_jtv" : name.toLowerCase()
   );

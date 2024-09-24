@@ -153,4 +153,24 @@ export const useCreateTreeView = () => {
   return {resultNew, treeload, fetchTreeCreate}
 }
 
+export const useUpdateCardContent = () => {
+  const [resultCardUpdate, setResult] = useState("");
+  const [cardLoading, setLoading] = useState(true);
+  const API_CALL = restAPI()
+  
+  const fetchUpdateCard = async (data) => {
+    if(!data) return
+    try {
+      const response = await axios.put(`${API_CALL.host}/card-content/put/data`, data);
+      const res = response.data;
+      setResult(res);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+  return {fetchUpdateCard, resultCardUpdate, cardLoading}
+}
+
 export default useCardSettings;
