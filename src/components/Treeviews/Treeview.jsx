@@ -1,6 +1,16 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Button from "../Button/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowDown,
+  faArrowRight,
+  faChevronCircleLeft,
+  faChevronDown,
+  faChevronRight,
+  faGreaterThan,
+  faLessThan,
+} from "@fortawesome/free-solid-svg-icons";
 
 // Function to capitalize the first letter
 const capitalize = (str) => {
@@ -29,10 +39,20 @@ const TreeItem = ({ item, onItemClick }) => {
         className="flex items-center cursor-pointer font-normal hover:font-bold  "
       >
         <Button
-          className="text-gray-900 hover:underline decoration-sky-500 underline-offset-8 decoration-4 "
+          className={
+            item.children && item.children.length > 0
+              ? "text-red-500 font-bold hover:underline decoration-sky-500 underline-offset-8 decoration-4 "
+              : "text-gray-500 text-[15px]"
+          }
           onClick={handleItemClick}
-          text={capitalize(t(item.name))} // Capitalize the item name
-        ></Button>
+          text={capitalize(t(item.name))}
+        />
+        {item.children && item.children.length > 0 && (
+          <FontAwesomeIcon
+            icon={isOpen ? faChevronDown : faChevronRight}
+            className="mr-2 w-[20px] px-1 text-red-500"
+          />
+        )}
       </div>
       {isOpen && item.children && (
         <ul className="px-5 lg:px-10  font-bold">

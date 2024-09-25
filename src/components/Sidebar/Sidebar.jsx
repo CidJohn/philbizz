@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Images from "../Image/Images";
 import Image from "../Image/Image";
-import Button from "../Button/Button";
 import { useNavigate } from "react-router-dom";
 
 function Sidebar(props) {
@@ -183,7 +182,7 @@ function Sidebar(props) {
                   viewBox="0 0 20 20"
                 >
                   <path d="M18 7H4.839l-.49-2.445A2.867 2.867 0 0 0 1.56 2H1a1 1 0 0 0 0 2h.56c.417 0 .78.287.868.692L4.61 13.445A2.867 2.867 0 0 0 7.387 16h7.226a2.867 2.867 0 0 0 2.778-2.093l1.422-5.688A1 1 0 0 0 18 7ZM7.387 14a.867.867 0 0 1-.84-.662L5.833 12h9.318l-.714 2.855a.867.867 0 0 1-.84.662H7.387ZM12 18a2 2 0 1 0 4 0h-4Zm-7 0a2 2 0 1 0 4 0H5Z" />
-                </svg>
+                </svg>  
                 <span className="flex-1 ms-3 whitespace-nowrap">Archived</span>
               </a>
               <ul

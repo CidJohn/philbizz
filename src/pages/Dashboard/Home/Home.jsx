@@ -17,7 +17,6 @@ function Home(props) {
           <Dashboard />
         </section>
       )}
-
       {loc === "#users" && (
         <section id="users">
           <Accounts />

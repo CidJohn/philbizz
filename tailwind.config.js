@@ -15,6 +15,7 @@ module.exports = {
         growFromBottom: "growFromBottom 1s ease-out forwards",
       },
     },
+   
   },
   plugins: [],
 };

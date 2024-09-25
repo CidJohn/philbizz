@@ -99,9 +99,9 @@ export const HeroBanner = ({ blogData }) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col lg:flex-col lg:px-2  lg:min-w-80 py-5 w-[10vw] ">
-        <h1 className=" text-2xl px-2 font-bold">Digital Clock</h1>
-          <div className="z-20 flex rounded-lg shadow transform transition-transform duration-500 hover:scale-95 w-full">
+        <div className="flex flex-col lg:flex-col lg:px-2  lg:min-w-80  w-[10vw] ">
+        <h1 className=" text-4xl p-2 font-bold">Digital Clock</h1>
+          <div className="z-20 flex  shadow border-2 w-full hover:border-blue-700">
             <div className="w-full">
               <DigitalClock />
             </div>

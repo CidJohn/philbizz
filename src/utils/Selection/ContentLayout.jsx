@@ -33,7 +33,7 @@ const ContentLayout = ({
       </div>
       <div className="flex flex-col">
         <div className="flex flex-col ">
-          <div className="">
+          <div className="max-w-[30vw]">
             <Description type={desc} pageName={adName} />
           </div>
           <section id="cards" className="sticky top-5">
@@ -85,9 +85,11 @@ const ContentLayout = ({
       </div>
       <div className="flex  hidden lg:block mt-2 ">
         <div className="sticky top-5">
-          <h1 className="text-2xl font-bold mb-4 text-center">
+          <div className="px-3">
+          <h1 className="font-sans font-bold  text-center text-red-500 bg-red-100 border rounded-lg  border-red-300">
             {adName} Latest Ads
           </h1>
+          </div>
           {sideAds.map((item, index) => (
             <div className="flex p-2" key={index}>
               <Card
