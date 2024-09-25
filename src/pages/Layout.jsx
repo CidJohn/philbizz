@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import Spinner from "../components/Spinner/Spinner";
 import BusinessNavbar from "../components/BusinessNavbar/BusinessNavbar";
 import { AuthProvider } from "../helper/auth/useAuthContext";
+import Header from "../components/Header/Header";
 
 function Layout({ children, navbar }) {
   const location = useLocation();
@@ -24,6 +25,7 @@ function Layout({ children, navbar }) {
       {hiddenDash && (
         <div>
           {hidden && <BusinessNavbar />}
+          <Header hidden={hidden} />
           <Navbar navbarData={navbar.navbar} hidden={hidden} />
           <div className="flex flex-row">
             <div className="flex-grow">{React.cloneElement(children)}</div>

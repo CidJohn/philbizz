@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 import "../../styles/Navbar.css";
-import { Login } from "../../pages/Login/Login";
 import Image from "../Image/Image";
-import { useLocation, useNavigate } from "react-router-dom";
-import SearchBar from "../Searchbar/Searchbar";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import Translation from "../Translation/Translation";
-import { Registration } from "../../pages/Login/Registration";
 import Images from "../Image/Images";
 import Swal from "sweetalert2"; // Import SweetAlert2
 
@@ -120,40 +116,6 @@ export default function Navbar(props) {
 
   return (
     <nav className={!hidden ? "bg-white " : "hidden"}>
-      <div className="hidden md:block ">
-        <div className="flex items-center w-[75vw]   mx-auto">
-          <div className="">
-            <Translation />
-          </div>
-          <a
-            href="/"
-            className="font-bold text-3xl text-gray-800 flex bg-cover w-auto mx-auto p-3"
-          >
-            <Image src={"philbizz.png"} style={{ width: "200px" }} />
-          </a>
-          <div className="flex p-2">
-            <SearchBar
-              onSearch={handleSearch}
-              isModalOpen={isModalOpen}
-              handleModalOpen={handleModalOpen}
-            />
-          </div>
-
-          {isModalOpen && (
-            <Login
-              handleModalOpen={handleModalOpen}
-              handleRegistrationOpen={handleRegistrationOpen}
-            />
-          )}
-          {isRegistration && (
-            <Registration
-              handleRegistrationClose={handleRegistrationOpen}
-              handleLoginOpen={handleModalOpen}
-            />
-          )}
-        </div>
-      </div>
-
       <div className="bg-white w-[75vw] border-b px-4 sm:px-6 lg:px-8  mx-auto shadow-inner">
         <div className="flex items-center justify-between  ">
           <div className="hidden md:block mx-auto">
