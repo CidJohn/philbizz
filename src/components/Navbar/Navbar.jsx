@@ -17,11 +17,13 @@ export default function Navbar(props) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRegistration, setRegistration] = useState(false);
+  const [isActive, setActive] = useState("");
   const navigation = useNavigate();
   const { t } = useTranslation();
 
   const handleClickDelete = (item) => {
     navigation(item.path, { state: { path: item.path, pageName: item.name } });
+    setActive(item.name);
   };
 
   const toggleMenu = () => {
@@ -46,7 +48,7 @@ export default function Navbar(props) {
   };
 
   const handleKtvJtvClick = (item) => (e) => {
-    e.preventDefault(); // Prevent the default link click behavior
+    e.preventDefault();
 
     Swal.fire({
       title: "Age Restriction",
@@ -59,7 +61,8 @@ export default function Navbar(props) {
       if (result.isConfirmed) {
         navigation(item.path, {
           state: { path: item.path, pageName: item.name },
-        }); // Redirect the user if they confirm
+        });
+        setActive(item.name);
       } else {
         Swal.fire(
           "Access Denied",
@@ -78,7 +81,11 @@ export default function Navbar(props) {
         onMouseEnter={() => setShowDropdown(item.name)}
       >
         <a
-          className="cursor-pointer flex flex-col text-gray-600 hover:text-gray-900 hover:font-bold items-center  transform transition-transform duration-500 hover:scale-110 "
+          className={`border-b-2 hover:border-gray-900 cursor-pointer flex flex-col text-gray-600 hover:text-gray-900 hover:font-bold items-center  transform transition-transform duration-500 hover:scale-90 ${
+            isActive === item.name
+              ? "border-gray-900 text-gray-900 font-bold"
+              : "border-transparent"
+          } `}
           onClick={
             item.restrict === 19
               ? handleKtvJtvClick(item)
@@ -114,7 +121,7 @@ export default function Navbar(props) {
   return (
     <nav className={!hidden ? "bg-white " : "hidden"}>
       <div className="hidden md:block ">
-        <div className="flex items-center w-[75vw]  mx-auto">
+        <div className="flex items-center w-[75vw]   mx-auto">
           <div className="">
             <Translation />
           </div>

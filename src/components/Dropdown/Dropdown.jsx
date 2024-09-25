@@ -15,7 +15,7 @@ const Dropdown = ({ name, value, onChange, options, placeholder }) => {
       <button
         id="dropdownDefaultButton"
         data-dropdown-toggle="dropdown"
-        className={`justify-between w-[200px]  text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center `}
+        className={`justify-between w-[250px]  text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center `}
         type="button"
         onClick={handleToggle}
       >

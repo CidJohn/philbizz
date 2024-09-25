@@ -7,8 +7,8 @@ const RenderTreeView = ({ currentPath, data, handleItemClick, adName }) => {
   const filteredData = data.filter((node) => node.path === currentPath.path);
 
   return (
-    <div className=" sticky top-5  p-2 mt-1 ">
-       <h1 className="text-2xl font-bold bg-blue-300 px-2 w-[15vw]">
+    <div className=" sticky top-5   mt-1 bg-red-100">
+       <h1 className="text-2xl text-red-500 font-bold bg-red-100 p-2 w-[15vw] border-b-4 border-gray-900 font-sans">
           {adName}
         </h1>
       {filteredData.length === 0 ? (
