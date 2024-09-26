@@ -18,7 +18,7 @@ const capitalize = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 };
 
-const TreeItem = ({ item, onItemClick }) => {
+const TreeItem = ({ item, onItemClick, textColor }) => {
   const [isOpen, setIsOpen] = useState(true);
   const { t } = useTranslation();
 
@@ -41,23 +41,34 @@ const TreeItem = ({ item, onItemClick }) => {
         <Button
           className={
             item.children && item.children.length > 0
-              ? "text-red-500 font-bold hover:underline decoration-sky-500 underline-offset-8 decoration-4 "
+              ? ` font-bold hover:underline decoration-sky-500 underline-offset-8 decoration-4 `
               : "text-gray-500 text-[15px]"
           }
           onClick={handleItemClick}
           text={capitalize(t(item.name))}
+          style={
+            item.children && item.children.length > 0
+              ? { color: textColor }
+              : {}
+          }
         />
         {item.children && item.children.length > 0 && (
           <FontAwesomeIcon
             icon={isOpen ? faChevronDown : faChevronRight}
-            className="mr-2 w-[20px] px-1 text-red-500"
+            className={`mr-2 w-[20px] px-1 `}
+            style={{ color: textColor }}
           />
         )}
       </div>
       {isOpen && item.children && (
         <ul className="px-5 lg:px-10  font-bold">
           {item.children.map((child, index) => (
-            <TreeItem key={index} item={child} onItemClick={onItemClick} />
+            <TreeItem
+              key={index}
+              item={child}
+              onItemClick={onItemClick}
+              textColor={textColor}
+            />
           ))}
         </ul>
       )}
@@ -65,11 +76,16 @@ const TreeItem = ({ item, onItemClick }) => {
   );
 };
 
-const TreeView = ({ treeViewContent, onItemClick }) => {
+const TreeView = ({ treeViewContent, onItemClick, textColor }) => {
   return (
     <ul className="font-bold text-sm lg:text-lg capitalize ">
       {treeViewContent.map((item, index) => (
-        <TreeItem key={index} item={item} onItemClick={onItemClick} />
+        <TreeItem
+          key={index}
+          item={item}
+          onItemClick={onItemClick}
+          textColor={textColor}
+        />
       ))}
     </ul>
   );

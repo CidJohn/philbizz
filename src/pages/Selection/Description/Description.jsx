@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useCardDesc } from "../../../helper/database/useCardPath";
 import Images from "../../../components/Image/Images";
 
-const Description = ({ type, pageName }) => {
+const Description = ({ type, pageName, txtHeaderColor }) => {
   const { t } = useTranslation();
   return (
     <>
@@ -14,7 +14,10 @@ const Description = ({ type, pageName }) => {
                 <div className="" key={index}>
                   <div className=" flex mt-5">
                     <div className="flex flex-col ">
-                      <h1 className="text-4xl md:text-6xl mb-4 font-bold text-red-500 font-sans">
+                      <h1
+                        className="text-4xl md:text-6xl mb-4 font-bold  font-sans"
+                        style={{ color: txtHeaderColor }}
+                      >
                         {t(item.header)}
                       </h1>
                       <p className="text-left mb-2 font-bold ">
@@ -34,7 +37,7 @@ const Description = ({ type, pageName }) => {
                       </figure>
                     )}
                   </div>
-                  <div className="flex flex-col ">
+                  <div className="flex flex-col max-w-[30vw]">
                     <p className="text-left text-gray-500 text-sm ">
                       {item.description}
                     </p>
