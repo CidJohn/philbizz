@@ -84,74 +84,56 @@ function DigitalClock() {
   };
 
   const renderClock = () => {
-    switch (selectedOption) {
-      case "Philippines":
-        return (
-          <div className=" rounded py-4 text-center bg-blue-900 min-h-[25vh]">
-            <div className=" py-7 ">
-              <div className="text-sm md:text-[2vw] font-bold text-gray-100 font-mono">
-                {currentTimePHT}
-              </div>
-              <div className="flex justify-center gap-1 text-sm my-2">
-                <div className="block text-gray-100">{currentDayPHT}</div>
-                <div className="block text-gray-100 ">{currentDatePHT}</div>
-              </div>
-              <div className="flex justify-center">
-                <span className="text-xs block text-gray-100 border border-white rounded-full p-1">
-                  {t("Philippines")}
-                </span>
-              </div>
+    const clockData = {
+      Philippines: {
+        time: currentTimePHT,
+        date: currentDatePHT,
+        day: currentDayPHT,
+        label: t("Philippines"),
+      },
+      Korea: {
+        time: currentTimeKST,
+        date: currentDateKST,
+        day: currentDayKST,
+        label: t("Korea"),
+      },
+      Japan: {
+        time: currentTimeJST,
+        date: currentDateJST,
+        day: currentDayJST,
+        label: t("Japan"),
+      },
+    };
+
+    return (
+      <div className="rounded py-4 text-center bg-[#013A63] min-h-[25vh]">
+        <div className="py-7 gap-4">
+          <div className="text-sm md:text-[2vw] font-bold text-gray-100 font-mono mt-4">
+            {clockData[selectedOption].time}
+          </div>
+          <div className="flex justify-center gap-1 text-sm my-3">
+            <div className="block text-gray-100 fira-sans-condensed-regular">
+              {clockData[selectedOption].day}
+            </div>
+            <div className="block text-gray-100 fira-sans-condensed-regular">
+              {clockData[selectedOption].date}
             </div>
           </div>
-        );
-      case "Korea":
-        return (
-          <div className=" rounded py-4 text-center bg-blue-900 min-h-[25vh]">
-            <div className="py-7">
-              <span className="text-sm md:text-[2vw] font-bold text-gray-100 font-mono">
-                {currentTimeKST}
-              </span>
-              <div className="flex justify-center gap-1  text-sm my-2 ">
-                <div className="block text-gray-100">{currentDayKST}</div>
-                <div className="block text-gray-100">{currentDateKST}</div>
-              </div>
-              <div className="flex justify-center">
-                <span className="text-xs block text-gray-100 border border-white rounded-full p-1">
-                  {t("Korea")}
-                </span>
-              </div>
-            </div>
+          <div className="flex justify-center">
+            <span className="text-xs block text-gray-100 border border-white rounded-full px-4 py-2 fira-sans-condensed-regular">
+              {clockData[selectedOption].label}
+            </span>
           </div>
-        );
-      case "Japan":
-        return (
-          <div className=" rounded py-4 text-center bg-blue-900 min-h-[25vh]">
-            <div className="py-7">
-              <span className="text-sm md:text-[2vw] font-bold text-gray-100 font-mono">
-                {currentTimeJST}
-              </span>
-              <div className="flex justify-center gap-1  text-sm my-2">
-                <div className="block text-gray-100">{currentDayJST}</div>
-                <div className="block text-gray-100">{currentDateJST}</div>
-              </div>
-              <div className="flex justify-center">
-                <span className="text-xs block text-gray-100 border border-white rounded-full p-1">
-                  {t("Japan")}
-                </span>
-              </div>
-            </div>
-          </div>
-        );
-      default:
-        return null;
-    }
+        </div>
+      </div>
+    );
   };
 
   return (
-    <div className="p-5 min-h-80 bg-white rounded flex flex-col justify-center ">
+    <div className="p-5 min-h-80 bg-[#013A63]/5 rounded flex flex-col justify-center ">
       {renderClock()}
-      <div className="flex py-2">
-        <div className="mx-auto flex">
+      <div className="flex py-2 ">
+        <div className="w-full">
           <Dropdown
             name={"selection"}
             options={timeZone.DigitalClock}

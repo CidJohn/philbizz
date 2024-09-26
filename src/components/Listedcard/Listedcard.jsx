@@ -30,7 +30,7 @@ const Listedcard = (props) => {
         <div className=" ">
           {listItems
             ? listItems.map((item, index) => (
-                <div key={index} className=" border-b ">
+                <div key={index} className=" border-b  ">
                   <List
                     onLink={() => handleLink(item.title)}
                     title={item.title}
@@ -39,7 +39,7 @@ const Listedcard = (props) => {
                     datetime={item.created_at}
                     imgstyle={{ width: "10vw", height: "10vh" }}
                     className={
-                      "w-full border-none shadow-none hover:bg-slate-100 "
+                      "w-full border-none  shadow-none hover:bg-slate-100 "
                     }
                   />
                 </div>

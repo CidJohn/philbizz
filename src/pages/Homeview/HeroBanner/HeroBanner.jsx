@@ -1,18 +1,14 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Card from "../../../components/Card/Card";
 import { useWeather } from "../../../helper/fetchAPI/useWeather";
-import Weather from "../../../components/Weather/Weather";
 import useGeolocation from "../../../helper/fetchAPI/useGeolocation";
-import Images from "../../../components/Image/Images";
-import cardContent from "../../../content/cardContent";
 import DigitalClock from "../../../components/DigitalClock/DigitalClock";
 import useNewsFeed from "../../../helper/fetchAPI/useNewsFeed";
-import NewsFeed from "../../../components/NewsFeed/NewsFeed";
 import Currency from "../../../components/Currency/Currency";
-import restAPI from "../../../helper/database/restAPI";
 import { useHomeBusiness } from "../../../helper/database/useBusinessData";
-import Imagecarousel from "../../../components/Carousel/Imagecarousel";
+import Blogs from "./HomeContent/Blogs";
+import Headlines from "./HomeContent/Headlines";
+import WeatherContent from "./HomeContent/WeatherContent";
 
 export const HeroBanner = ({ blogData }) => {
   const [getArticles, setArticles] = useState([]);
@@ -25,7 +21,6 @@ export const HeroBanner = ({ blogData }) => {
   const { location } = useGeolocation();
   const { weatherData, loading, error } = useWeather(getLat, getLan);
   const { getNewsData } = useNewsFeed();
-  const imagelink = restAPI();
 
   useEffect(() => {
     const articles = getNewsData ? getNewsData.articles : [];
@@ -46,72 +41,39 @@ export const HeroBanner = ({ blogData }) => {
   }, [location, getNewsData, blogData]);
 
   return (
-    <div className="flex flex-col lg:flex-row w-[75vw]   mx-auto">
-      <div className="flex flex-col-reverse lg:flex-row gap-2 ">
-        <div className="flex flex-col ">
-          <h1 className="text-4xl p-2 font-bold">Top Blogs</h1>
-          {getBlog
-            ? getBlog.map((item, index) => (
-                <div
-                  key={index}
-                  className="min-w-[15vw]  p-1 transform transition-transform duration-500 hover:scale-95"
-                >
-                  <Card
-                    src={imagelink.image + item.imageURL}
-                    title={item.title}
-                    desc={item.description}
-                    link={item.title}
-                    hidden={true}
-                  />
-                </div>
-              ))
-            : ""}
+    <div className="grid grid-cols-8 grid-rows-5 gap-4 px-60 mt-10">
+      <div className="col-span-2 row-span-5">
+        <Blogs getBlog={getBlog} />
+      </div>
+      <div className="col-span-4 row-span-5 col-start-3">
+        {" "}
+        <div className="flex flex-col gap-3 ">
+          <Headlines
+            getArticles={getArticles}
+            getImgCarousel={getImgCarousel}
+          />
+          <WeatherContent
+            weatherData={weatherData}
+            loading={loading}
+            error={error}
+          />
         </div>
-
-        <div className="flex flex-col  gap-3 w-full ">
-          <div className="flex flex-col">
-            <h1 className="text-4xl p-2 font-bold">Top Headlines</h1>
-            {getArticles.length > 0 ? (
-              <NewsFeed articles={getArticles} />
-            ) : (
-              <div className="flex">
-                <Imagecarousel images={getImgCarousel} />
-              </div>
-            )}
-          </div>
-
-          <div className="flex flex-col transform transition-transform duration-500 hover:scale-95  h-full ">
-            <h1 className="text-4xl p-2 font-bold">Weather Forecast</h1>
-            <div className="flex flex-col p-2">
-              {weatherData && (
-                <Weather
-                  location={weatherData.location}
-                  temperature={weatherData.temperature}
-                  condition={weatherData.condition}
-                  iconUrl={weatherData.iconUrl}
-                  weeklyForecast={weatherData.weeklyForecast}
-                />
-              )}
-              {loading && <p>Loading weather data...</p>}
-              {error && (
-                <p className="text-red-500">Error fetching weather data</p>
-              )}
-            </div>
+      </div>
+      <div className="col-span-2 row-span-5 col-start-7">
+        <h1 className=" text-4xl p-2 fira-sans-bold text-[#013A63]">
+          Digital Clock
+        </h1>
+        <div className="z-20 flex  shadow border-2 w-full ">
+          <div className="w-full ">
+            <DigitalClock />
           </div>
         </div>
-        <div className="flex flex-col lg:flex-col lg:px-2  lg:min-w-80  w-[10vw] ">
-        <h1 className=" text-4xl p-2 font-bold">Digital Clock</h1>
-          <div className="z-20 flex  shadow border-2 w-full hover:border-blue-700">
-            <div className="w-full">
-              <DigitalClock />
-            </div>
-          </div>
-
-          <h1 className="text-2xl p-2 font-bold">Currency Converter</h1>
-          <div className="flex  transform transition-transform duration-500 hover:scale-95 w-full ">
-            <div className="w-full">
-              <Currency />
-            </div>
+        <h1 className="text-4xl p-2 fira-sans-bold text-[#013A63]">
+          Currency Converter
+        </h1>
+        <div className="flex  transform transition-transform duration-500 hover:scale-95 w-full ">
+          <div className="w-full">
+            <Currency />
           </div>
         </div>
       </div>

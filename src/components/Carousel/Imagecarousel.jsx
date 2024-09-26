@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Images from "../Image/Images";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 const Imagecarousel = ({ images }) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -46,11 +47,16 @@ const Imagecarousel = ({ images }) => {
               alt={image.title}
               className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 cover"
             />
-            
+
             {/* Title and Description */}
-            <div className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/60 to-transparent text-white">
-              <h2 className="text-xl font-bold">{image.title}</h2>
-              <p className="text-sm mt-2">{image.description}</p>
+            <div className="absolute bottom-0 left-0 w-full p-6 bg-black/50 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-100 text-white">
+              <h2 className="text-xl font-bold fira-sans-condensed-bold">
+                {image.title}
+              </h2>
+              <p className="text-sm mt-2 fira-sans-condensed-regular flex items-center">
+                {image.description}
+                <FaMapMarkerAlt className="ml-2" />
+              </p>
             </div>
           </div>
         ))}

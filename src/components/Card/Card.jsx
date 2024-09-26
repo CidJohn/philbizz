@@ -1,10 +1,11 @@
 import React from "react";
 import Images from "../Image/Images";
+import { FaAngleRight } from "react-icons/fa";
 
 function Card({ title, src, desc, style, hidden, link, onLink }) {
   return (
     <div
-      className=" mx-1 bg-white   dark:bg-gray-800 dark:border-gray-700 shadow border cursor-pointer"
+      className=" mx-1 bg-[#013A63]/5  rounded-md dark:bg-gray-800 dark:border-gray-700 shadow-md border border-[#013A63]/5 cursor-pointer p-4 "
       style={style}
     >
       <a className="block" onClick={onLink}>
@@ -12,43 +13,31 @@ function Card({ title, src, desc, style, hidden, link, onLink }) {
           <div className="h-full">
             <Images
               src={src}
-              className="object-cover h-full w-full"
-              style={{ height: "192px" }}
+              className="object-cover h-full w-full rounded-sm"
+              style={{ height: "200px" }}
             />
           </div>
         </div>
       </a>
-      <div className="p-4">
+      <div className="p-4 mt-2">
         <a className="block cursor-pointer" onClick={onLink}>
-          <h5 className=" text-md font-bold tracking-tight text-gray-900 dark:text-white">
+          <h5 className=" font-bold tracking-tight text-[#013A63] fira-sans-bold text-2xl">
             {title}
           </h5>
         </a>
         <p
-          className="font-normal text-wrap truncate text-sm text-gray-700 dark:text-gray-400"
+          className="font-normal text-wrap truncate text-sm text-gray-600 fira-sans-condensed-regular"
           title={desc}
         >
           {desc}
         </p>
-        {!hidden && (
-          <a
-            href={`/${link}`}
-            className="block text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 py-2"
-          >
-            Read more
-            <svg
-              className="inline-block w-4 h-4 ml-2 transform rtl:scale-x-minus-1"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M5 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1.447.895l6-3a1 1 0 0 0 0-1.79l-6-3A1 1 0 0 0 5 5zm10 5.5a1 1 0 1 1-2 0V6.5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-2a1 1 0 0 1 0-2h1v-3h-1z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </a>
-        )}
+        <a
+          href={`/${link}`}
+          className="flex items-center justify-center text-center py-3 fira-sans-condensed-regular text-white mt-4 bg-[#013A63] rounded-lg hover:bg-[#013A63]/95 "
+        >
+          Read more
+          <FaAngleRight className="ml-2" />
+        </a>
       </div>
     </div>
   );

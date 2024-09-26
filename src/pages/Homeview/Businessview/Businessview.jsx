@@ -47,7 +47,6 @@ const Businessview = (props) => {
         .filter((item) => item.Header === "Festival")
         .slice(0, 4);
       setFestival(filteredFestival);
-
     }
 
     if (navbar) {
@@ -68,13 +67,11 @@ const Businessview = (props) => {
       }, {});
       setGroupedTreeView(groupedData);
     }
-
   }, [header, navbar, data]);
 
   const carousel = Array.isArray(businessCarousel)
-  ? businessCarousel.slice(0, 4)
-  : [];
-
+    ? businessCarousel.slice(0, 4)
+    : [];
 
   const listItems = [
     { title: "Food", list: getFood },
@@ -82,8 +79,6 @@ const Businessview = (props) => {
     { title: "Beauty", list: getBeauty },
     { title: "Company", list: carousel },
   ];
-
-
 
   const handleClick = (id, path) => {
     const formattedPath = path.startsWith("/") ? path.replace("/", "") : path;
@@ -138,7 +133,9 @@ const Businessview = (props) => {
           <div className="flex flex-col min-w-80 p-2 ">
             <div className="sticky top-5">
               <div className="transform transition-transform duration-500 hover:scale-105 ">
-                <h1 className="text-3xl  mx-2 font-bold">Calendar</h1>
+                <h1 className="text-4xl p-2 fira-sans-bold text-[#013A63]">
+                  Calendar
+                </h1>
                 <Calendar onDateSelect={handleDateSelect} />
                 {selectedDate && (
                   <div className="mt-4">
@@ -146,13 +143,15 @@ const Businessview = (props) => {
                   </div>
                 )}
               </div>
-              <div className="mt-5 rounded-lg shadow-lg p-3">
-                <h1 className="text-3xl  mx-2 font-bold">Social media</h1>
+              <div className="mt-5 rounded-lg shadow-lg p-3 bg-[#013A63]/5">
+                <h1 className="text-4xl p-2 fira-sans-bold text-[#013A63]">
+                  Social media
+                </h1>
                 {socialContent.map((item, index) => (
                   <div className="flex " key={index}>
                     <a
                       href={item.link}
-                      className="transform transition-transform duration-500 hover:scale-105 p-5"
+                      className="transform  transition-transform duration-500 hover:scale-105 p-5"
                     >
                       <Images src={item.imageURL} style={{ width: "250px" }} />
                     </a>
