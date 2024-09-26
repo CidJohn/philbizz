@@ -8,11 +8,13 @@ const Button = ({
   type = "button",
   disabled = false,
   icon,
-  spinner
+  spinner,
+  style,
 }) => {
   const { t } = useTranslation();
   return (
     <button
+      style={style}
       type={type}
       className={`btn ${className}`}
       onClick={onClick}

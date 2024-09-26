@@ -1,25 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TreeView from "../../components/Treeviews/Treeview";
 
-const RenderTreeView = ({ currentPath, data, handleItemClick, adName }) => {
+const RenderTreeView = (props) => {
+  const { currentPath, data, handleItemClick, adName, sideBarColor } = props;
   if (!data) return;
 
   const filteredData = data.filter((node) => node.path === currentPath.path);
 
   return (
-    <div className=" sticky top-5   mt-1 bg-red-100">
-       <h1 className="text-2xl text-red-500 font-bold bg-red-100 p-2 w-[15vw] border-b-4 border-gray-900 font-sans">
-          {adName}
-        </h1>
+    <div
+      className={` sticky top-5   mt-1 `}
+      style={{ backgroundColor: sideBarColor.bgColor }}
+    >
+      <h1
+        className={`text-2xl font-bold  p-2 w-[15vw] border-b-4 border-gray-900 font-sans`}
+        style={{
+          color: sideBarColor.textColor,
+        }}
+      >
+        {adName}
+      </h1>
       {filteredData.length === 0 ? (
         ""
       ) : (
-       <div className="border px-2 mt-1">
-         <TreeView
-          treeViewContent={filteredData}
-          onItemClick={handleItemClick}
-        />
-       </div>
+        <div className=" px-2 mt-1">
+          <TreeView
+            treeViewContent={filteredData}
+            onItemClick={handleItemClick}
+            textColor={sideBarColor.textColor}
+          />
+        </div>
       )}
     </div>
   );

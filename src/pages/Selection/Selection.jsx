@@ -6,16 +6,16 @@ import { useTreeview } from "../../helper/database/useTreeview";
 import RenderTreeView from "../../utils/RenderTreeView/renderTreeView";
 import HandleCards from "../../utils/HandleCards/handleCards";
 import useCardSettings from "../../helper/database/useCardSettings"; // Import the custom hook
-import Description from "./Description/Description";
 import { useCardDesc } from "../../helper/database/useCardPath";
 
 const Selection = ({ navbar }) => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { id, path, pageName } = state || {
+  const { id, path, pageName, sideBarColorChanger } = state || {
     id: null,
     path: null,
     pageName: null,
+    sideBarColorChanger: null,
   };
   const [selectedItem, setSelectedItem] = useState(null);
   const [currentPath, setCurrentPath] = useState("");
@@ -59,8 +59,8 @@ const Selection = ({ navbar }) => {
 
   useEffect(() => {
     const desc = businesses ? businesses : [];
-    setDesc(desc)
-  },[businesses])
+    setDesc(desc);
+  }, [businesses]);
 
   const findItemById = (items, id) => {
     if (!items) return null;
@@ -88,8 +88,14 @@ const Selection = ({ navbar }) => {
 
   const handleItemClick = (clickedId, clickedPath) => {
     navigate(`${path}#cards`, {
-      state: { id: id, pageName: pageName, path: path },
+      state: {
+        id: id,
+        pageName: pageName,
+        path: path,
+        sideBarColorChanger: sideBarColorChanger,
+      },
     });
+
     const selectedItemObj = data ? findItemById(data, clickedId || id) : null;
     setSelectedItem(selectedItemObj);
     setFilteredData("");
@@ -103,7 +109,12 @@ const Selection = ({ navbar }) => {
 
   const handlePageChange = (pageNumber) => {
     navigate(`${path}#cards`, {
-      state: { id: id, pageName: pageName, path: path },
+      state: {
+        id: id,
+        pageName: pageName,
+        path: path,
+        sideBarColorChanger: sideBarColorChanger,
+      },
     });
     setCurrentPage(pageNumber);
   };
@@ -176,6 +187,7 @@ const Selection = ({ navbar }) => {
           data={data}
           handleItemClick={handleItemClick}
           adName={pageName}
+          sideBarColor={sideBarColorChanger}
         />
       )}
       handleCards={() => (
@@ -188,8 +200,10 @@ const Selection = ({ navbar }) => {
           searchResult={filteredData}
           handleLink={handleLink}
           navbar={navbar}
+          sideBarColor={sideBarColorChanger}
         />
       )}
+      sideBarColor={sideBarColorChanger}
       desc={desc}
       loading={loading}
       data={data}

@@ -3,5 +3,54 @@
     { "value": "Philippines", "label": "Philippines" },
     { "value": "Korea", "label": "Korea" },
     { "value": "Japan", "label": "Japan" }
+  ],
+  "sideBarColor": [
+    {
+      "pageName": "Resto",
+      "bgColor": "#E639460D",
+      "textColor": "#E63946"
+    },
+    {
+      "pageName": "Beauty",
+      "bgColor": "#f4defa",
+      "textColor": "#D866FA",
+      "adsBorder": "#e5b0f5"
+    },
+    {
+      "pageName": "Festival",
+      "bgColor": "#d2d3fc",
+      "textColor": "#6d72fc",
+      "adsBorder": "#a5a9fa"
+    },
+    {
+      "pageName": "Ktv/Jtv",
+      "bgColor": "#d2d3fc",
+      "textColor": "#6d72fc",
+      "adsBorder": "#a5a9fa"
+    },
+    {
+      "pageName": "Massage",
+      "bgColor": "#d2d3fc",
+      "textColor": "#6d72fc",
+      "adsBorder": "#a5a9fa"
+    },
+    {
+      "pageName": "Travel",
+      "bgColor": "#d2d3fc",
+      "textColor": "#6d72fc",
+      "adsBorder": "#a5a9fa"
+    },
+    {
+      "pageName": "Medical",
+      "bgColor": "#d2d3fc",
+      "textColor": "#6d72fc",
+      "adsBorder": "#a5a9fa"
+    },
+    {
+      "pageName": "Car",
+      "bgColor": "#d2d3fc",
+      "textColor": "#6d72fc",
+      "adsBorder": "#a5a9fa"
+    }
   ]
 }

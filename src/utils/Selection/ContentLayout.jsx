@@ -2,10 +2,8 @@ import React from "react";
 import Pagination from "../../components/Pagination/Pagination";
 import SearchBar from "../../components/Searchbar/Searchbar";
 import Description from "../../pages/Selection/Description/Description";
-import Horizontal from "../../components/Horizontal/Horizontal";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import Card from "../../components/Card/Card";
-import MaintenancePage from "../../components/Maintenance/Maintenance";
 
 const ContentLayout = ({
   renderTreeView,
@@ -24,22 +22,26 @@ const ContentLayout = ({
   sideAds,
   desc,
   handleLink,
+  sideBarColor,
 }) => {
   return (
-    <div className="container mx-auto flex  w-[75vw] gap-3 ">
-      <div className=" mt-2">
-       
-        {renderTreeView()}
-      </div>
+    <div className=" mx-auto flex  w-[75vw] justify-center gap-3 ">
+      <div className=" mt-2">{renderTreeView()}</div>
       <div className="flex flex-col">
         <div className="flex flex-col ">
-          <div className="max-w-[30vw]">
-            <Description type={desc} pageName={adName} />
+          <div className="min-w-[45vw]">
+            <Description
+              type={desc}
+              pageName={adName}
+              txtHeaderColor={sideBarColor.textColor}
+            />
           </div>
-          <section id="cards" className="sticky top-5">
-            <div className="flex flex-col">
-              <Horizontal />
-              <div className="flex flex-col lg:flex-row items-center justify-center mt-5">
+          <section id="cards" className="sticky top-5 ">
+            <div
+              className="flex flex-col  mt-5 p-2"
+              style={{ backgroundColor: sideBarColor.bgColor }}
+            >
+              <div className="flex flex-col lg:flex-row items-center justify-center  ">
                 <div className="flex flex-col max-w-80">
                   <div className="text-md">Address:</div>
                   <Dropdown
@@ -50,14 +52,24 @@ const ContentLayout = ({
                     placeholder={"Select All"}
                     width="300px"
                     selectWidth="500px"
+                    adsBorder={sideBarColor.adsBorder}
+                    textColor={sideBarColor.textColor}
                   />
                 </div>
                 <div className=" hidden lg:block text-sm py-5  h-[30px] border-gray-500 mx-3 ">
-                  <div className="flex font-black text-sm ">or</div>
+                  <div className="flex font-black text-sm text-gray-400 ">
+                    or
+                  </div>
                 </div>
                 <div className="flex flex-col mt-5 lg:mt-0">
                   <div className="text-md">Branch Name:</div>
-                  <SearchBar hidden={true} onSearch={handleOnSearch} />
+                  <SearchBar
+                    hidden={true}
+                    onSearch={handleOnSearch}
+                    adsBorder={sideBarColor.adsBorder}
+                    textColor={sideBarColor.textColor}
+                    placeholderColor={sideBarColor.placeholderColor}
+                  />
                 </div>
               </div>
               <div className=" mt-3 grid grid-cols-3  gap-2 ">
@@ -86,26 +98,45 @@ const ContentLayout = ({
       <div className="flex  hidden lg:block mt-2 ">
         <div className="sticky top-5">
           <div className="px-3">
-          <h1 className="font-sans font-bold  text-center text-red-500 bg-red-100 border rounded-lg  border-red-300">
-            {adName} Latest Ads
-          </h1>
+            <h1
+              className={`font-sans font-bold border text-center  rounded-lg p-1`}
+              style={{
+                color: sideBarColor.textColor,
+                borderColor: sideBarColor.textColor,
+              }}
+            >
+              {adName} Latest Ads
+            </h1>
           </div>
-          {sideAds.map((item, index) => (
-            <div className="flex p-2" key={index}>
-              <Card
-                src={item.card_image}
-                title={item.title}
-                desc={item.description}
-                style={{
-                  width: "200px",
-                  backgroundSize: "cover",
-                  height: "350px",
-                }}
-                hidden={true}
-                onLink={() => handleLink(item.title)}
-              />
-            </div>
-          ))}
+          <div className="flex flex-col gap-2 p-2">
+            {sideAds.map((item, index) => (
+              <div
+                className="border-b-2 dashed py-3 border-dashed"
+                style={{ borderColor: sideBarColor.textColor }}
+              >
+                <div
+                  className="bg-cover mx-auto "
+                  key={index}
+                
+                >
+                  <Card
+                    src={item.card_image}
+                    title={item.title}
+                    desc={item.description}
+                    style={{
+                      width: "230px",
+                      backgroundSize: "cover",
+                      border: "1px solid",
+                      borderColor: sideBarColor.textColor
+                    }}
+                    onLink={() => handleLink(item.title)}
+                    btnColor={sideBarColor.bgColor}
+                    textColor={sideBarColor.textColor}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

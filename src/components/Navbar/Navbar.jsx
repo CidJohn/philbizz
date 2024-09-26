@@ -4,7 +4,8 @@ import Image from "../Image/Image";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Images from "../Image/Images";
-import Swal from "sweetalert2"; // Import SweetAlert2
+import Swal from "sweetalert2";
+import changeColor from "../../content/content.json";
 
 export default function Navbar(props) {
   const { navbarData, hidden } = props;
@@ -18,7 +19,16 @@ export default function Navbar(props) {
   const { t } = useTranslation();
 
   const handleClickDelete = (item) => {
-    navigation(item.path, { state: { path: item.path, pageName: item.name } });
+    const dynamicColorChanger = changeColor.sideBarColor
+      ? changeColor.sideBarColor.filter((node) => node.pageName === item.name)
+      : [];
+    navigation(item.path, {
+      state: {
+        path: item.path,
+        pageName: item.name,
+        sideBarColorChanger: dynamicColorChanger[0],
+      },
+    });
     setActive(item.name);
   };
 
@@ -55,8 +65,17 @@ export default function Navbar(props) {
       cancelButtonText: "No, I'm not",
     }).then((result) => {
       if (result.isConfirmed) {
+        const dynamicColorChanger = changeColor.sideBarColor
+          ? changeColor.sideBarColor.filter(
+              (node) => node.pageName === item.name
+            )
+          : [];
         navigation(item.path, {
-          state: { path: item.path, pageName: item.name },
+          state: {
+            path: item.path,
+            pageName: item.name,
+            sideBarColorChanger: dynamicColorChanger[0],
+          },
         });
         setActive(item.name);
       } else {
