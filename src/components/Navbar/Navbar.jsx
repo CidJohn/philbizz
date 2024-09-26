@@ -116,7 +116,7 @@ export default function Navbar(props) {
 
   return (
     <nav className={!hidden ? "bg-white " : "hidden"}>
-      <div className="bg-white w-[75vw] border-b px-4 sm:px-6 lg:px-8  mx-auto shadow-inner">
+      <div className="bg-[#013A63]/5 w-full border-b px-4 sm:px-6 lg:px-8  mx-auto shadow-inner">
         <div className="flex items-center justify-between  ">
           <div className="hidden md:block mx-auto">
             <div className=" flex items-baseline space-x-1 relative gap-5 ">

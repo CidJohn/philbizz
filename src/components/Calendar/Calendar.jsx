@@ -46,7 +46,7 @@ const Calendar = ({ onDateSelect }) => {
           key={day}
           onClick={() => onDateSelect(new Date(year, month, day))}
           className={`flex-1 p-2 text-center hover:bg-blue-200 focus:outline-none ${
-            isToday ? "bg-blue-500 text-white rounded-full" : ""
+            isToday ? "bg-blue-600 text-white rounded-full" : ""
           }`}
         >
           {day}
@@ -70,17 +70,20 @@ const Calendar = ({ onDateSelect }) => {
   };
 
   return (
-    <div className="w-full max-w-sm mx-auto bg-white rounded-lg shadow-md">
-      <div className="flex justify-between p-4 bg-white-500 text-gray-900 rounded-t-lg">
+    <div className="w-full max-w-sm mx-auto bg-[#013A63]/5 rounded-lg shadow-md">
+      <div className="flex justify-between p-4 bg-white-500 text-[#013A63] rounded-t-lg">
         <button onClick={handlePrevMonth}>&lt;</button>
-        <div className="gap-1">
+        <div className="gap-1 text-[#013A63] fira-sans-bold">
           {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
         </div>
         <button onClick={handleNextMonth}>&gt;</button>
       </div>
       <div className="grid grid-cols-7 gap-1 p-2">
         {daysOfWeek.map((day, index) => (
-          <div key={index} className="flex-1 text-center font-bold">
+          <div
+            key={index}
+            className="flex-1 text-center  text-[#013A63] fira-sans-bold "
+          >
             {day}
           </div>
         ))}
