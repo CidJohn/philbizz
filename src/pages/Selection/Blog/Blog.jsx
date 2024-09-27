@@ -49,39 +49,44 @@ const Blog = () => {
   };
 
   return (
-    <div className="container mx-auto max-w-screen-md">
-      <div className="flex flex-col gap-3 mt-10  mx-auto ">
-        <div className="flex flex-col text-start   px-5">
-          <div className="flex justify-between  border-b p-2">
-            <div className="flex flex-col">
-              <span className="text-3xl font-bold">Blog</span>
-              <p className="text-sm italic">
-                Make my day by telling me a story about yourself.
-              </p>
-            </div>
-            <div className="flex">
-              {authload ? (
-                <Spinner />
-              ) : isAuthenticated ? (
-                <div className=" flex items-center ">
-                  <Button
-                    type="button"
-                    text={"POST"}
-                    className={
-                      " p-2 rounded border-gray-700 text-gray-200 font-bold bg-blue-700  transform transition-transform duration-500 hover:scale-105 "
-                    }
-                    onClick={handleModalOpen}
-                  />
-                </div>
-              ) : (
-                <p className="text-red-700 italic text-sm  flex items-center">
-                  "Please login!"
+    <React.Fragment>
+      <div className="w-full h-full px-60 bg-[#390099]/5">
+        <div className="flex items-center justify-between">
+          <div className="mt-16">
+            <h1 className="text-[#390099] font-bold fira-sans-bold text-4xl">
+              Blog
+            </h1>
+            <p className="text-[#606060] fira-sans-condensed-regular">
+              Make my day by telling me a story about yourself
+            </p>
+          </div>
+          <div className="flex items-center justify-center mt-16">
+            {authload ? (
+              <Spinner />
+            ) : isAuthenticated ? (
+              <div className=" flex items-center ">
+                <Button
+                  type="button"
+                  text={"POST"}
+                  className={
+                    " p-2 rounded border-gray-700 text-gray-200 font-bold bg-[#390099] px-12 py-3 transform transition-transform duration-500 hover:scale-105 "
+                  }
+                  onClick={handleModalOpen}
+                />
+              </div>
+            ) : (
+              <div className="flex items-center bg-transparent border px-8 py-3 border-red-400 rounded-full">
+                <p className="text-red-700 italic text-sm  ">
+                  "Required to login to post"
                 </p>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
-        <div className="px-5  " id="card-pagination">
+        <div
+          className="flex items-center justify-center w-full flex-col my-4 "
+          id="card-pagination"
+        >
           <HandleBlog
             blogdata={currentPost}
             imagelink={imagelink}
@@ -90,19 +95,19 @@ const Blog = () => {
             userdata={userid}
             handleLink={handleLink}
           />
+          <Pagination
+            currentPage={cardCurrentPage}
+            totalPages={cardTotalPages}
+            onPageChange={setCardCurrentPage}
+            link="card-pagination"
+          />
         </div>
-        <Pagination
-          currentPage={cardCurrentPage}
-          totalPages={cardTotalPages}
-          onPageChange={setCardCurrentPage}
-          link="card-pagination"
-        />
-      </div>
 
-      {isModalOpen && (
-        <BlogPost handleOpen={handleModalOpen} userdata={userid} />
-      )}
-    </div>
+        {isModalOpen && (
+          <BlogPost handleOpen={handleModalOpen} userdata={userid} />
+        )}
+      </div>
+    </React.Fragment>
   );
 };
 

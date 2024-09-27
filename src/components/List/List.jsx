@@ -2,6 +2,7 @@ import React from "react";
 import Images from "../Image/Images";
 import ImageBinary from "../Image/ImageBinary";
 import Dateformat from "../Dateformat/Dateformat";
+import { IoPersonCircleOutline } from "react-icons/io5";
 
 const List = (props) => {
   const {
@@ -19,7 +20,7 @@ const List = (props) => {
     binaryImage,
     datetime,
     classStyle,
-    colorText
+    colorText,
   } = props;
   let sizeClass;
   switch (size) {
@@ -37,7 +38,7 @@ const List = (props) => {
   }
 
   return (
-    <div className="flex flex-col mt-3">
+    <div className="w-full flex flex-col mt-3 h-full">
       <ul className="space-y-2">
         <li
           key={id}
@@ -47,45 +48,60 @@ const List = (props) => {
           <a onClick={onLink} className={`flex items-center cursor-pointer `}>
             {image && (
               <figure className="max-w-md p-4 ">
-                <Images src={image} alt={header || title} style={imgstyle} className={"cover"} />
+                <Images
+                  src={image}
+                  alt={header || title}
+                  style={imgstyle}
+                  className={"cover"}
+                />
                 <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
                   {header}
                 </figcaption>
               </figure>
             )}
-            <div className="flex-1 max-w-screen-lg ">
-              <div className={`font-bold font-sans   ${classStyle}`} style={{color: colorText}}>{title}</div>
-              <p className="text-gray-700 text-xs text-wrap truncate font-sans">{desc}</p>
-              {user ||
-                (datetime && (
-                  <div className="">
-                    <p className="text-gray-700 text-xs italic text-wrap truncate">
-                      - {user}
-                    </p>
-                    {datetime && (
-                      <p className="text-gray-700 text-xs  text-wrap truncate">
+            <div className="w-[48rem] p-8 h-auto shadow-md border border-[#013A63]/5">
+              <div className="">
+                <div className="flex items-center gap-4 w-full">
+                  <IoPersonCircleOutline className="text-2xl text-[#390099]" />
+                  {user && (
+                    <div className="flex items-center justify-between w-full">
+                      <h1 className="text-[#390099]/80 font-bold fira-sans-bold text-lg italic text-wrap truncate">
+                        {user}
+                      </h1>
+                      <p className="text-[#390099] bg-transparent border border-[#390099] px-6 rounded-full py-2 fira-sans-condensed-regular text-sm text-wrap truncate">
                         <Dateformat dateString={datetime} />
                       </p>
-                    )}
-                  </div>
-                ))}
-            </div>
-            {binaryImage ? (
-              <div className="flex ">
-                <figure className="max-w-md p-4 ">
-                  <Images
-                    src={binaryImage}
-                    alt={header || title}
-                    style={imgstyle}
-                  />
-                  <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
-                    {header}
-                  </figcaption>
-                </figure>
+                    </div>
+                  )}
+                </div>
               </div>
-            ) : (
-              ""
-            )}
+              <div className="mt-12 flex items-start justify-start flex-col">
+                <div
+                  className={`text-gray-800 font-bold fira-sans-bold text-xl`}
+                >
+                  {title}
+                </div>
+                <p className="text-gray-700 text-xs text-wrap truncate">
+                  {desc}
+                </p>
+                {binaryImage ? (
+                  <div className="w-full mt-4 ">
+                    <figure className="w-full ">
+                      <Images
+                        src={binaryImage}
+                        alt={header || title}
+                        style={imgstyle}
+                      />
+                      <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
+                        {header}
+                      </figcaption>
+                    </figure>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>
           </a>
         </li>
       </ul>
