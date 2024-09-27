@@ -3,7 +3,6 @@ import Navbar from "../components/Navbar/Navbar";
 import Footer from "./Footer/Footer";
 import { useLocation } from "react-router-dom";
 import Spinner from "../components/Spinner/Spinner";
-import BusinessNavbar from "../components/BusinessNavbar/BusinessNavbar";
 import { AuthProvider } from "../helper/auth/useAuthContext";
 import Header from "../components/Header/Header";
 
@@ -24,7 +23,6 @@ function Layout({ children, navbar }) {
     <AuthProvider>
       {hiddenDash && (
         <div>
-          {hidden && <BusinessNavbar />}
           <Header hidden={hidden} />
           <Navbar navbarData={navbar.navbar} hidden={hidden} />
           <div className="flex flex-row">

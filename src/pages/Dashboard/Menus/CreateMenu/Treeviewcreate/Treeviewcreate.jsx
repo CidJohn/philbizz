@@ -31,7 +31,7 @@ const Treeviewcreate = (props) => {
       fetchCreateNewCategory(treeAdd);
       console.log(resultCategoryNew);
     } else {
-      fetchTreeCreate(treeAdd);
+      //fetchTreeCreate(treeAdd);
       console.log(resultNew);
     }
   };

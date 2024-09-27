@@ -31,7 +31,7 @@ const ContentLayout = ({
         <div className="flex flex-col ">
           <div className="min-w-[45vw]">
             <Description
-              type={desc}
+              content={desc}
               pageName={adName}
               txtHeaderColor={sideBarColor.textColor}
             />
@@ -52,7 +52,7 @@ const ContentLayout = ({
                     placeholder={"Select All"}
                     width="300px"
                     selectWidth="500px"
-                    adsBorder={sideBarColor.adsBorder}
+                    adsBorder={sideBarColor.textColor}
                     textColor={sideBarColor.textColor}
                   />
                 </div>
@@ -114,11 +114,7 @@ const ContentLayout = ({
                 className="border-b-2 dashed py-3 border-dashed"
                 style={{ borderColor: sideBarColor.textColor }}
               >
-                <div
-                  className="bg-cover mx-auto "
-                  key={index}
-                
-                >
+                <div className="bg-cover mx-auto " key={index}>
                   <Card
                     src={item.card_image}
                     title={item.title}
@@ -127,7 +123,7 @@ const ContentLayout = ({
                       width: "230px",
                       backgroundSize: "cover",
                       border: "1px solid",
-                      borderColor: sideBarColor.textColor
+                      borderColor: sideBarColor.textColor,
                     }}
                     onLink={() => handleLink(item.title)}
                     btnColor={sideBarColor.bgColor}

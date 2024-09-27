@@ -1,39 +1,47 @@
 import React from "react";
 import Horizontal from "../Horizontal/Horizontal";
 
-const Categories = ({ footerContent, handleClick, handleClickParent }) => {
+const Categories = (props) => {
+  const { footerContent, handleClick, handleClickParent, colorChanger } = props;
   return (
     <div>
-      <div className="mx-auto w-full max-w-screen-lg">
-        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+      <div className="mx-auto w-full ">
+        <span
+          className="self-center text-4xl font-bold font-sans "
+          style={{ color: colorChanger }}
+        >
           Categories
         </span>
         <Horizontal />
-        <div className="flex flex-wrap mx-auto justify-center gap-3">
-          {footerContent.map((section, index) => (
-            <div key={index}>
-              <a
-                className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white underline underline-offset-1"
-                href={section.href}
-                onClick={handleClickParent}
-              >
-                {section.title}
-              </a>
-              <ul className="grid md:grid-cols-2 text-gray-500 dark:text-gray-400  font-medium mt-5">
-                {section.links.map((link, linkIndex) => (
-                  <li className="mb-4" key={linkIndex}>
-                    <a
-                      href="#card"
-                      className="hover:bg-gray-200 border bg-blue-200 p-2 rounded-full hover:text-gray-600 "
+        <div className="flex justify-center   p-1">
+          <div className="flex flex-wrap justify-center mx-auto gap-2 ">
+            {footerContent.map((section, index) => (
+              <div key={index} className=" p-2 ">
+                <button
+                  className=" text-sm font-bold font-sans text-gray-900 uppercase  underline underline-offset-1"
+                  href={section.href}
+                  onClick={handleClickParent}
+                >
+                  {section.title}
+                </button>
+                <ul className="grid grid-cols-2   text-gray-100 dark:text-gray-400   p-5 gap-2">
+                  {section.links.map((link, linkIndex) => (
+                    <button
+                      className=" hover:bg-gray-200 border bg-blue-200 p-2 rounded-full hover:text-blue-400 "
                       onClick={handleClick}
+                      alt={link.name}
+                      title={link.name}
+                      style={{ backgroundColor: colorChanger }}
                     >
-                      {link.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+                      <li className="w-full " key={linkIndex}>
+                        <p className="truncate">{link.name}</p>
+                      </li>
+                    </button>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

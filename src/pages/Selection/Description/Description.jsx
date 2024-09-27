@@ -1,26 +1,27 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { useCardDesc } from "../../../helper/database/useCardPath";
 import Images from "../../../components/Image/Images";
+import Imagecarousel from "../../../components/Carousel/Imagecarousel";
 
-const Description = ({ type, pageName, txtHeaderColor }) => {
+const Description = (props) => {
+  const { content, pageName, txtHeaderColor, carousel } = props;
   const { t } = useTranslation();
   return (
     <>
-      {type
-        ? type.map(
+      {content
+        ? content.map(
             (item, index) =>
               item.header === pageName && (
                 <div className="" key={index}>
                   <div className=" flex mt-5">
                     <div className="flex flex-col ">
                       <h1
-                        className="text-4xl md:text-6xl mb-4 font-bold  font-sans"
+                        className="text-4xl md:text-6xl mb-4 fira-sans-bold "
                         style={{ color: txtHeaderColor }}
                       >
                         {t(item.header)}
                       </h1>
-                      <p className="text-left mb-2 font-bold ">
+                      <p className="text-left mb-2 fira-sans-bold ">
                         {item.paragraph}
                       </p>
                     </div>
@@ -37,10 +38,19 @@ const Description = ({ type, pageName, txtHeaderColor }) => {
                       </figure>
                     )}
                   </div>
-                  <div className="flex flex-col max-w-[30vw]">
-                    <p className="text-left text-gray-500 text-sm ">
-                      {item.description}
-                    </p>
+                  <div className="grid grid-cols-2 ">
+                    <div className={carousel ? "flex flex-col " : "flex flex-col max-w-[30vw] "}>
+                      <p className="text-left text-gray-400  font-sans ">
+                        {item.description}
+                      </p>
+                    </div>
+                    {carousel && (
+                      <>
+                        <div className="p-2 border">
+                          <Imagecarousel images={carousel} /> 
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               )

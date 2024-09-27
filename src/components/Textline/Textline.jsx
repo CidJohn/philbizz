@@ -29,7 +29,7 @@ const Textline = ({
           className={className}
           style={{
             ...style,
-            "--placeholder-color": placeholderColor || "#999", // Default placeholder color
+            "--placeholder-color": placeholderColor || "#999", 
           }}
         ></textarea>
       ) : (
@@ -43,16 +43,18 @@ const Textline = ({
           className={className}
           style={{
             ...style,
-            "--placeholder-color": placeholderColor || "#999", // Default placeholder color
+            "--placeholder-color": placeholderColor || "#999", 
           }}
         />
       )}
-      <style jsx>{`
-        input::placeholder,
-        textarea::placeholder {
-          color: var(--placeholder-color);
-        }
-      `}</style>
+      <style>
+        {`
+          input::placeholder,
+          textarea::placeholder {
+            color: var(--placeholder-color);
+          }
+        `}
+      </style>
     </div>
   );
 };

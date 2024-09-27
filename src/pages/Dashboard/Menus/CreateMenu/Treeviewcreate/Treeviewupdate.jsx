@@ -60,10 +60,10 @@ function Treeviewupdate(props) {
       addNew: addTextline,
       path: path,
     };
-
-    fetchTreeChildUp(data);
-    fetchTreeCreate(data);
-    fetchTreeUpdate(data);
+    console.log(data);
+     fetchTreeChildUp(data);
+     fetchTreeCreate(data);
+     fetchTreeUpdate(data);
   };
 
   const handleDynamicTextlineChange = (header, id, newValue) => {

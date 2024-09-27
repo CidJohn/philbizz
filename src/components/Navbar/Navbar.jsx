@@ -18,7 +18,7 @@ export default function Navbar(props) {
   const navigation = useNavigate();
   const { t } = useTranslation();
 
-  const handleClickDelete = (item) => {
+  const handleClick = (item) => {
     const dynamicColorChanger = changeColor.sideBarColor
       ? changeColor.sideBarColor.filter((node) => node.pageName === item.name)
       : [];
@@ -104,7 +104,7 @@ export default function Navbar(props) {
           onClick={
             item.restrict === 19
               ? handleKtvJtvClick(item)
-              : () => handleClickDelete(item)
+              : () => handleClick(item)
           }
           target={item.name === "Business" ? "_blank" : "_self"}
         >
@@ -208,7 +208,7 @@ export default function Navbar(props) {
                   onClick={
                     item.name === "Ktv/jtv"
                       ? handleKtvJtvClick(item)
-                      : handleClickDelete
+                      : handleClick
                   }
                 >
                   <div className=" border rounded p-4 hover:bg-gray-400">

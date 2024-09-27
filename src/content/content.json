@@ -8,19 +8,22 @@
     {
       "pageName": "Resto",
       "bgColor": "#E639460D",
-      "textColor": "#E63946"
+      "textColor": "#E63946",
+      "style": "1"
     },
     {
       "pageName": "Beauty",
       "bgColor": "#f4defa",
       "textColor": "#D866FA",
-      "adsBorder": "#e5b0f5"
+      "adsBorder": "#e5b0f5",
+      "style": "2"
     },
     {
       "pageName": "Festival",
       "bgColor": "#d2d3fc",
       "textColor": "#6d72fc",
-      "adsBorder": "#a5a9fa"
+      "adsBorder": "#a5a9fa",
+      "style": "3"
     },
     {
       "pageName": "Ktv/Jtv",
@@ -51,6 +54,12 @@
       "bgColor": "#d2d3fc",
       "textColor": "#6d72fc",
       "adsBorder": "#a5a9fa"
+    },
+    {
+      "pageName": "Business",
+      "bgColor": "#E639460D",
+      "textColor": "#013A63",
+      "theme": 1
     }
   ]
 }

@@ -19,6 +19,7 @@ const List = (props) => {
     binaryImage,
     datetime,
     classStyle,
+    colorText
   } = props;
   let sizeClass;
   switch (size) {
@@ -46,15 +47,15 @@ const List = (props) => {
           <a onClick={onLink} className={`flex items-center cursor-pointer `}>
             {image && (
               <figure className="max-w-md p-4 ">
-                <Images src={image} alt={header || title} style={imgstyle} />
+                <Images src={image} alt={header || title} style={imgstyle} className={"cover"} />
                 <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
                   {header}
                 </figcaption>
               </figure>
             )}
             <div className="flex-1 max-w-screen-lg ">
-              <div className={`font-semibold   ${classStyle}`}>{title}</div>
-              <p className="text-gray-700 text-xs text-wrap truncate">{desc}</p>
+              <div className={`font-bold font-sans   ${classStyle}`} style={{color: colorText}}>{title}</div>
+              <p className="text-gray-700 text-xs text-wrap truncate font-sans">{desc}</p>
               {user ||
                 (datetime && (
                   <div className="">
