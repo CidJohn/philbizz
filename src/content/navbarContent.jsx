@@ -1,85 +1,55 @@
 const navbarContent = [
-    {
-        name: "Business",
-        children: [
-            {
-                childname: "KTV",
-                path: "/ktv"
-            },
-                        {
-                childname: "SALON",
-                path: "/salon"
-            },
-                        {
-                childname: "JTV",
-                path: "/"
-            }
-        ]
-    },
-        {
-        name: "Food",
-         children: [
-            {
-                childname: "Food1",
-                path: "/"
-            },
-                        {
-                childname: "Food2",
-                path: "/"
-            },
-                        {
-                childname: "Food3",
-                path: "/"
-            }
-        ]
-    },
-        {
-        name: "Golf",
-         children: [
-            {
-                childname: "Golf1",
-                path: "/"
-            },
-                        {
-                childname: "Golf2",
-                path: "/"
-            },
-                        {
-                childname: "Golf3",
-                path: "/"
-            }
-        ]
-    },
-    {
-        name: "Medical",
-        children: [
-            {
-                childname: "Medical1",
-                path: "/"
-            },
-                        {
-                childname: "Medical2",
-                path: "/"
-            },
-                        {
-                childname: "Medical3",
-                path: "/"
-            }
-        ]
-    },
-    {
-        name: "Perform",
-        path: "/"
-    },
-    {
-        name: "Festival",
-        path: "/"
-    },
-        {
-        name: "Massage/Sing",
-        path: "/"
-    },
-    
-]
+  {
+    name: "Business",
+    path: "/business",
+    children: [
+      {
+        childname: "Philippine",
+        path: "/",
+      },
+      {
+        childname: "Korea",
+        path: "/",
+      },
+    ],
+  },
+  {
+    name: "Food",
+    path: "/food",
+  },
+  {
+    name: "Golf",
+    path: "/golf",
+  },
+  {
+    name: "Medical",
+    // children: [
+    //   {
+    //     childname: "Medical1",
+    //     path: "/",
+    //   },
+    //   {
+    //     childname: "Medical2",
+    //     path: "/",
+    //   },
+    //   {
+    //     childname: "Medical3",
+    //     path: "/",
+    //   },
+    // ],
+  },
+  {
+    name: "Perform",
+    path: "/",
+  },
+  {
+    name: "Ktv/Jtv",
+    path: "/ktv_jtv",
+  },
+  {
+    name: "Beauty",
+    path: "/",
+  },
+];
 
 export default navbarContent;

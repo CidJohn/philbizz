@@ -1,24 +1,42 @@
-import React from 'react'
-import Navbar from '../components/Navbar/Navbar'
-import TreeView from '../components/Treeviews/Treeview'
-import treeViewContent from '../content/treeViewContent';
-import Footer from './Footer/Footer';
+import React from "react";
+import Navbar from "../components/Navbar/Navbar";
+import Footer from "./Footer/Footer";
+import { useLocation } from "react-router-dom";
+import Spinner from "../components/Spinner/Spinner";
+import { AuthProvider } from "../helper/auth/useAuthContext";
+import Header from "../components/Header/Header";
 
-function Layout({children}) {
+function Layout({ children, navbar }) {
+  const location = useLocation();
 
+  const hidden = location.pathname.includes("business");
+  const hiddenDash = !location.pathname.includes("dashboard");
 
+  if (navbar.navload) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Spinner />
+      </div>
+    );
+  }
   return (
-    <div>
-        <Navbar />
-        <div className="flex flex-row container">
-        <div className="sticky left-0 top-0 fixed">
-            <TreeView treeViewContent={treeViewContent}  />
+    <AuthProvider>
+      {hiddenDash && (
+        <div>
+          <Header hidden={hidden} />
+          <Navbar navbarData={navbar.navbar} hidden={hidden} />
+          <div className="flex flex-row">
+            <div className="flex-grow">{React.cloneElement(children)}</div>
+          </div>
+          <div className="">
+            <div className="">
+              <Footer />
+            </div>
+          </div>
         </div>
-        {children}
-        </div>
-        <Footer />
-    </div>
-  )
+      )}
+    </AuthProvider>
+  );
 }
 
-export default Layout
+export default Layout;
