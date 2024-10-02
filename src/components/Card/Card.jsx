@@ -5,6 +5,7 @@ import { FaAngleRight } from "react-icons/fa";
 function Card(props) {
   const { title, src, desc, style, theme, link, onLink, btnColor, textColor } =
     props;
+
   return (
     <div
       className={` mx-1 bg-[#013A63]/5  rounded-md dark:bg-gray-800 dark:border-gray-700 shadow-md border border-[#013A63]/5 cursor-pointer p-4 `}
@@ -35,36 +36,96 @@ function Card(props) {
                     <Images
                       src={src}
                       className="object-cover h-full  rounded-sm shadow-lg "
-                      style={{ height: "200px", }}
+                      style={{ height: "200px" }}
                     />
                   </div>
                 </div>
                 <div className="flex flex-wrap">
-                <p
-                  className="px-3 py-1 font-normal h-[15vh]  w-[10vw] text-sm text-gray-600 fira-sans-condensed-regular"
-                  style={{
-                    display: "-webkit-box",
-                    WebkitLineClamp: 4,
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
-                  title={desc}
+                  <p
+                    className="px-3 py-1 font-normal h-[15vh]  w-[10vw] text-sm text-gray-600 fira-sans-condensed-regular"
+                    style={{
+                      display: "-webkit-box",
+                      WebkitLineClamp: 4,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                    title={desc}
+                  >
+                    {desc}
+                  </p>
+                  <a
+                    onClick={onLink}
+                    className="w-full h-10 border flex items-center justify-center text-center py-3 fira-sans-condensed-regular text-white mt-4 bg-[#013A63] rounded-lg hover:bg-[#013A63]/95 "
+                    style={{
+                      backgroundColor: btnColor,
+                      borderColor: textColor,
+                      color: textColor,
+                    }}
+                  >
+                    Read more
+                    <FaAngleRight className="ml-2" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </a>
+        </>
+      ) : theme === 2 ? (
+        <>
+          <a className="block" onClick={onLink}>
+            <div className=" w-full overflow-hidden ">
+              <div
+                className="block cursor-pointer border text-center p-3 shadow rounded-sm"
+                onClick={onLink}
+              >
+                <h5
+                  className={
+                    textColor
+                      ? "text-md font-bold tracking-tight text-[#013A63] fira-sans-bold truncate w-[10vw]"
+                      : "text-2xl font-bold tracking-tight text-[#013A63] fira-sans-bold truncate"
+                  }
+                  style={{ color: textColor }}
                 >
-                  {desc}
-                </p>
-                <a
-                  onClick={onLink}
-                  className="w-full h-10 border flex items-center justify-center text-center py-3 fira-sans-condensed-regular text-white mt-4 bg-[#013A63] rounded-lg hover:bg-[#013A63]/95 "
-                  style={{
-                    backgroundColor: btnColor,
-                    borderColor: textColor,
-                    color: textColor,
-                  }}
-                >
-                  Read more
-                  <FaAngleRight className="ml-2" />
-                </a>
+                  {title}
+                </h5>
+              </div>
+              <div className="flex flex-col">
+                <div className=" w-full overflow-hidden ">
+                  <div className="h-full p-2  ">
+                    <Images
+                      src={src}
+                      className="object-cover h-full  rounded-sm shadow-lg "
+                      style={{ height: "200px" }}
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-wrap">
+                  <p
+                    className="font-normal text-wrap min-h-[4vh] truncate text-sm text-gray-600 fira-sans-condensed-regular"
+                    style={{
+                      display: "-webkit-box",
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                    title={desc}
+                  >
+                    {desc}
+                  </p>
+                  <a
+                    onClick={onLink}
+                    className="w-full h-10 border flex items-center justify-center text-center py-3 fira-sans-condensed-regular text-white mt-4 bg-[#013A63] rounded-lg hover:bg-[#013A63]/95 "
+                    style={{
+                      backgroundColor: btnColor,
+                      borderColor: textColor,
+                      color: textColor,
+                    }}
+                  >
+                    Read more
+                    <FaAngleRight className="ml-2" />
+                  </a>
                 </div>
               </div>
             </div>

@@ -38,8 +38,9 @@ const Blog = () => {
       )
     : [];
 
-  const handleModalOpen = () => {
-    setModalOpen(!isModalOpen);
+  const handleModalOpen = (item) => {
+    //setModalOpen(!isModalOpen);
+    navigate(`/blog/post/${item.id}`, { state: { id: item.id, username: item.username } });
   };
   const handleCommentOpen = () => {
     setCommentOpen(!isCommentOpen);
@@ -71,7 +72,7 @@ const Blog = () => {
                   className={
                     " p-2 rounded border-gray-700 text-gray-200 font-bold bg-[#390099] px-12 py-3 transform transition-transform duration-500 hover:scale-105 "
                   }
-                  onClick={handleModalOpen}
+                  onClick={() => handleModalOpen(userid)}
                 />
               </div>
             ) : (
@@ -103,9 +104,9 @@ const Blog = () => {
           />
         </div>
 
-        {isModalOpen && (
+        {/* {isModalOpen && (
           <BlogPost handleOpen={handleModalOpen} userdata={userid} />
-        )}
+        )} */}
       </div>
     </React.Fragment>
   );

@@ -10,6 +10,7 @@ import DashboardLayout from "./pages/Dashboard/DashboardLayout";
 import Contact from "./pages/Homeview/Contact/Contact";
 import Inbox from "./pages/Dashboard/Inbox/Inbox";
 import Createmenu from "./pages/Dashboard/Menus/CreateMenu/Createmenu";
+import BlogPost from "./pages/Selection/Blog/BlogPost/BlogPost";
 
 function App() {
   const {
@@ -44,6 +45,7 @@ function App() {
             }
             key={"home"}
           />
+          <Route path="/blog/post/:token" element={<BlogPost />} key={"blog-post"} />
           {getnavroute}
           {getcardroute}
           {getcompanyroute}

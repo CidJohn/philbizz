@@ -48,6 +48,7 @@ const HandleCards = ({
             onLink={() => handleLink(item.title)}
             btnColor={sideBarColor.bgColor}
             textColor={sideBarColor.textColor}
+            theme={sideBarColor.theme}
           />
         </div>
       </React.Fragment>
@@ -83,6 +84,7 @@ const HandleCards = ({
                   onLink={() => handleLink(select.title)}
                   btnColor={sideBarColor.bgColor}
                   textColor={sideBarColor.textColor}
+                  theme={sideBarColor.theme}
                 />
               </div>
             )}
@@ -114,6 +116,7 @@ const HandleCards = ({
                       onLink={() => handleLink(select.title)}
                       btnColor={sideBarColor.bgColor}
                       textColor={sideBarColor.textColor}
+                      theme={sideBarColor.theme}
                     />
                   </div>
                 </React.Fragment>
