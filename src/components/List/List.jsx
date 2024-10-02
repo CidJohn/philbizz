@@ -62,16 +62,18 @@ const List = (props) => {
             <div className="w-[48rem] p-8 h-auto shadow-md border border-[#013A63]/5">
               <div className="">
                 <div className="flex items-center gap-4 w-full">
-                  <IoPersonCircleOutline className="text-2xl text-[#390099]" />
                   {user && (
-                    <div className="flex items-center justify-between w-full">
-                      <h1 className="text-[#390099]/80 font-bold fira-sans-bold text-lg italic text-wrap truncate">
-                        {user}
-                      </h1>
-                      <p className="text-[#390099] bg-transparent border border-[#390099] px-6 rounded-full py-2 fira-sans-condensed-regular text-sm text-wrap truncate">
-                        <Dateformat dateString={datetime} />
-                      </p>
-                    </div>
+                    <>
+                      <IoPersonCircleOutline className="text-2xl text-[#390099]" />
+                      <div className="flex items-center justify-between w-full">
+                        <h1 className="text-[#390099]/80 font-bold fira-sans-bold text-lg italic text-wrap truncate">
+                          {user}
+                        </h1>
+                        <p className="text-[#390099] bg-transparent border border-[#390099] px-6 rounded-full py-2 fira-sans-condensed-regular text-sm text-wrap truncate">
+                          <Dateformat dateString={datetime} />
+                        </p>
+                      </div>
+                    </>
                   )}
                 </div>
               </div>

@@ -8,50 +8,49 @@
     {
       "pageName": "Resto",
       "bgColor": "#E639460D",
-      "textColor": "#E63946",
-      "style": "1"
+      "textColor": "#E63946"
+      
     },
     {
       "pageName": "Beauty",
-      "bgColor": "#f4defa",
+      "bgColor": "#fbf7fc",
       "textColor": "#D866FA",
       "adsBorder": "#e5b0f5",
-      "style": "2"
+      "theme": 2
     },
     {
       "pageName": "Festival",
-      "bgColor": "#d2d3fc",
+      "bgColor": "#f2f2fc",
       "textColor": "#6d72fc",
-      "adsBorder": "#a5a9fa",
-      "style": "3"
+      "adsBorder": "#a5a9fa"
     },
     {
       "pageName": "Ktv/Jtv",
-      "bgColor": "#d2d3fc",
+      "bgColor": "#f2f2fc",
       "textColor": "#6d72fc",
       "adsBorder": "#a5a9fa"
     },
     {
       "pageName": "Massage",
-      "bgColor": "#d2d3fc",
+      "bgColor": "#f2f2fc",
       "textColor": "#6d72fc",
       "adsBorder": "#a5a9fa"
     },
     {
       "pageName": "Travel",
-      "bgColor": "#d2d3fc",
+      "bgColor": "#f2f2fc",
       "textColor": "#6d72fc",
       "adsBorder": "#a5a9fa"
     },
     {
       "pageName": "Medical",
-      "bgColor": "#d2d3fc",
+      "bgColor": "#f2f2fc",
       "textColor": "#6d72fc",
       "adsBorder": "#a5a9fa"
     },
     {
       "pageName": "Car",
-      "bgColor": "#d2d3fc",
+      "bgColor": "#f2f2fc",
       "textColor": "#6d72fc",
       "adsBorder": "#a5a9fa"
     },
