@@ -28,12 +28,14 @@ import Swal from "sweetalert2";
 
 function Contentcreate(props) {
   const { downTree, path, category, name, title, location, blogTitle } = props;
+  const showAlert = useAlert();
+  const navigate = useNavigate();
   const [dropdownOptions, setDropdownOptions] = useState([]);
   const [dropdownChildOptions, setDropDownChild] = useState([]);
   const [selectedValue, setSelectedValue] = useState("");
   const [selectChildValue, setSelectChildValue] = useState("");
   const [editorContent, setEditorContent] = useState("");
-  const [addTextLine, setAddTextLine] = useState([{}]);
+  const [addTextLine, setAddTextLine] = useState([{ id: 1, value: "" }]);
   const [newTextLine, setNewTextLine] = useState({});
   const { fetchBusinessContent, result, businessLoad } = useBusinessPost();
   const { fetchCreateCard, resultCard, cardload } = useCreateCardContent();
@@ -45,8 +47,6 @@ function Contentcreate(props) {
   const { getImage, loadImage } = useImgCardURL(title);
   const { viewData, vieloading } = useCompanyView(title);
   const { content, contentload } = useBlogContent(blogTitle ? blogTitle : "");
-  const showAlert = useAlert();
-  const navigate = useNavigate();
   const [TextLine, setTextLine] = useState({
     title: "",
     description: "",
@@ -66,6 +66,12 @@ function Contentcreate(props) {
       position: "",
     },
   ]);
+  const [imageInsert, setImageInsert] = useState([
+    {
+      id: Date.now(),
+      imagePreview: null,
+    },
+  ]);
   const [socialText, setSocialText] = useState([
     {
       id: 1,
@@ -81,6 +87,7 @@ function Contentcreate(props) {
       name: name,
       title: title,
       childloc: location,
+      imageTitle: imageInsert.imagePreview,
     },
     TextLine: { required: TextLine, option: newTextLine, social: socialText },
     TextEditor: editorContent,
@@ -92,11 +99,13 @@ function Contentcreate(props) {
       name: name,
       title: title,
       childloc: location,
+      imageTitle: imageInsert.imagePreview,
     },
     TextLine: { required: TextLine, option: newTextLine, social: socialText },
     TextEditor: editorContent,
     Personnel: { entries },
   };
+
   useEffect(() => {
     if (viewData.info) {
       viewData.info.map((item) => {
@@ -133,22 +142,19 @@ function Contentcreate(props) {
       ]);
     }
 
-    if (viewData.product) {
-      const product = viewData.product
-        ? viewData.product.map((item) => item)
-        : [];
-      setAddTextLine(() => [
-        ...product.map((item) => ({
-          id: item.id,
-          value: item.productImage,
-        })),
-      ]);
-      setNewTextLine(() => [
-        ...product.map((item) => ({
-          id: item.id,
-          value: item.productImage,
-        })),
-      ]);
+    if (viewData?.product) {
+      const product = viewData.product.map((item) => ({
+        id: item.id,
+        value: item.productImage || "",
+      }));
+
+      setAddTextLine(product);
+      setNewTextLine(() =>
+        product.reduce((acc, item) => {
+          acc[item.id] = { id: item.id, value: item.productImage || "" };
+          return acc;
+        }, {})
+      );
     }
 
     if (viewData.socials) {
@@ -168,7 +174,7 @@ function Contentcreate(props) {
       getData.map((item) => {
         setTextLine({
           title: item.Name,
-          description: item.desc,
+          address: item.desc,
           image: item.icon_image,
           contact: item.contact,
           email: item.email,
@@ -179,13 +185,22 @@ function Contentcreate(props) {
       });
     }
     const textLink = getImage ? getImage.map((item) => item) : [];
+    if (textLink.length > 0) {
+      setAddTextLine(() =>
+        textLink.map((url) => ({
+          id: url.childID,
+          value: url.imageURL || "",
+        }))
+      );
 
-    setAddTextLine((prev) => [
-      ...textLink.map((url) => ({ id: url.childID, value: url.imageURL })),
-    ]);
-    setNewTextLine(() => ({
-      ...textLink.map((url) => ({ id: url.childID, value: url.imageURL })),
-    }));
+      setNewTextLine((prev) => ({
+        ...prev,
+        ...textLink.reduce((acc, url) => {
+          acc[url.childID] = { id: url.childID, value: url.imageURL || "" };
+          return acc;
+        }, {}),
+      }));
+    }
   }, [getData, getURL, getImage]);
 
   useEffect(() => {
@@ -309,7 +324,7 @@ function Contentcreate(props) {
         `The ${name} content card has been updated successfully.`,
         "success"
       ).then(() => {
-        navigate(-1 );
+        navigate(-1);
       });
     }
   };
@@ -375,6 +390,20 @@ function Contentcreate(props) {
             i === index ? { ...entry, imagePreview: reader.result } : entry
           )
         );
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleTitleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageInsert((prev) => ({
+          ...prev,  
+          imagePreview: reader.result,
+        }));
       };
       reader.readAsDataURL(file);
     }
@@ -487,45 +516,60 @@ function Contentcreate(props) {
               </div>
             </div>
             <div className="flex flex-wrap gap-3">
-              <div className="flex flex-col w-full">
-                <label htmlFor="Title">Title</label>
-                <Textline
-                  className={
-                    "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
-                  }
-                  type={"text"}
-                  placeholder={"Enter Title"}
-                  value={TextLine.title}
-                  name={"title"}
-                  onChange={handleTextLineChange}
-                />
+              <div className="flex w-full ">
+                <div className="flex flex-col w-full ">
+                  <div className="flex flex-col w-full ">
+                    <label htmlFor="Title">Title</label>
+                    <Textline
+                      className={
+                        "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
+                      }
+                      type={"text"}
+                      placeholder={"Enter Title"}
+                      value={TextLine.title}
+                      name={"title"}
+                      onChange={handleTextLineChange}
+                    />
+                  </div>
+                  <div className="flex  flex-col w-full">
+                    <label htmlFor="Description">Address</label>
+                    <Textline
+                      className={
+                        "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
+                      }
+                      type={"text"}
+                      placeholder={"Enter Address"}
+                      value={TextLine.address}
+                      name={"address"}
+                      onChange={handleTextLineChange}
+                    />
+                  </div>
+                  <div className="flex  flex-col w-full">
+                    <label htmlFor="Description">Description</label>
+                    <Textline
+                      className={
+                        "w-full text-gray-900 focus:ring-4 h-[14vh] bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
+                      }
+                      type={"text"}
+                      placeholder={"Enter Description"}
+                      value={TextLine.description}
+                      name={"description"}
+                      onChange={handleTextLineChange}
+                      textarea={true}
+                    />
+                  </div>
+                </div>
+                <div className="flex w-[30vw] justify-end ">
+                  <div>
+                    <UploadImage
+                      imagePreview={imageInsert.imagePreview}
+                      handleFileChange={(e) => handleTitleFileChange(e)}
+                      className="flex "
+                    />
+                  </div>
+                </div>
               </div>
-              <div className="flex  flex-col w-full">
-                <label htmlFor="Description">Address</label>
-                <Textline
-                  className={
-                    "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
-                  }
-                  type={"text"}
-                  placeholder={"Enter Description"}
-                  value={TextLine.address}
-                  name={"address"}
-                  onChange={handleTextLineChange}
-                />
-              </div>
-              <div className="flex  flex-col w-full">
-                <label htmlFor="Description">Description</label>
-                <Textline
-                  className={
-                    "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
-                  }
-                  type={"text"}
-                  placeholder={"Enter Description"}
-                  value={TextLine.description}
-                  name={"description"}
-                  onChange={handleTextLineChange}
-                />
-              </div>
+
               <div className="flex w-full gap-2">
                 <div className="flex  flex-col w-full">
                   <label htmlFor="Description">Contact</label>
@@ -541,7 +585,7 @@ function Contentcreate(props) {
                   />
                 </div>
                 <div className="flex  flex-col w-full">
-                  <label htmlFor="Description">Email</label>
+                  <label htmlFor="Email">Email</label>
                   <Textline
                     className={
                       "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
@@ -554,7 +598,7 @@ function Contentcreate(props) {
                   />
                 </div>
                 <div className="flex  flex-col w-full">
-                  <label htmlFor="Description">Service Type</label>
+                  <label htmlFor="Service">Service Type</label>
                   <Textline
                     className={
                       "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
@@ -568,7 +612,7 @@ function Contentcreate(props) {
                 </div>
               </div>
               <div className="flex  flex-col w-full">
-                <label htmlFor="Description">Location</label>
+                <label htmlFor="Location">Location</label>
                 <Textline
                   className={
                     "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
@@ -597,66 +641,43 @@ function Contentcreate(props) {
                   {name === "Business" ? "Product Image Link" : "Image Link"}
                 </label>
                 <div className="flex flex-wrap  max-w-full gap-1">
-                  <div className="flex gap-2 min-w-full">
-                    <div className="w-full">
-                      <Textline
-                        className="min-w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
-                        type="text"
-                        placeholder={"Enter Image link (Required)"}
-                        value={TextLine.image}
-                        name={"image"}
-                        onChange={handleTextLineChange}
-                        required={true}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Conditionally render the dynamically added Textlines only if at least one has been added */}
-                  {TextLine.image !== "" && (
-                    <div className=" min-w-full ">
-                      {addTextLine.map((textLine, index) => (
-                        <div
-                          key={textLine.id}
-                          className="flex w-full gap-1 mt-2"
-                        >
-                          <div className="w-full">
-                            <Textline
-                              className="min-w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
-                              type="text"
-                              placeholder={`Enter Image link (Optional)`}
-                              value={textLine.value}
-                              onChange={(e) =>
-                                handleTextlineChange(
-                                  textLine.id,
-                                  e.target.value
-                                )
-                              }
-                              required={false}
-                            />
-                          </div>
-                          <div className="flex justify-center ">
-                            <Button
-                              icon={
-                                <FontAwesomeIcon
-                                  icon={
-                                    textLine.id < addTextLine.length
-                                      ? faMinus
-                                      : faAdd
-                                  }
-                                  className="border p-3 mt-2 rounded-lg hover:bg-blue-500 hover:text-white"
-                                  onClick={
-                                    textLine.id < addTextLine.length
-                                      ? () => handleDeleteTextline(textLine.id)
-                                      : handleAddLink
-                                  } // Add new Textline on button click
-                                />
-                              }
-                            />
-                          </div>
+                  <div className=" min-w-full ">
+                    {addTextLine.map((textLine, index) => (
+                      <div key={textLine.id} className="flex w-full gap-1 mt-2">
+                        <div className="w-full">
+                          <Textline
+                            className="min-w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
+                            type="text"
+                            placeholder={`Enter Image link (Optional)`}
+                            value={textLine.value}
+                            onChange={(e) =>
+                              handleTextlineChange(textLine.id, e.target.value)
+                            }
+                            required={false}
+                          />
                         </div>
-                      ))}
-                    </div>
-                  )}
+                        <div className="flex justify-center ">
+                          <Button
+                            icon={
+                              <FontAwesomeIcon
+                                icon={
+                                  textLine.id < addTextLine.length
+                                    ? faMinus
+                                    : faAdd
+                                }
+                                className="border p-3  rounded-lg hover:bg-blue-500 hover:text-white"
+                                onClick={
+                                  textLine.id < addTextLine.length
+                                    ? () => handleDeleteTextline(textLine.id)
+                                    : handleAddLink
+                                }
+                              />
+                            }
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
               {name === "Business" && (
