@@ -38,7 +38,7 @@ const Inbox = () => {
           </div>
         </div>
         <div className="flex border min-w-full min-h-[80vh] px-2">
-          <div className=" border-r w-[30vw] min-h-[70vh] p-2 overflow-hidden hover:overflow-y-scroll">
+          <div className="flex flex-col border-r w-[30vw] min-h-[70vh] p-2 overflow-hidden hover:overflow-y-scroll">
             <h2 className="text-lg p-2 border ">Message:</h2>
             {cardContent.map((item) => (
               <>
@@ -47,7 +47,8 @@ const Inbox = () => {
                   desc={item.desc}
                   onLink={() => handleView(item)}
                   className={"p-5 "}
-                  user={"John Doe"}
+                  user={item.user}
+                  datetime={Date()}
                 />
               </>
             ))}

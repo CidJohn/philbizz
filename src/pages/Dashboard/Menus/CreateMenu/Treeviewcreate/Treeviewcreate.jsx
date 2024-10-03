@@ -92,7 +92,7 @@ const Treeviewcreate = (props) => {
       </div>
       <div className="border-2 p-5 rounded-lg shadow-md min-w-96 min-h-80 bg-white">
         <div className="text-2xl font-bold p-2">
-          {name === "Business" ? "Display Cateogry" : "Display Treeview"}
+          {name === "Business" ? "Display Category" : "Display Treeview"}
         </div>
         <div className="text-lg font-bold">{treeAdd.parent}</div>
         <div className="max-h-64 h-screen overflow-hidden hover:overflow-y-scroll">

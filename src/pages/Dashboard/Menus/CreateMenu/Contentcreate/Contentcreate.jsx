@@ -638,7 +638,7 @@ function Contentcreate(props) {
               </div>
               <div className="flex  flex-col w-full">
                 <label htmlFor="Image">
-                  {name === "Business" ? "Product Image Link" : "Image Link"}
+                  Image Link
                 </label>
                 <div className="flex flex-wrap  max-w-full gap-1">
                   <div className=" min-w-full ">
