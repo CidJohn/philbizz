@@ -60,5 +60,27 @@
       "textColor": "#013A63",
       "theme": 1
     }
+  ],
+  "counter": [
+    {
+      "name":"Users",
+      "count":"123",
+      "color":"#d1e3ff"
+    },
+    {
+      "name":"Blog",
+      "count":"23",
+      "color":"#d1e3ff"
+    },
+    {
+      "name":"Notification",
+      "count":"5",
+      "color":"#ffd1d5"
+    },
+    {
+      "name":"Content",
+      "count":"645",
+      "color":"#fffad1"
+    }
   ]
 }

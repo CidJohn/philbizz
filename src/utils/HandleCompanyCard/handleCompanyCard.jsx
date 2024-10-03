@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Card from "../../components/Card/Card";
 import List from "../../components/List/List";
 import Pagination from "../../components/Pagination/Pagination";
@@ -6,9 +6,11 @@ import Horizontal from "../../components/Horizontal/Horizontal";
 import { useNavigate } from "react-router-dom";
 
 const HandleCompanyCard = (props) => {
-  const { category, sideBarColor, navigates} = props;
-  const {path, pageName, sideBarColorChanger} = navigates
+  const { category, sideBarColor, navigates } = props;
+  const { path, pageName, sideBarColorChanger } = navigates;
   const navigate = useNavigate();
+  const listPaginationRef = useRef(null);
+  const cardPaginationRef = useRef(null);
   const cardData = Array.isArray(category) ? category.slice(0, 115) : [];
   const listData = Array.isArray(category) ? category.slice(115) : [];
 
@@ -41,7 +43,10 @@ const HandleCompanyCard = (props) => {
       },
     });
     setListCurrentPage(pageNumber);
-  }
+    if (listPaginationRef.current) {
+      listPaginationRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   const handleCardCurrentPage = (pageNumber) => {
     navigate(`${path}#card-pagination`, {
       state: {
@@ -51,13 +56,13 @@ const HandleCompanyCard = (props) => {
       },
     });
     setCardCurrentPage(pageNumber);
-  }
+    if (cardPaginationRef.current) {
+      cardPaginationRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   const renderCard = (item, index) => (
-    <div
-      className=""
-      key={item.childID}
-    >
+    <div className="" key={item.childID}>
       <div className="flex flex-wrap">
         <Card
           src={item.image}
@@ -71,7 +76,7 @@ const HandleCompanyCard = (props) => {
           }}
           theme={sideBarColor.theme}
           btnColor={sideBarColor.bgColor}
-            textColor={sideBarColor.textColor}
+          textColor={sideBarColor.textColor}
         />
       </div>
     </div>
@@ -88,7 +93,7 @@ const HandleCompanyCard = (props) => {
           className={"hover:bg-slate-200 w-full"}
           imgstyle={{ width: "200px", height: "100px" }}
           colorText={sideBarColor.textColor}
-          style={{width: "72vw"}}
+          style={{ width: "72vw" }}
         />
       </div>
     </div>
@@ -104,9 +109,7 @@ const HandleCompanyCard = (props) => {
 
   const renderListData = (data) => (
     <div className="data-section">
-      <div className="gap-2">
-        {data.map((item) => renderList(item))}
-      </div>
+      <div className="gap-2">{data.map((item) => renderList(item))}</div>
     </div>
   );
 
@@ -114,7 +117,7 @@ const HandleCompanyCard = (props) => {
     <div>
       {
         <>
-          <div className="" id="card-pagination">
+          <div className="" id="card-pagination" ref={cardPaginationRef}>
             <div className="p-3 ">{renderCardData(cardCurrentData)}</div>
           </div>
           <div className="flex p-3 items-center justify-center" id="page">
@@ -128,9 +131,11 @@ const HandleCompanyCard = (props) => {
             </div>
           </div>
           <div className={listCurrentData.length === 0 ? "hidden" : "block"}>
-            <Horizontal  />
+            <Horizontal />
           </div>
-          <div id="list-pagination" >{renderListData(listCurrentData)}</div>
+          <div id="list-pagination" ref={listPaginationRef}>
+            {renderListData(listCurrentData)}
+          </div>
           <div
             className={
               listCurrentData.length === 0
