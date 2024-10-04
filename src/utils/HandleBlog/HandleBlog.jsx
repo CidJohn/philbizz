@@ -6,6 +6,7 @@ import Button from "../../components/Button/Button";
 import BlogComment from "../../pages/Selection/Blog/BlogComment/BlogComment";
 import { useBlogLiked } from "../../helper/database/useBlogSettings";
 import { FaRegComment } from "react-icons/fa";
+import TreeView from "../../components/Treeviews/Treeview";
 
 const HandleBlog = (props) => {
   const {
@@ -15,6 +16,7 @@ const HandleBlog = (props) => {
     isCommentOpen,
     userdata,
     handleLink,
+    treeData,
   } = props;
   const [getCommentID, setCommentID] = useState(null);
 
@@ -31,7 +33,6 @@ const HandleBlog = (props) => {
   };
 
   const toggleLike = async (commentID) => {
-    // Optimistically update UI before server response
     const currentLiked = dataliked[commentID];
     setDataLiked((prevLikes) => ({
       ...prevLikes,
@@ -78,7 +79,7 @@ const HandleBlog = (props) => {
             datetime={item.created_at}
             classStyle={"text-2xl"}
           />
-          <div className="flex gap-5 items-center mt-4">
+          <div className="flex gap-5 items-center ">
             <div>
               <LikeButton
                 liked={isLiked}
@@ -114,7 +115,6 @@ const HandleBlog = (props) => {
       );
     });
   };
-
   return (
     <>
       {renderData(blogdata)}

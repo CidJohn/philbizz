@@ -30,7 +30,7 @@ export const useRoute = () => {
 
   useEffect(() => {
     if (navbarData) {
-      const limitedNavbarData = navbarData.slice(0, 10); // Limit to 10 items
+      const limitedNavbarData = navbarData.slice(0, 10);
       const routes = limitedNavbarData.map((item, index) => (
         <Route
           key={`nav-${index}`}

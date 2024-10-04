@@ -11,6 +11,7 @@ import Contact from "./pages/Homeview/Contact/Contact";
 import Inbox from "./pages/Dashboard/Inbox/Inbox";
 import Createmenu from "./pages/Dashboard/Menus/CreateMenu/Createmenu";
 import BlogPost from "./pages/Selection/Blog/BlogPost/BlogPost";
+import Archived from "./pages/Dashboard/Archived/Archived";
 
 function App() {
   const {
@@ -60,6 +61,7 @@ function App() {
             element={<Createmenu />}
             key={"createForm"}
           />
+          <Route path="/dashboard/Archived/:item" element={<Archived />} />
           {getcardContent}
           {getsidebar}
           {getdashcompanyroute}
