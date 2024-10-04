@@ -1,0 +1,154 @@
+[
+  {
+    "id": 1,
+    "name": "Lifestyle",
+    "children": [
+      { "id": 101, "name": "Health & Wellness" },
+      { "id": 102, "name": "Personal Development" },
+      { "id": 103, "name": "Home & Family" },
+      { "id": 104, "name": "Fashion" },
+      { "id": 105, "name": "Relationships" }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Technology",
+    "children": [
+      { "id": 201, "name": "Gadgets" },
+      { "id": 202, "name": "Software" },
+      { "id": 203, "name": "AI" },
+      { "id": 204, "name": "Mobile Apps" },
+      { "id": 205, "name": "Tech Reviews" }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Travel",
+    "children": [
+      { "id": 301, "name": "Travel Guides" },
+      { "id": 302, "name": "Destination Reviews" },
+      { "id": 303, "name": "Budget Travel" },
+      { "id": 304, "name": "Luxury Travel" },
+      { "id": 305, "name": "Solo Travel" }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Food & Drink",
+    "children": [
+      { "id": 401, "name": "Recipes" },
+      { "id": 402, "name": "Restaurant Reviews" },
+      { "id": 403, "name": "Vegan/Vegetarian" },
+      { "id": 404, "name": "Wine & Spirits" },
+      { "id": 405, "name": "Culinary Techniques" }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Finance & Business",
+    "children": [
+      { "id": 501, "name": "Personal Finance" },
+      { "id": 502, "name": "Investing" },
+      { "id": 503, "name": "Entrepreneurship" },
+      { "id": 504, "name": "Marketing" },
+      { "id": 505, "name": "Career Development" }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Fitness & Health",
+    "children": [
+      { "id": 601, "name": "Workout Routines" },
+      { "id": 602, "name": "Mental Health" },
+      { "id": 603, "name": "Yoga & Meditation" },
+      { "id": 604, "name": "Nutrition" },
+      { "id": 605, "name": "Weight Loss" }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Fashion & Beauty",
+    "children": [
+      { "id": 701, "name": "Fashion Trends" },
+      { "id": 702, "name": "Makeup Tutorials" },
+      { "id": 703, "name": "Skincare" },
+      { "id": 704, "name": "Sustainable Fashion" },
+      { "id": 705, "name": "DIY Fashion" }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Education & Learning",
+    "children": [
+      { "id": 801, "name": "Online Courses" },
+      { "id": 802, "name": "Learning Resources" },
+      { "id": 803, "name": "Language Learning" },
+      { "id": 804, "name": "Skill Development" }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Parenting & Family",
+    "children": [
+      { "id": 901, "name": "Parenting Tips" },
+      { "id": 902, "name": "Child Development" },
+      { "id": 903, "name": "Family Activities" },
+      { "id": 904, "name": "Special Needs" },
+      { "id": 905, "name": "Education" }
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Entertainment & Pop Culture",
+    "children": [
+      { "id": 1001, "name": "Movies" },
+      { "id": 1002, "name": "TV Shows" },
+      { "id": 1003, "name": "Music" },
+      { "id": 1004, "name": "Celebrity News" },
+      { "id": 1005, "name": "Games" }
+    ]
+  },
+  {
+    "id": 11,
+    "name": "DIY & Crafting",
+    "children": [
+      { "id": 1101, "name": "Home Decor" },
+      { "id": 1102, "name": "Crafts for Kids" },
+      { "id": 1103, "name": "Upcycling" },
+      { "id": 1104, "name": "Sewing" },
+      { "id": 1105, "name": "Gardening" }
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Environmental & Sustainability",
+    "children": [
+      { "id": 1201, "name": "Eco-friendly Living" },
+      { "id": 1202, "name": "Sustainable Fashion" },
+      { "id": 1203, "name": "Renewable Energy" },
+      { "id": 1204, "name": "Zero Waste" }
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Personal Development & Motivation",
+    "children": [
+      { "id": 1301, "name": "Productivity" },
+      { "id": 1302, "name": "Mindfulness" },
+      { "id": 1303, "name": "Goal Setting" },
+      { "id": 1304, "name": "Time Management" },
+      { "id": 1305, "name": "Self-Care" }
+    ]
+  },
+  {
+    "id": 14,
+    "name": "Photography & Art",
+    "children": [
+      { "id": 1401, "name": "Photography Tips" },
+      { "id": 1402, "name": "Visual Art" },
+      { "id": 1403, "name": "Digital Art" },
+      { "id": 1404, "name": "Photo Editing" },
+      { "id": 1405, "name": "Art History" }
+    ]
+  }
+]

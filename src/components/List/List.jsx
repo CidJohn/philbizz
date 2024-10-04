@@ -38,7 +38,7 @@ const List = (props) => {
   }
 
   return (
-    <div className="w-full flex flex-col mt-3 h-full">
+    <div className="w-full flex flex-col mt-3 py-3">
       <ul className="space-y-2">
         <li
           key={id}

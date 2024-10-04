@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Pagination from "../../../components/Pagination/Pagination";
 import useBlogSettings from "../../../helper/database/useBlogSettings";
 import HandleBlog from "../../../utils/HandleBlog/HandleBlog";
 import Button from "../../../components/Button/Button";
 import Spinner from "../../../components/Spinner/Spinner";
 import { useAuth } from "../../../helper/auth/useAuthContext";
-import BlogPost from "./BlogPost/BlogPost";
 import { useUserData } from "../../../helper/auth/useAuthentication";
 import restAPI from "../../../helper/database/restAPI";
 import { useNavigate } from "react-router-dom";
+import TreeView from "../../../components/Treeviews/Treeview";
+import blogCategories from "../../../content/blog_categories.json";
 
 const Blog = () => {
   const navigate = useNavigate();
@@ -22,6 +23,14 @@ const Blog = () => {
   const { getData } = useUserData();
   const imagelink = restAPI();
   const userid = getData ? { id: getData.id, username: getData.username } : "";
+
+  const [treeData, setTreeData] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  useEffect(() => {
+    setTreeData(blogCategories);
+  }, [blogCategories]);
+
   if (blogload) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -39,14 +48,22 @@ const Blog = () => {
     : [];
 
   const handleModalOpen = (item) => {
-    //setModalOpen(!isModalOpen);
-    navigate(`/blog/post/${item.id}`, { state: { id: item.id, username: item.username } });
+    navigate(`/blog/post/${item.id}`, {
+      state: { id: item.id, username: item.username },
+    });
   };
+
   const handleCommentOpen = () => {
     setCommentOpen(!isCommentOpen);
   };
+
   const handleLink = (item, user) => {
     navigate(`/${item}`, { state: { title: item, user: user } });
+  };
+
+  const handleCategory = (id, path, name) => {
+    console.log(`Category clicked: ${id}-${name}`);
+    setSelectedCategory(name);
   };
 
   return (
@@ -85,28 +102,34 @@ const Blog = () => {
           </div>
         </div>
         <div
-          className="flex items-center justify-center w-full flex-col my-4 "
+          className="flex"
           id="card-pagination"
         >
-          <HandleBlog
-            blogdata={currentPost}
-            imagelink={imagelink}
-            handleCommentOpen={handleCommentOpen}
-            isCommentOpen={isCommentOpen}
-            userdata={userid}
-            handleLink={handleLink}
-          />
-          <Pagination
+          <div className="sticky top-5  p-5">
+            <TreeView
+              treeViewContent={treeData}
+              onItemClick={handleCategory}
+              textColor="#333"
+            />
+          </div>
+          <div className="flex flex-col items-center w-full shadow-lg my-4 p-2">
+            <HandleBlog
+              blogdata={currentPost}
+              imagelink={imagelink}
+              handleCommentOpen={handleCommentOpen}
+              isCommentOpen={isCommentOpen}
+              userdata={userid}
+              handleLink={handleLink}
+              treeData={treeData}
+            />
+            <Pagination
             currentPage={cardCurrentPage}
             totalPages={cardTotalPages}
             onPageChange={setCardCurrentPage}
             link="card-pagination"
           />
+          </div>
         </div>
-
-        {/* {isModalOpen && (
-          <BlogPost handleOpen={handleModalOpen} userdata={userid} />
-        )} */}
       </div>
     </React.Fragment>
   );

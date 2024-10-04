@@ -126,12 +126,10 @@ function Menus(props) {
       cancelButtonText: "Cancel",
     }).then((result) => {
       if (result.isConfirmed) {
-        // Proceed with deletion
         console.log(`Deleted: ${data}`);
-        // Here you can call the function to delete the data or make an API request
         Swal.fire(
           "Deleted!",
-          `Your data "${data}" has been deleted.`,
+          `Your data "${data.title}" has been deleted.`,
           "success"
         );
       } else {

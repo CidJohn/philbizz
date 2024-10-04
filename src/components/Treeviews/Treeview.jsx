@@ -12,9 +12,8 @@ import {
   faLessThan,
 } from "@fortawesome/free-solid-svg-icons";
 
-// Function to capitalize the first letter
 const capitalize = (str) => {
-  if (!str) return ""; // Handle empty or undefined input
+  if (!str) return "";
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 };
 
@@ -28,7 +27,7 @@ const TreeItem = ({ item, onItemClick, textColor }) => {
 
   const handleItemClick = (e) => {
     if (item.id) {
-      onItemClick(item.id, item.path, item.name); // Pass the clicked item's id to the parent component
+      onItemClick(item.id, item.path, item.name);
     }
   };
 
@@ -41,8 +40,8 @@ const TreeItem = ({ item, onItemClick, textColor }) => {
         <Button
           className={
             item.children && item.children.length > 0
-              ? ` font-bold hover:underline decoration-sky-500 underline-offset-8 decoration-4 `
-              : "text-gray-500 text-[15px]"
+              ? ` font-bold hover:underline decoration-sky-500 underline-offset-8 decoration-4 text-left truncate w-[10vw]`
+              : "text-gray-500 text-[15px] text-left"
           }
           onClick={handleItemClick}
           text={capitalize(t(item.name))}
@@ -51,11 +50,12 @@ const TreeItem = ({ item, onItemClick, textColor }) => {
               ? { color: textColor }
               : {}
           }
+          title={item.name}
         />
         {item.children && item.children.length > 0 && (
           <FontAwesomeIcon
             icon={isOpen ? faChevronDown : faChevronRight}
-            className={`mr-2 w-[20px] px-1 `}
+            className={`mr-2 w-[20px] px-1  `}
             style={{ color: textColor }}
           />
         )}

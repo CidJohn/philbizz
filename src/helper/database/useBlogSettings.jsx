@@ -164,15 +164,16 @@ export const useBlogCommentContent = ({ id }) => {
   const API_CALL = restAPI();
 
   useEffect(() => {
-    if (!id) return; // If no ID is provided, exit early
+    if (!id) return;
     const params = new URLSearchParams();
-    const controller = new AbortController(); // Create an AbortController instance
+    const controller = new AbortController();
     if (id) params.append("id", id);
     const fetchingCommentData = async () => {
       try {
         const response = await axios.get(
-          `${API_CALL.host}/comment-section?${params}`, // Correct URL path
-          { signal: controller.signal } // Attach the abort signal to the request
+          `${API_CALL.host}/comment-section`,
+          { params: { id: id } },
+          { signal: controller.signal }
         );
         const res = response.data;
         setCommentData(res);
@@ -192,11 +193,10 @@ export const useBlogCommentContent = ({ id }) => {
 
     fetchingCommentData();
 
-    // Cleanup function to cancel the request if the component unmounts
     return () => {
       controller.abort();
     };
-  }, [id, API_CALL.host]); // Only re-run when id or API_CALL.host changes
+  }, [id, API_CALL.host]);
 
   return { commentData, commentLoad };
 };
@@ -311,19 +311,22 @@ export const useUpdateBlogContent = () => {
   const API_CALL = restAPI();
 
   const fetchBlogUpdate = async (data) => {
-    if(!data) return
+    if (!data) return;
     try {
-      const response = await axios.put(`${API_CALL.host}/blog-content/put/data`, data)
+      const response = await axios.put(
+        `${API_CALL.host}/blog-content/put/data`,
+        data
+      );
       const res = response.data;
       setResult(res);
-    }  catch (error) {
+    } catch (error) {
       console.error("Error fetching like status:", error.message);
     } finally {
       setLoading(false);
     }
-  }
- 
-  return {fetchBlogUpdate, resultBlogUpdate, blogLoading}
-}
+  };
+
+  return { fetchBlogUpdate, resultBlogUpdate, blogLoading };
+};
 
 export default useBlogSettings;
