@@ -91,19 +91,19 @@ const Businessview = (props) => {
   };
 
   return (
-    <div className="flex flex-wrap   w-[75vw] mx-auto">
+    <div className="flex flex-wrap  px-60 mt-12 ">
       {laodHeader ? (
         <div className="flex  justify-center min-h-screen mx-auto">
           <Spinner />
         </div>
       ) : (
-        <div className=" flex flex-col md:flex-row  gap-3 w-[75vw]  mx-auto">
+        <div className=" flex flex-col md:flex-row  gap-3 w-full ">
           <div className="flex flex-col   rounded-lg ">
             {/*sticky top-0 */}
             <div className=" w-[16vw] ">
               {Object.keys(groupedTreeView).map((name) => (
                 <div key={name} className="p-2 ">
-                  <h3 className="font-bold text-2xl my-2  bg-blue-300 px-2">
+                  <h3 className="font-bold text-2xl my-2 py-2 text-white bg-[#013A63] px-2">
                     {name}
                   </h3>
                   <div className="p-2 border">
@@ -116,19 +116,17 @@ const Businessview = (props) => {
               ))}
             </div>
           </div>
-          <div className="flex">
-            <div className="flex flex-col   ">
-              {listItems.map((item, index) => (
-                <div className="  min-w-full mx-auto" key={index}>
-                  <Listedcard
-                    section={item.title}
-                    listItems={item.list}
-                    listclass={"text-sm"}
-                    listclasses={"hover:bg-slate-100  "}
-                  />
-                </div>
-              ))}
-            </div>
+          <div className="flex flex-col   ">
+            {listItems.map((item) => (
+              <div className="w-full" key={item.id}>
+                <Listedcard
+                  section={item.title}
+                  listItems={item.list}
+                  listclass={"text-md"}
+                  listclasses={"hover:bg-slate-100  "}
+                />
+              </div>
+            ))}
           </div>
           <div className="flex flex-col min-w-80 p-2 ">
             <div className="sticky top-5">
