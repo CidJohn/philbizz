@@ -21,7 +21,7 @@ const Description = (props) => {
                       >
                         {t(item.header)}
                       </h1>
-                      <p className="text-left mb-2 fira-sans-bold ">
+                      <p className="text-left mb-2 text-lg text-slate-500 fira-sans-condensed-regular ">
                         {item.paragraph}
                       </p>
                     </div>
@@ -30,7 +30,6 @@ const Description = (props) => {
                         <Images
                           className="rounded-lg"
                           src={item.image}
-                          alt="Hair salon interior"
                         />
                         <figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
                           {t(item.header)}
@@ -39,7 +38,13 @@ const Description = (props) => {
                     )}
                   </div>
                   <div className="grid grid-cols-2 ">
-                    <div className={carousel ? "flex flex-col " : "flex flex-col max-w-[30vw] "}>
+                    <div
+                      className={
+                        carousel
+                          ? "flex flex-col "
+                          : "flex flex-col max-w-[30vw] "
+                      }
+                    >
                       <p className="text-left text-gray-400  font-sans ">
                         {item.description}
                       </p>
@@ -47,7 +52,7 @@ const Description = (props) => {
                     {carousel && (
                       <>
                         <div className="p-2 border">
-                          <Imagecarousel images={carousel} /> 
+                          <Imagecarousel images={carousel} />
                         </div>
                       </>
                     )}

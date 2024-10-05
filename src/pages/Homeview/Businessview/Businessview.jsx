@@ -3,14 +3,13 @@ import { useTranslation } from "react-i18next";
 import { useHomeBusiness } from "../../../helper/database/useBusinessData";
 import Listedcard from "../../../components/Listedcard/Listedcard";
 import Spinner from "../../../components/Spinner/Spinner";
-import Carousel from "../../../components/Carousel/Carousel";
 import TreeView from "../../../components/Treeviews/Treeview";
 import { useTreeview } from "../../../helper/database/useTreeview";
 import { useNavigate } from "react-router-dom";
 import Calendar from "../../../components/Calendar/Calendar";
 import { socialContent } from "../../../content/cardContent";
 import Images from "../../../components/Image/Images";
-import List from "../../../components/List/List";
+import changeColor from "../../../content/content.json";
 
 const Businessview = (props) => {
   const { navbar, businessCarousel } = props;
@@ -72,7 +71,7 @@ const Businessview = (props) => {
   const carousel = Array.isArray(businessCarousel)
     ? businessCarousel.slice(0, 4)
     : [];
-console.log(carousel)
+
   const listItems = [
     { title: "Food", list: getFood },
     { title: "Festival", list: getFestival },
@@ -82,8 +81,20 @@ console.log(carousel)
 
   const handleClick = (id, path) => {
     const formattedPath = path.startsWith("/") ? path.replace("/", "") : path;
+    const dynamicColorChanger = changeColor.sideBarColor
+      ? changeColor.sideBarColor.filter(
+          (node) => node.pageName.toLowerCase() === formattedPath
+        )
+      : [];
 
-    navigate(path, { state: { id: id, path: path, pageName: formattedPath } });
+    navigate(`${path}#cards`, {
+      state: {
+        id: id,
+        path: path,
+        pageName: formattedPath,
+        sideBarColorChanger: dynamicColorChanger[0],
+      },
+    });
   };
 
   const handleDateSelect = (date) => {
