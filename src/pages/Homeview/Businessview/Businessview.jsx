@@ -72,7 +72,7 @@ const Businessview = (props) => {
   const carousel = Array.isArray(businessCarousel)
     ? businessCarousel.slice(0, 4)
     : [];
-
+console.log(carousel)
   const listItems = [
     { title: "Food", list: getFood },
     { title: "Festival", list: getFestival },
