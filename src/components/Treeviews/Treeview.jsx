@@ -3,13 +3,8 @@ import { useTranslation } from "react-i18next";
 import Button from "../Button/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faArrowDown,
-  faArrowRight,
-  faChevronCircleLeft,
   faChevronDown,
   faChevronRight,
-  faGreaterThan,
-  faLessThan,
 } from "@fortawesome/free-solid-svg-icons";
 
 const capitalize = (str) => {

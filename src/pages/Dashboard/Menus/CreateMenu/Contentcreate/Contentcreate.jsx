@@ -20,6 +20,7 @@ import Createblog from "./Createblog";
 import {
   useCardInfo,
   useImgCardURL,
+  useSocialContent,
 } from "../../../../../helper/database/useCardInfo";
 import { useBlogContent } from "../../../../../helper/database/useBlogSettings";
 import useAlert from "../../../../../helper/alert/useAlert";
@@ -37,6 +38,7 @@ function Contentcreate(props) {
   const [editorContent, setEditorContent] = useState("");
   const [addTextLine, setAddTextLine] = useState([{ id: 1, value: "" }]);
   const [newTextLine, setNewTextLine] = useState({});
+  const [parentID, setParentID] = useState(0);
   const { fetchBusinessContent, result, businessLoad } = useBusinessPost();
   const { fetchCreateCard, resultCard, cardload } = useCreateCardContent();
   const { fetchUpdateCompany, resultUpdate, companyLoad } =
@@ -47,6 +49,7 @@ function Contentcreate(props) {
   const { getImage, loadImage } = useImgCardURL(title);
   const { viewData, vieloading } = useCompanyView(title);
   const { content, contentload } = useBlogContent(blogTitle ? blogTitle : "");
+  const { resSocial, load } = useSocialContent(parentID);
   const [TextLine, setTextLine] = useState({
     title: "",
     description: "",
@@ -79,7 +82,7 @@ function Contentcreate(props) {
       social: "",
     },
   ]);
-
+  console.log(resSocial);
   const initialSelectionContent = {
     Treeview: {
       parent: selectedValue,
@@ -168,7 +171,7 @@ function Contentcreate(props) {
       ]);
     }
   }, [viewData.info, viewData.images, viewData.personnels, viewData.socials]);
-  console.log(getData)
+
   useEffect(() => {
     if (getData) {
       getData.map((item) => {
@@ -182,8 +185,17 @@ function Contentcreate(props) {
           service: item.type,
           location: getURL,
         });
-        setImageInsert({ id: Date.now(), imagePreview: item.images || ""})
+        setImageInsert({ id: Date.now(), imagePreview: item.images || "" });
         setEditorContent(item.Content);
+        setParentID(item.ParentID);
+        const socials = resSocial ? resSocial.map((item) => item) : []
+        setSocialText(() => [
+          ...socials.map((item) => ({
+            id: item.ParentID,
+            social: item.SocialMedia,
+            link: item.SocialValue,
+          })),
+        ]);
       });
     }
     const textLink = getImage ? getImage.map((item) => item) : [];
@@ -203,7 +215,7 @@ function Contentcreate(props) {
         }, {}),
       }));
     }
-  }, [getData, getURL, getImage]);
+  }, [getData, getURL, getImage, resSocial]);
 
   useEffect(() => {
     if (name === "Business") {
@@ -298,7 +310,7 @@ function Contentcreate(props) {
       });
     } else {
       fetchCreateCard(initialSelectionContent);
-      if(resultCard){
+      if (resultCard) {
         Swal.fire(
           "Card Created",
           `A ${resultCard} has been created successfully.`,
@@ -405,7 +417,7 @@ function Contentcreate(props) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImageInsert((prev) => ({
-          ...prev,  
+          ...prev,
           imagePreview: reader.result,
         }));
       };
@@ -641,9 +653,7 @@ function Contentcreate(props) {
                 />
               </div>
               <div className="flex  flex-col w-full">
-                <label htmlFor="Image">
-                  Image Link
-                </label>
+                <label htmlFor="Image">Image Link</label>
                 <div className="flex flex-wrap  max-w-full gap-1">
                   <div className=" min-w-full ">
                     {addTextLine.map((textLine, index) => (
