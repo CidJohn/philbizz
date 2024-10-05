@@ -168,19 +168,21 @@ function Contentcreate(props) {
       ]);
     }
   }, [viewData.info, viewData.images, viewData.personnels, viewData.socials]);
-
+  console.log(getData)
   useEffect(() => {
     if (getData) {
       getData.map((item) => {
         setTextLine({
           title: item.Name,
-          address: item.desc,
+          address: item.address,
+          description: item.desc,
           image: item.icon_image,
           contact: item.contact,
           email: item.email,
           service: item.type,
           location: getURL,
         });
+        setImageInsert({ id: Date.now(), imagePreview: item.images || ""})
         setEditorContent(item.Content);
       });
     }
@@ -296,13 +298,15 @@ function Contentcreate(props) {
       });
     } else {
       fetchCreateCard(initialSelectionContent);
-      Swal.fire(
-        "Card Created",
-        `A new ${name} has been created successfully.`,
-        "success"
-      ).then(() => {
-        navigate(-1);
-      });
+      if(resultCard){
+        Swal.fire(
+          "Card Created",
+          `A ${resultCard} has been created successfully.`,
+          "success"
+        ).then(() => {
+          navigate(-1);
+        });
+      }
     }
     console.log(result || resultCard);
   };

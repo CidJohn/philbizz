@@ -40,7 +40,7 @@ export const useCreateCardContent = () => {
         initialData
       );
       const res = await response.data;
-      console.log(response);
+      console.log(response.data);
       setResult(res);
     } catch (error) {
       console.error("Error fetching data:", error);

@@ -30,7 +30,7 @@ export const useRoute = () => {
 
   useEffect(() => {
     if (navbarData) {
-      const limitedNavbarData = navbarData.slice(0, 10);
+      const limitedNavbarData = navbarData
       const routes = limitedNavbarData.map((item, index) => (
         <Route
           key={`nav-${index}`}

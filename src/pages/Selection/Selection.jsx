@@ -32,7 +32,7 @@ const Selection = ({ navbar }) => {
   const { businesses } = useCardDesc(
     pageName.toLowerCase() === "ktv/jtv" ? "ktv_jtv" : pageName.toLowerCase()
   );
-
+ 
   useEffect(() => {
     if (data) {
       const selectedItemObj = data ? findItemById(data, path) : null;

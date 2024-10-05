@@ -23,7 +23,7 @@ const Treeviewcreate = (props) => {
     e.preventDefault();
     const newChild = { child, path };
     setTreeViewChild([...treeViewChild, newChild]);
-    setChild(""); // Reset child input after adding
+    setChild(""); 
   };
 
   const handleCreate = () => {
@@ -31,7 +31,7 @@ const Treeviewcreate = (props) => {
       fetchCreateNewCategory(treeAdd);
       console.log(resultCategoryNew);
     } else {
-      //fetchTreeCreate(treeAdd);
+      fetchTreeCreate(treeAdd)
       console.log(resultNew);
     }
   };
