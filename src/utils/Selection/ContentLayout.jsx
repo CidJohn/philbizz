@@ -23,6 +23,7 @@ const ContentLayout = ({
   desc,
   handleLink,
   sideBarColor,
+  currentRef,
 }) => {
   return (
     <div className=" mx-auto flex  w-[75vw] justify-center gap-3 ">
@@ -36,7 +37,7 @@ const ContentLayout = ({
               txtHeaderColor={sideBarColor.textColor}
             />
           </div>
-          <section id="cards" className="sticky top-5 ">
+          <section id="cards" className="sticky top-5 " ref={currentRef}>
             <div
               className="flex flex-col  mt-5 p-2"
               style={{ backgroundColor: sideBarColor.bgColor }}

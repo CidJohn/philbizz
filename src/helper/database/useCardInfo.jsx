@@ -2,7 +2,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import restAPI from "./restAPI";
 
-
 export const useCardInfo = (type) => {
   const [getData, setData] = useState([]);
   const [getURL, setURL] = useState("");
@@ -39,9 +38,9 @@ export const useImgCardURL = (type) => {
   useEffect(() => {
     const fetchingData = async () => {
       try {
-        if (!type) return; 
+        if (!type) return;
         const results = await axios.get(`${API_CALL.host}/imageURL/${type}`);
-        const data = await results.data; 
+        const data = await results.data;
         setImage(data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -53,4 +52,30 @@ export const useImgCardURL = (type) => {
     fetchingData();
   }, [type]);
   return { getImage, loadImage };
+};
+
+export const useSocialContent = (id) => {
+  const [resSocial, setResult] = useState();
+  const [load, setLoading] = useState(true);
+  const API_CALL = restAPI();
+
+  useEffect(() => {
+    const fecthSocialContent = async () => {
+      try {
+        if (!id) return;
+        const response = await axios.get(`${API_CALL.host}/soical/content`, {
+          params: { id: id },
+        });
+        const res = response.data;
+        setResult(res);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fecthSocialContent();
+  },[id]);
+
+  return { resSocial, load };
 };

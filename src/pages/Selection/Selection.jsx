@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Spinner from "../../components/Spinner/Spinner";
 import ContentLayout from "../../utils/Selection/ContentLayout";
@@ -9,6 +9,7 @@ import useCardSettings from "../../helper/database/useCardSettings"; // Import t
 import { useCardDesc } from "../../helper/database/useCardPath";
 
 const Selection = ({ navbar }) => {
+  const currentRef = useRef()
   const navigate = useNavigate();
   const { state } = useLocation();
   const { id, path, pageName, sideBarColorChanger } = state || {
@@ -60,7 +61,18 @@ const Selection = ({ navbar }) => {
   useEffect(() => {
     const desc = businesses ? businesses : [];
     setDesc(desc);
+    
   }, [businesses]);
+
+  useEffect(() => {
+    if(selectedItem){
+      if (currentRef.current) {
+        currentRef.current.scrollIntoView({ behavior: "smooth" });
+      } else {
+        window.scrollTo({ behavior: "smooth" });
+      }
+    }
+  },[selectedItem])
 
   const findItemById = (items, id) => {
     if (!items) return null;
@@ -222,6 +234,7 @@ const Selection = ({ navbar }) => {
       sideAds={sideAds}
       adName={pageName}
       handleLink={handleLink}
+      currentRef={currentRef}
     ></ContentLayout>
   );
 };

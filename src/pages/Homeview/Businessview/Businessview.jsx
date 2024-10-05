@@ -79,11 +79,16 @@ const Businessview = (props) => {
     { title: "Company", list: carousel },
   ];
 
+  const capitalize = (str) => {
+    if (!str) return "";
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  };
+
   const handleClick = (id, path) => {
-    const formattedPath = path.startsWith("/") ? path.replace("/", "") : path;
+    const formattedPath = capitalize(path.startsWith("/") ? path.replace("/", "") : path);
     const dynamicColorChanger = changeColor.sideBarColor
       ? changeColor.sideBarColor.filter(
-          (node) => node.pageName.toLowerCase() === formattedPath
+          (node) => node.pageName === formattedPath
         )
       : [];
 

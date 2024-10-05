@@ -6,7 +6,6 @@ import Button from "../../components/Button/Button";
 import BlogComment from "../../pages/Selection/Blog/BlogComment/BlogComment";
 import { useBlogLiked } from "../../helper/database/useBlogSettings";
 import { FaRegComment } from "react-icons/fa";
-import TreeView from "../../components/Treeviews/Treeview";
 
 const HandleBlog = (props) => {
   const {
