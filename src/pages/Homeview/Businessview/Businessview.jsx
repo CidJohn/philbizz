@@ -85,7 +85,9 @@ const Businessview = (props) => {
   };
 
   const handleClick = (id, path) => {
-    const formattedPath = capitalize(path.startsWith("/") ? path.replace("/", "") : path);
+    const formattedPath = capitalize(
+      path.startsWith("/") ? path.replace("/", "") : path
+    );
     const dynamicColorChanger = changeColor.sideBarColor
       ? changeColor.sideBarColor.filter(
           (node) => node.pageName === formattedPath
@@ -107,22 +109,22 @@ const Businessview = (props) => {
   };
 
   return (
-    <div className="flex flex-wrap  px-60 mt-12 ">
+    <div className="flex flex-wrap  px-60 mt-5 ">
       {laodHeader ? (
         <div className="flex  justify-center min-h-screen mx-auto">
           <Spinner />
         </div>
       ) : (
-        <div className=" flex flex-col md:flex-row  gap-3 w-full ">
+        <div className=" flex flex-col md:flex-row  gap-3 w-full">
           <div className="flex flex-col   rounded-lg ">
             {/*sticky top-0 */}
-            <div className=" w-[16vw] ">
+            <div className=" w-[18vw]">
               {Object.keys(groupedTreeView).map((name) => (
                 <div key={name} className="p-2 ">
-                  <h3 className="font-bold text-2xl my-2 py-2 text-white bg-[#013A63] px-2">
+                  <h3 className="font-bold text-2xl my-2 py-2 text-white bg-[#013A63] px-4 rounded-md">
                     {name}
                   </h3>
-                  <div className="p-2 border">
+                  <div className="p-2 border rounded-lg bg-[#013A63]/5 px-4 py-6">
                     <TreeView
                       treeViewContent={groupedTreeView[name]}
                       onItemClick={handleClick}
@@ -144,7 +146,7 @@ const Businessview = (props) => {
               </div>
             ))}
           </div>
-          <div className="flex flex-col min-w-80 p-2 ">
+          <div className="flex flex-col min-w-80 px-4  rounded-md ">
             <div className="sticky top-5">
               <div className="transform transition-transform duration-500 hover:scale-105 ">
                 <h1 className="text-4xl p-2 fira-sans-bold text-[#013A63]">
