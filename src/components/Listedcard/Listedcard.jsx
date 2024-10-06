@@ -31,20 +31,20 @@ const Listedcard = (props) => {
           ? listItems.map((item, index) => (
               <div
                 key={index}
-                className="w-full h-auto mb-6 border border-[#013A63]/15 rounded-md p-4"
+                className="w-full h-auto mb-6 border border-[#013A63]/15 bg-[#013A63]/5 rounded-md p-4"
               >
                 <article className="group overflow-hidden rounded-lg border border-gray-100 bg-white shadow-sm ">
                   <img
                     alt=""
                     src={item.images || item.image}
-                    className="h-56 w-full rounded-xl object-cover "
+                    className="h-56 w-full rounded-lg object-cover  "
                   />
                   <div className="p-8 bg-[#013A63]/5">
                     <div className="flex items-center justify-between ">
                       <h3 className="text-lg font-medium text-[#013A63] fira-sans-bold">
                         {item.title}
                       </h3>
-                      <span class="whitespace-nowrap rounded-full bg-[#013A63]/5 px-3.5 py-1.5 text-xs text-[#013A63]">
+                      <span class="whitespace-nowrap rounded-full bg-transparent border border-[#013A63] px-3.5 py-1.5 fira-sans-condensed-bold text-sm text-[#013A63]">
                         <Dateformat dateString={item.created_at} />
                       </span>
                     </div>

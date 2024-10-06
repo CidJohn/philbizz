@@ -6,7 +6,7 @@ function Archived() {
   const { path, name } = state || { path: null, name: null };
   return (
     <>
-    <div className="text-2xl font-sans font-bold">{name}</div>
+      <div className="text-2xl font-sans font-bold">{name}</div>
     </>
   );
 }
