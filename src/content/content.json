@@ -87,5 +87,10 @@
       "count": "645",
       "color": "#fffad1"
     }
+  ],
+  "archived": [
+    { "item": "item", "desc": "description" },
+    { "item": "item2", "desc": "description1" },
+    { "item": "item3", "desc": "description2" }
   ]
 }
