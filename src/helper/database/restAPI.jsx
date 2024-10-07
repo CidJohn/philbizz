@@ -6,7 +6,7 @@ const restAPI = () => {
   const API_CALL = {
     host: apiUrl2 + "/content",
     auth: apiUrl2 + "/auth",
-    image: imageURL2  + "/images/",
+    image: imageURL2 + "/images/",
   };
   return API_CALL;
 };
