@@ -32,7 +32,7 @@ export const HeroBanner = ({ blogData }) => {
     setLan(getlan);
 
     if (blogData) {
-      const filterBlog = blogData ? blogData.slice(0, 3) : [];
+      const filterBlog = blogData ? blogData.slice(0, 2) : [];
       setBlog(filterBlog);
     }
 
@@ -71,7 +71,7 @@ export const HeroBanner = ({ blogData }) => {
         <h1 className="text-4xl p-2 fira-sans-bold text-[#013A63]">
           Currency Converter
         </h1>
-        <div className="flex  transform transition-transform duration-500 hover:scale-95 w-full ">
+        <div className="flex   w-full ">
           <div className="w-full">
             <Currency />
           </div>

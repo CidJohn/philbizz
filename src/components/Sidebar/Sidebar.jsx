@@ -7,6 +7,7 @@ import { FaRegFileArchive, FaRegUserCircle } from "react-icons/fa";
 import { MdOutlineNotificationsActive } from "react-icons/md";
 import { GrDocumentText } from "react-icons/gr";
 import { RxExit } from "react-icons/rx";
+import { TbLayoutNavbar } from "react-icons/tb";
 
 function Sidebar(props) {
   const { navbar } = props;
@@ -36,6 +37,13 @@ function Sidebar(props) {
       state: { name: name, path: path },
     });
   };
+
+  const handleDynamicNavbar = (data) => {
+    navigate(`/dashboard/Navigation`, {
+      state: { navbar: data},
+    });
+  }
+
   return (
     <div className="sticky top-0">
       <button
@@ -111,6 +119,19 @@ function Sidebar(props) {
                 </span>
                 <span className="inline-flex items-center justify-center w-3 h-2 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
                   3
+                </span>
+              </a>
+            </li>
+            <li>
+              <a
+                onClick={() =>
+                  handleDynamicNavbar(navbar)
+                }
+                className="flex items-center p-4 text-[#013A63] fira-sans-regular rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <TbLayoutNavbar className="text-lg" />
+                <span className="flex-1 ms-3 whitespace-nowrap fira-sans-regular">
+                  Navigation bar
                 </span>
               </a>
             </li>
