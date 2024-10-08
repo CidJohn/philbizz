@@ -178,14 +178,6 @@ const Businessview = (props) => {
           </div>
         </div>
       )}
-      {/* <div className="max-w-screen-sm md:max-w-screen-md lg:min-w-full mt-3 mx-auto border-2 rounded-lg p-2">
-        <h1 className="text-4xl   underline decoration-sky-500 decoration-double decoration-2 underline-offset-8">
-          {t("Companies")}
-        </h1>
-        <div className="flex mx-auto">
-          <Carousel items={carousel} />
-        </div>
-      </div> */}
     </div>
   );
 };

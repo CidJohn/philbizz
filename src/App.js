@@ -12,6 +12,7 @@ import Inbox from "./pages/Dashboard/Inbox/Inbox";
 import Createmenu from "./pages/Dashboard/Menus/CreateMenu/Createmenu";
 import BlogPost from "./pages/Selection/Blog/BlogPost/BlogPost";
 import Archived from "./pages/Dashboard/Archived/Archived";
+import Navbarmenu from "./pages/Dashboard/Navigationbar/Navbarmenu";
 
 function App() {
   const {
@@ -46,7 +47,11 @@ function App() {
             }
             key={"home"}
           />
-          <Route path="/blog/post/:token" element={<BlogPost />} key={"blog-post"} />
+          <Route
+            path="/blog/post/:token"
+            element={<BlogPost />}
+            key={"blog-post"}
+          />
           {getnavroute}
           {getcardroute}
           {getcompanyroute}
@@ -62,6 +67,7 @@ function App() {
             key={"createForm"}
           />
           <Route path="/dashboard/Archived/:item" element={<Archived />} />
+          <Route path="/dashboard/:sidebar" element={<Navbarmenu />} />
           {getcardContent}
           {getsidebar}
           {getdashcompanyroute}

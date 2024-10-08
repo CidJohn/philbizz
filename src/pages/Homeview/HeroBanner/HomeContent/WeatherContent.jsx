@@ -2,7 +2,7 @@ import Weather from "../../../../components/Weather/Weather";
 
 export default function WeatherContent({ weatherData, loading, error }) {
   return (
-    <div className="flex flex-col transform transition-transform duration-500 hover:scale-95  h-full bg-[#013A63]/5 p-4 ">
+    <div className="flex flex-col  h-full bg-[#013A63]/5 p-4 ">
       <h1 className="text-4xl p-2 fira-sans-bold text-[#013A63]">
         Weather Forecast
       </h1>
