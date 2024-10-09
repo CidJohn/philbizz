@@ -147,7 +147,7 @@ const Businessview = (props) => {
             ))}
           </div>
           <div className="flex flex-col min-w-80 px-4  rounded-md ">
-            <div className="sticky top-5">
+            <div className="">
               <div className="transform transition-transform duration-500 hover:scale-105 ">
                 <h1 className="text-4xl p-2 fira-sans-bold text-[#013A63]">
                   Calendar

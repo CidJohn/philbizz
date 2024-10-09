@@ -76,22 +76,24 @@ function BusinessUpdate(props) {
         item.id === id ? { ...item, header: header, value: newValue } : item
       ),
     }));
-    // setChildCategory((prev) => ({
-    //   ...prev,
-    //   [header]: { parent: header, name: newValue },
-    // }));
+    
   };
 
   return (
     <>
       {business.map((item, index) => (
-        <div key={index}>
-          <Textline
-            value={headerCategory[item.title]}
-            onChange={(e) => handleTextlineChange(item.title, e.target.value)}
-            className={"p-2 border rounded-lg"}
-          />
-          <div className="flex flex-wrap gap-2 px-5">
+        <div key={index} className="border-4 p-2 rounded-lg  ">
+          <h1 className="text-lg">Parent Name:</h1>
+          <div className="indent-8">
+            <Textline
+              value={headerCategory[item.title]}
+              onChange={(e) => handleTextlineChange(item.title, e.target.value)}
+              className={"p-2 border rounded-lg"}
+            />
+          </div>
+
+          <h1 className="text-lg">Children Name:</h1>
+          <div className="flex flex-wrap gap-2 indent-8">
             {item.links.map((link) => (
               <div key={link.id} className="flex flex-wrap">
                 <Textline
@@ -123,7 +125,7 @@ function BusinessUpdate(props) {
               icon={
                 <FontAwesomeIcon
                   icon={faAdd}
-                  className="border p-3 mt-2 rounded-lg hover:bg-blue-500 hover:text-white"
+                  className="border p-3 rounded-lg hover:bg-blue-500 hover:text-white"
                 />
               }
               onClick={() => handleAdd(item.title)}
@@ -132,14 +134,16 @@ function BusinessUpdate(props) {
           </div>
         </div>
       ))}
-      <div className="p-2">
-        <Button
-          text={"Update"}
-          className={
-            "border text-sm p-2 hover:bg-blue-700 hover:text-white rounded-lg w-full"
-          }
-          onClick={handleUpdateButton}
-        />
+      <div className="p-2 flex justify-center">
+        <div className="flex w-[15vw]">
+          <Button
+            text={"Update"}
+            className={
+              "border text-2xl p-2 hover:bg-blue-700 hover:text-white rounded-lg w-full"
+            }
+            onClick={handleUpdateButton}
+          />
+        </div>
       </div>
     </>
   );
