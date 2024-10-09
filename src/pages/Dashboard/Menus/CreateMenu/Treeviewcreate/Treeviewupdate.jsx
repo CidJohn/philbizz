@@ -60,10 +60,9 @@ function Treeviewupdate(props) {
       addNew: addTextline,
       path: path,
     };
-    console.log(data);
-     fetchTreeChildUp(data);
-     fetchTreeCreate(data);
-     fetchTreeUpdate(data);
+      fetchTreeChildUp(data);
+      fetchTreeCreate(data);
+      fetchTreeUpdate(data);
   };
 
   const handleDynamicTextlineChange = (header, id, newValue) => {
@@ -73,10 +72,7 @@ function Treeviewupdate(props) {
         item.id === id ? { ...item, parent: header, value: newValue } : item
       ),
     }));
-    // setTextLinesChild((prev) => ({
-    //   ...prev,
-    //   [header]: { parent: header, name: newValue },
-    // }));
+   
   };
 
   const handleAdd = (header) => {
@@ -89,18 +85,14 @@ function Treeviewupdate(props) {
     }));
   };
 
-  const handleViewButton = () => {
-    console.log(initialsData);
-  };
-
   const renderTreeview = (data) => {
     return data
       .filter((item) => item.path === path)
       .map((item, index) => (
-        <div className="flex flex-col" key={`${item.name}-${index}`}>
-          <div className="flex items-center gap-1">
-            <div className="text-lg">Parent Name:</div>
-            <div className="flex mb-3">
+        <div className="flex flex-col border-4 p-2 rounded-lg" key={`${item.name}-${index}`}>
+          <div className="flex flex-col gap-1">
+            <div className="text-lg flex ">Parent Name:</div>
+            <div className="flex mb-3 indent-8">
               <Textline
                 value={textLinesParent[item.name] || ""}
                 type={"text"}
@@ -113,7 +105,7 @@ function Treeviewupdate(props) {
           </div>
           <div className="text-lg">Child Name:</div>
           {item.children && item.children.length > 0 && (
-            <div className="flex flex-wrap pl-5  gap-3">
+            <div className="flex flex-wrap indent-8  gap-3 ">
               {item.children.map((child, childIndex) => (
                 <Textline
                   key={`${child.name}-${childIndex}`}
@@ -126,7 +118,7 @@ function Treeviewupdate(props) {
                 />
               ))}
               {addTextline[item.name]?.map((textline) => (
-                <div key={textline.id} className="flex flex-wrap">
+                <div key={textline.id} className="flex flex-wrap ">
                   <Textline
                     placeholder={"Enter New Child Name"}
                     value={textline.value}
@@ -145,7 +137,7 @@ function Treeviewupdate(props) {
                 icon={
                   <FontAwesomeIcon
                     icon={faAdd}
-                    className="border p-3 mt-2 rounded-lg hover:bg-blue-500 hover:text-white"
+                    className="border p-3 rounded-lg hover:bg-blue-500 hover:text-white"
                   />
                 }
                 onClick={() => handleAdd(item.name)}
@@ -156,6 +148,7 @@ function Treeviewupdate(props) {
         </div>
       ));
   };
+  
   const renderBusinessUpdate = () => {
     return <BusinessUpdate business={business} path={path} />;
   };
@@ -192,11 +185,11 @@ function Treeviewupdate(props) {
   return (
     <div className="p-5">
       <div className="flex gap-2">
-        <div className="flex flex-col p-2 min-w-80 border-2  rounded-lg  max-h-[60vh] overflow-hidden hover:overflow-y-scroll">
+        <div className="bg-white flex flex-col p-2 min-w-80 border-2  rounded-lg  max-h-[60vh] overflow-hidden hover:overflow-y-scroll">
           <div className="text-2xl font-bold">View Form</div>
           {renderTreeData()}
         </div>
-        <div className="flex flex-col p-2 gap-3 border-2 rounded-lg min-w-80 min-h-80  max-h-[60vh] overflow-hidden hover:overflow-y-scroll">
+        <div className="bg-white flex flex-col p-2 gap-3 border-2 rounded-lg min-w-80 min-h-80  max-h-[60vh] overflow-hidden hover:overflow-y-scroll">
           <div className="text-2xl font-bold">Update Treeview Form</div>
           {name === "Business"
             ? renderBusinessUpdate()
@@ -204,11 +197,11 @@ function Treeviewupdate(props) {
           {name === "Business" ? (
             ""
           ) : (
-            <div className="p-2">
+            <div className="p-2 flex justify-center w-full">
               <Button
                 text={"Update"}
                 className={
-                  "border text-sm p-2 hover:bg-blue-700 hover:text-white rounded-lg w-full"
+                  "border text-2xl py-3  hover:bg-blue-700 hover:text-white rounded-lg w-[10vw]"
                 }
                 onClick={handleUpdateButton}
               />

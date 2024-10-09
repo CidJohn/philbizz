@@ -35,7 +35,7 @@ function Navbarmenu() {
               "px-2 text-lg text-gray-800 transform  transition-transform duration-500 hover:translate-x-3"
             }
           />
-          <h1 className="text-2xl font-bold">Navigation Page </h1>
+          <h1 className="text-2xl">Navigation Page </h1>
         </div>
         <div className="flex p-5">
           <NavbarList navbar={navbar} handleNavbar={handleNavbar} />
