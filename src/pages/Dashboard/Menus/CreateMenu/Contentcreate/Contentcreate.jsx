@@ -26,6 +26,9 @@ import { useBlogContent } from "../../../../../helper/database/useBlogSettings";
 import useAlert from "../../../../../helper/alert/useAlert";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { formSchema } from "./Contentvalidation";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 function Contentcreate(props) {
   const { downTree, path, category, name, title, location, blogTitle } = props;
@@ -188,7 +191,7 @@ function Contentcreate(props) {
         setImageInsert({ id: Date.now(), imagePreview: item.images || "" });
         setEditorContent(item.Content);
         setParentID(item.ParentID);
-        const socials = resSocial ? resSocial.map((item) => item) : []
+        const socials = resSocial ? resSocial.map((item) => item) : [];
         setSocialText(() => [
           ...socials.map((item) => ({
             id: item.ParentID,
@@ -300,7 +303,7 @@ function Contentcreate(props) {
     e.preventDefault();
     if (name === "Business") {
       console.log(initialBusinessContent);
-      fetchBusinessContent(initialBusinessContent);
+      // fetchBusinessContent(initialBusinessContent);
       Swal.fire(
         "Business Content",
         `New ${name} content has been created successfully.`,
@@ -309,7 +312,7 @@ function Contentcreate(props) {
         navigate(-1);
       });
     } else {
-      fetchCreateCard(initialSelectionContent);
+      //fetchCreateCard(initialSelectionContent);
       if (resultCard) {
         Swal.fire(
           "Card Created",
@@ -320,7 +323,7 @@ function Contentcreate(props) {
         });
       }
     }
-    console.log(result || resultCard);
+    // console.log(result || resultCard);
   };
 
   const handleUpdate = () => {
@@ -368,6 +371,10 @@ function Contentcreate(props) {
   const handleTextLineChange = (e) => {
     const { name, value } = e.target;
     setTextLine((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+    setValue((prevState) => ({
       ...prevState,
       [name]: value,
     }));
@@ -477,6 +484,15 @@ function Contentcreate(props) {
     ]);
   };
 
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(formSchema),
+  });
+
   return (
     <div className="p-5">
       {name === "Blog" ? (
@@ -500,8 +516,14 @@ function Contentcreate(props) {
                   placeholder={selectedValue ? selectedValue : "Select Parent"}
                   value={selectedValue}
                   options={dropdownOptions}
+                  {...register("title")}
                   onChange={handleParentDropdownChange}
                 />
+                {errors.title && (
+                  <span className="text-red-500 text-sm italic">
+                    {errors.title.message}
+                  </span>
+                )}
               </div>
               <div className="flex flex-col ">
                 <label htmlFor="child">Child Name:</label>
@@ -546,6 +568,11 @@ function Contentcreate(props) {
                       name={"title"}
                       onChange={handleTextLineChange}
                     />
+                    {errors.title && (
+                      <span className="text-red-500 text-sm italic">
+                        {errors.title.message}
+                      </span>
+                    )}
                   </div>
                   <div className="flex  flex-col w-full">
                     <label htmlFor="Description">Address</label>
@@ -557,8 +584,14 @@ function Contentcreate(props) {
                       placeholder={"Enter Address"}
                       value={TextLine.address}
                       name={"address"}
+                      {...register("address")}
                       onChange={handleTextLineChange}
                     />
+                    {errors.address && (
+                      <span className="text-red-500 text-sm italic">
+                        {errors.address.message}
+                      </span>
+                    )}
                   </div>
                   <div className="flex  flex-col w-full">
                     <label htmlFor="Description">Description</label>
@@ -570,9 +603,15 @@ function Contentcreate(props) {
                       placeholder={"Enter Description"}
                       value={TextLine.description}
                       name={"description"}
+                      {...register("description")}
                       onChange={handleTextLineChange}
                       textarea={true}
                     />
+                    {errors.description && (
+                      <span className="text-red-500 text-sm italic">
+                        {errors.description.message}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className="flex w-[30vw] justify-end ">
@@ -597,8 +636,14 @@ function Contentcreate(props) {
                     placeholder={"Enter Contact"}
                     value={TextLine.contact}
                     name={"contact"}
+                    {...register("contact")}
                     onChange={handleTextLineChange}
                   />
+                  {errors.contact && (
+                    <span className="text-red-500 text-sm italic">
+                      {errors.contact.message}
+                    </span>
+                  )}
                 </div>
                 <div className="flex  flex-col w-full">
                   <label htmlFor="Email">Email</label>
@@ -610,8 +655,14 @@ function Contentcreate(props) {
                     placeholder={"Enter Email"}
                     value={TextLine.email}
                     name={"email"}
+                    {...register("email")}
                     onChange={handleTextLineChange}
                   />
+                  {errors.email && (
+                    <span className="text-red-500 text-sm italic">
+                      {errors.email.message}
+                    </span>
+                  )}
                 </div>
                 <div className="flex  flex-col w-full">
                   <label htmlFor="Service">Service Type</label>
@@ -786,7 +837,7 @@ function Contentcreate(props) {
                       ? "min-w-64 border p-2  rounded-lg hover:bg-green-500 hover:text-gray-100 hover:border-none"
                       : "min-w-64 border p-2  rounded-lg hover:bg-blue-500 hover:text-gray-100 hover:border-none"
                   }
-                  onClick={title ? handleUpdate : handleSave}
+                  onClick={handleSubmit(title ? handleUpdate : handleSave)}
                 />
               </div>
             </div>
