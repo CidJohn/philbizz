@@ -4,6 +4,7 @@ import SearchBar from "../../components/Searchbar/Searchbar";
 import Description from "../../pages/Selection/Description/Description";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import Card from "../../components/Card/Card";
+import SonnerToaster from "../../components/Sonner/Sonner";
 
 const ContentLayout = ({
   renderTreeView,
@@ -27,6 +28,8 @@ const ContentLayout = ({
 }) => {
   return (
     <div className=" mx-auto flex  w-[75vw] justify-center gap-3 ">
+      <SonnerToaster />
+
       <div className=" mt-2">{renderTreeView()}</div>
       <div className="flex flex-col">
         <div className="flex flex-col ">
