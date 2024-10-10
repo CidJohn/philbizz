@@ -11,6 +11,8 @@ import Textline from "../../../components/Textline/Textline";
 import { replySchema } from "./validation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useToast } from "../../../components/Sonner/Sonner";
+import { AiFillCheckCircle } from "react-icons/ai";
 
 const Inbox = () => {
   const navigate = useNavigate();
@@ -33,8 +35,15 @@ const Inbox = () => {
     defaultValues: { reply: "" },
   });
 
+  const toastify = useToast();
+
   const onSubmit = (data) => {
-    console.log(data);
+    try {
+      console.log(data);
+      toastify("Reply Submitted.", "success");
+    } catch (error) {
+      toastify("Failed to Submit Reply.", "error");
+    }
   };
 
   return (

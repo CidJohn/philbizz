@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import Spinner from "../components/Spinner/Spinner";
 import { AuthProvider } from "../helper/auth/useAuthContext";
 import Header from "../components/Header/Header";
+import SonnerToaster from "../components/Sonner/Sonner";
 
 function Layout({ children, navbar }) {
   const location = useLocation();
@@ -21,6 +22,8 @@ function Layout({ children, navbar }) {
   }
   return (
     <AuthProvider>
+      <SonnerToaster />
+
       {hiddenDash && (
         <div>
           <Header hidden={hidden} />

@@ -10,14 +10,20 @@ import restAPI from "../../../helper/database/restAPI";
 import { useNavigate } from "react-router-dom";
 import TreeView from "../../../components/Treeviews/Treeview";
 import blogCategories from "../../../content/blog_categories.json";
+import { AiFillCloseCircle, AiFillCheckCircle } from "react-icons/ai";
 
 const Blog = () => {
   const navigate = useNavigate();
   const { blogData, blogload } = useBlogSettings();
   const { isAuthenticated, authload } = useAuth();
   const datas = blogData ? blogData : "";
-  const [isModalOpen, setModalOpen] = useState(false);
   const [isCommentOpen, setCommentOpen] = useState(false);
+  const [filterPost, setFilterPost] = useState(false);
+
+  const handleCheckboxChange = () => {
+    setFilterPost((prevFilterPost) => !prevFilterPost);
+  };
+
   const itemsPerPage = 5;
   const [cardCurrentPage, setCardCurrentPage] = useState(1);
   const { getData } = useUserData();
@@ -66,6 +72,8 @@ const Blog = () => {
     setSelectedCategory(name);
   };
 
+  const userFilterPosts = isAuthenticated && filterPost;
+
   return (
     <React.Fragment>
       <div className="w-full h-full px-60 bg-[#390099]/5">
@@ -82,7 +90,7 @@ const Blog = () => {
             {authload ? (
               <Spinner />
             ) : isAuthenticated ? (
-              <div className=" flex items-center ">
+              <div className=" flex items-center flex-col ">
                 <Button
                   type="button"
                   text={"POST"}
@@ -101,10 +109,7 @@ const Blog = () => {
             )}
           </div>
         </div>
-        <div
-          className="flex"
-          id="card-pagination"
-        >
+        <div className="flex" id="card-pagination">
           <div className="sticky top-5  p-5">
             <TreeView
               treeViewContent={treeData}
@@ -112,22 +117,51 @@ const Blog = () => {
               textColor="#333"
             />
           </div>
+
           <div className="flex flex-col items-center w-full shadow-lg my-4 p-2">
-            <HandleBlog
-              blogdata={currentPost}
-              imagelink={imagelink}
-              handleCommentOpen={handleCommentOpen}
-              isCommentOpen={isCommentOpen}
-              userdata={userid}
-              handleLink={handleLink}
-              treeData={treeData}
-            />
+            {isAuthenticated ? (
+              <div className="flex items-center justify-start gap-2">
+                <label
+                  htmlFor="AcceptConditions"
+                  className="relative inline-block h-8 w-14 cursor-pointer rounded-full bg-gray-300 transition [-webkit-tap-highlight-color:_transparent] has-[:checked]:bg-green-500"
+                >
+                  <input
+                    type="checkbox"
+                    id="AcceptConditions"
+                    className="peer sr-only [&:checked_+_span_svg[data-checked-icon]]:block [&:checked_+_span_svg[data-unchecked-icon]]:hidden"
+                    checked={filterPost}
+                    onChange={handleCheckboxChange}
+                  />
+                  <span className="absolute inset-y-0 start-0 z-10 m-1 inline-flex size-6 items-center justify-center rounded-full bg-white text-gray-400 transition-all peer-checked:start-6 peer-checked:text-green-600">
+                    <AiFillCloseCircle data-unchecked-icon />
+                    <AiFillCheckCircle className="hidden " data-checked-icon />
+                  </span>
+                </label>
+                <span className="fira-sans-condensed-regular text-slate-700">
+                  Show only my posts
+                </span>
+              </div>
+            ) : null}
+            {userFilterPosts ? (
+              <span>User&apos;s Filtered Post only</span>
+            ) : (
+              <HandleBlog
+                blogdata={currentPost}
+                imagelink={imagelink}
+                handleCommentOpen={handleCommentOpen}
+                isCommentOpen={isCommentOpen}
+                userdata={userid}
+                handleLink={handleLink}
+                treeData={treeData}
+              />
+            )}
+            <hr className="my-4" />
             <Pagination
-            currentPage={cardCurrentPage}
-            totalPages={cardTotalPages}
-            onPageChange={setCardCurrentPage}
-            link="card-pagination"
-          />
+              currentPage={cardCurrentPage}
+              totalPages={cardTotalPages}
+              onPageChange={setCardCurrentPage}
+              link="card-pagination"
+            />
           </div>
         </div>
       </div>
