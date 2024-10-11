@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import QuillResizeImage from "quill-resize-image";
@@ -14,6 +14,7 @@ const Style = new Parchment.Attributor.Style("style", "style", {
 Quill.register(Style, true);
 
 const TextEditor = ({ value, onChange, placeholder, className }) => {
+  const quillRef = useRef(null);
   const modules = {
     toolbar: [
       ["bold", "italic", "underline", "strike"],
@@ -59,6 +60,7 @@ const TextEditor = ({ value, onChange, placeholder, className }) => {
   return (
     <div className="text-editor-container">
       <ReactQuill
+        ref={quillRef}
         theme="snow"
         value={value}
         onChange={onChange}
