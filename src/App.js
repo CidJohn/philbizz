@@ -31,7 +31,7 @@ function App() {
   } = useRoute();
   return (
     <BrowserRouter>
-      <Layout navbar={{ navbar: navbarData, navload: loading }}>
+      <Layout navbar={{ navbar: navbarData, navload: loading }} key={"layout"}>
         <Routes>
           <Route path="/contact" element={<Contact />} key={"contact"} />
           <Route
@@ -58,7 +58,7 @@ function App() {
           {getblog}
         </Routes>
       </Layout>
-      <DashboardLayout props={{ navbar: navbarData }}>
+      <DashboardLayout props={{ navbar: navbarData }} key={"dashboard-layout"}>
         <Routes>
           <Route path="/dashboard" element={<Home />} key={"dashboard"} />
           <Route

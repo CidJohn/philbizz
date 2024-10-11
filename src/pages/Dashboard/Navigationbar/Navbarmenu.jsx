@@ -43,6 +43,7 @@ function Navbarmenu() {
             name={viewNavbar.name}
             path={viewNavbar.path}
             image={viewNavbar.iconPath}
+            id={viewNavbar.id}
           />
         </div>
       </div>

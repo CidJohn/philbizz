@@ -60,9 +60,9 @@ function Treeviewupdate(props) {
       addNew: addTextline,
       path: path,
     };
-      fetchTreeChildUp(data);
-      fetchTreeCreate(data);
-      fetchTreeUpdate(data);
+    fetchTreeChildUp(data);
+    fetchTreeCreate(data);
+    fetchTreeUpdate(data);
   };
 
   const handleDynamicTextlineChange = (header, id, newValue) => {
@@ -72,7 +72,6 @@ function Treeviewupdate(props) {
         item.id === id ? { ...item, parent: header, value: newValue } : item
       ),
     }));
-   
   };
 
   const handleAdd = (header) => {
@@ -89,7 +88,10 @@ function Treeviewupdate(props) {
     return data
       .filter((item) => item.path === path)
       .map((item, index) => (
-        <div className="flex flex-col border-4 p-2 rounded-lg" key={`${item.name}-${index}`}>
+        <div
+          className="flex flex-col border-4 p-2 rounded-lg"
+          key={`${item.name}-${index}`}
+        >
           <div className="flex flex-col gap-1">
             <div className="text-lg flex ">Parent Name:</div>
             <div className="flex mb-3 indent-8">
@@ -148,7 +150,7 @@ function Treeviewupdate(props) {
         </div>
       ));
   };
-  
+
   const renderBusinessUpdate = () => {
     return <BusinessUpdate business={business} path={path} />;
   };

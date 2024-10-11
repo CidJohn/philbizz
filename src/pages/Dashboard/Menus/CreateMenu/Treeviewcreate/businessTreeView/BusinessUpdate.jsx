@@ -84,7 +84,7 @@ function BusinessUpdate(props) {
       {business.map((item, index) => (
         <div key={index} className="border-4 p-2 rounded-lg  ">
           <h1 className="text-lg">Parent Name:</h1>
-          <div className="indent-8">
+          <div className="indent-8 p-2">
             <Textline
               value={headerCategory[item.title]}
               onChange={(e) => handleTextlineChange(item.title, e.target.value)}
@@ -93,7 +93,7 @@ function BusinessUpdate(props) {
           </div>
 
           <h1 className="text-lg">Children Name:</h1>
-          <div className="flex flex-wrap gap-2 indent-8">
+          <div className="flex flex-wrap gap-2 indent-8 p-2">
             {item.links.map((link) => (
               <div key={link.id} className="flex flex-wrap">
                 <Textline

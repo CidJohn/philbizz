@@ -85,7 +85,7 @@ function Contentcreate(props) {
       social: "",
     },
   ]);
-  console.log(resSocial);
+
   const initialSelectionContent = {
     Treeview: {
       parent: selectedValue,
@@ -134,18 +134,14 @@ function Contentcreate(props) {
       setEditorContent(imageContent);
     }
 
-    if (viewData.personnels) {
-      const personnel = viewData.personnels
-        ? viewData.personnels.map((item) => item)
-        : [];
-      setEntries(() => [
-        ...personnel.map((item) => ({
-          id: item.id,
-          personnelName: item.personName,
-          position: item.position,
-          imagePreview: item.personPhoto,
-        })),
-      ]);
+    if (viewData && Array.isArray(viewData.personnels)) {
+      const personnel = viewData.personnels.map((item) => ({
+        id: item.id || "",
+        personnelName: item.personName || "",
+        position: item.position || "",
+        imagePreview: item.personPhoto || "",
+      }));
+      setEntries(personnel);
     }
 
     if (viewData?.product) {
@@ -292,11 +288,15 @@ function Contentcreate(props) {
   }, [downTree, selectedValue, path, category]);
 
   const handleParentDropdownChange = (e) => {
+    const { name, value } = e.target;
     setSelectedValue(e.target.value);
+    setValue(name, value);
   };
 
   const handleChildDropdownChange = (e) => {
+    const { name, value } = e.target;
     setSelectChildValue(e.target.value);
+    setValue(name, value);
   };
 
   const handleSave = (e) => {
@@ -374,10 +374,7 @@ function Contentcreate(props) {
       ...prevState,
       [name]: value,
     }));
-    setValue((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    setValue(name, value);
   };
 
   const handleDeleteTextline = (id) => {
@@ -415,6 +412,7 @@ function Contentcreate(props) {
         );
       };
       reader.readAsDataURL(file);
+      setValue("image", e.target.files);
     }
   };
 
@@ -429,6 +427,8 @@ function Contentcreate(props) {
         }));
       };
       reader.readAsDataURL(file);
+
+      setValue("image", e.target.files);
     }
   };
 
@@ -442,6 +442,7 @@ function Contentcreate(props) {
       };
       return updatedEntries;
     });
+    setValue(name, value);
   };
 
   const handleAddNewEntry = () => {
@@ -516,12 +517,13 @@ function Contentcreate(props) {
                   placeholder={selectedValue ? selectedValue : "Select Parent"}
                   value={selectedValue}
                   options={dropdownOptions}
-                  {...register("title")}
+                  name="parent"
+                  {...register("parent")}
                   onChange={handleParentDropdownChange}
                 />
-                {errors.title && (
+                {errors.parent && (
                   <span className="text-red-500 text-sm italic">
-                    {errors.title.message}
+                    {errors.parent.message}
                   </span>
                 )}
               </div>
@@ -529,6 +531,7 @@ function Contentcreate(props) {
                 <label htmlFor="child">Child Name:</label>
                 <Dropdown
                   id="child"
+                  name="child"
                   placeholder={
                     !selectedValue
                       ? location
@@ -549,8 +552,14 @@ function Contentcreate(props) {
                         ]
                       : dropdownChildOptions
                   }
+                  {...register("child")}
                   onChange={handleChildDropdownChange}
                 />
+                {errors.child && (
+                  <span className="text-red-500 text-sm italic">
+                    {errors.child.message}
+                  </span>
+                )}
               </div>
             </div>
             <div className="flex flex-wrap gap-3">
@@ -566,6 +575,7 @@ function Contentcreate(props) {
                       placeholder={"Enter Title"}
                       value={TextLine.title}
                       name={"title"}
+                      {...register("title")}
                       onChange={handleTextLineChange}
                     />
                     {errors.title && (
@@ -621,6 +631,11 @@ function Contentcreate(props) {
                       handleFileChange={(e) => handleTitleFileChange(e)}
                       className="flex "
                     />
+                    {errors.image && (
+                      <span className="text-red-500 text-sm italic">
+                        {errors.image.message}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -756,6 +771,11 @@ function Contentcreate(props) {
                             imagePreview={entry.imagePreview}
                             handleFileChange={(e) => handleFileChange(index, e)}
                           />
+                          {errors.image && (
+                            <span className="text-red-500 text-sm italic">
+                              {errors.image.message}
+                            </span>
+                          )}
                         </div>
                         <Textline
                           className="w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
@@ -765,6 +785,11 @@ function Contentcreate(props) {
                           value={entry.personnelName}
                           onChange={(e) => handleInputChange(index, e)}
                         />
+                        {errors.personnelName && (
+                          <span className="text-red-500 text-sm italic">
+                            {errors.personnelName.message}
+                          </span>
+                        )}
                         <Textline
                           className="w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
                           type="text"
@@ -773,6 +798,11 @@ function Contentcreate(props) {
                           value={entry.position}
                           onChange={(e) => handleInputChange(index, e)}
                         />
+                        {errors.position && (
+                          <span className="text-red-500 text-sm italic">
+                            {errors.position.message}
+                          </span>
+                        )}
                       </div>
                     ))}
                     {entries.length < 10 && (

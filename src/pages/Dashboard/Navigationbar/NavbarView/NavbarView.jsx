@@ -4,9 +4,12 @@ import Textline from "../../../../components/Textline/Textline";
 import Button from "../../../../components/Button/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { formSchema } from "./NavbarValidation";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 function NavbarView(props) {
-  const { name, path, image } = props;
+  const { name, path, image, id } = props;
   const [textline, setTextLine] = useState({ name: "", path: "", image: null });
 
   useEffect(() => {
@@ -23,6 +26,7 @@ function NavbarView(props) {
       ...prevState,
       [name]: value,
     }));
+    setValue(name, value);
   };
 
   const handleNavbarImageChange = (e) => {
@@ -36,6 +40,7 @@ function NavbarView(props) {
         }));
       };
       reader.readAsDataURL(file);
+      setValue("image", e.target.files);
     }
   };
 
@@ -56,7 +61,23 @@ function NavbarView(props) {
     alert(`${name} is create successfully!`);
   };
 
-  const handleUpdate = () => {};
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(formSchema),
+  });
+
+  const handleUpdate = () => {
+    const { name, path, image } = textline;
+    if (!name || !path || !image) {
+      alert("field required!");
+      return;
+    }
+    alert(`${name} is Updated successfully!`);
+  };
 
   return (
     <>
@@ -79,12 +100,17 @@ function NavbarView(props) {
               onClick={() => handleCreate()}
             />
           </div>
-          <div className="flex w-full justify-center ">
+          <div className="flex flex-col w-full items-center ">
             <UploadImage
               handleFileChange={(e) => handleNavbarImageChange(e)}
               imagePreview={textline.image}
               className="w-[15vw]"
             />
+            {errors.image && (
+              <span className="text-red-500 text-sm italic ">
+                {errors.image.message}
+              </span>
+            )}
           </div>
           <div className="flex justify-center w-full">
             <div className="flex flex-col w-[15vw] justify-center   gap-2 ">
@@ -93,29 +119,45 @@ function NavbarView(props) {
                 placeholder={"Enter Navbar Title"}
                 value={textline.name}
                 name="name"
+                {...register("name")}
                 onChange={handleOnChange}
                 className={
                   "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
                 }
               />
+              {errors.name && (
+                <>
+                  <p className="text-sm text-red-500 italic">
+                    {errors.name.message}
+                  </p>
+                </>
+              )}
               <Textline
                 type={"text"}
                 placeholder={"Enter Navbar Path"}
                 value={textline.path}
                 name="path"
+                {...register("path")}
                 onChange={handleOnChange}
                 className={
                   "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
                 }
               />
+              {errors.path && (
+                <>
+                  <p className="text-sm text-red-500 italic">
+                    {errors.path.message}
+                  </p>
+                </>
+              )}
               <Button
-                text={textline.name === name ? "Update" : "Create"}
+                text={id ? "Update" : "Create"}
                 className={
                   textline.name
                     ? "px-5 py-2 rounded-lg hover:bg-green-500 hover:text-white border"
                     : "px-5 py-2 rounded-lg hover:bg-blue-500 hover:text-white border"
                 }
-                onClick={textline.name === name ? handleUpdate : handleAdd}
+                onClick={handleSubmit(id ? handleUpdate : handleAdd)}
               />
             </div>
           </div>

@@ -16,7 +16,7 @@ function Menus(props) {
   const { blogData, business } = props;
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { name, path } = state || { name: null, path: null};
+  const { name, path } = state || { name: null, path: null };
   const { data } = useTreeview();
   const [getTreeview, setTreeview] = useState([]);
   const [selectedItem, setSelectectItem] = useState([]);
@@ -235,22 +235,22 @@ function Menus(props) {
                 {name === "Business" ? (
                   getCategory ? (
                     getCategory.map((item, index) => (
-                      <>
+                      <React.Fragment key={index}>
                         <div className="text-lg bg-blue-500 p-1 min-w-full font-bold">
                           {item.title}
                         </div>
                         <ul className="px-4 py-2">
                           {item.links.map((items, index) => (
-                            <>
+                            <React.Fragment key={index}>
                               <Button
                                 className="flex flex-col hover:ms-2 hover:underline underline-offset-4 hover:font-bold text-md decoration-pink-500 decoration-2"
                                 text={items.name}
                                 onClick={handleCategory}
                               />
-                            </>
+                            </React.Fragment >
                           ))}
                         </ul>
-                      </>
+                      </React.Fragment>
                     ))
                   ) : (
                     "Add New"
