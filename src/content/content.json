@@ -92,5 +92,17 @@
     { "item": "item", "desc": "description" },
     { "item": "item2", "desc": "description1" },
     { "item": "item3", "desc": "description2" }
+  ],
+
+  "mainPageSelection": [
+    { "label": "Select Main Page", "value": "" },
+    { "label": "Top Carousel", "value": "Top Carousel" },
+    { "label": "Left Cards", "value": "Left Cards" }
+  ],
+  "sectionPageSelection": [
+    { "label": "Select Section Page", "value": "" },
+    { "label": " Right Cards", "value": " Right Cards" },
+    { "label": "Center Cards", "value": "Center Cards" },
+    { "label": "Center List", "value": "Center List" }
   ]
 }

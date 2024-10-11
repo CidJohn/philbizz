@@ -8,6 +8,7 @@ const UploadImage = ({
   className = "",
   imagePreview,
   handleFileChange,
+  style
 }) => {
   const [isDragging, setIsDragging] = useState(false);
 
@@ -78,6 +79,7 @@ const UploadImage = ({
               src={imagePreview}
               alt="Preview"
               className="object-cover w-full h-full rounded-lg"
+              style={style}
             />
           ) : (
             <div className="flex flex-col items-center justify-center text-gray-500">
