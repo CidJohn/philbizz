@@ -133,6 +133,7 @@ function Createblog(props) {
             <UploadImage
               handleFileChange={(e) => handleUploadChange(e)}
               imagePreview={imageInsert.imagePreview}
+              style={{width: "15vw"}}
             />
           </div>
         </div>

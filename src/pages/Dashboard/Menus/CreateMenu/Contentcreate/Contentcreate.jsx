@@ -29,6 +29,7 @@ import Swal from "sweetalert2";
 import { formSchema } from "./Contentvalidation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import contents from "../../../../../content/content.json";
 
 function Contentcreate(props) {
   const { downTree, path, category, name, title, location, blogTitle } = props;
@@ -42,6 +43,10 @@ function Contentcreate(props) {
   const [addTextLine, setAddTextLine] = useState([{ id: 1, value: "" }]);
   const [newTextLine, setNewTextLine] = useState({});
   const [parentID, setParentID] = useState(0);
+  const [mainPageSelection, setMainPageSelection] = useState([]);
+  const [sectionPageSelection, setSectionPageSelection] = useState([]);
+  const [mainPageDropDown, setMainPageDropdown] = useState("");
+  const [sectionPageDropDown, setSectionPageDropdown] = useState("");
   const { fetchBusinessContent, result, businessLoad } = useBusinessPost();
   const { fetchCreateCard, resultCard, cardload } = useCreateCardContent();
   const { fetchUpdateCompany, resultUpdate, companyLoad } =
@@ -87,6 +92,7 @@ function Contentcreate(props) {
   ]);
 
   const initialSelectionContent = {
+    displayPosition: { mainPageDropDown, sectionPageDropDown },
     Treeview: {
       parent: selectedValue,
       child: !selectChildValue ? location : selectChildValue,
@@ -99,6 +105,7 @@ function Contentcreate(props) {
     TextEditor: editorContent,
   };
   const initialBusinessContent = {
+    displayPosition: { mainPageDropDown, sectionPageDropDown },
     Treeview: {
       parent: selectedValue,
       child: selectChildValue,
@@ -112,6 +119,19 @@ function Contentcreate(props) {
     Personnel: { entries },
   };
 
+  useEffect(() => {
+    const { mainPageSelection, sectionPageSelection } = contents || {};
+    if (mainPageSelection) {
+      setMainPageSelection(
+        Array.isArray(mainPageSelection) ? mainPageSelection : []
+      );
+    }
+    if (sectionPageSelection) {
+      setSectionPageSelection(
+        Array.isArray(sectionPageSelection) ? sectionPageSelection : []
+      );
+    }
+  }, [contents, mainPageSelection, sectionPageSelection]);
   useEffect(() => {
     if (viewData.info) {
       viewData.info.map((item) => {
@@ -297,6 +317,16 @@ function Contentcreate(props) {
     const { name, value } = e.target;
     setSelectChildValue(e.target.value);
     setValue(name, value);
+  };
+
+  const handleMainPage = (e) => {
+    const value = e.target.value;
+    setMainPageDropdown(value);
+  };
+
+  const handleSectionPage = (e) => {
+    const value = e.target.value;
+    setSectionPageDropdown(value);
   };
 
   const handleSave = (e) => {
@@ -561,6 +591,28 @@ function Contentcreate(props) {
                   </span>
                 )}
               </div>
+              <div className="flex flex-col">
+                <label htmlFor="child">Main Page:</label>
+                <Dropdown
+                  value={mainPageDropDown}
+                  options={
+                    mainPageSelection.length > 0 ? mainPageSelection : []
+                  }
+                  placeholder={mainPageDropDown || "Select Main Page"}
+                  onChange={handleMainPage}
+                />
+              </div>
+              <div className="flex flex-col">
+                <label htmlFor="child">Section Page:</label>
+                <Dropdown
+                  value={sectionPageDropDown}
+                  options={
+                    sectionPageSelection.length > 0 ? sectionPageSelection : []
+                  }
+                  placeholder={sectionPageDropDown || "Select Section Page"}
+                  onChange={handleSectionPage}
+                />
+              </div>
             </div>
             <div className="flex flex-wrap gap-3">
               <div className="flex w-full ">
@@ -765,11 +817,12 @@ function Contentcreate(props) {
                   <label htmlFor="personel">Personnel </label>
                   <div className="grid grid-cols-3 gap-2">
                     {entries.map((entry, index) => (
-                      <div className="px-5" key={entry.id}>
-                        <div>
+                      <div className="px-5 " key={entry.id}>
+                        <div className="p-2">
                           <UploadImage
                             imagePreview={entry.imagePreview}
                             handleFileChange={(e) => handleFileChange(index, e)}
+                            style={{ width: "15vw" }}
                           />
                           {errors.image && (
                             <span className="text-red-500 text-sm italic">
@@ -777,32 +830,36 @@ function Contentcreate(props) {
                             </span>
                           )}
                         </div>
-                        <Textline
-                          className="w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
-                          type="text"
-                          placeholder="Personnel Name"
-                          name="personnelName"
-                          value={entry.personnelName}
-                          onChange={(e) => handleInputChange(index, e)}
-                        />
-                        {errors.personnelName && (
-                          <span className="text-red-500 text-sm italic">
-                            {errors.personnelName.message}
-                          </span>
-                        )}
-                        <Textline
-                          className="w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
-                          type="text"
-                          placeholder="Position"
-                          name="position"
-                          value={entry.position}
-                          onChange={(e) => handleInputChange(index, e)}
-                        />
-                        {errors.position && (
-                          <span className="text-red-500 text-sm italic">
-                            {errors.position.message}
-                          </span>
-                        )}
+                        <div className="flex flex-col p-2">
+                          <Textline
+                            className="w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
+                            type="text"
+                            placeholder="Personnel Name"
+                            name="personnelName"
+                            value={entry.personnelName}
+                            onChange={(e) => handleInputChange(index, e)}
+                          />
+                          {errors.personnelName && (
+                            <span className="text-red-500 text-sm italic">
+                              {errors.personnelName.message}
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex flex-col p-2">
+                          <Textline
+                            className="w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
+                            type="text"
+                            placeholder="Position"
+                            name="position"
+                            value={entry.position}
+                            onChange={(e) => handleInputChange(index, e)}
+                          />
+                          {errors.position && (
+                            <span className="text-red-500 text-sm italic">
+                              {errors.position.message}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     ))}
                     {entries.length < 10 && (
