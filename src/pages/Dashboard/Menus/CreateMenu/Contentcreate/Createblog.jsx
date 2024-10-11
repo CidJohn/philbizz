@@ -8,13 +8,20 @@ import {
   useUpdateBlogContent,
 } from "../../../../../helper/database/useBlogSettings";
 import restAPI from "../../../../../helper/database/restAPI";
+import Dropdown from "../../../../../components/Dropdown/Dropdown";
+import blog_category from "../../../../../content/blog_categories.json";
 
 function Createblog(props) {
   const imagelink = restAPI();
   const { name, path, title, blogContent } = props;
   const { fetchPostBlog, result, postloading } = usePostBlogContent();
-  const { fetchBlogUpdate, resultBlogUpdate, blogLoading } = useUpdateBlogContent();
+  const { fetchBlogUpdate, resultBlogUpdate, blogLoading } =
+    useUpdateBlogContent();
   const [editorContent, setEditorContent] = useState("");
+  const [dropdownValue, setDropdownValue] = useState("");
+  const [dropdownChildValue, setDropdownChildValue] = useState("");
+  const [blogCategory, setBlogCategory] = useState([]);
+  const [blogCategoryChild, setBlogCategoryChild] = useState([]);
   const [imageInsert, setImageInsert] = useState([
     {
       id: Date.now(),
@@ -48,6 +55,40 @@ function Createblog(props) {
       });
     }
   }, [blogContent]);
+
+  useEffect(() => {
+    if (blog_category) {
+      const itemBlogParent = [
+        { value: "", label: "Select Parent Category" },
+        ...blog_category.map((item) => ({
+          value: item.name,
+          label: item.name,
+        })),
+      ];
+      const itemBlogChild = [
+        { value: "", label: "Select Children Category" },
+        ...blog_category
+          .filter((item) => item.name === dropdownValue)
+          .flatMap((item) =>
+            item.children
+              ? item.children.map((child) => ({
+                  value: child.name,
+                  label: child.name,
+                }))
+              : []
+          ),
+      ];
+
+      setBlogCategoryChild(itemBlogChild);
+      setBlogCategory(itemBlogParent);
+
+      if (itemBlogChild.length > 0) {
+        setDropdownChildValue(itemBlogChild[0].value);
+      } else {
+        setDropdownChildValue("");
+      }
+    }
+  }, [blog_category, dropdownValue]);
 
   const handleContentChange = (content) => {
     setEditorContent(content);
@@ -98,10 +139,54 @@ function Createblog(props) {
     console.log(result);
   };
 
+  const handleChangeCategory = (e) => {
+    const { value } = e.target;
+    setDropdownValue(value);
+  };
+  const handleChangeChildCategory = (e) => {
+    const { value } = e.target;
+    setDropdownChildValue(value);
+  };
+
   return (
     <div className="flex w-full h-full ">
       <div className="border rounded-lg shadow-lg bg-gray-100 min-w-80 min-h-80 p-2">
-        <h1 className="text-2xl font-bold">{name} Form</h1>
+        <div className="flex gap-3">
+          <h1 className="text-2xl font-sans font-bold">{name} Form</h1>
+          <div className="flex">
+            <Dropdown
+              value={dropdownValue}
+              options={blogCategory}
+              placeholder={
+                dropdownValue ? dropdownValue : "Select Parent Category"
+              }
+              onChange={handleChangeCategory}
+            />
+          </div>
+          <div className="flex">
+            <Dropdown
+              value={dropdownChildValue}
+              options={
+                !dropdownValue
+                  ? [
+                      {
+                        value: "",
+                        label: "Select Parent First",
+                      },
+                    ]
+                  : blogCategoryChild
+              }
+              placeholder={
+                !dropdownValue
+                  ? "No Children Available"
+                  : dropdownChildValue
+                  ? dropdownChildValue
+                  : "Select Children Category"
+              }
+              onChange={handleChangeChildCategory}
+            />
+          </div>
+        </div>
         <div className="flex ">
           <div className="flex flex-col w-[60vw]">
             <div className="flex flex-col p-2 ">
@@ -126,6 +211,8 @@ function Createblog(props) {
                 name={"description"}
                 value={textline.description}
                 onChange={handleTextChange}
+                textarea={true}
+                style={{ height: "15vh" }}
               />
             </div>
           </div>
@@ -133,7 +220,7 @@ function Createblog(props) {
             <UploadImage
               handleFileChange={(e) => handleUploadChange(e)}
               imagePreview={imageInsert.imagePreview}
-              style={{width: "15vw"}}
+              style={{ width: "15vw" }}
             />
           </div>
         </div>
