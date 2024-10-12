@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
-import Button from "../../components/Button/Button";
 import Textline from "../../components/Textline/Textline";
-import { useLogin, useUserData } from "../../helper/auth/useAuthentication";
+import Button from "../../components/Button/Button";
+import { useLogin } from "../../helper/auth/useAuthentication";
 import useAlert from "../../helper/alert/useAlert";
 import { useAuth } from "../../helper/auth/useAuthContext";
 
-export const Login = ({ handleModalOpen, handleRegistrationOpen }) => {
+export const Login = ({
+  handleModalOpen,
+  handleRegistrationOpen,
+  handleForgotPassword,
+}) => {
   const initializeData = {
     email: "",
     number: "",
@@ -161,12 +165,11 @@ export const Login = ({ handleModalOpen, handleRegistrationOpen }) => {
                       Remember me
                     </label>
                   </div>
-                  <a
-                    href="#"
-                    className="text-sm text-blue-700 hover:underline dark:text-blue-500"
-                  >
-                    Forget Password?
-                  </a>
+                  <Button
+                    className="text-blue-700 hover:underline dark:text-blue-500"
+                    text={"Forgot Password"}
+                    onClick={handleForgotPassword}
+                  />
                 </div>
                 <button
                   type="submit"

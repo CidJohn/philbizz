@@ -10,7 +10,8 @@ const Button = ({
   icon,
   spinner,
   style,
-  title
+  title,
+  children,
 }) => {
   const { t } = useTranslation();
   return (
@@ -25,6 +26,7 @@ const Button = ({
       {icon}
       {t(text)}
       {spinner}
+      {children}
     </button>
   );
 };
