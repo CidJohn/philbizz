@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Textline from "../../../../components/Textline/Textline";
 import UploadImage from "../../../../components/UploadImage/UploadImage";
 import Button from "../../../../components/Button/Button";
@@ -6,12 +6,18 @@ import useAlert from "../../../../helper/alert/useAlert";
 import { useBlogPost } from "../../../../helper/database/useBlogSettings";
 import { useLocation, useNavigate } from "react-router-dom";
 import TextEditor from "../../../../components/Texteditor/Texteditor";
+import blog_category from "../../../../content/blog_categories.json";
+import Dropdown from "../../../../components/Dropdown/Dropdown";
 
 const BlogPost = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const { id, username } = state || { id: null, username: null };
   const [editorContent, setEditorContent] = useState("");
+  const [dropdownValue, setDropdownValue] = useState("");
+  const [dropdownChildValue, setDropdownChildValue] = useState("");
+  const [blogCategory, setBlogCategory] = useState([]);
+  const [blogCategoryChild, setBlogCategoryChild] = useState([]);
   const [imageInsert, setImageInsert] = useState([
     {
       id: Date.now(),
@@ -26,6 +32,40 @@ const BlogPost = () => {
 
   const { fetchBlogTitle, fetchBlogDesc } = useBlogPost();
   const showAlert = useAlert();
+
+  useEffect(() => {
+    if (blog_category) {
+      const itemBlogParent = [
+        { value: "", label: "Select Parent Category" },
+        ...blog_category.map((item) => ({
+          value: item.name,
+          label: item.name,
+        })),
+      ];
+      const itemBlogChild = [
+        { value: "", label: "Select Children Category" },
+        ...blog_category
+          .filter((item) => item.name === dropdownValue)
+          .flatMap((item) =>
+            item.children
+              ? item.children.map((child) => ({
+                  value: child.name,
+                  label: child.name,
+                }))
+              : []
+          ),
+      ];
+
+      setBlogCategoryChild(itemBlogChild);
+      setBlogCategory(itemBlogParent);
+
+      if (itemBlogChild.length > 0) {
+        setDropdownChildValue(itemBlogChild[0].value);
+      } else {
+        setDropdownChildValue("");
+      }
+    }
+  }, [blog_category, dropdownValue]);
 
   const handleTextChange = (e) => {
     const { name, value } = e.target;
@@ -63,7 +103,16 @@ const BlogPost = () => {
       header: { text: textline, image: imageInsert.imagePreview },
       content: editorContent,
     };
-    console.log(initialData)
+    console.log(initialData);
+  };
+
+  const handleChangeCategory = (e) => {
+    const { value } = e.target;
+    setDropdownValue(value);
+  };
+  const handleChangeChildCategory = (e) => {
+    const { value } = e.target;
+    setDropdownChildValue(value);
   };
 
   return (
@@ -104,9 +153,47 @@ const BlogPost = () => {
                 <div className=" min-w-80 min-h-80 p-2">
                   <div className="flex ">
                     <div className="flex flex-col w-[60vw]">
+                      <h1 className="text-sm font-sans">Category:</h1>
+                      <div className="flex gap-2">
+                        <div className="flex ">
+                          <Dropdown
+                            value={dropdownValue}
+                            options={blogCategory}
+                            placeholder={
+                              dropdownValue
+                                ? dropdownValue
+                                : "Select Parent Category"
+                            }
+                            onChange={handleChangeCategory}
+                          />
+                        </div>
+                        <div className="flex">
+                          <Dropdown
+                            value={dropdownChildValue}
+                            options={
+                              !dropdownValue
+                                ? [
+                                    {
+                                      value: "",
+                                      label: "Select Parent First",
+                                    },
+                                  ]
+                                : blogCategoryChild
+                            }
+                            placeholder={
+                              !dropdownValue
+                                ? "No Children Available"
+                                : dropdownChildValue
+                                ? dropdownChildValue
+                                : "Select Children Category"
+                            }
+                            onChange={handleChangeChildCategory}
+                          />
+                        </div>
+                      </div>
                       <div className="flex flex-col p-2 ">
+                        <h1 className="text-sm font-sans">Title</h1>
                         <Textline
-                          label={"Title"}
                           placeholder={"Enter Title"}
                           className={
                             "w-full  text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm h-14 p-2  "
@@ -117,8 +204,8 @@ const BlogPost = () => {
                         />
                       </div>
                       <div className="flex flex-col p-2 w-full ">
+                        <h1 className="text-sm font-sans">Description</h1>
                         <Textline
-                          label={"Description"}
                           placeholder={"Enter Title"}
                           className={
                             "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm h-14 p-2  "
@@ -126,6 +213,8 @@ const BlogPost = () => {
                           name={"description"}
                           value={textline.description}
                           onChange={handleTextChange}
+                          textarea={true}
+                          style={{ height: "20vh" }}
                         />
                       </div>
                     </div>
