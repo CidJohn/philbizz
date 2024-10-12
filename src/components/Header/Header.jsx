@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 export default function Header({ hidden }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRegistration, setRegistration] = useState(false);
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
 
   const { t } = useTranslation();
 
@@ -20,6 +21,15 @@ export default function Header({ hidden }) {
   const handleRegistrationOpen = () => {
     setRegistration(!isRegistration);
     setIsModalOpen(false);
+  };
+
+  const handleForgotPassword = () => {
+    setIsForgotPassword(!isForgotPassword);
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const handleForgotPasswordClose = () => {
+    setIsForgotPassword(false);
   };
 
   return (
@@ -49,10 +59,13 @@ export default function Header({ hidden }) {
           <LoginButton
             translation={t}
             hidden={hidden}
+            handleForgotPassword={handleForgotPassword}
             handleRegistrationOpen={handleRegistrationOpen}
             isRegistration={isRegistration}
+            isForgotPassword={isForgotPassword}
             isModalOpen={isModalOpen}
             handleModalOpen={handleModalOpen}
+            handleForgotPasswordClose={handleForgotPasswordClose}
           />
         </div>
       </header>
