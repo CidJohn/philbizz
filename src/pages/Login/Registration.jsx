@@ -46,7 +46,7 @@ export const Registration = ({ handleRegistrationClose, handleLoginOpen }) => {
     setFormData({ ...formData, [name]: value });
 
     if (errors[name]) {
-      setErrors({ ...errors, [name]: null }); // Clear specific field error when user types
+      setErrors({ ...errors, [name]: null }); 
     }
   };
 
@@ -60,8 +60,8 @@ export const Registration = ({ handleRegistrationClose, handleLoginOpen }) => {
   useEffect(() => {
     if (response) {
       showAlert("Success", "Registration successful!", "success");
-      handleRegistrationClose(); // Close the registration modal
-      handleLoginOpen(); // Open the login modal
+      handleRegistrationClose(); 
+      handleLoginOpen(); 
     }
   }, [response, showAlert, handleRegistrationClose, handleLoginOpen]);
 
