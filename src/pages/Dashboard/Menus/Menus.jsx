@@ -226,9 +226,9 @@ function Menus(props) {
               <Searchbar hidden={true} onSearch={handleSearch} />
             </div>
           </div>
-          <div className="flex flex-row p-5 gap-4 min-w-80  justify-center">
+          <div className="flex flex-row p-5 gap-4   justify-center">
             <div className="flex flex-col">
-              <div className="min-w-full h-10 bg-gray-100 border-t-2 border-r-2 border-l-2 border-dashed rounded-t-lg  flex items-center p-2 text-lg font-bold">
+              <div className="min-w-full  bg-gray-100 border-t-2 border-r-2 border-l-2 border-dashed rounded-t-lg  flex items-center p-2 text-lg font-bold">
                 {name === "Business" ? `${name} Category` : `${name} Tree View`}
               </div>
               <div className="bg-white capitalize flex flex-col p-2 border-b-2 border-r-2 border-l-2  border-dashed rounded-b-lg px-10 h-[70vh] overflow-hidden hover:overflow-y-scroll ">
@@ -281,7 +281,7 @@ function Menus(props) {
               <div className="min-w-full h-10 bg-gray-100 border-t-2 border-r-2 border-l-2 border-dashed rounded-t-lg  flex items-center p-2 text-lg font-bold">
                 {name} Table of Content
               </div>
-              <div className="flex  max-w-[100vh] h-[70vh] border-b-2 border-r-2 border-l-2  border-dashed rounded-b-lg">
+              <div className="flex  max-w-[60vw] h-[70vh] border-b-2 border-r-2 border-l-2  border-dashed rounded-b-lg">
                 {name === "Business" ? (
                   getFilterCategoryData.length > 0 ? (
                     renderTable(getFilterCategoryData)

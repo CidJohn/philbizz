@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import sampleItem from "../../../content/sampleItem";
 import Table from "../../../components/Table/Table";
+import ViewAccount from "./ViewAccount/ViewAccount";
+import { blogSample } from "../../../content/sampleItem";
 
 function Accounts() {
+  const [viewUser, setUser] = useState();
+
   const handleView = (data) => {
+    setUser(data)
     console.log("View:", data);
   };
 
@@ -27,7 +32,7 @@ function Accounts() {
       </div>
       <div className="flex flex-col min-w-[70vh] max-h-[90vh] bg-gray-100 rounded-lg shadow-lg p-2 overflow-y-scroll">
         <h1 className="text-2xl font-bold p-2">View Profile</h1>
-        {/* Content for View Profile */}
+        {viewUser && <ViewAccount userData={viewUser} blogsample={blogSample} />}
       </div>
     </div>
   );

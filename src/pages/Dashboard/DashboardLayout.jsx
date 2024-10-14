@@ -14,11 +14,11 @@ const DashboardLayout = ({ children, props }) => {
         <SonnerToaster />
 
         {hiddenDash && (
-          <div className="flex flex-row">
-            <div className="flex sticky top-0 h-screen  ">
+          <div className="flex ">
+            <div className="flex sticky top-0 h-full  ">
               <Sidebar navbar={navbar} />
             </div>
-            <div className="flex w-full h-full bg-[#013A63]/5">
+            <div className="flex w-full bg-[#013A63]/5 overflow-hidden hover:overflow-y-scroll">
               {React.cloneElement(children)}
             </div>
           </div>

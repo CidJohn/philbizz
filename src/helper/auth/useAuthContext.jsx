@@ -4,7 +4,7 @@ import { useProtect } from "./useAuthentication";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const { data, isLoading, isError } = useProtect(); // Assume these are available
+  const { data, isLoading, isError } = useProtect(); 
   const [isAuthenticated, setIsAuthenticated] = useState(
     !!localStorage.getItem("token") || !!sessionStorage.getItem("token")
   );
@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
   const [authload, setLoading] = useState(false);
 
   useEffect(() => {
-    // Check if the token is valid on component mount
+    
     if (data && !isError && !isLoading) {
       setIsAuthenticated(true);
     } else {
