@@ -333,7 +333,7 @@ function Contentcreate(props) {
     e.preventDefault();
     if (name === "Business") {
       console.log(initialBusinessContent);
-      // fetchBusinessContent(initialBusinessContent);
+       fetchBusinessContent(initialBusinessContent);
       Swal.fire(
         "Business Content",
         `New ${name} content has been created successfully.`,
@@ -342,7 +342,7 @@ function Contentcreate(props) {
         navigate(-1);
       });
     } else {
-      //fetchCreateCard(initialSelectionContent);
+      fetchCreateCard(initialSelectionContent);
       if (resultCard) {
         Swal.fire(
           "Card Created",
@@ -536,7 +536,7 @@ function Contentcreate(props) {
           />
         </div>
       ) : (
-        <div className="flex flex-col border rounded-lg shadow-lg min-w-80 min-h-80  bg-gray-100">
+        <div className="flex flex-col border rounded-lg shadow-lg   bg-gray-100">
           <div className="text-2xl font-bold p-4">Create Form Content</div>
           <form className="flex flex-col p-3 gap-2">
             <div className="flex gap-3">
