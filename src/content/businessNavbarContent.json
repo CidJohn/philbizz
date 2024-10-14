@@ -1,0 +1,53 @@
+{
+  "nabvar": [
+    {
+      "name": "A",
+      "path": "/business/a"
+    },
+    {
+      "name": "B",
+      "path": "/business/b"
+    },
+    {
+      "name": "C",
+      "path": "/business/c"
+    },
+    {
+      "name": "D",
+      "path": "/business/d"
+    },
+    {
+      "name": "E",
+      "path": "/business/e"
+    },
+    {
+      "name": "F",
+      "path": "/business/f"
+    },
+    {
+      "name": "G",
+      "path": "/business/g"
+    }
+  ],
+  "sidebar": [
+    {
+      "name": "Company Name"
+    },
+    {
+      "name": "About",
+      "path": "#about"
+    },
+    {
+      "name": "Products",
+      "path": "#products"
+    },
+    {
+      "name": "Personnel",
+      "path": "#personnel"
+    },
+    {
+      "name": "Contact",
+      "path": "#contact"
+    }
+  ]
+}

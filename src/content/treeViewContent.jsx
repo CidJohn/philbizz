@@ -1,59 +1,66 @@
- const treeViewContent = [
-    {
-      name: 'Tagaytay',
-      children: [
-        {
-          name: 'Hair Salon',
-          children: [],
-          onclick: 'SALON'
-          
-        },
-        {
-          name: 'KTV',
-          children: [],
-          onclick:'KTV'
-        },
-        {
-          name: 'Item 3',
-          children: [
-            {
-              name: 'Subitem 1',
-              children: [],
-            },
-            {
-              name: 'Subitem 2',
-              children: [],
-            },
-          ],
-        },
-      ],
-    },
-    {
-      name: 'Cebu',
-      children: [
-        {
-          name: 'Salon',
-          children: [],
-        },
-        {
-          name: 'Item 2',
-          children: [
-            {
-              name: 'Subitem 1',
-              children: [],
-            },
-            {
-              name: 'Subitem 2',
-              children: [],
-            },
-          ],
-        },
-        {
-          name: 'Item 3',
-          children: [],
-        },
-      ],
-    },
-  ];
+const treeViewContent = [
+  {
+    name: "Manila",
+    path: "/ktv_jtv",
+    children: [
+      {
+        id: 1,
+        parent: "Ktv/Jtv",
+        name: "Makati",
+        children: [],
+      },
+      {
+        id: 2,
+        parent: "Ktv/Jtv",
+        name: "Parañaque",
+        children: [],
+      },
+      {
+        id: 5,
+        parent: "Ktv/Jtv",
+        name: "Taguig",
+        children: [],
+      },
+      {
+        id: 4,
+        parent: "Ktv/Jtv",
+        name: "Cebu",
+        children: [],
+        onclick: "/ktv",
+      },
+    ],
+  },
+  {
+    path: "/business",
+    name: `Laguna`,
+    children: [
+      {
+        id: 6,
+        parent: "Ktv/Jtv",
+        name: "Calamba",
+        children: [],
+      },
+      {
+        id: 6,
+        parent: "Ktv/Jtv",
+        name: "Makati",
+        children: [],
+      },
+      {
+        id: 7,
+        parent: "Ktv/Jtv",
+        name: "Laguna",
+        children: [],
+      },
+      {
+        id: 8,
+        parent: "Ktv/Jtv",
+        name: "Cebu",
+        children: [],
+        onclick: "/ktv",
+      },
+    ],
+  },
+];
 
-  export default treeViewContent
+export default treeViewContent;

@@ -1,10 +1,14 @@
-import React from 'react';
+import React from "react";
 
-const Image = ({ src, alt, className }) => {
+const Image = ({ src, alt, className, style }) => {
   return (
     <>
-    <img src={require(`../../assets/img/${src}`)} alt={alt} className={className} />
-
+      <img
+        src={require(`../../assets/img/${src}`)}
+        alt={alt}
+        className={className}
+        style={style}
+      />  
     </>
   );
 };

@@ -1,24 +1,190 @@
-import React from 'react';
-import Image from '../Image/Image';
+import React from "react";
+import Images from "../Image/Images";
+import { FaAngleRight } from "react-icons/fa";
 
-function Card({ title, src, desc }) {
+function Card(props) {
+  const { title, src, desc, style, theme, link, onLink, btnColor, textColor } =
+    props;
+
   return (
-    <div className="max-w-96 mx-5 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-      <a href="#" className="block">
-        <Image className="rounded-t-lg" src={src} alt="" />
-      </a>
-      <div className="p-5">
-        <a href="#" className="block">
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{title}</h5>
-        </a>
-        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{desc}</p>
-        <a href="#" className="block text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 py-2">
-          Read more
-          <svg className="inline-block w-4 h-4 ml-2 transform rtl:scale-x-minus-1" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M5 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1.447.895l6-3a1 1 0 0 0 0-1.79l-6-3A1 1 0 0 0 5 5zm10 5.5a1 1 0 1 1-2 0V6.5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-2a1 1 0 0 1 0-2h1v-3h-1z" clipRule="evenodd" />
-          </svg>
-        </a>
-      </div>
+    <div
+      className={` mx-1 bg-[#013A63]/5  rounded-md dark:bg-gray-800 dark:border-gray-700 shadow-md border border-[#013A63]/5 cursor-pointer p-4 `}
+      style={style}
+    >
+      {theme === 1 ? (
+        <>
+          <a onClick={onLink} className="block">
+            <div className="w-full overflow-hidden">
+              <a
+                className="block cursor-pointer border text-center p-3 shadow rounded-sm"
+                onClick={onLink}
+              >
+                <h5
+                  className={
+                    textColor
+                      ? "text-md font-bold tracking-tight text-[#013A63] fira-sans-bold"
+                      : "text-2xl font-bold tracking-tight text-[#013A63] fira-sans-bold "
+                  }
+                  style={{ color: textColor }}
+                >
+                  {title}
+                </h5>
+              </a>
+              <div className="flex">
+                <div className=" w-full overflow-hidden ">
+                  <div className="h-full p-2  ">
+                    <Images
+                      src={src}
+                      className="object-cover h-full  rounded-sm shadow-lg "
+                      style={{ height: "200px" }}
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-wrap">
+                  <p
+                    className="px-3 py-1 font-normal h-[15vh]  w-[10vw] text-sm text-gray-600 fira-sans-condensed-regular"
+                    style={{
+                      display: "-webkit-box",
+                      WebkitLineClamp: 4,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                    title={desc}
+                  >
+                    {desc}
+                  </p>
+                  <a
+                    onClick={onLink}
+                    className="w-full h-10 border flex items-center justify-center text-center py-3 fira-sans-condensed-regular text-white mt-4 bg-[#013A63] rounded-lg hover:bg-[#013A63]/95 "
+                    style={{
+                      backgroundColor: btnColor,
+                      borderColor: textColor,
+                      color: textColor,
+                    }}
+                  >
+                    Read more
+                    <FaAngleRight className="ml-2" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </a>
+        </>
+      ) : theme === 2 ? (
+        <>
+          <a className="block" onClick={onLink}>
+            <div className=" w-full overflow-hidden ">
+              <div
+                className="block cursor-pointer border text-center p-3 shadow rounded-sm"
+                onClick={onLink}
+              >
+                <h5
+                  className={
+                    textColor
+                      ? "text-md font-bold tracking-tight text-[#013A63] fira-sans-bold truncate w-[10vw]"
+                      : "text-2xl font-bold tracking-tight text-[#013A63] fira-sans-bold truncate"
+                  }
+                  style={{ color: textColor }}
+                >
+                  {title}
+                </h5>
+              </div>
+              <div className="flex flex-col">
+                <div className=" w-full overflow-hidden ">
+                  <div className="h-full p-2  ">
+                    <Images
+                      src={src}
+                      className="object-cover h-full  rounded-sm shadow-lg "
+                      style={{ height: "200px" }}
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-wrap">
+                  <p
+                    className="font-normal text-wrap min-h-[4vh] truncate text-sm text-gray-600 fira-sans-condensed-regular"
+                    style={{
+                      display: "-webkit-box",
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                    title={desc}
+                  >
+                    {desc}
+                  </p>
+                  <a
+                    onClick={onLink}
+                    className="w-full h-10 border flex items-center justify-center text-center py-3 fira-sans-condensed-regular text-white mt-4 bg-[#013A63] rounded-lg hover:bg-[#013A63]/95 "
+                    style={{
+                      backgroundColor: btnColor,
+                      borderColor: textColor,
+                      color: textColor,
+                    }}
+                  >
+                    Read more
+                    <FaAngleRight className="ml-2" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </a>
+        </>
+      ) : (
+        <>
+          <a className="block" onClick={onLink}>
+            <div className=" w-full overflow-hidden ">
+              <div className="h-full p-3 ">
+                <Images
+                  src={src}
+                  className="object-cover h-full w-full rounded-sm"
+                  style={{ height: "200px" }}
+                />
+              </div>
+            </div>
+          </a>
+          <div className="p-2 ">
+            <a className="block cursor-pointer" onClick={onLink}>
+              <h5
+                className={
+                  textColor
+                    ? "text-md font-bold tracking-tight text-[#013A63] fira-sans-bold"
+                    : "text-2xl font-bold tracking-tight text-[#013A63] fira-sans-bold "
+                }
+                style={{ color: textColor }}
+              >
+                {title}
+              </h5>
+            </a>
+            <p
+              className="font-normal text-wrap truncate text-sm text-gray-600 fira-sans-condensed-regular"
+              style={{
+                display: "-webkit-box",
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+              title={desc}
+            >
+              {desc}
+            </p>
+            <a
+              onClick={onLink}
+              className="border flex items-center justify-center text-center py-3 fira-sans-condensed-regular text-white mt-4 bg-[#013A63] rounded-lg hover:bg-[#013A63]/95 "
+              style={{
+                backgroundColor: btnColor,
+                borderColor: textColor,
+                color: textColor,
+              }}
+            >
+              Read more
+              <FaAngleRight className="ml-2" />
+            </a>
+          </div>
+        </>
+      )}
     </div>
   );
 }

@@ -1,27 +1,69 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Assuming you're using React Router
-import '../../styles/treeview.css';
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import Button from "../Button/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronDown,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
 
-const TreeItem = ({ item, onItemClick }) => {
+const capitalize = (str) => {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+};
+
+const TreeItem = ({ item, onItemClick, textColor }) => {
   const [isOpen, setIsOpen] = useState(true);
+  const { t } = useTranslation();
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
-  const handleItemClick = () => {
-    onItemClick(item.onclick); // Pass the clicked item to the parent component
+
+  const handleItemClick = (e) => {
+    if (item.id) {
+      onItemClick(item.id, item.path, item.name);
+    }
   };
 
   return (
     <li className="">
-      <div onClick={handleToggle} className="flex items-center cursor-pointer font-normal">
-        <span className="toggle text-lg">{isOpen ? '-' : '+'}</span> {/* Changed toggle icons */}
-        <Link to={item.path} className="ml-2"  onClick={handleItemClick}>{item.name}</Link> {/* Link to navigate */}
+      <div
+        onClick={handleToggle}
+        className="flex items-center cursor-pointer font-normal hover:font-bold  "
+      >
+        <Button
+          className={
+            item.children && item.children.length > 0
+              ? ` font-bold hover:underline decoration-sky-500 underline-offset-8 decoration-4 text-left truncate w-[10vw]`
+              : "text-gray-500 text-[15px] text-left"
+          }
+          onClick={handleItemClick}
+          text={capitalize(t(item.name))}
+          style={
+            item.children && item.children.length > 0
+              ? { color: textColor }
+              : {}
+          }
+          title={item.name}
+        />
+        {item.children && item.children.length > 0 && (
+          <FontAwesomeIcon
+            icon={isOpen ? faChevronDown : faChevronRight}
+            className={`mr-2 w-[20px] px-1  `}
+            style={{ color: textColor }}
+          />
+        )}
       </div>
-      {isOpen && (
-        <ul className="ml-6 px-7">
+      {isOpen && item.children && (
+        <ul className="px-5 lg:px-10  font-bold">
           {item.children.map((child, index) => (
-            <TreeItem key={index} item={child} onItemClick={onItemClick} />
+            <TreeItem
+              key={index}
+              item={child}
+              onItemClick={onItemClick}
+              textColor={textColor}
+            />
           ))}
         </ul>
       )}
@@ -29,11 +71,16 @@ const TreeItem = ({ item, onItemClick }) => {
   );
 };
 
-const TreeView = ({ treeViewContent, onItemClick }) => {
+const TreeView = ({ treeViewContent, onItemClick, textColor }) => {
   return (
-    <ul className="tree mt-10 font-bold min-w-80 ms-10">
+    <ul className="font-bold text-sm lg:text-lg capitalize ">
       {treeViewContent.map((item, index) => (
-        <TreeItem key={index} item={item} onItemClick={onItemClick} />
+        <TreeItem
+          key={index}
+          item={item}
+          onItemClick={onItemClick}
+          textColor={textColor}
+        />
       ))}
     </ul>
   );
