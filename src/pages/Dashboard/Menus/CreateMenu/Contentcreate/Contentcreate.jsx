@@ -30,11 +30,13 @@ import { formSchema } from "./Contentvalidation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import contents from "../../../../../content/content.json";
+import { useToast } from "../../../../../components/Sonner/Sonner";
 
 function Contentcreate(props) {
   const { downTree, path, category, name, title, location, blogTitle } = props;
   const showAlert = useAlert();
   const navigate = useNavigate();
+  const toastify = useToast();
   const [dropdownOptions, setDropdownOptions] = useState([]);
   const [dropdownChildOptions, setDropDownChild] = useState([]);
   const [selectedValue, setSelectedValue] = useState("");
@@ -69,14 +71,16 @@ function Contentcreate(props) {
     website: "",
     address: "",
   });
-  const [entries, setEntries] = useState([
-    {
-      id: Date.now(),
-      imagePreview: null,
-      personnelName: "",
-      position: "",
-    },
-  ]);
+  const [entries, setEntries] = useState(
+    name === "Business " && [
+      {
+        id: Date.now(),
+        imagePreview: null,
+        personnelName: "",
+        position: "",
+      },
+    ]
+  );
   const [imageInsert, setImageInsert] = useState([
     {
       id: Date.now(),
@@ -329,52 +333,47 @@ function Contentcreate(props) {
     setSectionPageDropdown(value);
   };
 
-  const handleSave = (e) => {
-    e.preventDefault();
+  const handleSave = () => {
     if (name === "Business") {
-      console.log(initialBusinessContent);
-       fetchBusinessContent(initialBusinessContent);
-      Swal.fire(
-        "Business Content",
-        `New ${name} content has been created successfully.`,
-        "success"
-      ).then(() => {
-        navigate(-1);
-      });
+      if (fetchBusinessContent(initialBusinessContent)) {
+        try {
+          console.log(initialBusinessContent);
+          toastify(` Successfully Created New ${name} Content `, "success");
+        } catch (error) {
+          toastify("Failed to Submit Reply.", "error");
+        }
+      }
     } else {
-      fetchCreateCard(initialSelectionContent);
-      if (resultCard) {
-        Swal.fire(
-          "Card Created",
-          `A ${resultCard} has been created successfully.`,
-          "success"
-        ).then(() => {
-          navigate(-1);
-        });
+      if (fetchCreateCard(initialSelectionContent)) {
+        try {
+          console.log(initialSelectionContent);
+          toastify(` Successfully Created New ${name} Content `, "success");
+        } catch (error) {
+          toastify("Failed to Submit Reply.", "error");
+        }
       }
     }
-    // console.log(result || resultCard);
   };
 
   const handleUpdate = () => {
     if (name === "Business") {
-      fetchUpdateCompany(initialBusinessContent);
-      showAlert(
-        "Business Updated",
-        `The ${name} has been updated successfully.`,
-        "success"
-      ).then(() => {
-        navigate(-1);
-      });
+      if (fetchUpdateCompany(initialBusinessContent)) {
+        try {
+          console.log(initialBusinessContent);
+          toastify(` Successfully Update ${name} Content `, "success");
+        } catch (error) {
+          toastify("Failed to Submit Reply.", "error");
+        }
+      }
     } else {
-      fetchUpdateCard(initialSelectionContent);
-      showAlert(
-        "Card Updated",
-        `The ${name} content card has been updated successfully.`,
-        "success"
-      ).then(() => {
-        navigate(-1);
-      });
+      // if (fetchUpdateCard(initialSelectionContent)) {
+      try {
+        console.log(initialSelectionContent);
+        toastify(` Successfully Update ${name} Content `, "success");
+      } catch (error) {
+        toastify("Failed to Submit Reply.", "error");
+      }
+      // }
     }
   };
 
