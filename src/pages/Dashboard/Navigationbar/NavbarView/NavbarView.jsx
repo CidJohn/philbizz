@@ -7,9 +7,11 @@ import { faAdd, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { formSchema } from "./NavbarValidation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useToast } from "../../../../components/Sonner/Sonner";
 
 function NavbarView(props) {
   const { name, path, image, id } = props;
+  const toastify = useToast();
   const [textline, setTextLine] = useState({ name: "", path: "", image: null });
 
   useEffect(() => {
@@ -55,10 +57,14 @@ function NavbarView(props) {
   const handleAdd = () => {
     const { name, path, image } = textline;
     if (!name || !path || !image) {
-      alert("field required!");
+      toastify("field required!", "error");
       return;
     }
-    alert(`${name} is create successfully!`);
+    try {
+      toastify(`${name} Navigation Bar is create successfully!`, "success");
+    } catch (error) {
+      toastify(`Failed to Create New ${name} Navbar.`, "error");
+    }
   };
 
   const {
@@ -73,10 +79,14 @@ function NavbarView(props) {
   const handleUpdate = () => {
     const { name, path, image } = textline;
     if (!name || !path || !image) {
-      alert("field required!");
+      toastify("field required!", "error");
       return;
     }
-    alert(`${name} is Updated successfully!`);
+     try {
+       toastify(`${name} Navigation Bar is Update successfully!`, "success");
+     } catch (error) {
+       toastify(`Failed to Update New ${name} Navbar.`, "error");
+     }
   };
 
   return (

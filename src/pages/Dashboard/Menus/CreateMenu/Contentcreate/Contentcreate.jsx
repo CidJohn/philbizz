@@ -340,7 +340,7 @@ function Contentcreate(props) {
           console.log(initialBusinessContent);
           toastify(` Successfully Created New ${name} Content `, "success");
         } catch (error) {
-          toastify("Failed to Submit Reply.", "error");
+          toastify(`Failed to Create New ${name} Content.`, "error");
         }
       }
     } else {
@@ -349,7 +349,7 @@ function Contentcreate(props) {
           console.log(initialSelectionContent);
           toastify(` Successfully Created New ${name} Content `, "success");
         } catch (error) {
-          toastify("Failed to Submit Reply.", "error");
+          toastify(`Failed to Create New ${name} Content.`, "error");
         }
       }
     }
