@@ -4,15 +4,17 @@ import { useProtect } from "./useAuthentication";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const { data, isLoading, isError } = useProtect(); 
+  const { data, isLoading, isError } = useProtect();
   const [isAuthenticated, setIsAuthenticated] = useState(
-    !!localStorage.getItem("token") || !!sessionStorage.getItem("token")
+    (!!localStorage.getItem("access_token") &&
+      !!localStorage.getItem("refresh_token")) ||
+      (!!sessionStorage.getItem("access_token") &&
+        !!sessionStorage.getItem("access_token"))
   );
   const [rememberMe, setRememberMe] = useState(false);
   const [authload, setLoading] = useState(false);
 
   useEffect(() => {
-    
     if (data && !isError && !isLoading) {
       setIsAuthenticated(true);
     } else {
@@ -20,12 +22,14 @@ export const AuthProvider = ({ children }) => {
     }
   }, [data, isLoading, isError]);
 
-  const login = (token) => {
+  const login = (access_token, refresh_token) => {
     setLoading(true);
     if (rememberMe) {
-      localStorage.setItem("token", token);
+      localStorage.setItem("access_token", access_token);
+      localStorage.setItem("refresh_token", refresh_token);
     } else {
-      sessionStorage.setItem("token", token);
+      sessionStorage.setItem("access_token", access_token);
+      sessionStorage.setItem("refresh_token", refresh_token);
     }
     setTimeout(() => {
       setLoading(false);
@@ -35,8 +39,10 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setLoading(true);
-    localStorage.removeItem("token");
-    sessionStorage.removeItem("token");
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    sessionStorage.removeItem("access_token");
+    sessionStorage.removeItem("refresh_token");
     setTimeout(() => {
       setLoading(false);
       setIsAuthenticated(false);

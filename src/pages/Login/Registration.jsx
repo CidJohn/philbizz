@@ -7,6 +7,7 @@ import UploadImage from "../../components/UploadImage/UploadImage";
 
 export const Registration = ({ handleRegistrationClose, handleLoginOpen }) => {
   const initialData = {
+    //imgurl: "http://example.com/image.jpg",
     imgurl: null,
     firstname: "",
     middlename: "",
@@ -15,12 +16,11 @@ export const Registration = ({ handleRegistrationClose, handleLoginOpen }) => {
     mobile_number: "",
     password: "",
     confirmPassword: "",
-    access_level: "CUSTOMER"
+    access_level: "CUSTOMER",
   };
 
   const [formData, setFormData] = useState(initialData);
   const [errors, setErrors] = useState({});
-  const [getData, setRegisterData] = useState([]);
   const { fetchRegistration, response, error, loadData } = useRegistration();
   const showAlert = useAlert();
 
@@ -59,6 +59,7 @@ export const Registration = ({ handleRegistrationClose, handleLoginOpen }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
+      //console.log(formData);
       fetchRegistration(formData);
     }
   };
@@ -233,7 +234,9 @@ export const Registration = ({ handleRegistrationClose, handleLoginOpen }) => {
                       onChange={handleChange}
                     />
                     {errors.mobile_number && (
-                      <p className="text-red-500 text-sm">{errors.mobile_number}</p>
+                      <p className="text-red-500 text-sm">
+                        {errors.mobile_number}
+                      </p>
                     )}
                   </div>
                 </div>
