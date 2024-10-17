@@ -17,7 +17,8 @@ export const Login = ({
   };
   const [formData, setFormData] = useState(initializeData);
   const [errors, setErrors] = useState([]);
-  const { fetchingLogin, token, loginLoad, error } = useLogin();
+  const { fetchingLogin, access_token, refresh_token, loginLoad, error } =
+    useLogin();
   const { login, setRememberMe } = useAuth();
 
   const showAlert = useAlert();
@@ -39,7 +40,7 @@ export const Login = ({
     setFormData({ ...formData, [name]: value });
 
     if (errors[name]) {
-      setErrors({ ...errors, [name]: null }); // Clear specific field error when user types
+      setErrors({ ...errors, [name]: null });
     }
   };
   const handleSubmit = (e) => {
@@ -59,12 +60,12 @@ export const Login = ({
   };
 
   useEffect(() => {
-    if (token) {
+    if (access_token && refresh_token) {
       showAlert("Welcome", `Login Successfully!`, "success");
       handleModalOpen();
-      login(token);
+      login(access_token, refresh_token);
     }
-  }, [token, loginLoad]);
+  }, [access_token, refresh_token, loginLoad]);
 
   useEffect(() => {
     if (error) {
