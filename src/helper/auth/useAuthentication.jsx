@@ -57,7 +57,6 @@ export const useLogin = () => {
       return;
     }
     try {
-      console.log(data);
       //const response = await axios.post(`${API_CALL.auth}/login`, data);
       const response = await axios.post(`api/accounts/login`, data);
       const res = await response.data.access_token_response;

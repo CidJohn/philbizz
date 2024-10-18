@@ -117,10 +117,9 @@ const Businessview = (props) => {
       ) : (
         <div className=" flex flex-col md:flex-row  gap-3 w-full">
           <div className="flex flex-col   rounded-lg ">
-            {/*sticky top-0 */}
             <div className=" w-[18vw]">
-              {Object.keys(groupedTreeView).map((name) => (
-                <div key={name} className="p-2 ">
+              {Object.keys(groupedTreeView).map((name, index) => (
+                <div key={index} className="p-2 ">
                   <h3 className="font-bold text-2xl my-2 py-2 text-white bg-[#013A63] px-4 rounded-md">
                     {name}
                   </h3>
@@ -135,8 +134,8 @@ const Businessview = (props) => {
             </div>
           </div>
           <div className="flex flex-col   ">
-            {listItems.map((item) => (
-              <div className="w-full" key={item.id}>
+            {listItems.map((item, index) => (
+              <div className="w-full" key={index}>
                 <Listedcard
                   section={item.title}
                   listItems={item.list}

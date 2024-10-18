@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import restAPI from "./restAPI";
+import axiosInstance from "../auth/axiosInstance";
 
 const useBlogSettings = () => {
   const [blogData, setBlogData] = useState([]);
@@ -64,98 +65,19 @@ export const useBlogContent = (props) => {
 };
 
 export const useBlogPost = () => {
-  const [titleLoading, setTitleLoading] = useState(true);
-  const [contentLoading, setContentLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState({});
-  const API_CALL = restAPI();
-
-  const fetchBlogTitle = async (data) => {
-    setTitleLoading(true);
-    setError(null);
+  const [resultPost, setResult] = useState();
+  const postBlog = async (data) => {
+    if (!data) return;
     try {
-      for (const item of data) {
-        const { userid, title, image, description } = item;
-
-        // Construct FormData
-        const formData = new FormData();
-        if (userid) formData.append("userid", userid);
-        if (title) formData.append("title", title.trim());
-        if (image) formData.append("image", image); // Assuming `image` is a File object
-        if (description) formData.append("desc", description.trim());
-
-        // Send POST request
-        const response = await axios.post(
-          `${API_CALL.host}/blog-post-title`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-
-        const res = response.data;
-        setSuccess((prev) => ({ ...prev, title: res }));
-      }
+      const response = await axiosInstance.post(`/api/app/blogs`, data);
+      const res = response.data;
+      setResult(res);
     } catch (error) {
-      setError(error.response?.data || error.message);
-      console.error(
-        "Error during fetching blog title:",
-        error.response?.data || error.message
-      );
-    } finally {
-      setTitleLoading(false);
+      console.log("Error during fetching:", error);
     }
   };
 
-  const fetchBlogDesc = async (data) => {
-    setContentLoading(true);
-    setError(null);
-    try {
-      for (const item of data) {
-        const { userid, title, image, description } = item;
-
-        // Construct FormData
-        const formData = new FormData();
-        if (userid) formData.append("userid", userid);
-        if (title) formData.append("title", title.trim());
-        if (image) formData.append("image", image); // Ensure image is a File object
-        if (description) formData.append("desc", description.trim());
-
-        // Send POST request
-        const response = await axios.post(
-          `${API_CALL.host}/blog-post-content`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-
-        const res = response.data;
-        setSuccess((prev) => ({ ...prev, content: res }));
-      }
-    } catch (error) {
-      setError(error.response?.data || error.message);
-      console.error(
-        "Error during fetching blog description:",
-        error.response?.data || error.message
-      );
-    } finally {
-      setContentLoading(false);
-    }
-  };
-
-  return {
-    fetchBlogTitle,
-    fetchBlogDesc,
-    titleLoading,
-    contentLoading,
-    error,
-    success,
-  };
+  return { resultPost, postBlog };
 };
 
 export const useBlogCommentContent = ({ id }) => {
