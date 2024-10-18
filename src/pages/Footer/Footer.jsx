@@ -30,8 +30,8 @@ function Footer() {
             ))}
           </ul>
         </div>
+        <hr className=" border-gray-200 sm:mx-auto dark:border-gray-700 my-4" />
         <p className="mt-12 text-center text-sm text-gray-500 lg:text-right">
-          <hr className=" border-gray-200 sm:mx-auto dark:border-gray-700 my-4" />
           <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
             © 2024{" "}
             <a href="/" className="hover:underline">

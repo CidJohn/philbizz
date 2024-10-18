@@ -6,8 +6,8 @@ function NavbarList(props) {
   return (
     <div className="flex flex-col w-[30vw] max-h-[70vh] overflow-hidden hover:overflow-y-scroll">
       {navbar &&
-        navbar.map((item) => (
-          <>
+        navbar.map((item, index) => (
+          <React.Fragment key={index}>
             <List
               title={item.name}
               image={item.iconPath}
@@ -15,7 +15,7 @@ function NavbarList(props) {
               imgstyle={{ width: "10vw" }}
               onLink={() => handleNavbar(item)}
             />
-          </>
+          </React.Fragment>
         ))}
     </div>
   );

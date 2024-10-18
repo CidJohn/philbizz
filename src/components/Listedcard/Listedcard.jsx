@@ -44,7 +44,7 @@ const Listedcard = (props) => {
                       <h3 className="text-lg font-medium text-[#013A63] fira-sans-bold">
                         {item.title}
                       </h3>
-                      <span class="whitespace-nowrap rounded-full bg-transparent border border-[#013A63] px-3.5 py-1.5 fira-sans-condensed-bold text-sm text-[#013A63]">
+                      <span className="whitespace-nowrap rounded-full bg-transparent border border-[#013A63] px-3.5 py-1.5 fira-sans-condensed-bold text-sm text-[#013A63]">
                         <Dateformat dateString={item.created_at} />
                       </span>
                     </div>

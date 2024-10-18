@@ -5,7 +5,7 @@ import Images from "../../../../components/Image/Images";
 export const BlogView = (props) => {
   const { content, blogImage } = props;
   const imagelink = restAPI();
- 
+
   return (
     <div className="w-full mx-auto mt-5">
       <div className=" text-center">
@@ -51,9 +51,8 @@ export const BlogView = (props) => {
               )
             )}
           {blogImage ? (
-            blogImage.map((item) => (
-              <>
-                
+            blogImage.map((item, index) => (
+              <React.Fragment key={index}>
                 <div
                   dangerouslySetInnerHTML={{ __html: item.content }}
                   style={{
@@ -62,7 +61,7 @@ export const BlogView = (props) => {
                   }}
                   className="min-w-full text-center"
                 />
-              </>
+              </React.Fragment>
             ))
           ) : (
             <div className="text-2xl font-bold flex items-center mx-auto">

@@ -13,7 +13,7 @@ function Card(props) {
     >
       {theme === 1 ? (
         <>
-          <a onClick={onLink} className="block">
+          <button onClick={onLink} className="block">
             <div className="w-full overflow-hidden">
               <a
                 className="block cursor-pointer border text-center p-3 shadow rounded-sm"
@@ -69,11 +69,11 @@ function Card(props) {
                 </div>
               </div>
             </div>
-          </a>
+          </button>
         </>
       ) : theme === 2 ? (
         <>
-          <a className="block" onClick={onLink}>
+          <button className="block" onClick={onLink}>
             <div className=" w-full overflow-hidden ">
               <div
                 className="block cursor-pointer border text-center p-3 shadow rounded-sm"
@@ -129,11 +129,11 @@ function Card(props) {
                 </div>
               </div>
             </div>
-          </a>
+          </button>
         </>
       ) : (
         <>
-          <a className="block" onClick={onLink}>
+          <button className="block" onClick={onLink}>
             <div className=" w-full overflow-hidden ">
               <div className="h-full p-3 ">
                 <Images
@@ -143,9 +143,9 @@ function Card(props) {
                 />
               </div>
             </div>
-          </a>
+          </button>
           <div className="p-2 ">
-            <a className="block cursor-pointer" onClick={onLink}>
+            <button className="block cursor-pointer" onClick={onLink}>
               <h5
                 className={
                   textColor
@@ -156,7 +156,7 @@ function Card(props) {
               >
                 {title}
               </h5>
-            </a>
+            </button>
             <p
               className="font-normal text-wrap truncate text-sm text-gray-600 fira-sans-condensed-regular"
               style={{
@@ -170,7 +170,7 @@ function Card(props) {
             >
               {desc}
             </p>
-            <a
+            <button
               onClick={onLink}
               className="border flex items-center justify-center text-center py-3 fira-sans-condensed-regular text-white mt-4 bg-[#013A63] rounded-lg hover:bg-[#013A63]/95 "
               style={{
@@ -181,7 +181,7 @@ function Card(props) {
             >
               Read more
               <FaAngleRight className="ml-2" />
-            </a>
+            </button>
           </div>
         </>
       )}
