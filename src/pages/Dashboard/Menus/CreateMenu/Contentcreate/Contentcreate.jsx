@@ -71,16 +71,14 @@ function Contentcreate(props) {
     website: "",
     address: "",
   });
-  const [entries, setEntries] = useState(
-    name === "Business " && [
-      {
-        id: Date.now(),
-        imagePreview: null,
-        personnelName: "",
-        position: "",
-      },
-    ]
-  );
+  const [entries, setEntries] = useState([
+    {
+      id: Date.now(),
+      imagePreview: null,
+      personnelName: "",
+      position: "",
+    },
+  ]);
   const [imageInsert, setImageInsert] = useState([
     {
       id: Date.now(),

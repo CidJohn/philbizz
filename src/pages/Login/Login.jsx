@@ -12,7 +12,6 @@ export const Login = ({
 }) => {
   const initializeData = {
     email: "",
-    number: "",
     password: "",
   };
   const [formData, setFormData] = useState(initializeData);
