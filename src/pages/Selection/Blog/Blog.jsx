@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Pagination from "../../../components/Pagination/Pagination";
-import useBlogSettings from "../../../helper/database/useBlogSettings";
+import useBlogSettings, {
+  useBlogList,
+} from "../../../helper/database/useBlogSettings";
 import HandleBlog from "../../../utils/HandleBlog/HandleBlog";
 import Button from "../../../components/Button/Button";
 import Spinner from "../../../components/Spinner/Spinner";
@@ -16,6 +18,7 @@ import useStorage from "../../../helper/storage/Storage";
 const Blog = () => {
   const navigate = useNavigate();
   const { blogData, blogload } = useBlogSettings();
+  const { viewBlogList, listLoading } = useBlogList();
   const { getStorage } = useStorage();
   const { isAuthenticated, authload } = useAuth();
   const datas = blogData ? blogData : "";
@@ -47,7 +50,6 @@ const Blog = () => {
     );
   }
   const cardTotalPages = Math.ceil(datas.length / itemsPerPage);
-
   const currentPost = datas
     ? datas.slice(
         (cardCurrentPage - 1) * itemsPerPage,
@@ -56,7 +58,7 @@ const Blog = () => {
     : [];
 
   const handleModalOpen = (item) => {
-    navigate(`/blog/post/${item}`, {
+    navigate(`/blog/post`, {
       state: { userIdentity: item },
     });
   };
