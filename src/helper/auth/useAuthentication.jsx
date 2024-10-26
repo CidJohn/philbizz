@@ -24,11 +24,11 @@ export const useRegistration = () => {
       return;
     }
     try {
-      // const response = await axios.post(
-      //   `${API_CALL.pythonHost}/accounts/create`,
-      //   data
-      // );
-      const response = await axios.post(`api/accounts/create`, data);
+      const response = await axios.post(
+        `${API_CALL.pythonHost}/accounts/create`,
+        data
+      );
+      //const response = await axios.post(`api/accounts/create`, data);
       setResponse(response.data);
       setLoadData(false);
     } catch (error) {
@@ -57,8 +57,11 @@ export const useLogin = () => {
       return;
     }
     try {
-      //const response = await axios.post(`${API_CALL.auth}/login`, data);
-      const response = await axios.post(`api/accounts/login`, data);
+      const response = await axios.post(
+        `${API_CALL.pythonHost}/accounts/login`,
+        data
+      );
+      // const response = await axios.post(`api/accounts/login`, data);
       const res = await response.data.access_token_response;
       setAccessToken(res.access_token);
       setRefreshToken(res.refresh_token);

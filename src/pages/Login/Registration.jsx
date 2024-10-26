@@ -7,8 +7,8 @@ import UploadImage from "../../components/UploadImage/UploadImage";
 
 export const Registration = ({ handleRegistrationClose, handleLoginOpen }) => {
   const initialData = {
-    //imgurl: "http://example.com/image.jpg",
-    imgurl: null,
+    imgurl: "http://example.com/image.jpg",
+    //imgurl: null,
     firstname: "",
     middlename: "",
     lastname: "",
