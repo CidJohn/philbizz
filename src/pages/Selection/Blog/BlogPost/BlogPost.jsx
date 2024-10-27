@@ -27,6 +27,7 @@ const BlogPost = () => {
       imagePreview: null,
     },
   ]);
+  const [fileImage, setFileImage] = useState(null);
 
   const [textline, setTextLine] = useState({
     title: "",
@@ -87,6 +88,7 @@ const BlogPost = () => {
           ...prev,
           imagePreview: reader.result,
         }));
+        setFileImage(file);
       };
       reader.readAsDataURL(file);
       setValue("image", e.target.files);
@@ -107,11 +109,15 @@ const BlogPost = () => {
     const initialData = {
       title: textline.title,
       description: textline.description,
-      image: imageInsert.imagePreview,
+      //image: imageInsert.imagePreview,
+      //image: "http://example.com/path/to/image.jpg",
+      image: fileImage,
       content: editorContent,
     };
-    //postBlog(initialData);
+    console.log(initialData);
+    postBlog(initialData);
   };
+
   if (resultPost) {
     console.log(resultPost);
   }

@@ -3,11 +3,12 @@ import React, { useEffect, useRef, useState } from "react";
 import restAPI from "./restAPI";
 import axiosInstance from "../auth/axiosInstance";
 
+let API_CALL = restAPI();
+
 const useBlogSettings = () => {
   const [blogData, setBlogData] = useState([]);
   const [blogload, setLoading] = useState(true);
   const isFetched = useRef(false);
-  const API_CALL = restAPI();
 
   useEffect(() => {
     const fetchBlogData = async () => {
@@ -34,7 +35,6 @@ export const useBlogContent = (props) => {
   const { title, user } = props;
   const [content, setContent] = useState([]);
   const [contentload, setLoading] = useState(true);
-  const API_CALL = restAPI();
 
   useEffect(() => {
     const trimmedTitle = title?.trim();
@@ -69,7 +69,15 @@ export const useBlogPost = () => {
   const postBlog = async (data) => {
     if (!data) return;
     try {
-      const response = await axiosInstance.post(`/api/app/blogs`, data);
+      const response = await axiosInstance.post(
+        `${API_CALL.pythonHost}/app/blogs`,
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       const res = response.data;
       setResult(res);
     } catch (error) {
@@ -80,10 +88,33 @@ export const useBlogPost = () => {
   return { resultPost, postBlog };
 };
 
+export const useBlogList = () => {
+  const [viewBlogList, setBlogList] = useState();
+  const [listLoading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const BlogList = async () => {
+      try {
+        const response = await axiosInstance.get(
+          `${API_CALL.pythonHost}/app/blogs`
+        );
+        const res = response.data;
+        setBlogList(response);
+      } catch (error) {
+        console.log("Error during fetching:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    BlogList();
+  }, []);
+
+  return { viewBlogList, listLoading };
+};
+
 export const useBlogCommentContent = ({ id }) => {
   const [commentData, setCommentData] = useState([]);
   const [commentLoad, setLoading] = useState(true);
-  const API_CALL = restAPI();
 
   useEffect(() => {
     if (!id) return;
@@ -126,7 +157,6 @@ export const useBlogCommentContent = ({ id }) => {
 export const useCommentPost = () => {
   const [result, setResult] = useState("");
   const [postLoading, setLoading] = useState(true);
-  const API_CALL = restAPI();
 
   const fetchCommentPost = async (data) => {
     const { userid, commentID, comment } = data;
@@ -158,7 +188,6 @@ export const useCommentPost = () => {
 
 export const useBlogLiked = () => {
   const [dataliked, setDataLiked] = useState({});
-  const API_CALL = restAPI();
 
   const fetchBlogLike = async (data) => {
     const { postid, userid } = data;
@@ -207,7 +236,6 @@ export const useBlogLiked = () => {
 export const usePostBlogContent = () => {
   const [result, setResult] = useState("");
   const [postloading, setLoading] = useState(true);
-  const API_CALL = restAPI();
 
   const fetchPostBlog = async (initialData) => {
     try {
@@ -230,7 +258,6 @@ export const usePostBlogContent = () => {
 export const useUpdateBlogContent = () => {
   const [resultBlogUpdate, setResult] = useState("");
   const [blogLoading, setLoading] = useState(true);
-  const API_CALL = restAPI();
 
   const fetchBlogUpdate = async (data) => {
     if (!data) return;

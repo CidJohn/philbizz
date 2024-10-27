@@ -48,7 +48,7 @@ function App() {
             key={"home"}
           />
           <Route
-            path="/blog/post/:token"
+            path="/blog/post"
             element={<BlogPost />}
             key={"blog-post"}
           />
