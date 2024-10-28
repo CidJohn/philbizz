@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Pagination from "../../../components/Pagination/Pagination";
-import useBlogSettings, {
-  useBlogList,
-} from "../../../helper/database/useBlogSettings";
+import useBlogSettings from "../../../helper/database/useBlogSettings";
 import HandleBlog from "../../../utils/HandleBlog/HandleBlog";
 import Button from "../../../components/Button/Button";
 import Spinner from "../../../components/Spinner/Spinner";
@@ -18,7 +16,6 @@ import useStorage from "../../../helper/storage/Storage";
 const Blog = () => {
   const navigate = useNavigate();
   const { blogData, blogload } = useBlogSettings();
-  const { viewBlogList, listLoading } = useBlogList();
   const { getStorage } = useStorage();
   const { isAuthenticated, authload } = useAuth();
   const datas = blogData ? blogData : "";

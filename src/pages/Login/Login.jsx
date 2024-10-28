@@ -42,6 +42,7 @@ export const Login = ({
       setErrors({ ...errors, [name]: null });
     }
   };
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     if (handleValidation()) {
