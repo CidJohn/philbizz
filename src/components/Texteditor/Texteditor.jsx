@@ -3,10 +3,8 @@ import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import QuillResizeImage from "quill-resize-image";
 
-// Register the Quill resize image module
 ReactQuill.Quill.register("modules/resize", QuillResizeImage);
 
-// Quill's default behavior is to sanitize content. Override this:
 const Parchment = Quill.import("parchment");
 const Style = new Parchment.Attributor.Style("style", "style", {
   scope: Parchment.Scope.INLINE,
@@ -54,7 +52,7 @@ const TextEditor = ({ value, onChange, placeholder, className }) => {
     "script",
     "code-block",
     "formula",
-    "style", // Allow inline styles such as resizing and alignment
+    "style", 
   ];
 
   return (

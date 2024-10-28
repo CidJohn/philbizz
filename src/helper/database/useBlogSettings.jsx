@@ -70,7 +70,7 @@ export const useBlogPost = () => {
     if (!data) return;
     try {
       const response = await axiosInstance.post(
-        `${API_CALL.pythonHost}/app/blogs`,
+        `/app/blogs`,
         data,
         {
           headers: {
@@ -88,29 +88,6 @@ export const useBlogPost = () => {
   return { resultPost, postBlog };
 };
 
-export const useBlogList = () => {
-  const [viewBlogList, setBlogList] = useState();
-  const [listLoading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const BlogList = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `${API_CALL.pythonHost}/app/blogs`
-        );
-        const res = response.data;
-        setBlogList(response);
-      } catch (error) {
-        console.log("Error during fetching:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    BlogList();
-  }, []);
-
-  return { viewBlogList, listLoading };
-};
 
 export const useBlogCommentContent = ({ id }) => {
   const [commentData, setCommentData] = useState([]);

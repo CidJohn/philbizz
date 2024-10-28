@@ -44,11 +44,11 @@ const Treeviewcreate = (props) => {
   const handleCreate = () => {
     if (name === "Business") {
       //fetchCreateNewCategory(treeAdd);......
-      postSideMenu(treeAdd);
+     // postSideMenu(treeAdd);
       console.log(treeAdd);
     } else {
       //fetchTreeCreate(treeAdd);
-       postSideMenu(treeAdd);
+      // postSideMenu(treeAdd);
       console.log(treeAdd);
     }
     console.log(resultMenu);

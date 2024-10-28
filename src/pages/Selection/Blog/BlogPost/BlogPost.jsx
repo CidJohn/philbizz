@@ -113,6 +113,7 @@ const BlogPost = () => {
       //image: "http://example.com/path/to/image.jpg",
       image: fileImage,
       content: editorContent,
+      comment: [],
     };
     console.log(initialData);
     postBlog(initialData);
