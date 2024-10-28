@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState, useRef } from "react";
 import restAPI from "./restAPI";
-import axiosInstance from "../auth/axiosInstance";
+import axiosInstance, { axiosGet } from "../auth/axiosInstance";
 
 let API_CALL = restAPI();
 
@@ -39,10 +39,7 @@ export const useSideMenu = () => {
   const postSideMenu = async (data) => {
     if (!data) return;
     try {
-      const response = await axiosInstance.post(
-        `${API_CALL.pythonHost}/auth/menus/creation`,
-        data
-      );
+      const response = await axiosInstance.post(`/auth/menus/creation`, data);
       const res = response;
       setResultMenu(res);
     } catch (error) {
@@ -62,10 +59,7 @@ export const useSideMenuView = () => {
   useEffect(() => {
     const viewSideMenu = async () => {
       try {
-        const response = await axios.get(
-          `${API_CALL.pythonHost}/app/get-menus`
-        );
-        const res = response.data;
+        const res = await axiosGet("/app/get-menus");
         setViewMenu(res);
       } catch (error) {
         console.error("Axuis Error: ", error);

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "../../../components/Button/Button";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useTreeview } from "../../../helper/database/useTreeview";
+import { useSideMenuView, useTreeview } from "../../../helper/database/useTreeview";
 import TreeView from "../../../components/Treeviews/Treeview";
 import useCardSettings from "../../../helper/database/useCardSettings";
 import Table from "../../../components/Table/Table";
@@ -32,6 +32,7 @@ function Menus(props) {
     name.toLowerCase() === "ktv/jtv" ? "ktv_jtv" : name.toLowerCase()
   );
   const { getCategory, loadCategory } = useBusinessCategory();
+  const { viewMenu, menuLoading } = useSideMenuView(); //python side menu get display data
 
   useEffect(() => {
     if (data) {
@@ -164,7 +165,6 @@ function Menus(props) {
   const handleCategory = (e) => {
     setFilterCategory(e.target.innerText);
   };
-
 
   const handleCreateButton = (e) => {
     navigate(`/dashboard/Form/Create`, {
