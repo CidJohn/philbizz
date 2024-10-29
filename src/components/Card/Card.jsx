@@ -13,10 +13,10 @@ function Card(props) {
     >
       {theme === 1 ? (
         <>
-          <button onClick={onLink} className="block">
-            <div className="w-full overflow-hidden">
+          <button onClick={onLink} className='block'>
+            <div className='w-full overflow-hidden'>
               <a
-                className="block cursor-pointer border text-center p-3 shadow rounded-sm"
+                className='block cursor-pointer border text-center p-3 shadow rounded-sm'
                 onClick={onLink}
               >
                 <h5
@@ -30,19 +30,19 @@ function Card(props) {
                   {title}
                 </h5>
               </a>
-              <div className="flex">
-                <div className=" w-full overflow-hidden ">
-                  <div className="h-full p-2  ">
+              <div className='flex'>
+                <div className=' w-full overflow-hidden '>
+                  <div className='h-full p-2  '>
                     <Images
                       src={src}
-                      className="object-cover h-full  rounded-sm shadow-lg "
+                      className='object-cover h-full  rounded-sm shadow-lg '
                       style={{ height: "200px" }}
                     />
                   </div>
                 </div>
-                <div className="flex flex-wrap">
+                <div className='flex flex-wrap'>
                   <p
-                    className="px-3 py-1 font-normal h-[15vh]  w-[10vw] text-sm text-gray-600 fira-sans-condensed-regular"
+                    className='px-3 py-1 font-normal h-[15vh]  w-[10vw] text-sm text-gray-600 fira-sans-condensed-regular'
                     style={{
                       display: "-webkit-box",
                       WebkitLineClamp: 4,
@@ -56,16 +56,13 @@ function Card(props) {
                   </p>
                   <a
                     onClick={onLink}
-                    className="w-full h-10 border flex items-center justify-center text-center py-3 fira-sans-condensed-regular text-white mt-4 bg-[#013A63] rounded-lg hover:bg-[#013A63]/95 "
+                    className='w-full h-10 border flex items-center justify-center text-center py-3 fira-sans-condensed-regular text-white mt-4 bg-[#013A63] rounded-lg hover:bg-[#013A63]/95 '
                     style={{
                       backgroundColor: btnColor,
                       borderColor: textColor,
                       color: textColor,
                     }}
-                  >
-                    Read more
-                    <FaAngleRight className="ml-2" />
-                  </a>
+                  ></a>
                 </div>
               </div>
             </div>
@@ -73,10 +70,10 @@ function Card(props) {
         </>
       ) : theme === 2 ? (
         <>
-          <button className="block" onClick={onLink}>
-            <div className=" w-full overflow-hidden ">
+          <button className='block' onClick={onLink}>
+            <div className=' w-full overflow-hidden '>
               <div
-                className="block cursor-pointer border text-center p-3 shadow rounded-sm"
+                className='block cursor-pointer border text-center p-3 shadow rounded-sm'
                 onClick={onLink}
               >
                 <h5
@@ -90,19 +87,19 @@ function Card(props) {
                   {title}
                 </h5>
               </div>
-              <div className="flex flex-col">
-                <div className=" w-full overflow-hidden ">
-                  <div className="h-full p-2  ">
+              <div className='flex flex-col'>
+                <div className=' w-full overflow-hidden '>
+                  <div className='h-full p-2  '>
                     <Images
                       src={src}
-                      className="object-cover h-full  rounded-sm shadow-lg "
+                      className='object-cover h-full  rounded-sm shadow-lg '
                       style={{ height: "200px" }}
                     />
                   </div>
                 </div>
-                <div className="flex flex-wrap">
+                <div className='flex flex-wrap'>
                   <p
-                    className="font-normal text-wrap min-h-[4vh] truncate text-sm text-gray-600 fira-sans-condensed-regular"
+                    className='font-normal text-wrap min-h-[4vh] truncate text-sm text-gray-600 fira-sans-condensed-regular'
                     style={{
                       display: "-webkit-box",
                       WebkitLineClamp: 2,
@@ -116,16 +113,13 @@ function Card(props) {
                   </p>
                   <a
                     onClick={onLink}
-                    className="w-full h-10 border flex items-center justify-center text-center py-3 fira-sans-condensed-regular text-white mt-4 bg-[#013A63] rounded-lg hover:bg-[#013A63]/95 "
+                    className='w-full h-10 border flex items-center justify-center text-center py-3 fira-sans-condensed-regular text-white mt-4 bg-[#013A63] rounded-lg hover:bg-[#013A63]/95 '
                     style={{
                       backgroundColor: btnColor,
                       borderColor: textColor,
                       color: textColor,
                     }}
-                  >
-                    Read more
-                    <FaAngleRight className="ml-2" />
-                  </a>
+                  ></a>
                 </div>
               </div>
             </div>
@@ -133,19 +127,19 @@ function Card(props) {
         </>
       ) : (
         <>
-          <button className="block" onClick={onLink}>
-            <div className=" w-full overflow-hidden ">
-              <div className="h-full p-3 ">
+          <button className='block' onClick={onLink}>
+            <div className=' w-full overflow-hidden '>
+              <div className='h-full p-3 '>
                 <Images
                   src={src}
-                  className="object-cover h-full w-full rounded-sm"
+                  className='object-cover h-full w-full rounded-sm'
                   style={{ height: "200px" }}
                 />
               </div>
             </div>
           </button>
-          <div className="p-2 ">
-            <button className="block cursor-pointer" onClick={onLink}>
+          <div className='p-2 '>
+            <button className='block cursor-pointer' onClick={onLink}>
               <h5
                 className={
                   textColor
@@ -158,7 +152,7 @@ function Card(props) {
               </h5>
             </button>
             <p
-              className="font-normal text-wrap truncate text-sm text-gray-600 fira-sans-condensed-regular"
+              className='font-normal text-wrap truncate text-sm text-gray-600 fira-sans-condensed-regular'
               style={{
                 display: "-webkit-box",
                 WebkitLineClamp: 2,
@@ -170,18 +164,6 @@ function Card(props) {
             >
               {desc}
             </p>
-            <button
-              onClick={onLink}
-              className="border flex items-center justify-center text-center py-3 fira-sans-condensed-regular text-white mt-4 bg-[#013A63] rounded-lg hover:bg-[#013A63]/95 "
-              style={{
-                backgroundColor: btnColor,
-                borderColor: textColor,
-                color: textColor,
-              }}
-            >
-              Read more
-              <FaAngleRight className="ml-2" />
-            </button>
           </div>
         </>
       )}
