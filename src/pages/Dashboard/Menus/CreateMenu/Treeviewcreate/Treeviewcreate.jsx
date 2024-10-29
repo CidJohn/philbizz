@@ -10,7 +10,6 @@ import {
 } from "../../../../../helper/database/useTreeview";
 import { IoCreateOutline } from "react-icons/io5";
 import { IoIosAddCircleOutline } from "react-icons/io";
-import Spinner from "../../../../../components/Spinner/Spinner";
 
 const Treeviewcreate = (props) => {
   const { path, name } = props;
@@ -22,7 +21,6 @@ const Treeviewcreate = (props) => {
   const { postSideMenu, resultMenu, MenuLoading } = useSideMenu();
   const { fetchCreateNewCategory, resultCategoryNew, loadNew } =
     useCreateNewCategory();
-  const { viewMenu, menuLoading } = useSideMenuView();
 
   const handleChildAdd = (e) => {
     e.preventDefault();
@@ -40,18 +38,15 @@ const Treeviewcreate = (props) => {
       setChild("");
     }
   };
-
   const handleCreate = () => {
     if (name === "Business") {
-      //fetchCreateNewCategory(treeAdd);......
-     // postSideMenu(treeAdd);
-      console.log(treeAdd);
+      postSideMenu(treeAdd);
     } else {
-      //fetchTreeCreate(treeAdd);
-      // postSideMenu(treeAdd);
+      for (const data of treeAdd) {
+        postSideMenu(data);
+      }
       console.log(treeAdd);
     }
-    console.log(resultMenu);
   };
 
   const handleAddParent = (e) => {

@@ -5,6 +5,9 @@ import useStorage from "../storage/Storage";
 let API_CALL = restAPI();
 const axiosInstance = axios.create({
   baseURL: API_CALL.pythonHost,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 axiosInstance.interceptors.request.use(
@@ -33,7 +36,9 @@ export const axiosGet = async (apiLink) => {
 
 export const axiosPost = async (apiLink, data) => {
   try {
-    const response = await axiosInstance.post(apiLink, data);
+    const response = await axiosInstance.post(apiLink, data, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
     return response.data;
   } catch (error) {
     throw error;
@@ -42,7 +47,9 @@ export const axiosPost = async (apiLink, data) => {
 
 export const axiosPut = async (apiLink, data) => {
   try {
-    const response = await axiosInstance.put(apiLink, data);
+    const response = await axiosInstance.put(apiLink, data, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
     return response.data;
   } catch (error) {
     throw error;
