@@ -21,7 +21,7 @@ function Layout({ children, navbar }) {
     );
   }
   return (
-    <AuthProvider>
+    <>
       <SonnerToaster />
 
       {hiddenDash && (
@@ -38,7 +38,7 @@ function Layout({ children, navbar }) {
           </div>
         </div>
       )}
-    </AuthProvider>
+    </>
   );
 }
 

@@ -10,9 +10,11 @@ import {
 } from "../../../../../helper/database/useTreeview";
 import { IoCreateOutline } from "react-icons/io5";
 import { IoIosAddCircleOutline } from "react-icons/io";
+import useAlert from "../../../../../helper/alert/useAlert";
+import { useToast } from "../../../../../components/Sonner/Sonner";
 
 const Treeviewcreate = (props) => {
-  const { path, name } = props;
+  const { path, name, viewMenus, navigate } = props;
   const [parent, setParent] = useState("");
   const [child, setChild] = useState("");
   const [treeAdd, setTreeAdd] = useState([]);
@@ -21,6 +23,7 @@ const Treeviewcreate = (props) => {
   const { postSideMenu, resultMenu, MenuLoading } = useSideMenu();
   const { fetchCreateNewCategory, resultCategoryNew, loadNew } =
     useCreateNewCategory();
+  const toastify = useToast();
 
   const handleChildAdd = (e) => {
     e.preventDefault();
@@ -39,13 +42,11 @@ const Treeviewcreate = (props) => {
     }
   };
   const handleCreate = () => {
-    if (name === "Business") {
-      postSideMenu(treeAdd);
-    } else {
-      for (const data of treeAdd) {
-        postSideMenu(data);
-      }
-      console.log(treeAdd);
+    if (postSideMenu(treeAdd)) {
+      setTreeAdd([]);
+      toastify(`New Menu Created!`, "success");
+    } else {  
+      toastify(`Something Went Wrong!`, "error");
     }
   };
 

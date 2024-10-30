@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Button from "../../../components/Button/Button";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useSideMenuView, useTreeview } from "../../../helper/database/useTreeview";
+import {
+  useSideMenuView,
+  useTreeview,
+} from "../../../helper/database/useTreeview";
 import TreeView from "../../../components/Treeviews/Treeview";
 import useCardSettings from "../../../helper/database/useCardSettings";
 import Table from "../../../components/Table/Table";
@@ -174,6 +177,7 @@ function Menus(props) {
         content: e.target.innerText,
         treeviewdata: data,
         businessCategory: getCategory,
+        viewMenus: viewMenu,
       },
     });
   };
@@ -221,37 +225,19 @@ function Menus(props) {
                 {name === "Business" ? `${name} Category` : `${name} Tree View`}
               </div>
               <div className="bg-white capitalize flex flex-col p-2 border-b-2 border-r-2 border-l-2  border-dashed rounded-b-lg px-10 h-[70vh] overflow-hidden hover:overflow-y-scroll ">
-                {name === "Business" ? (
-                  getCategory ? (
-                    getCategory.map((item, index) => (
-                      <React.Fragment key={index}>
-                        <div className="text-lg bg-blue-500 p-1 min-w-full font-bold">
-                          {item.title}
-                        </div>
-                        <ul className="px-4 py-2">
-                          {item.links.map((items, index) => (
-                            <React.Fragment key={index}>
-                              <Button
-                                className="flex flex-col hover:ms-2 hover:underline underline-offset-4 hover:font-bold text-md decoration-pink-500 decoration-2"
-                                text={items.name}
-                                onClick={handleCategory}
-                              />
-                            </React.Fragment>
-                          ))}
-                        </ul>
-                      </React.Fragment>
-                    ))
-                  ) : (
-                    "Add New"
-                  )
-                ) : getTreeview.length ? (
-                  <TreeView
-                    treeViewContent={getTreeview}
-                    onItemClick={handleTreeview}
-                  />
-                ) : (
-                  "Add New"
-                )}
+                {viewMenu
+                  ? viewMenu.map(
+                      (item) =>
+                        item.path === path && (
+                          <>
+                            <TreeView
+                              treeViewContent={[item]}
+                              onItemClick={handleTreeview}
+                            />
+                          </>
+                        )
+                    )
+                  : "Add New"}
               </div>
               <div className="flex py-2">
                 <Button

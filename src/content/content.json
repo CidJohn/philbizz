@@ -64,6 +64,24 @@
       "bgColor": "#faf8e8",
       "textColor": "#827619",
       "theme": 1
+    },
+    {
+      "pageName": "Shopping",
+      "bgColor": "#faf8e8",
+      "textColor": "#827619",
+      "theme": 1
+    },
+    {
+      "pageName": "Golf",
+      "bgColor": "#E639460D",
+      "textColor": "#013A63",
+      "theme": 1
+    },
+    {
+      "pageName": "Education",
+      "bgColor": "#E639460D",
+      "textColor": "#013A63",
+      "theme": 1
     }
   ],
   "counter": [

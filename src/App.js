@@ -13,6 +13,7 @@ import Createmenu from "./pages/Dashboard/Menus/CreateMenu/Createmenu";
 import BlogPost from "./pages/Selection/Blog/BlogPost/BlogPost";
 import Archived from "./pages/Dashboard/Archived/Archived";
 import Navbarmenu from "./pages/Dashboard/Navigationbar/Navbarmenu";
+import { AuthProvider } from "./helper/auth/useAuthContext";
 
 function App() {
   const {
@@ -31,49 +32,53 @@ function App() {
   } = useRoute();
   return (
     <BrowserRouter>
-      <Layout navbar={{ navbar: navbarData, navload: loading }} key={"layout"}>
-        <Routes>
-          <Route path="/contact" element={<Contact />} key={"contact"} />
-          <Route
-            path="/"
-            element={
-              <Homeview
-                data={{
-                  blogData: blogData,
-                  navbar: navbarData,
-                  businessSettings: getCardInfo,
-                }}
-              />
-            }
-            key={"home"}
-          />
-          <Route
-            path="/blog/post"
-            element={<BlogPost />}
-            key={"blog-post"}
-          />
-          {getnavroute}
-          {getcardroute}
-          {getcompanyroute}
-          {getblog}
-        </Routes>
-      </Layout>
-      <DashboardLayout props={{ navbar: navbarData }} key={"dashboard-layout"}>
-        <Routes>
-          <Route path="/dashboard" element={<Home />} key={"dashboard"} />
-          <Route
-            path="/dashboard/Form/Create"
-            element={<Createmenu />}
-            key={"createForm"}
-          />
-          <Route path="/dashboard/Archived/:item" element={<Archived />} />
-          <Route path="/dashboard/:sidebar" element={<Navbarmenu />} />
-          {getcardContent}
-          {getsidebar}
-          {getdashcompanyroute}
-          {getdashcardroute}
-        </Routes>
-      </DashboardLayout>
+      <AuthProvider>
+        <Layout
+          navbar={{ navbar: navbarData, navload: loading }}
+          key={"layout"}
+        >
+          <Routes>
+            <Route path="/contact" element={<Contact />} key={"contact"} />
+            <Route
+              path="/"
+              element={
+                <Homeview
+                  data={{
+                    blogData: blogData,
+                    navbar: navbarData,
+                    businessSettings: getCardInfo,
+                  }}
+                />
+              }
+              key={"home"}
+            />
+            <Route path="/blog/post" element={<BlogPost />} key={"blog-post"} />
+            {getnavroute}
+            {getcardroute}
+            {getcompanyroute}
+            {getblog}
+          </Routes>
+        </Layout>
+        <DashboardLayout
+          props={{ navbar: navbarData }}
+          key={"dashboard-layout"}
+        >
+          <Routes>
+            <Route path="/dashboard" element={<Home />} key={"dashboard"} />
+            <Route
+              path="/dashboard/Form/Create"
+              element={<Createmenu />}
+              key={"createForm"}
+            />
+            <Route path="/dashboard/Archived/:item" element={<Archived />} />
+            <Route path="/dashboard/:sidebar" element={<Navbarmenu />} />
+            {getcardContent}
+            {getsidebar}
+            {getdashcompanyroute}
+            {getdashcardroute}
+          </Routes>
+        </DashboardLayout>
+      </AuthProvider>
     </BrowserRouter>
   );
 }
