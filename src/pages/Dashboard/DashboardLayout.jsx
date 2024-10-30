@@ -10,7 +10,6 @@ const DashboardLayout = ({ children, props }) => {
   const hiddenDash = location.pathname.includes("dashboard");
   return (
     <>
-      <AuthProvider>
         <SonnerToaster />
 
         {hiddenDash && (
@@ -23,7 +22,6 @@ const DashboardLayout = ({ children, props }) => {
             </div>
           </div>
         )}
-      </AuthProvider>
     </>
   );
 };

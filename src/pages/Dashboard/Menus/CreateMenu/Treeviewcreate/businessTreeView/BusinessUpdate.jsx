@@ -20,13 +20,13 @@ function BusinessUpdate(props) {
   const [addTextline, setTextLine] = useState({});
   const [headerCategory, setHeaderCategory] = useState(() =>
     business.reduce((acc, item) => {
-      acc[item.title] = item.title;
+      acc[item.name] = item.name;
       return acc;
     }, {})
   );
   const [childCategory, setChildCategory] = useState(() =>
     business.reduce((acc, item) => {
-      item.links.forEach((link) => {
+      item.children.forEach((link) => {
         acc[link.id] = { id: link.id, name: link.name };
       });
       return acc;
@@ -76,64 +76,67 @@ function BusinessUpdate(props) {
         item.id === id ? { ...item, header: header, value: newValue } : item
       ),
     }));
-    
   };
 
   return (
     <>
-      {business.map((item, index) => (
-        <div key={index} className="border-4 p-2 rounded-lg  ">
-          <h1 className="text-lg">Parent Name:</h1>
-          <div className="indent-8 p-2">
-            <Textline
-              value={headerCategory[item.title]}
-              onChange={(e) => handleTextlineChange(item.title, e.target.value)}
-              className={"p-2 border rounded-lg"}
-            />
-          </div>
+      {business
+        .filter((item) => item.path === path)
+        .map((item, index) => (
+          <div key={index} className="border-4 p-2 rounded-lg  ">
+            <h1 className="text-lg">Parent Name:</h1>
+            <div className="indent-8 p-2">
+              <Textline
+                value={headerCategory[item.name]}
+                onChange={(e) =>
+                  handleTextlineChange(item.name, e.target.value)
+                }
+                className={"p-2 border rounded-lg"}
+              />
+            </div>
 
-          <h1 className="text-lg">Children Name:</h1>
-          <div className="flex flex-wrap gap-2 indent-8 p-2">
-            {item.links.map((link) => (
-              <div key={link.id} className="flex flex-wrap">
-                <Textline
-                  value={childCategory[link.id].name || ""}
-                  onChange={(e) =>
-                    handleTextlineChange(link.id, e.target.value, true)
-                  }
-                  className={"p-2 border rounded-lg"}
-                />
-              </div>
-            ))}
-            {addTextline[item.title]?.map((textline) => (
-              <div key={textline.id} className="flex flex-wrap">
-                <Textline
-                  placeholder={"Enter New Child Name"}
-                  value={textline.value}
-                  onChange={(e) =>
-                    handleDynamicTextlineChange(
-                      item.title,
-                      textline.id,
-                      e.target.value
-                    )
-                  }
-                  className={"p-2 border rounded-lg"}
-                />
-              </div>
-            ))}
-            <Button
-              icon={
-                <FontAwesomeIcon
-                  icon={faAdd}
-                  className="border p-3 rounded-lg hover:bg-blue-500 hover:text-white"
-                />
-              }
-              onClick={() => handleAdd(item.title)}
-              className={"px-1"}
-            />
+            <h1 className="text-lg">Children Name:</h1>
+            <div className="flex flex-wrap gap-2 indent-8 p-2">
+              {item.children.map((link) => (
+                <div key={link.id} className="flex flex-wrap">
+                  <Textline
+                    value={childCategory[link.id].name || ""}
+                    onChange={(e) =>
+                      handleTextlineChange(link.id, e.target.value, true)
+                    }
+                    className={"p-2 border rounded-lg"}
+                  />
+                </div>
+              ))}
+              {addTextline[item.name]?.map((textline) => (
+                <div key={textline.id} className="flex flex-wrap">
+                  <Textline
+                    placeholder={"Enter New Child Name"}
+                    value={textline.value}
+                    onChange={(e) =>
+                      handleDynamicTextlineChange(
+                        item.name,
+                        textline.id,
+                        e.target.value
+                      )
+                    }
+                    className={"p-2 border rounded-lg"}
+                  />
+                </div>
+              ))}
+              <Button
+                icon={
+                  <FontAwesomeIcon
+                    icon={faAdd}
+                    className="border p-3 rounded-lg hover:bg-blue-500 hover:text-white"
+                  />
+                }
+                onClick={() => handleAdd(item.name)}
+                className={"px-1"}
+              />
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
       <div className="p-2 flex justify-center">
         <div className="flex w-[15vw]">
           <Button
