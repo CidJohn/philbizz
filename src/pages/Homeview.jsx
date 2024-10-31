@@ -7,11 +7,14 @@ function Homeview({ data }) {
   const { t } = useTranslation();
 
   return (
-    <>
-        <HeroBanner blogData={data.blogData} />
-        {/* <Herobanners /> */}
-          <Businessview navbar={data.navbar} businessCarousel={data.businessSettings} />
-    </>
+    <div className='w-full'>
+      <HeroBanner blogData={data.blogData} />
+      {/* <Herobanners /> */}
+      <Businessview
+        navbar={data.navbar}
+        businessCarousel={data.businessSettings}
+      />
+    </div>
   );
 }
 

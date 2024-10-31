@@ -109,21 +109,21 @@ const Businessview = (props) => {
   };
 
   return (
-    <div className="flex flex-wrap  px-60 mt-5 ">
+    <div className='w-full flex flex-wrap  px-6 lg:px-60 mt-5 '>
       {laodHeader ? (
-        <div className="flex  justify-center min-h-screen mx-auto">
+        <div className='flex  justify-center min-h-screen mx-auto'>
           <Spinner />
         </div>
       ) : (
-        <div className=" flex flex-col md:flex-row  gap-3 w-full">
-          <div className="flex flex-col   rounded-lg ">
-            <div className=" w-[18vw]">
+        <div className=' flex flex-col lg:flex-row  gap-3 w-full'>
+          <div className='flex flex-col   rounded-lg '>
+            <div className=' w-full lg:w-[18vw]'>
               {Object.keys(groupedTreeView).map((name, index) => (
-                <div key={index} className="p-2 ">
-                  <h3 className="font-bold text-2xl my-2 py-2 text-white bg-[#013A63] px-4 rounded-md">
+                <div key={index} className='p-2 '>
+                  <h3 className='font-bold text-2xl my-2 py-2 text-white bg-[#013A63] px-4 rounded-md'>
                     {name}
                   </h3>
-                  <div className="p-2 border rounded-lg bg-[#013A63]/5 px-4 py-6">
+                  <div className='w-full p-2 border rounded-lg bg-[#013A63]/5 px-4 py-6'>
                     <TreeView
                       treeViewContent={groupedTreeView[name]}
                       onItemClick={handleClick}
@@ -133,9 +133,9 @@ const Businessview = (props) => {
               ))}
             </div>
           </div>
-          <div className="flex flex-col   ">
+          <div className='flex flex-col  '>
             {listItems.map((item, index) => (
-              <div className="w-full" key={index}>
+              <div className='w-full' key={index}>
                 <Listedcard
                   section={item.title}
                   listItems={item.list}
@@ -145,28 +145,28 @@ const Businessview = (props) => {
               </div>
             ))}
           </div>
-          <div className="flex flex-col min-w-80 px-4  rounded-md ">
-            <div className="">
-              <div className="transform transition-transform duration-500 hover:scale-105 ">
-                <h1 className="text-4xl p-2 fira-sans-bold text-[#013A63]">
+          <div className='flex flex-col min-w-96 lg:-mr-4 px-4  rounded-md '>
+            <div className=''>
+              <div className='transform transition-transform duration-500 hover:scale-105 '>
+                <h1 className='text-4xl p-2 fira-sans-bold text-[#013A63]'>
                   Calendar
                 </h1>
                 <Calendar onDateSelect={handleDateSelect} />
                 {selectedDate && (
-                  <div className="mt-4">
+                  <div className='mt-4'>
                     Selected Date: {selectedDate.toDateString()}
                   </div>
                 )}
               </div>
-              <div className="mt-5 rounded-lg shadow-lg p-3 bg-[#013A63]/5">
-                <h1 className="text-4xl p-2 fira-sans-bold text-[#013A63]">
+              <div className='mt-5 rounded-lg shadow-lg p-3 bg-[#013A63]/5'>
+                <h1 className='text-4xl p-2 fira-sans-bold text-[#013A63]'>
                   Social media
                 </h1>
                 {socialContent.map((item, index) => (
-                  <div className="flex " key={index}>
+                  <div className='flex ' key={index}>
                     <a
                       href={item.link}
-                      className="transform  transition-transform duration-500 hover:scale-105 p-5"
+                      className='transform  transition-transform duration-500 hover:scale-105 p-5'
                     >
                       <Images src={item.imageURL} style={{ width: "250px" }} />
                     </a>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Button from "../Button/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,6 +16,21 @@ const TreeItem = ({ item, onItemClick, textColor }) => {
   const [isOpen, setIsOpen] = useState(true);
   const { t } = useTranslation();
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setIsOpen(false);
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
@@ -27,10 +42,10 @@ const TreeItem = ({ item, onItemClick, textColor }) => {
   };
 
   return (
-    <li className="">
+    <li className=''>
       <div
         onClick={handleToggle}
-        className="flex items-center cursor-pointer font-normal hover:font-bold  "
+        className='flex items-center cursor-pointer font-normal hover:font-bold  '
       >
         <Button
           className={
@@ -56,7 +71,7 @@ const TreeItem = ({ item, onItemClick, textColor }) => {
         )}
       </div>
       {isOpen && item.children && (
-        <ul className="px-5 lg:px-10  font-bold">
+        <ul className='px-5 lg:px-10  font-bold'>
           {item.children.map((child, index) => (
             <TreeItem
               key={index}
@@ -73,7 +88,7 @@ const TreeItem = ({ item, onItemClick, textColor }) => {
 
 const TreeView = ({ treeViewContent, onItemClick, textColor }) => {
   return (
-    <ul className="font-bold text-sm lg:text-lg capitalize ">
+    <ul className='font-bold text-sm lg:text-lg capitalize '>
       {treeViewContent.map((item, index) => (
         <TreeItem
           key={index}
