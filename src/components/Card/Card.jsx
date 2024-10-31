@@ -8,7 +8,7 @@ function Card(props) {
 
   return (
     <div
-      className={` mx-1 bg-[#013A63]/5  rounded-md dark:bg-gray-800 dark:border-gray-700 shadow-md border border-[#013A63]/5 cursor-pointer p-4 `}
+      className={`bg-[#013A63]/5  rounded-md dark:bg-gray-800 dark:border-gray-700 shadow-md border border-[#013A63]/5 cursor-pointer p-4 `}
       style={style}
     >
       {theme === 1 ? (

@@ -41,13 +41,13 @@ export const HeroBanner = ({ blogData }) => {
   }, [location, getNewsData, blogData]);
 
   return (
-    <div className="grid grid-cols-8 grid-rows-5 gap-4 px-60 mt-10">
-      <div className="col-span-2 row-span-5">
+    <div className='w-full flex flex-col px-6 lg:grid lg:grid-cols-8 lg:grid-rows-5 gap-4 lg:px-60 mt-10'>
+      <div className='w-full lg:col-span-2 lg:row-span-5'>
         <Blogs getBlog={getBlog} />
       </div>
-      <div className="col-span-4 row-span-5 col-start-3">
+      <div className='w-full flex flex-col lg:col-span-4 lg:row-span-5 lg:col-start-3'>
         {" "}
-        <div className="flex flex-col gap-3 ">
+        <div className='w-full flex flex-col gap-3 '>
           <Headlines
             getArticles={getArticles}
             getImgCarousel={getImgCarousel}
@@ -59,20 +59,20 @@ export const HeroBanner = ({ blogData }) => {
           />
         </div>
       </div>
-      <div className="col-span-2 row-span-5 col-start-7">
-        <h1 className=" text-4xl p-2 fira-sans-bold text-[#013A63]">
+      <div className='w-full flex flex-col lg:col-span-2 lg:row-span-5 lg:col-start-7'>
+        <h1 className='text-center w-full lg:text-start text-2xl lg:text-4xl p-2 fira-sans-bold text-[#013A63]'>
           Digital Clock
         </h1>
-        <div className="z-20 flex  shadow border-2 w-full ">
-          <div className="w-full ">
+        <div className='z-20 flex shadow border-2 w-full '>
+          <div className='w-full '>
             <DigitalClock />
           </div>
         </div>
-        <h1 className="text-4xl p-2 fira-sans-bold text-[#013A63]">
+        <h1 className='text-center w-full lg:text-start text-2xl lg:text-4xl p-2 fira-sans-bold text-[#013A63]'>
           Currency Converter
         </h1>
-        <div className="flex   w-full ">
-          <div className="w-full">
+        <div className='flex w-full '>
+          <div className='w-full'>
             <Currency />
           </div>
         </div>
