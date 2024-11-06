@@ -13,7 +13,6 @@ import HeadlessDropdown from "../Dropdown/HeadlessDropdown";
 
 export default function Navbar(props) {
   const { navbarData, hidden } = props;
-  console.log(navbarData);
   const [showDropdown, setShowDropdown] = useState(true);
   const [showDropdown2, setShowDropdown2] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);

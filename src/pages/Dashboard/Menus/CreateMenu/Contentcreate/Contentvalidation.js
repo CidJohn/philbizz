@@ -34,10 +34,5 @@ export const formSchema = yup.object({
     .test("fileFormat", "Unsupported file format", (value) => {
       return value && value[0] && SUPPORTED_FORMATS.includes(value[0].type);
     }),
-    personnelName: yup
-    .string()
-    .required("Title is required"),
-    position: yup
-    .string()
-    .required("Title is required")
+   
 });

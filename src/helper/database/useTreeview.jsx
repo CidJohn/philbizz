@@ -75,19 +75,18 @@ export const useSideMenuView = () => {
 };
 
 export const useSideMenuUpdate = () => {
-  const [updateResult, setResult] = useState();
   const [updateLoading, setLoading] = useState(true);
 
   const putSideMenu = async (data) => {
     if (!data) return;
     try {
-      const response = await axiosInstance.put("/auth/menus/creation", data);
-      setResult(response ? response.data : null);
+      const response = await axiosPut("/auth/menus/creation", data);
+      return response ? response.data : null;
     } catch (error) {
       console.error("Axios Error:", error);
     } finally {
       setLoading(false);
     }
   };
-  return { updateResult, updateLoading, putSideMenu };
+  return { updateLoading, putSideMenu };
 };

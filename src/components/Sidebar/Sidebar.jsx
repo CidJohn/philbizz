@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Images from "../Image/Images";
 import Image from "../Image/Image";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import { MdOutlineNotificationsActive } from "react-icons/md";
 import { GrDocumentText } from "react-icons/gr";
 import { RxExit } from "react-icons/rx";
 import { TbLayoutNavbar } from "react-icons/tb";
+import { useNavbarView } from "../../helper/database/useNavbarSettings";
 
 function Sidebar(props) {
   const { navbar } = props;
@@ -15,10 +16,16 @@ function Sidebar(props) {
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDropdownOpenAchived, setIsDropdownOpenAchived] = useState(false);
+  const [viewNavbarList, setNavbarList] = useState();
+  const { navbarData, loadingData } = useNavbarView();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    setNavbarList(navbarData);
+  }, [navbarData]);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -39,10 +46,8 @@ function Sidebar(props) {
   };
 
   const handleDynamicNavbar = (data) => {
-    navigate(`/dashboard/Navigation`, {
-      state: { navbar: data},
-    });
-  }
+    navigate(`/dashboard/Navigation`);
+  };
 
   return (
     <div className="sticky top-0">
@@ -124,10 +129,8 @@ function Sidebar(props) {
             </li>
             <li>
               <a
-                onClick={() =>
-                  handleDynamicNavbar(navbar)
-                }
-                className="flex items-center p-4 text-[#013A63] fira-sans-regular rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                onClick={() => handleDynamicNavbar(viewNavbarList)}
+                className="cursor-pointer flex items-center p-4 text-[#013A63] fira-sans-regular rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <TbLayoutNavbar className="text-lg" />
                 <span className="flex-1 ms-3 whitespace-nowrap fira-sans-regular">

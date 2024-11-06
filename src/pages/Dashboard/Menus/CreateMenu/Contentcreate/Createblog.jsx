@@ -4,6 +4,7 @@ import TextEditor from "../../../../../components/Texteditor/Texteditor";
 import UploadImage from "../../../../../components/UploadImage/UploadImage";
 import Button from "../../../../../components/Button/Button";
 import {
+  useBlogPost,
   usePostBlogContent,
   useUpdateBlogContent,
 } from "../../../../../helper/database/useBlogSettings";
@@ -19,12 +20,14 @@ function Createblog(props) {
   const { fetchPostBlog, result, postloading } = usePostBlogContent();
   const { fetchBlogUpdate, resultBlogUpdate, blogLoading } =
     useUpdateBlogContent();
+  const { postBlog, resultPost } = useBlogPost();
 
   const [editorContent, setEditorContent] = useState("");
   const [dropdownValue, setDropdownValue] = useState("");
   const [dropdownChildValue, setDropdownChildValue] = useState("");
   const [blogCategory, setBlogCategory] = useState([]);
   const [blogCategoryChild, setBlogCategoryChild] = useState([]);
+  const [fileImage, setFileImage] = useState(null);
   const [imageInsert, setImageInsert] = useState([
     {
       id: Date.now(),
@@ -114,6 +117,7 @@ function Createblog(props) {
           ...prev,
           imagePreview: reader.result,
         }));
+        setFileImage(file);
       };
       reader.readAsDataURL(file);
     }
@@ -124,6 +128,16 @@ function Createblog(props) {
       header: { text: textline, image: imageInsert.imagePreview },
       content: editorContent,
     };
+    const initialData = {
+      title: textline.title,
+      description: textline.description,
+      //image: imageInsert.imagePreview,
+      //image: "http://example.com/path/to/image.jpg",
+      image: fileImage,
+      content: editorContent,
+      comment: [],
+    };
+    postBlog(initialData);
     if (fetchPostBlog(initials)) {
       try {
         console.log(initials);

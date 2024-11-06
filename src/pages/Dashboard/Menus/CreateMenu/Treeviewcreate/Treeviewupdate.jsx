@@ -1,25 +1,22 @@
 import React, { useEffect, useState } from "react";
 import Textline from "../../../../../components/Textline/Textline";
 import Button from "../../../../../components/Button/Button";
-import BusinessUpdate from "./businessTreeView/BusinessUpdate";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
-import {
-  useTreeChildUp,
-  useTreevieUpdate,
-  useTreeViewCreate,
-} from "../../../../../helper/database/useCardSettings";
 import { useSideMenuUpdate } from "../../../../../helper/database/useTreeview";
+import { useNavigate } from "react-router-dom";
+import useAlert from "../../../../../helper/alert/useAlert";
+import { useToast } from "../../../../../components/Sonner/Sonner";
 
 function Treeviewupdate(props) {
-  const { treeview, name, path, business, viewMenus, handleBack } = props;
+  const navigate = useNavigate();
+  const showAlert = useAlert();
+  const toastify = useToast();
+  const { treeview, name, path, business, viewMenus } = props;
   const [textLinesParent, setTextLinesParent] = useState({});
   const [textLinesChild, setTextLinesChild] = useState({});
   const [initialsData, setInitialsData] = useState(null);
   const [addTextline, setTextLine] = useState({});
-  const { fetchTreeChildUp, resultChild } = useTreeChildUp();
-  const { fetchTreeUpdate, resultUp } = useTreevieUpdate();
-  const { fetchTreeCreate, resultNew } = useTreeViewCreate();
   const { updateResult, updateLoading, putSideMenu } = useSideMenuUpdate();
 
   useEffect(() => {
@@ -72,7 +69,7 @@ function Treeviewupdate(props) {
       );
       return {
         id: parent ? parent.id : undefined,
-        name: parentName,
+        name: textLinesParent[parentName],
         path: path,
         parent: null,
         children: [
@@ -102,16 +99,17 @@ function Treeviewupdate(props) {
         ],
       };
     });
-    console.log(parentItem);
-    putSideMenu(parentItem);
-    if (updateResult) {
-      alert("Successfully updated");
-      handleBack();
+    const result = putSideMenu(parentItem);
+    if (!result) {
+      return toastify(`Something Went Wrong!`, "error");
     }
-
-    //fetchTreeChildUp(data);
-    // fetchTreeCreate(data);
-    //fetchTreeUpdate(data);
+    return showAlert(
+      "Successfull",
+      "Side Menu Update Complete!",
+      "success"
+    ).then(() => {
+      navigate(-1);
+    });
   };
 
   const handleDynamicTextlineChange = (header, id, newValue, path) => {
@@ -217,23 +215,23 @@ function Treeviewupdate(props) {
       ));
   };
 
-  const renderBusinessUpdate = () => {
-    return <BusinessUpdate business={viewMenus} path={path} />;
-  };
+  // const renderBusinessUpdate = () => {
+  //   return <BusinessUpdate business={viewMenus} path={path} />;
+  // };
 
   const renderTreeData = () => {
     if (name === "Business") {
       return viewMenus
         .filter((item) => item.path === path)
-        .map((item) => (
-          <>
+        .map((item, index) => (
+          <React.Fragment key={index}>
             <div className="text-lg font-bold p-2">{item.name}</div>
-            {item.children.map((items) => (
-              <>
+            {item.children.map((items, childINdex) => (
+              <React.Fragment key={childINdex}>
                 <div className="text-md pl-5 ">{items.name}</div>
-              </>
+              </React.Fragment>
             ))}
-          </>
+          </React.Fragment>
         ));
     } else {
       return viewMenus.map(
@@ -260,23 +258,17 @@ function Treeviewupdate(props) {
           {renderTreeData()}
         </div>
         <div className="bg-white flex flex-col p-2 gap-3 border-2 rounded-lg min-w-80 min-h-80  max-h-[60vh] overflow-hidden hover:overflow-y-scroll">
-          <div className="text-2xl font-bold">Update Treeview Form</div>
-          {name === "Business"
-            ? renderBusinessUpdate()
-            : renderTreeview(viewMenus)}
-          {name === "Business" ? (
-            ""
-          ) : (
-            <div className="p-2 flex justify-center w-full">
-              <Button
-                text={"Update"}
-                className={
-                  "border text-2xl py-3  hover:bg-blue-700 hover:text-white rounded-lg w-[10vw]"
-                }
-                onClick={handleUpdateButton}
-              />
-            </div>
-          )}
+          <div className="text-2xl font-bold">{name === "business" ? "Update Category Form": "Update Treeview Form"} </div>
+          {renderTreeview(viewMenus)}
+          <div className="p-2 flex justify-center w-full">
+            <Button
+              text={"Update"}
+              className={
+                "border text-2xl py-3  hover:bg-blue-700 hover:text-white rounded-lg w-[10vw]"
+              }
+              onClick={handleUpdateButton}
+            />
+          </div>
         </div>
       </div>
     </div>

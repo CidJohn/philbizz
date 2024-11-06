@@ -14,6 +14,8 @@ import BlogPost from "./pages/Selection/Blog/BlogPost/BlogPost";
 import Archived from "./pages/Dashboard/Archived/Archived";
 import Navbarmenu from "./pages/Dashboard/Navigationbar/Navbarmenu";
 import { AuthProvider } from "./helper/auth/useAuthContext";
+import Reload from "./components/Reload/Reload";
+import Spinner from "./components/Spinner/Spinner";
 
 function App() {
   const {
@@ -72,6 +74,7 @@ function App() {
             />
             <Route path="/dashboard/Archived/:item" element={<Archived />} />
             <Route path="/dashboard/:sidebar" element={<Navbarmenu />} />
+            <Route path="/dashboard/reload" element={<Reload />} />
             {getcardContent}
             {getsidebar}
             {getdashcompanyroute}
