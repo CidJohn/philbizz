@@ -27,7 +27,7 @@ axiosInstance.interceptors.request.use(
 
 export const axiosGet = async (apiLink) => {
   try {
-    const response = await axiosInstance.get(apiLink);
+    const response = await axios.get(API_CALL.pythonHost + apiLink);
     return response.data;
   } catch (error) {
     throw error;
@@ -47,9 +47,7 @@ export const axiosPost = async (apiLink, data) => {
 
 export const axiosPut = async (apiLink, data) => {
   try {
-    const response = await axiosInstance.put(apiLink, data, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+    const response = await axiosInstance.put(apiLink, data);
     return response.data;
   } catch (error) {
     throw error;

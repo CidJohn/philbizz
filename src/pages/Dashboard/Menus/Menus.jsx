@@ -227,14 +227,14 @@ function Menus(props) {
               <div className="bg-white capitalize flex flex-col p-2 border-b-2 border-r-2 border-l-2  border-dashed rounded-b-lg px-10 h-[70vh] overflow-hidden hover:overflow-y-scroll ">
                 {viewMenu
                   ? viewMenu.map(
-                      (item) =>
+                      (item, index) =>
                         item.path === path && (
-                          <>
+                          <React.Fragment key={index}>
                             <TreeView
                               treeViewContent={[item]}
                               onItemClick={handleTreeview}
                             />
-                          </>
+                          </React.Fragment>
                         )
                     )
                   : "Add New"}

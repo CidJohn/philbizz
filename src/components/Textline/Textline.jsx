@@ -15,6 +15,7 @@ const Textline = forwardRef(
       disabled = false,
       style,
       placeholderColor,
+      checked,
     },
     ref
   ) => {
@@ -39,6 +40,7 @@ const Textline = forwardRef(
           ></textarea>
         ) : (
           <input
+            checked={checked}
             ref={ref}
             disabled={disabled}
             type={type}

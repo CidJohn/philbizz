@@ -1,29 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../../../components/Button/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import List from "../../../components/List/List";
 import NavbarList from "./NavbarList/NavbarList";
 import NavbarView from "./NavbarView/NavbarView";
+import { useNavbarView } from "../../../helper/database/useNavbarSettings";
+import Spinner from "../../../components/Spinner/Spinner";
 
 function Navbarmenu() {
-  const { state } = useLocation();
   const navigate = useNavigate();
-  const { navbar } = state || { navbar: null };
   const [viewNavbar, setViewNavbar] = useState([]);
-
-  //console.log(navbar);
+  const [viewNavbarList, setViewNavbarList] = useState([]);
+  const { navbarData, loadingData } = useNavbarView();
 
   const handleBack = () => {
     navigate(-1);
   };
 
   const handleNavbar = (data) => {
-    console.log(data);
     setViewNavbar(data);
   };
 
+  if (loadingData) {
+    return (
+      <>
+        <div className="flex w-full items-center justify-center">
+          <Spinner />
+        </div>
+      </>
+    );
+  }
   return (
     <>
       <div className="flex flex-col p-5">
@@ -38,11 +45,12 @@ function Navbarmenu() {
           <h1 className="text-2xl">Navigation Page </h1>
         </div>
         <div className="flex p-5">
-          <NavbarList navbar={navbar} handleNavbar={handleNavbar} />
+          <NavbarList navbar={navbarData} handleNavbar={handleNavbar} />
           <NavbarView
             name={viewNavbar.name}
             path={viewNavbar.path}
-            image={viewNavbar.iconPath}
+            image={viewNavbar.icons}
+            restrict={viewNavbar.restrict}
             id={viewNavbar.id}
           />
         </div>

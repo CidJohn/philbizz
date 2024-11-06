@@ -23,6 +23,7 @@ const Treeviewcreate = (props) => {
   const { postSideMenu, resultMenu, MenuLoading } = useSideMenu();
   const { fetchCreateNewCategory, resultCategoryNew, loadNew } =
     useCreateNewCategory();
+  const showAlert = useAlert();
   const toastify = useToast();
 
   const handleChildAdd = (e) => {
@@ -44,8 +45,12 @@ const Treeviewcreate = (props) => {
   const handleCreate = () => {
     if (postSideMenu(treeAdd)) {
       setTreeAdd([]);
-      toastify(`New Menu Created!`, "success");
-    } else {  
+      showAlert("Successfull", `Side Menu Create Complete`, "success").then(
+        () => {
+          navigate(-1);
+        }
+      );
+    } else {
       toastify(`Something Went Wrong!`, "error");
     }
   };

@@ -11,19 +11,19 @@ export const useUserData = () => {
       .get(`${API_CALL.host}/api/users`)
       .then((response) => {
         setData(response.data);
-        setLoading(false); // Data loaded, stop loading
+        setLoading(false); 
       })
       .catch((error) => {
         console.error("Axios Error:", error);
-        setLoading(false); // Even if there's an error, stop loading
+        setLoading(false); 
       });
 
-    // Stop showing the spinner after 2 seconds
+    
     const timer = setTimeout(() => {
       setLoading(false);
     }, 2000);
 
-    // Cleanup the timer
+  
     return () => clearTimeout(timer);
   }, []);
 
