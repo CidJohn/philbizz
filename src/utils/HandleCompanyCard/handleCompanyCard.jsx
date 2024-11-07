@@ -31,7 +31,7 @@ const HandleCompanyCard = (props) => {
     listCurrentPage * itemsPerPage
   );
   const handleLink = (title) => {
-    navigate(`/${title}`, { state: { title: title } });
+    navigate(`/company-page/${title}`, { state: { title: title } });
   };
 
   const handleChangeListPage = (pageNumber) => {

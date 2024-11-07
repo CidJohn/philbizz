@@ -67,7 +67,7 @@ const Blog = () => {
   };
 
   const handleLink = (item, user) => {
-    navigate(`/${item}`, { state: { title: item, user: user } });
+    navigate(`/blog-page/${item}`, { state: { title: item, user: user } });
   };
 
   const handleCategory = (id, path, name) => {

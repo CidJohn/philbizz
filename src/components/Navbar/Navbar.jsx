@@ -145,7 +145,7 @@ export default function Navbar(props) {
       <div className="bg-[#013A63]/5 w-full border-b px-4 sm:px-6 lg:px-8  mx-auto shadow-inner">
         <div className="flex items-center justify-between  ">
           <div className="hidden lg:block mx-auto">
-            <div className=" flex items-baseline space-x-1 relative gap-5  ">
+            <div className="z-50 flex items-baseline space-x-1 relative gap-5  ">
               {!navbarData ? "" : !hidden ? navbarItem(navbarData) : ""}
               <div className="hidden lg:flex items-center justify-center flex-col cursor-pointer">
                 <HeadlessDropdown
@@ -156,9 +156,9 @@ export default function Navbar(props) {
                   <div className="flex items-center justify-center space-x-1 relative gap-2 p-4">
                     {navbarData
                       ? navbarData.map(
-                          (item) =>
+                          (item, index) =>
                             item.restrict === 19 && (
-                              <>
+                              <React.Fragment key={index}>
                                 <Button
                                   onClick={handleKtvJtvClick(item)}
                                   icon={
@@ -174,7 +174,7 @@ export default function Navbar(props) {
                                     </div>
                                   }
                                 />
-                              </>
+                              </React.Fragment>
                             )
                         )
                       : ""}

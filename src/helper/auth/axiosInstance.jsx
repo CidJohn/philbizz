@@ -36,9 +36,7 @@ export const axiosGet = async (apiLink) => {
 
 export const axiosPost = async (apiLink, data) => {
   try {
-    const response = await axiosInstance.post(apiLink, data, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+    const response = await axiosInstance.post(apiLink, data);
     return response.data;
   } catch (error) {
     throw error;

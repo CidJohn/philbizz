@@ -168,7 +168,7 @@ const Selection = ({ navbar }) => {
   };
 
   const handleLink = (data) => {
-    navigate(`/${data}`, { state: { title: data } });
+    navigate(`/card-page/${data}`, { state: { title: data } });
   };
 
   const totalPages = Math.ceil(
