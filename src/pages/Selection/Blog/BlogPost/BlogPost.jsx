@@ -8,11 +8,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import TextEditor from "../../../../components/Texteditor/Texteditor";
 import blog_category from "../../../../content/blog_categories.json";
 import Dropdown from "../../../../components/Dropdown/Dropdown";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { formSchema } from "./BlogValidation";
 
 const BlogPost = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
-  const { id, username } = state || { id: null, username: null };
+  const { userIdentity } = state || { userIdentity: null };
   const [editorContent, setEditorContent] = useState("");
   const [dropdownValue, setDropdownValue] = useState("");
   const [dropdownChildValue, setDropdownChildValue] = useState("");
@@ -24,13 +27,13 @@ const BlogPost = () => {
       imagePreview: null,
     },
   ]);
+  const [fileImage, setFileImage] = useState(null);
 
   const [textline, setTextLine] = useState({
     title: "",
     description: "",
   });
-
-  const { fetchBlogTitle, fetchBlogDesc } = useBlogPost();
+  const { postBlog, resultPost } = useBlogPost();
   const showAlert = useAlert();
 
   useEffect(() => {
@@ -73,6 +76,7 @@ const BlogPost = () => {
       ...prevText,
       [name]: value,
     }));
+    setValue(name, value);
   };
 
   const handleUploadChange = (e) => {
@@ -84,10 +88,13 @@ const BlogPost = () => {
           ...prev,
           imagePreview: reader.result,
         }));
+        setFileImage(file);
       };
       reader.readAsDataURL(file);
+      setValue("image", e.target.files);
     }
   };
+
   const handleContentChange = (content) => {
     setEditorContent(content);
   };
@@ -97,14 +104,24 @@ const BlogPost = () => {
   };
 
   const handleUpdate = () => {};
+
   const handleSavePost = () => {
     const initialData = {
-      id: id,
-      header: { text: textline, image: imageInsert.imagePreview },
+      title: textline.title,
+      description: textline.description,
+      //image: imageInsert.imagePreview,
+      //image: "http://example.com/path/to/image.jpg",
+      image: fileImage,
       content: editorContent,
+      comment: [],
     };
     console.log(initialData);
+    postBlog(initialData);
   };
+
+  if (resultPost) {
+    console.log(resultPost);
+  }
 
   const handleChangeCategory = (e) => {
     const { value } = e.target;
@@ -114,6 +131,15 @@ const BlogPost = () => {
     const { value } = e.target;
     setDropdownChildValue(value);
   };
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(formSchema),
+  });
 
   return (
     <div>
@@ -202,6 +228,11 @@ const BlogPost = () => {
                           value={textline.title}
                           onChange={handleTextChange}
                         />
+                        {errors.title && (
+                          <span className="text-red-500 text-sm italic">
+                            {errors.title.message}
+                          </span>
+                        )}
                       </div>
                       <div className="flex flex-col p-2 w-full ">
                         <h1 className="text-sm font-sans">Description</h1>
@@ -216,13 +247,23 @@ const BlogPost = () => {
                           textarea={true}
                           style={{ height: "20vh" }}
                         />
+                        {errors.description && (
+                          <span className="text-red-500 text-sm italic">
+                            {errors.description.message}
+                          </span>
+                        )}
                       </div>
                     </div>
-                    <div className="flex p-2  justify-center">
+                    <div className="flex flex-col p-2  justify-center">
                       <UploadImage
                         handleFileChange={(e) => handleUploadChange(e)}
                         imagePreview={imageInsert.imagePreview}
                       />
+                      {errors.image && (
+                        <span className="text-red-500 text-sm italic">
+                          {errors.image.message}
+                        </span>
+                      )}
                     </div>
                   </div>
                   <div className="flex flex-col p-2">
@@ -235,7 +276,7 @@ const BlogPost = () => {
                         onChange={handleContentChange}
                         placeholder="Write your content here..."
                         className={
-                          "min-h-full bg-gray-100 p-4 shadow-sm rounded-lg border"
+                          "min-h-full bg-white p-4 shadow-sm rounded-lg border"
                         }
                       />
                     </div>
@@ -244,11 +285,11 @@ const BlogPost = () => {
                     <Button
                       text={"Create New Post"}
                       className={
-                        username
+                        userIdentity
                           ? "border  px-12 py-3 bg-[#390099] shadow-lg rounded-lg transform transition-transform duration-500 hover:scale-105 text-gray-200"
                           : "border  px-12 py-3 bg-[#390099] shadow-lg rounded-lg transform transition-transform duration-500 hover:scale-105 text-gray-200"
                       }
-                      onClick={handleSavePost}
+                      onClick={handleSubmit(handleSavePost)}
                     />
                   </div>
                 </div>

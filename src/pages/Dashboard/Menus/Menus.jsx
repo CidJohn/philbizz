@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Button from "../../../components/Button/Button";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useTreeview } from "../../../helper/database/useTreeview";
+import {
+  useSideMenuView,
+  useTreeview,
+} from "../../../helper/database/useTreeview";
 import TreeView from "../../../components/Treeviews/Treeview";
 import useCardSettings from "../../../helper/database/useCardSettings";
 import Table from "../../../components/Table/Table";
@@ -32,6 +35,7 @@ function Menus(props) {
     name.toLowerCase() === "ktv/jtv" ? "ktv_jtv" : name.toLowerCase()
   );
   const { getCategory, loadCategory } = useBusinessCategory();
+  const { viewMenu, menuLoading } = useSideMenuView(); //python side menu get display data
 
   useEffect(() => {
     if (data) {
@@ -165,7 +169,7 @@ function Menus(props) {
     setFilterCategory(e.target.innerText);
   };
 
-  const handlCreateTree = (e) => {
+  const handleCreateButton = (e) => {
     navigate(`/dashboard/Form/Create`, {
       state: {
         name: name,
@@ -173,18 +177,7 @@ function Menus(props) {
         content: e.target.innerText,
         treeviewdata: data,
         businessCategory: getCategory,
-      },
-    });
-  };
-
-  const handleAddContent = (e) => {
-    navigate(`/dashboard/Form/Create`, {
-      state: {
-        name: name,
-        path: path,
-        content: e.target.innerText,
-        treeviewdata: data,
-        businessCategory: getCategory,
+        viewMenus: viewMenu,
       },
     });
   };
@@ -232,37 +225,19 @@ function Menus(props) {
                 {name === "Business" ? `${name} Category` : `${name} Tree View`}
               </div>
               <div className="bg-white capitalize flex flex-col p-2 border-b-2 border-r-2 border-l-2  border-dashed rounded-b-lg px-10 h-[70vh] overflow-hidden hover:overflow-y-scroll ">
-                {name === "Business" ? (
-                  getCategory ? (
-                    getCategory.map((item, index) => (
-                      <React.Fragment key={index}>
-                        <div className="text-lg bg-blue-500 p-1 min-w-full font-bold">
-                          {item.title}
-                        </div>
-                        <ul className="px-4 py-2">
-                          {item.links.map((items, index) => (
-                            <React.Fragment key={index}>
-                              <Button
-                                className="flex flex-col hover:ms-2 hover:underline underline-offset-4 hover:font-bold text-md decoration-pink-500 decoration-2"
-                                text={items.name}
-                                onClick={handleCategory}
-                              />
-                            </React.Fragment >
-                          ))}
-                        </ul>
-                      </React.Fragment>
-                    ))
-                  ) : (
-                    "Add New"
-                  )
-                ) : getTreeview.length ? (
-                  <TreeView
-                    treeViewContent={getTreeview}
-                    onItemClick={handleTreeview}
-                  />
-                ) : (
-                  "Add New"
-                )}
+                {viewMenu
+                  ? viewMenu.map(
+                      (item, index) =>
+                        item.path === path && (
+                          <React.Fragment key={index}>
+                            <TreeView
+                              treeViewContent={[item]}
+                              onItemClick={handleTreeview}
+                            />
+                          </React.Fragment>
+                        )
+                    )
+                  : "Add New"}
               </div>
               <div className="flex py-2">
                 <Button
@@ -270,7 +245,7 @@ function Menus(props) {
                     name === "Business" ? "Add Category" : "Edit Tree Content"
                   }
                   icon={<FontAwesomeIcon icon={faAdd} className="" />}
-                  onClick={handlCreateTree}
+                  onClick={handleCreateButton}
                   className={
                     "p-2 border-2 gap-2 flex items-center font-bold hover:border-gray-100 hover:bg-blue-700 hover:text-gray-100 rounded-lg"
                   }
@@ -313,7 +288,7 @@ function Menus(props) {
                   className={
                     "p-2 border-2 gap-2 flex items-center font-bold hover:border-gray-100 hover:bg-blue-700 hover:text-gray-100 rounded-lg"
                   }
-                  onClick={handleAddContent}
+                  onClick={handleCreateButton}
                 />
               </div>
             </div>

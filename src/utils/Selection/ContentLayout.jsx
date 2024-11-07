@@ -117,8 +117,9 @@ const ContentLayout = ({
               <div
                 className="border-b-2 dashed py-3 border-dashed"
                 style={{ borderColor: sideBarColor.textColor }}
+                key={index}
               >
-                <div className="bg-cover mx-auto " key={index}>
+                <div className="bg-cover mx-auto ">
                   <Card
                     src={item.card_image}
                     title={item.title}

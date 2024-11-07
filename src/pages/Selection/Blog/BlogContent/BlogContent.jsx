@@ -141,8 +141,8 @@ const BlogContent = (props) => {
               )
             )}
           {blogImage &&
-            blogImage.map((item) => (
-              <>
+            blogImage.map((item, index) => (
+              <React.Fragment key={index}>
                 <div
                   dangerouslySetInnerHTML={{ __html: item.content }}
                   style={{
@@ -151,7 +151,7 @@ const BlogContent = (props) => {
                   }}
                   className="min-w-full text-center "
                 />
-              </>
+              </React.Fragment>
             ))}
         </div>
       </div>

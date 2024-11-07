@@ -19,6 +19,7 @@ const Createmenu = () => {
     title,
     cardlocation,
     blogTitle,
+    viewMenus,
   } = state || {
     name: null,
     path: null,
@@ -28,6 +29,7 @@ const Createmenu = () => {
     title: null,
     cardlocation: null,
     blogTitle: null,
+    viewMenus: null,
   };
   const [isCreateOpen, setCreateOpen] = useState(false);
   const handleBack = () => {
@@ -48,7 +50,13 @@ const Createmenu = () => {
           }
           onClick={handleCreateView}
         />
-        <Treeviewcreate path={path} treeview={treeviewdata} name={name} />
+        <Treeviewcreate
+          path={path}
+          treeview={treeviewdata}
+          name={name}
+          viewMenus={viewMenus}
+          navigate={navigate}
+        />
       </>
     );
   };
@@ -68,6 +76,8 @@ const Createmenu = () => {
           name={name}
           path={path}
           business={businessCategory}
+          viewMenus={viewMenus}
+          handleBack={() => handleBack}
         />
       </>
     );

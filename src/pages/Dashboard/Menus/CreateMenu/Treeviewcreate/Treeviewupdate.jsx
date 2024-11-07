@@ -1,35 +1,38 @@
 import React, { useEffect, useState } from "react";
 import Textline from "../../../../../components/Textline/Textline";
 import Button from "../../../../../components/Button/Button";
-import BusinessUpdate from "./businessTreeView/BusinessUpdate";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
-import {
-  useTreeChildUp,
-  useTreevieUpdate,
-  useTreeViewCreate,
-} from "../../../../../helper/database/useCardSettings";
+import { useSideMenuUpdate } from "../../../../../helper/database/useTreeview";
+import { useNavigate } from "react-router-dom";
+import useAlert from "../../../../../helper/alert/useAlert";
+import { useToast } from "../../../../../components/Sonner/Sonner";
 
 function Treeviewupdate(props) {
-  const { treeview, name, path, business } = props;
+  const navigate = useNavigate();
+  const showAlert = useAlert();
+  const toastify = useToast();
+  const { treeview, name, path, business, viewMenus } = props;
   const [textLinesParent, setTextLinesParent] = useState({});
   const [textLinesChild, setTextLinesChild] = useState({});
   const [initialsData, setInitialsData] = useState(null);
   const [addTextline, setTextLine] = useState({});
-  const { fetchTreeChildUp, resultChild } = useTreeChildUp();
-  const { fetchTreeUpdate, resultUp } = useTreevieUpdate();
-  const { fetchTreeCreate, resultNew } = useTreeViewCreate();
+  const { updateResult, updateLoading, putSideMenu } = useSideMenuUpdate();
 
   useEffect(() => {
     const parentTextLines = {};
     const childTextLines = {};
-
-    treeview.forEach((item) => {
+    viewMenus.forEach((item) => {
       if (item.path === path) {
         parentTextLines[item.name] = item.name;
         if (item.children) {
           item.children.forEach((child) => {
-            childTextLines[child.id] = { id: child.id, name: child.name };
+            childTextLines[child.id] = {
+              id: child.id,
+              name: child.name,
+              parent: child.parent,
+              path: child.path,
+            };
           });
         }
       }
@@ -39,11 +42,17 @@ function Treeviewupdate(props) {
     setTextLinesChild(childTextLines);
   }, [treeview, path, name]);
 
-  const handleTextlineChange = (name, newValue, isChild = false) => {
+  const handleTextlineChange = (
+    name,
+    newValue,
+    parentID,
+    path,
+    isChild = false
+  ) => {
     if (isChild) {
       setTextLinesChild((prev) => ({
         ...prev,
-        [name]: { id: name, name: newValue },
+        [name]: { id: name, name: newValue, parent: parentID, path: path },
       }));
     } else {
       setTextLinesParent((prev) => ({
@@ -54,27 +63,74 @@ function Treeviewupdate(props) {
   };
 
   const handleUpdateButton = () => {
-    const data = {
-      parent: textLinesParent,
-      child: textLinesChild,
-      addNew: addTextline,
-      path: path,
-    };
-    fetchTreeChildUp(data);
-    fetchTreeCreate(data);
-    fetchTreeUpdate(data);
+    const parentItem = Object.keys(textLinesParent).map((parentName) => {
+      const parent = viewMenus.find(
+        (key) => key.name === parentName && key.path === path
+      );
+      return {
+        id: parent ? parent.id : undefined,
+        name: textLinesParent[parentName],
+        path: path,
+        parent: null,
+        children: [
+          ...Object.keys(textLinesChild)
+            .filter((item) => {
+              const child = textLinesChild[item];
+              const isChildOfCurrentParent =
+                child.parent === (parent ? parent.id : null);
+              return isChildOfCurrentParent;
+            })
+            .map((childKey) => {
+              const child = textLinesChild[childKey];
+              return {
+                id: child.id || undefined,
+                name: child.name,
+                path: path,
+                parent: child.parent ? child.parent : null,
+                children: [],
+              };
+            }),
+          ...(addTextline[parentName]?.map((newChild) => ({
+            name: newChild.value,
+            path: path,
+            parent: "",
+            children: [],
+          })) || []),
+        ],
+      };
+    });
+    const result = putSideMenu(parentItem);
+    if (!result) {
+      return toastify(`Something Went Wrong!`, "error");
+    }
+    return showAlert(
+      "Successfull",
+      "Side Menu Update Complete!",
+      "success"
+    ).then(() => {
+      navigate(-1);
+    });
   };
 
-  const handleDynamicTextlineChange = (header, id, newValue) => {
+  const handleDynamicTextlineChange = (header, id, newValue, path) => {
     setTextLine((prev) => ({
       ...prev,
       [header]: prev[header].map((item) =>
         item.id === id ? { ...item, parent: header, value: newValue } : item
       ),
     }));
+    setTextLinesChild((prev) => ({
+      ...prev,
+      [id]: {
+        id: id,
+        name: newValue,
+        parent: header,
+        path: path,
+      },
+    }));
   };
 
-  const handleAdd = (header) => {
+  const handleAdd = (header, parentID, path) => {
     setTextLine((prev) => ({
       ...prev,
       [header]: [
@@ -85,6 +141,7 @@ function Treeviewupdate(props) {
   };
 
   const renderTreeview = (data) => {
+    if (!data) return "";
     return data
       .filter((item) => item.path === path)
       .map((item, index) => (
@@ -115,7 +172,13 @@ function Treeviewupdate(props) {
                   type={"text"}
                   className={"border rounded-lg p-2"}
                   onChange={(e) =>
-                    handleTextlineChange(child.id, e.target.value, true)
+                    handleTextlineChange(
+                      child.id,
+                      e.target.value,
+                      child.parent,
+                      child.path,
+                      true
+                    )
                   }
                 />
               ))}
@@ -128,7 +191,8 @@ function Treeviewupdate(props) {
                       handleDynamicTextlineChange(
                         item.name,
                         textline.id,
-                        e.target.value
+                        e.target.value,
+                        path
                       )
                     }
                     className={"p-2 border rounded-lg"}
@@ -151,24 +215,26 @@ function Treeviewupdate(props) {
       ));
   };
 
-  const renderBusinessUpdate = () => {
-    return <BusinessUpdate business={business} path={path} />;
-  };
+  // const renderBusinessUpdate = () => {
+  //   return <BusinessUpdate business={viewMenus} path={path} />;
+  // };
 
   const renderTreeData = () => {
     if (name === "Business") {
-      return business.map((item) => (
-        <>
-          <div className="text-lg font-bold p-2">{item.title}</div>
-          {item.links.map((items) => (
-            <>
-              <div className="text-md pl-5 ">{items.name}</div>
-            </>
-          ))}
-        </>
-      ));
+      return viewMenus
+        .filter((item) => item.path === path)
+        .map((item, index) => (
+          <React.Fragment key={index}>
+            <div className="text-lg font-bold p-2">{item.name}</div>
+            {item.children.map((items, childINdex) => (
+              <React.Fragment key={childINdex}>
+                <div className="text-md pl-5 ">{items.name}</div>
+              </React.Fragment>
+            ))}
+          </React.Fragment>
+        ));
     } else {
-      return treeview.map(
+      return viewMenus.map(
         (item) =>
           item.path === path && (
             <>
@@ -192,23 +258,17 @@ function Treeviewupdate(props) {
           {renderTreeData()}
         </div>
         <div className="bg-white flex flex-col p-2 gap-3 border-2 rounded-lg min-w-80 min-h-80  max-h-[60vh] overflow-hidden hover:overflow-y-scroll">
-          <div className="text-2xl font-bold">Update Treeview Form</div>
-          {name === "Business"
-            ? renderBusinessUpdate()
-            : renderTreeview(treeview)}
-          {name === "Business" ? (
-            ""
-          ) : (
-            <div className="p-2 flex justify-center w-full">
-              <Button
-                text={"Update"}
-                className={
-                  "border text-2xl py-3  hover:bg-blue-700 hover:text-white rounded-lg w-[10vw]"
-                }
-                onClick={handleUpdateButton}
-              />
-            </div>
-          )}
+          <div className="text-2xl font-bold">{name === "business" ? "Update Category Form": "Update Treeview Form"} </div>
+          {renderTreeview(viewMenus)}
+          <div className="p-2 flex justify-center w-full">
+            <Button
+              text={"Update"}
+              className={
+                "border text-2xl py-3  hover:bg-blue-700 hover:text-white rounded-lg w-[10vw]"
+              }
+              onClick={handleUpdateButton}
+            />
+          </div>
         </div>
       </div>
     </div>

@@ -32,8 +32,9 @@ const Categories = (props) => {
                       alt={link.name}
                       title={link.name}
                       style={{ backgroundColor: colorChanger }}
+                      key={linkIndex}
                     >
-                      <li className="w-full " key={linkIndex}>
+                      <li className="w-full ">
                         <p className="truncate">{link.name}</p>
                       </li>
                     </button>

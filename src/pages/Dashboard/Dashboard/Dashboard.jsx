@@ -43,8 +43,8 @@ function Dashboard(props) {
               </div>
             </div>
             <div className="flex p-2 gap-5 justify-center  ">
-              {content.counter.map((item) => (
-                <>
+              {content.counter.map((item, index) => (
+                <React.Fragment key={index}>
                   <div
                     className=" p-3 rounded-lg w-[10vw] shadow-lg"
                     style={{ backgroundColor: item.color }}
@@ -52,9 +52,11 @@ function Dashboard(props) {
                     <h1 className="text-md font-sans font-bold border-b-2 border-gray-500 text-center">
                       {item.name}
                     </h1>
-                    <p className="text-2xl text-center font-sans font-bold p-2">{item.count}</p>
+                    <p className="text-2xl text-center font-sans font-bold p-2">
+                      {item.count}
+                    </p>
                   </div>
-                </>
+                </React.Fragment>
               ))}
             </div>
           </div>

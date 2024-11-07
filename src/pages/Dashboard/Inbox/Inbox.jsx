@@ -67,8 +67,8 @@ const Inbox = () => {
         <div className="flex border min-w-full min-h-[80vh] px-2">
           <div className="flex flex-col border-r w-[30vw] min-h-[70vh] p-2 overflow-hidden hover:overflow-y-scroll">
             <h2 className="text-lg p-2 border ">Message:</h2>
-            {cardContent.map((item) => (
-              <>
+            {cardContent.map((item, index) => (
+              <React.Fragment key={index}>
                 <List
                   title={item.title}
                   desc={item.desc}
@@ -77,7 +77,7 @@ const Inbox = () => {
                   user={item.user}
                   datetime={Date()}
                 />
-              </>
+              </React.Fragment>
             ))}
           </div>
           <div className="p-2 border-l min-w-80 min-h-80">

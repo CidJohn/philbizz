@@ -1,54 +1,98 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Textline from "../../../../../components/Textline/Textline";
 import Button from "../../../../../components/Button/Button";
 import { useCreateTreeView } from "../../../../../helper/database/useCardSettings";
 import { useCreateNewCategory } from "../../../../../helper/database/useBusinessData";
 import { IoMdClose } from "react-icons/io";
+import {
+  useSideMenu,
+  useSideMenuView,
+} from "../../../../../helper/database/useTreeview";
+import { IoCreateOutline } from "react-icons/io5";
+import { IoIosAddCircleOutline } from "react-icons/io";
+import useAlert from "../../../../../helper/alert/useAlert";
+import { useToast } from "../../../../../components/Sonner/Sonner";
 
 const Treeviewcreate = (props) => {
-  const { path, name } = props;
+  const { path, name, viewMenus, navigate } = props;
   const [parent, setParent] = useState("");
   const [child, setChild] = useState("");
-  const [treeViewChild, setTreeViewChild] = useState([]);
+  const [treeAdd, setTreeAdd] = useState([]);
+  const [activeParentIndex, setActiveParentIndex] = useState(0);
   const { fetchTreeCreate, resultNew, treeload } = useCreateTreeView();
+  const { postSideMenu, resultMenu, MenuLoading } = useSideMenu();
   const { fetchCreateNewCategory, resultCategoryNew, loadNew } =
     useCreateNewCategory();
-
-  const treeAdd = {
-    parent: parent,
-    child: treeViewChild,
-    path: path,
-  };
+  const showAlert = useAlert();
+  const toastify = useToast();
 
   const handleChildAdd = (e) => {
     e.preventDefault();
-    const newChild = { child, path };
-    if (!child) return;
-    setTreeViewChild([...treeViewChild, newChild]);
-    setChild("");
+    if (child.trim() && treeAdd.length > 0) {
+      setTreeAdd((prevTreeAdd) =>
+        prevTreeAdd.map((parentItem, index) =>
+          index === activeParentIndex
+            ? {
+                ...parentItem,
+                children: [...parentItem.children, { name: child, path }],
+              }
+            : parentItem
+        )
+      );
+      setChild("");
+    }
   };
-
   const handleCreate = () => {
-    if (name === "Business") {
-      fetchCreateNewCategory(treeAdd);
-      console.log(resultCategoryNew);
+    if (postSideMenu(treeAdd)) {
+      setTreeAdd([]);
+      showAlert("Successfull", `Side Menu Create Complete`, "success").then(
+        () => {
+          navigate(-1);
+        }
+      );
     } else {
-      fetchTreeCreate(treeAdd);
-      console.log(resultNew);
+      toastify(`Something Went Wrong!`, "error");
     }
   };
 
-  const handleDelete = (indexToDelete) => {
-    setTreeViewChild((prevTreeViewChild) =>
-      prevTreeViewChild.filter((_, index) => index !== indexToDelete)
+  const handleAddParent = (e) => {
+    e.preventDefault();
+    if (parent.trim()) {
+      const newParent = { name: parent, path, parent: null, children: [] };
+      setTreeAdd([...treeAdd, newParent]);
+      setParent("");
+      setActiveParentIndex(treeAdd.length);
+    }
+  };
+
+  const handleDelete = (childIndex) => {
+    setTreeAdd((prevTreeAdd) =>
+      prevTreeAdd.map((parentItem, index) =>
+        index === activeParentIndex
+          ? {
+              ...parentItem,
+              children: parentItem.children.filter((_, i) => i !== childIndex),
+            }
+          : parentItem
+      )
     );
   };
 
+  const handleNext = () => {
+    setActiveParentIndex((prevIndex) =>
+      Math.min(prevIndex + 1, treeAdd.length - 1)
+    );
+  };
+
+  const handleBack = () => {
+    setActiveParentIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+  };
+
   return (
-    <div className="flex gap-2  p-2 w-full  ">
+    <div className="flex gap-2 p-2 w-full">
       <div className="border-2 p-5 rounded-lg shadow-md min-w-96 min-h-80 bg-white">
         <div className="text-2xl p-2 font-bold">
-          {name === "Business" ? "Add Cateogry" : "Add Treeview"}
+          {name === "Business" ? "Add Category" : "Add Treeview"}
         </div>
         <form className="space-y-4 h-[40vh]">
           <div>
@@ -58,16 +102,23 @@ const Treeviewcreate = (props) => {
             >
               Parent Name:
             </label>
-            <div className="p-2">
+            <div className="flex gap-2 items-center w-full p-2">
               <Textline
                 id="parentname"
-                className="bg-gray-50 border border-gray-300 text-gray-900  text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700"
                 value={parent}
                 onChange={(e) => setParent(e.target.value)}
-                placeholder={"Enter Parent Name"}
+                placeholder="Enter Parent Name"
+              />
+              <Button
+                icon={<IoCreateOutline />}
+                className="py-2 px-3 text-[35px] transform translate-transform duration-500 hover:text-green-500"
+                onClick={handleAddParent}
+                disabled={!parent.trim()}
               />
             </div>
           </div>
+
           <div>
             <label
               htmlFor="childname"
@@ -75,69 +126,82 @@ const Treeviewcreate = (props) => {
             >
               Child Name:
             </label>
-            <div className="flex flex-col ">
-              <div className="p-2  ">
+            <div className="flex flex-col">
+              <div className="p-2 flex items-center gap-2">
                 <Textline
                   id="childname"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700"
                   value={child}
                   onChange={(e) => setChild(e.target.value)}
-                  placeholder={
-                    !parent ? "Please Add Parent First!" : "Enter Child Name"
-                  }
-                  disabled={!parent}
+                  placeholder={"Enter Child Name"}
                 />
-              </div>
-              <div className="p-2">
                 <Button
-                  text={"Add"}
-                  className={
-                    "w-full border p-2  rounded-lg transform tranform duration-500 hover:scale-95 bg-green-500 hover:text-white text-2xl"
-                  }
+                  icon={<IoIosAddCircleOutline />}
+                  className="py-2 px-3 text-[35px] transform translate-transform duration-500 hover:text-green-500"
                   onClick={handleChildAdd}
+                  disabled={!child.trim() || treeAdd.length === 0}
                 />
               </div>
             </div>
           </div>
         </form>
       </div>
+
       <div className="border-2 p-5 rounded-lg shadow-md min-w-[40vw] min-h-80 bg-white">
         <div className="text-2xl font-bold p-2">
           {name === "Business" ? "Display Category" : "Display Treeview"}
         </div>
-        <div className="text-lg font-bold">{treeAdd.parent}</div>
-        <div className=" h-[40vh] overflow-hidden hover:overflow-y-scroll">
-          <ul className=" indent-8">
-            {treeViewChild.map((item, index) => (
-              <li key={index} className=" flex justify-between ">
-                <p className="text-wrap max-w-80"> {item.child}</p>
-                <div className="flex items-center flex-grow mx-2">
-                  <div className="flex-grow border-b border-gray-800 border-dashed"></div>
-                </div>
-                <Button
-                  icon={<IoMdClose />}
-                  onClick={() => handleDelete(index)}
-                  className={"hover:text-red-700 font-bold text-lg"}
-                />
-              </li>
-            ))}
-          </ul>
-        </div>
-        {treeViewChild.length > 0 && (
+
+        {treeAdd.length > 0 && (
           <>
-            <div className="p-2">
+            <div className="text-lg font-bold">
+              {treeAdd[activeParentIndex]?.name || "No Parent Selected"}
+            </div>
+            <div className="h-[40vh] overflow-hidden hover:overflow-y-scroll">
+              <ul className="indent-8">
+                {treeAdd[activeParentIndex]?.children.map(
+                  (childItem, childIndex) => (
+                    <li key={childIndex} className="flex justify-between">
+                      <p className="text-wrap max-w-80">{childItem.name}</p>
+                      <div className="flex items-center flex-grow mx-2">
+                        <div className="flex-grow border-b border-gray-800 border-dashed"></div>
+                      </div>
+                      <Button
+                        icon={<IoMdClose />}
+                        onClick={() => handleDelete(childIndex)}
+                        className="hover:text-red-700 font-bold text-lg"
+                      />
+                    </li>
+                  )
+                )}
+              </ul>
+            </div>
+
+            <div className="flex gap-2 p-2">
               <Button
-                text={!parent ? "Disable" : "Create"}
-                className={
-                  !parent
-                    ? " w-full border p-3 mt-2 rounded-lg bg-yellow-500 text-2xl"
-                    : "w-full border p-3 mt-2 rounded-lg transform tranform duration-500 hover:scale-95 bg-blue-500 hover:text-white text-2xl"
-                }
-                onClick={handleCreate}
-                disabled={!parent}
+                text="Back"
+                className="w-full border p-3 rounded-lg bg-gray-400 hover:bg-gray-500"
+                onClick={handleBack}
+                disabled={activeParentIndex === 0}
+              />
+              <Button
+                text="Next"
+                className="w-full border p-3 rounded-lg bg-gray-400 hover:bg-gray-500"
+                onClick={handleNext}
+                disabled={activeParentIndex === treeAdd.length - 1}
               />
             </div>
           </>
+        )}
+
+        {treeAdd.length > 0 && (
+          <div className="p-2">
+            <Button
+              text="Create"
+              className="w-full border p-3 mt-2 rounded-lg transform duration-500 hover:scale-95 bg-blue-500 hover:text-white text-2xl"
+              onClick={handleCreate}
+            />
+          </div>
         )}
       </div>
     </div>

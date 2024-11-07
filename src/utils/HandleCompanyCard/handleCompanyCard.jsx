@@ -62,7 +62,7 @@ const HandleCompanyCard = (props) => {
   };
 
   const renderCard = (item, index) => (
-    <div className="" key={item.childID}>
+    <div className="" key={index}>
       <div className="flex flex-wrap">
         <Card
           src={item.image}
@@ -82,8 +82,8 @@ const HandleCompanyCard = (props) => {
     </div>
   );
 
-  const renderList = (item) => (
-    <div className="" key={item.childID}>
+  const renderList = (item, index) => (
+    <div className="" key={index}>
       <div className="flex w-full  justify-center items-center">
         <List
           image={item.image}
@@ -109,7 +109,9 @@ const HandleCompanyCard = (props) => {
 
   const renderListData = (data) => (
     <div className="data-section">
-      <div className="gap-2">{data.map((item) => renderList(item))}</div>
+      <div className="gap-2">
+        {data.map((item, index) => renderList(item, index))}
+      </div>
     </div>
   );
 

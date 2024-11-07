@@ -4,24 +4,30 @@ import TextEditor from "../../../../../components/Texteditor/Texteditor";
 import UploadImage from "../../../../../components/UploadImage/UploadImage";
 import Button from "../../../../../components/Button/Button";
 import {
+  useBlogPost,
   usePostBlogContent,
   useUpdateBlogContent,
 } from "../../../../../helper/database/useBlogSettings";
 import restAPI from "../../../../../helper/database/restAPI";
 import Dropdown from "../../../../../components/Dropdown/Dropdown";
 import blog_category from "../../../../../content/blog_categories.json";
+import { useToast } from "../../../../../components/Sonner/Sonner";
 
 function Createblog(props) {
   const imagelink = restAPI();
+  const toastify = useToast();
   const { name, path, title, blogContent } = props;
   const { fetchPostBlog, result, postloading } = usePostBlogContent();
   const { fetchBlogUpdate, resultBlogUpdate, blogLoading } =
     useUpdateBlogContent();
+  const { postBlog, resultPost } = useBlogPost();
+
   const [editorContent, setEditorContent] = useState("");
   const [dropdownValue, setDropdownValue] = useState("");
   const [dropdownChildValue, setDropdownChildValue] = useState("");
   const [blogCategory, setBlogCategory] = useState([]);
   const [blogCategoryChild, setBlogCategoryChild] = useState([]);
+  const [fileImage, setFileImage] = useState(null);
   const [imageInsert, setImageInsert] = useState([
     {
       id: Date.now(),
@@ -111,6 +117,7 @@ function Createblog(props) {
           ...prev,
           imagePreview: reader.result,
         }));
+        setFileImage(file);
       };
       reader.readAsDataURL(file);
     }
@@ -121,9 +128,32 @@ function Createblog(props) {
       header: { text: textline, image: imageInsert.imagePreview },
       content: editorContent,
     };
-    fetchPostBlog(initials);
-    console.log(initials);
-    console.log(result);
+    const initialData = {
+      title: textline.title,
+      description: textline.description,
+      //image: imageInsert.imagePreview,
+      //image: "http://example.com/path/to/image.jpg",
+      image: fileImage,
+      content: editorContent,
+      comment: [],
+    };
+    postBlog(initialData);
+    if (fetchPostBlog(initials)) {
+      try {
+        console.log(initials);
+        console.log(result);
+        toastify(`Blog Posted!`, "success");
+        setEditorContent("");
+        setDropdownValue("");
+        setDropdownChildValue("");
+        setBlogCategory("");
+        setBlogCategoryChild("");
+        setImageInsert(null);
+        setTextLine("");
+      } catch (error) {
+        toastify("Failed to Posted your blog", "error");
+      }
+    }
   };
   const handleUpdate = () => {
     const initials = {
@@ -134,9 +164,16 @@ function Createblog(props) {
       },
       content: editorContent,
     };
-    fetchBlogUpdate(initials);
-    console.log(initials);
-    console.log(result);
+
+    if (fetchBlogUpdate(initials)) {
+      try {
+        console.log(initials);
+        console.log(result);
+        toastify(`Blog Updated!`, "success");
+      } catch (error) {
+        toastify("Failed to Updates your blog", "error");
+      }
+    }
   };
 
   const handleChangeCategory = (e) => {

@@ -11,10 +11,12 @@ import { useNavigate } from "react-router-dom";
 import TreeView from "../../../components/Treeviews/Treeview";
 import blogCategories from "../../../content/blog_categories.json";
 import { AiFillCloseCircle, AiFillCheckCircle } from "react-icons/ai";
+import useStorage from "../../../helper/storage/Storage";
 
 const Blog = () => {
   const navigate = useNavigate();
   const { blogData, blogload } = useBlogSettings();
+  const { getStorage } = useStorage();
   const { isAuthenticated, authload } = useAuth();
   const datas = blogData ? blogData : "";
   const [isCommentOpen, setCommentOpen] = useState(false);
@@ -45,7 +47,6 @@ const Blog = () => {
     );
   }
   const cardTotalPages = Math.ceil(datas.length / itemsPerPage);
-
   const currentPost = datas
     ? datas.slice(
         (cardCurrentPage - 1) * itemsPerPage,
@@ -54,10 +55,12 @@ const Blog = () => {
     : [];
 
   const handleModalOpen = (item) => {
-    navigate(`/blog/post/${item.id}`, {
-      state: { id: item.id, username: item.username },
+    navigate(`/blog/post`, {
+      state: { userIdentity: item },
     });
   };
+  const userFilterPosts = isAuthenticated && filterPost;
+  const userIdentification = getStorage("access_token");
 
   const handleCommentOpen = () => {
     setCommentOpen(!isCommentOpen);
@@ -71,8 +74,6 @@ const Blog = () => {
     console.log(`Category clicked: ${id}-${name}`);
     setSelectedCategory(name);
   };
-
-  const userFilterPosts = isAuthenticated && filterPost;
 
   return (
     <React.Fragment>
@@ -97,7 +98,7 @@ const Blog = () => {
                   className={
                     " p-2 rounded border-gray-700 text-gray-200 font-bold bg-[#390099] px-12 py-3 transform transition-transform duration-500 hover:scale-105 "
                   }
-                  onClick={() => handleModalOpen(userid)}
+                  onClick={() => handleModalOpen(userIdentification)}
                 />
               </div>
             ) : (
