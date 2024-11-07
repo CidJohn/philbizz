@@ -312,6 +312,50 @@ function Contentcreate(props) {
     }
   }, [downTree, selectedValue, path, category]);
 
+  const handleReset = () => {
+    setDropdownOptions([]);
+    setDropDownChild([]);
+    setSelectedValue("");
+    setSelectChildValue("");
+    setEditorContent("");
+    setAddTextLine([{ id: 1, value: "" }]);
+    setNewTextLine([]);
+    setParentID(0);
+    setMainPageSelection([]);
+    setSectionPageSelection([]);
+    setMainPageDropdown("");
+    setSectionPageDropdown("");
+    setTextLine({
+      title: "",
+      address: "",
+      description: "",
+      contact: 0,
+      email: "",
+      location: "",
+      service: "",
+    });
+    setEntries([
+      {
+        id: Date.now(),
+        imagePreview: null,
+        personnelName: "",
+        position: "",
+      },
+    ]);
+    setImageInsert([
+      {
+        id: Date.now(),
+        imagePreview: null,
+      },
+    ]);
+    setSocialText([
+      {
+        id: 1,
+        link: "",
+        social: "",
+      },
+    ]);
+  }
   const handleParentDropdownChange = (e) => {
     const { name, value } = e.target;
     setSelectedValue(e.target.value);
@@ -336,11 +380,10 @@ function Contentcreate(props) {
 
   const handleSave = () => {
     if (postCard(initialSelectionContent)) {
-      if (cardResult) {
-        toastify(cardResult, "success");
-      } else {
-        toastify(`Something Went Wrong!`, "error");
-      }
+        toastify(`New ${name} Content Created!`, "success");
+        handleReset();
+    }else{
+      toastify(`Something Went Wrong!`, "error");
     }
   };
 

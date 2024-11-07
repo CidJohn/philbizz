@@ -24,7 +24,9 @@ function Sidebar(props) {
   };
 
   useEffect(() => {
-    setNavbarList(navbarData);
+    setTimeout(() => {
+      setNavbarList(navbarData);
+    }, 0);
   }, [navbarData]);
 
   const toggleDropdown = () => {
@@ -46,7 +48,7 @@ function Sidebar(props) {
   };
 
   const handleDynamicNavbar = (data) => {
-    navigate(`/dashboard/Navigation`);
+    navigate(`/dashboard/item/Navigation`);
   };
 
   return (
@@ -104,7 +106,7 @@ function Sidebar(props) {
             </li>
             <li>
               <a
-                href="/dashboard#users"
+                href="/dashboard/account/list"
                 className="flex items-center p-4 text-[#013A63] fira-sans-regular rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <FaRegUserCircle className="text-lg" />
@@ -153,15 +155,15 @@ function Sidebar(props) {
                   isDropdownOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
                 }`}
               >
-                {navbar &&
-                  navbar.map((item, index) => (
+                {viewNavbarList &&
+                  viewNavbarList.map((item, index) => (
                     <li key={index} className="ms-6">
                       <button
                         type="button"
                         className="flex p-1 gap-2"
                         onClick={() => handleSidebar(item.path, item.name)}
                       >
-                        <Image src={item.iconPath} style={{ width: "20px" }} />
+                        <Images src={item.icons} style={{ width: "20px" }} />
                         <span className="text-[#013A63] fira-sans-regular">
                           {item.name}
                         </span>
