@@ -37,13 +37,13 @@ const ContentLayout = ({
             <Description
               content={desc}
               pageName={adName}
-              txtHeaderColor={sideBarColor.textColor}
+              txtHeaderColor={sideBarColor ? sideBarColor.textColor : "#E63946"}
             />
           </div>
           <section id="cards" className="sticky top-5 " ref={currentRef}>
             <div
               className="flex flex-col  mt-5 p-2"
-              style={{ backgroundColor: sideBarColor.bgColor }}
+              style={{ backgroundColor: sideBarColor ? sideBarColor.bgColor : "#E639460D" }}
             >
               <div className="flex flex-col lg:flex-row items-center justify-center  ">
                 <div className="flex flex-col max-w-80">
@@ -56,8 +56,8 @@ const ContentLayout = ({
                     placeholder={"Select All"}
                     width="300px"
                     selectWidth="500px"
-                    adsBorder={sideBarColor.textColor}
-                    textColor={sideBarColor.textColor}
+                    adsBorder={sideBarColor ? sideBarColor.textColor: "#E63946"}
+                    textColor={sideBarColor ? sideBarColor.textColor: "#E63946"}
                   />
                 </div>
                 <div className=" hidden lg:block text-sm py-5  h-[30px] border-gray-500 mx-3 ">
@@ -70,9 +70,9 @@ const ContentLayout = ({
                   <SearchBar
                     hidden={true}
                     onSearch={handleOnSearch}
-                    adsBorder={sideBarColor.adsBorder}
-                    textColor={sideBarColor.textColor}
-                    placeholderColor={sideBarColor.placeholderColor}
+                    adsBorder={sideBarColor ? sideBarColor.textColor: "#E63946"}
+                    textColor={sideBarColor ? sideBarColor.textColor: "#E63946"}
+                    placeholderColor={sideBarColor ? sideBarColor.textColor: "#E63946"}
                   />
                 </div>
               </div>
@@ -105,8 +105,8 @@ const ContentLayout = ({
             <h1
               className={`font-sans font-bold border text-center  rounded-lg p-1`}
               style={{
-                color: sideBarColor.textColor,
-                borderColor: sideBarColor.textColor,
+                color: sideBarColor ? sideBarColor.textColor: "#E63946",
+                borderColor: sideBarColor ? sideBarColor.textColor: "#E63946",
               }}
             >
               {adName} Latest Ads
@@ -116,7 +116,7 @@ const ContentLayout = ({
             {sideAds.map((item, index) => (
               <div
                 className="border-b-2 dashed py-3 border-dashed"
-                style={{ borderColor: sideBarColor.textColor }}
+                style={{ borderColor: sideBarColor ? sideBarColor.textColor: "#E63946" }}
                 key={index}
               >
                 <div className="bg-cover mx-auto ">
@@ -128,11 +128,11 @@ const ContentLayout = ({
                       width: "230px",
                       backgroundSize: "cover",
                       border: "1px solid",
-                      borderColor: sideBarColor.textColor,
+                      borderColor: sideBarColor ? sideBarColor.textColor: "#E63946",
                     }}
                     onLink={() => handleLink(item.title)}
-                    btnColor={sideBarColor.bgColor}
-                    textColor={sideBarColor.textColor}
+                    btnColor={sideBarColor ? sideBarColor.bgColor : "#E639460D"}
+                    textColor={sideBarColor ? sideBarColor.textColor: "#E63946"}
                   />
                 </div>
               </div>
