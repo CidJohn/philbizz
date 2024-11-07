@@ -63,7 +63,7 @@ export const HeroBanner = ({ blogData }) => {
         <h1 className='text-center w-full lg:text-start text-2xl lg:text-4xl p-2 fira-sans-bold text-[#013A63]'>
           Digital Clock
         </h1>
-        <div className='z-20 flex shadow border-2 w-full '>
+        <div className='z-10 flex shadow border-2 w-full '>
           <div className='w-full '>
             <DigitalClock />
           </div>

@@ -10,12 +10,12 @@ const RenderTreeView = (props) => {
   return (
     <div
       className={` sticky top-5   mt-1 `}
-      style={{ backgroundColor: sideBarColor.bgColor }}
+      style={{ backgroundColor: sideBarColor ?  sideBarColor.bgColor : "#E639460D" }}
     >
       <h1
         className={`text-2xl font-bold  p-2 w-[15vw] border-b-4 border-gray-900 font-sans`}
         style={{
-          color: sideBarColor.textColor,
+          color: sideBarColor? sideBarColor.textColor : "#E63946",
         }}
       >
         {adName}
@@ -27,7 +27,7 @@ const RenderTreeView = (props) => {
           <TreeView
             treeViewContent={filteredData}
             onItemClick={handleItemClick}
-            textColor={sideBarColor.textColor}
+            textColor={sideBarColor? sideBarColor.textColor : "#E63946"}
           />
         </div>
       )}
