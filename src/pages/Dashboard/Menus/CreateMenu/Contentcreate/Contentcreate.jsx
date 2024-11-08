@@ -411,7 +411,7 @@ function Contentcreate(props) {
       if (fetchUpdateCompany(initialBusinessContent)) {
         try {
           console.log(initialBusinessContent);
-          toastify(` Successfully Update ${name} Content `, "success");
+          toastify(` Successfully Update ${name} Content! `, "success");
         } catch (error) {
           toastify("Failed to Submit Reply.", "error");
         }
