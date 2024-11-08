@@ -14,7 +14,6 @@ const Createmenu = () => {
     name,
     path,
     content,
-    treeviewdata,
     businessCategory,
     title,
     cardlocation,
@@ -52,7 +51,6 @@ const Createmenu = () => {
         />
         <Treeviewcreate
           path={path}
-          treeview={treeviewdata}
           name={name}
           viewMenus={viewMenus}
           navigate={navigate}
@@ -72,7 +70,6 @@ const Createmenu = () => {
           onClick={handleCreateView}
         />
         <Treeviewupdate
-          treeview={treeviewdata}
           name={name}
           path={path}
           business={businessCategory}
@@ -88,7 +85,7 @@ const Createmenu = () => {
       <Contentcreate
         name={name}
         path={path}
-        downTree={treeviewdata}
+        downTree={viewMenus}
         category={businessCategory}
         title={title}
         location={cardlocation}

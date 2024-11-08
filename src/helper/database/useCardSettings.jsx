@@ -178,15 +178,16 @@ export const useUpdateCardContent = () => {
 };
 
 export const useCardPosting = () => {
-  const [cardResult, setCardResult] = useState([]);
+  const [cardResult, setCardResult] = useState(null);
   const [cardLoading, setCardLoading] = useState(true);
 
   const postCard = async (data) => {
     try {
       const response = await axiosPost("auth/post-card-content/", data);
-      setCardResult(response.data);
+      setCardResult(response);
     } catch (error) {
       console.error("axios error: ", error);
+      setCardResult(error);
     } finally {
       setCardLoading(false);
     }

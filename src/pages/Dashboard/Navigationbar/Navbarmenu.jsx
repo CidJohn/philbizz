@@ -45,7 +45,11 @@ function Navbarmenu() {
           <h1 className="text-2xl">Navigation Page </h1>
         </div>
         <div className="flex p-5">
-          <NavbarList navbar={navbarData} handleNavbar={handleNavbar} />
+          {navbarData ? (
+            <NavbarList navbar={navbarData} handleNavbar={handleNavbar} />
+          ) : (
+            "Create Navbar First"
+          )}
           <NavbarView
             name={viewNavbar.name}
             path={viewNavbar.path}

@@ -50,7 +50,7 @@ function Contentcreate(props) {
   const [sectionPageSelection, setSectionPageSelection] = useState([]);
   const [mainPageDropDown, setMainPageDropdown] = useState("");
   const [sectionPageDropDown, setSectionPageDropdown] = useState("");
-  const { fetchBusinessContent, result, businessLoad } = useBusinessPost();
+  const [alertData, setAlertData] = useState();
   const { fetchUpdateCompany, resultUpdate } = useUpdateCompanyContent();
   const { postCard, cardResult, cardLoading } = useCardPosting();
   const { getData, getURL, loadData } = useCardInfo(title);
@@ -136,7 +136,7 @@ function Contentcreate(props) {
       );
     }
   }, [contents, mainPageSelection, sectionPageSelection]);
-  
+
   useEffect(() => {
     if (viewData.info) {
       viewData.info.map((item) => {
@@ -312,11 +312,34 @@ function Contentcreate(props) {
     }
   }, [downTree, selectedValue, path, category]);
 
+  useEffect(() => {
+    if (cardResult) {
+      const timer = setTimeout(() => {
+        if (cardResult.message.includes("undefined")) {
+          toastify("Something Went Wrong!", "error");
+        } else {
+          showAlert(
+            "Successful",
+            cardResult.message,
+            "success",
+            "",
+            true,
+            "Create New",
+            "View list"
+          ).then((result) => {
+            if (result.isConfirmed) {
+              handleReset();
+            } else {
+              navigate(-1);
+            }
+          });
+        }
+      });
+      return () => clearTimeout(timer);
+    }
+  }, [cardResult, navigate]);
+
   const handleReset = () => {
-    setDropdownOptions([]);
-    setDropDownChild([]);
-    setSelectedValue("");
-    setSelectChildValue("");
     setEditorContent("");
     setAddTextLine([{ id: 1, value: "" }]);
     setNewTextLine([]);
@@ -355,7 +378,8 @@ function Contentcreate(props) {
         social: "",
       },
     ]);
-  }
+  };
+
   const handleParentDropdownChange = (e) => {
     const { name, value } = e.target;
     setSelectedValue(e.target.value);
@@ -379,12 +403,7 @@ function Contentcreate(props) {
   };
 
   const handleSave = () => {
-    if (postCard(initialSelectionContent)) {
-        toastify(`New ${name} Content Created!`, "success");
-        handleReset();
-    }else{
-      toastify(`Something Went Wrong!`, "error");
-    }
+    postCard(initialSelectionContent);
   };
 
   const handleUpdate = () => {
@@ -392,7 +411,7 @@ function Contentcreate(props) {
       if (fetchUpdateCompany(initialBusinessContent)) {
         try {
           console.log(initialBusinessContent);
-          toastify(` Successfully Update ${name} Content `, "success");
+          toastify(` Successfully Update ${name} Content! `, "success");
         } catch (error) {
           toastify("Failed to Submit Reply.", "error");
         }
@@ -844,7 +863,7 @@ function Contentcreate(props) {
               </div>
               <div
                 className={
-                  name === "Business" ? "flex flex-col w-full" : "hidden"
+                  name === "Company" ? "flex flex-col w-full" : "hidden"
                 }
               >
                 <label htmlFor="personel">Personnel </label>
@@ -857,11 +876,6 @@ function Contentcreate(props) {
                           handleFileChange={(e) => handleFileChange(index, e)}
                           style={{ width: "15vw" }}
                         />
-                        {/* {errors.image && (
-                            <span className="text-red-500 text-sm italic">
-                              {errors.image.message}
-                            </span>
-                          )} */}
                       </div>
                       <div className="flex flex-col p-2">
                         <Textline
@@ -872,11 +886,6 @@ function Contentcreate(props) {
                           value={entry.personnelName}
                           onChange={(e) => handleInputChange(index, e)}
                         />
-                        {/* {errors.personnelName && (
-                            <span className="text-red-500 text-sm italic">
-                              {errors.personnelName.message}
-                            </span>
-                          )} */}
                       </div>
                       <div className="flex flex-col p-2">
                         <Textline
@@ -887,11 +896,6 @@ function Contentcreate(props) {
                           value={entry.position}
                           onChange={(e) => handleInputChange(index, e)}
                         />
-                        {/* {errors.position && (
-                            <span className="text-red-500 text-sm italic">
-                              {errors.position.message}
-                            </span>
-                          )} */}
                       </div>
                     </div>
                   ))}

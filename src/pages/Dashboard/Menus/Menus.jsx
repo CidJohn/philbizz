@@ -38,9 +38,9 @@ function Menus(props) {
   const { viewMenu, menuLoading } = useSideMenuView(); //python side menu get display data
 
   useEffect(() => {
-    if (data) {
-      const filterTreeview = data
-        ? data.filter((item) => item.path === path)
+    if (viewMenu) {
+      const filterTreeview = viewMenu
+        ? viewMenu.filter((item) => item.path === path)
         : [];
       setTreeview(filterTreeview);
 
@@ -62,15 +62,15 @@ function Menus(props) {
         : [];
       setTreeviewFilter(treeviewFilter);
     }
-    if (business) {
-      const getBusiness = business ? business : [];
-      setBusiness(getBusiness);
+    // if (business) {
+    //   const getBusiness = business ? business : [];
+    //   setBusiness(getBusiness);
 
-      const categoryFilter = business
-        ? business.filter((item) => item.parentName === getFilterCategory)
-        : [];
-      setFilterCategoryData(categoryFilter);
-    }
+    //   const categoryFilter = business
+    //     ? business.filter((item) => item.parentName === getFilterCategory)
+    //     : [];
+    //   setFilterCategoryData(categoryFilter);
+    // }
   }, [
     data,
     path,
@@ -151,7 +151,7 @@ function Menus(props) {
     } else {
       setTreeviewFilter([]);
       setFilterCategoryData([]);
-      if (name === "Business") {
+      if (name === "Company") {
         const filteredResults = await getBusiness.filter((item) =>
           item.title.toLowerCase().includes(e.title.toLowerCase())
         );
@@ -222,7 +222,7 @@ function Menus(props) {
           <div className="flex flex-row p-5 gap-4   justify-center">
             <div className="flex flex-col">
               <div className="min-w-full  bg-gray-100 border-t-2 border-r-2 border-l-2 border-dashed rounded-t-lg  flex items-center p-2 text-lg font-bold">
-                {name === "Business" ? `${name} Category` : `${name} Tree View`}
+                {name === "Company" ? `${name} Category` : `${name} Tree View`}
               </div>
               <div className="bg-white capitalize flex flex-col p-2 border-b-2 border-r-2 border-l-2  border-dashed rounded-b-lg px-10 h-[70vh] overflow-hidden hover:overflow-y-scroll ">
                 {viewMenu
@@ -242,7 +242,7 @@ function Menus(props) {
               <div className="flex py-2">
                 <Button
                   text={
-                    name === "Business" ? "Add Category" : "Edit Tree Content"
+                    name === "Company" ? "Add Category" : "Edit Tree Content"
                   }
                   icon={<FontAwesomeIcon icon={faAdd} className="" />}
                   onClick={handleCreateButton}
@@ -254,10 +254,10 @@ function Menus(props) {
             </div>
             <div className="flex flex-col  ">
               <div className="min-w-full h-10 bg-gray-100 border-t-2 border-r-2 border-l-2 border-dashed rounded-t-lg  flex items-center p-2 text-lg font-bold">
-                {name} Table of Content
+                {name} List
               </div>
               <div className="flex  max-w-[60vw] h-[70vh] border-b-2 border-r-2 border-l-2  border-dashed rounded-b-lg">
-                {name === "Business" ? (
+                {name === "Company" ? (
                   getFilterCategoryData.length > 0 ? (
                     renderTable(getFilterCategoryData)
                   ) : getSearchValueBusiness.length > 0 ? (

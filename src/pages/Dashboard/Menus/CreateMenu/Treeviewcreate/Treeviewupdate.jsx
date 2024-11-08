@@ -12,7 +12,7 @@ function Treeviewupdate(props) {
   const navigate = useNavigate();
   const showAlert = useAlert();
   const toastify = useToast();
-  const { treeview, name, path, business, viewMenus } = props;
+  const { name, path, viewMenus } = props;
   const [textLinesParent, setTextLinesParent] = useState({});
   const [textLinesChild, setTextLinesChild] = useState({});
   const [initialsData, setInitialsData] = useState(null);
@@ -40,7 +40,7 @@ function Treeviewupdate(props) {
 
     setTextLinesParent(parentTextLines);
     setTextLinesChild(childTextLines);
-  }, [treeview, path, name]);
+  }, [viewMenus, path, name]);
 
   const handleTextlineChange = (
     name,
@@ -215,39 +215,35 @@ function Treeviewupdate(props) {
       ));
   };
 
-  // const renderBusinessUpdate = () => {
-  //   return <BusinessUpdate business={viewMenus} path={path} />;
-  // };
-
   const renderTreeData = () => {
-    if (name === "Business") {
-      return viewMenus
-        .filter((item) => item.path === path)
-        .map((item, index) => (
+    // if (name === "Company") {
+    //   return viewMenus
+    //     .filter((item) => item.path === path)
+    //     .map((item, index) => (
+    //       <React.Fragment key={index}>
+    //         <div className="text-lg font-bold p-2">{item.name}</div>
+    //         {item.children.map((items, childINdex) => (
+    //           <React.Fragment key={childINdex}>
+    //             <div className="text-md pl-5 ">{items.name}</div>
+    //           </React.Fragment>
+    //         ))}
+    //       </React.Fragment>
+    //     ));
+    // } else {
+    return viewMenus.map(
+      (item, index) =>
+        item.path === path && (
           <React.Fragment key={index}>
             <div className="text-lg font-bold p-2">{item.name}</div>
-            {item.children.map((items, childINdex) => (
-              <React.Fragment key={childINdex}>
+            {item.children.map((items, childex) => (
+              <React.Fragment key={childex}>
                 <div className="text-md pl-5 ">{items.name}</div>
               </React.Fragment>
             ))}
           </React.Fragment>
-        ));
-    } else {
-      return viewMenus.map(
-        (item) =>
-          item.path === path && (
-            <>
-              <div className="text-lg font-bold p-2">{item.name}</div>
-              {item.children.map((items) => (
-                <>
-                  <div className="text-md pl-5 ">{items.name}</div>
-                </>
-              ))}
-            </>
-          )
-      );
-    }
+        )
+    );
+    // }
   };
 
   return (
@@ -258,7 +254,11 @@ function Treeviewupdate(props) {
           {renderTreeData()}
         </div>
         <div className="bg-white flex flex-col p-2 gap-3 border-2 rounded-lg min-w-80 min-h-80  max-h-[60vh] overflow-hidden hover:overflow-y-scroll">
-          <div className="text-2xl font-bold">{name === "business" ? "Update Category Form": "Update Treeview Form"} </div>
+          <div className="text-2xl font-bold">
+            {name === "business"
+              ? "Update Category Form"
+              : "Update Treeview Form"}{" "}
+          </div>
           {renderTreeview(viewMenus)}
           <div className="p-2 flex justify-center w-full">
             <Button
