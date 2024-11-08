@@ -61,7 +61,7 @@ export const Login = ({
 
   useEffect(() => {
     if (access_token && refresh_token) {
-      showAlert("Welcome", `Login Successfully!`, "success");
+      showAlert("Welcome", `Login Successfully!`, "success","",false,"Ok");
       handleModalOpen();
       login(access_token, refresh_token);
     }
