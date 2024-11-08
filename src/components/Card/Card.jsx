@@ -30,12 +30,12 @@ function Card(props) {
                   {title}
                 </h5>
               </a>
-              <div className='flex'>
+              <div className='flex w-full'>
                 <div className=' w-full overflow-hidden '>
-                  <div className='h-full p-2  '>
+                  <div className='w-full h-full p-2  '>
                     <Images
                       src={src}
-                      className='object-cover h-full  rounded-sm shadow-lg '
+                      className='object-cover h-full w-full  rounded-sm shadow-lg '
                       style={{ height: "200px" }}
                     />
                   </div>
