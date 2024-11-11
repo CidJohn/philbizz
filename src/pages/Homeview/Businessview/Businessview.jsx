@@ -56,7 +56,7 @@ const Businessview = (props) => {
     if (data && navbar) {
       const groupedData = navbar.reduce((acc, navItem) => {
         const filterData = data.filter((node) => node.path === navItem.path);
-        if (navItem.name === "Ktv/Jtv") {
+        if (navItem.restrict === 19) {
           return acc;
         }
         if (filterData.length > 0) {

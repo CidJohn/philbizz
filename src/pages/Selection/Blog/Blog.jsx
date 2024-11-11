@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Pagination from "../../../components/Pagination/Pagination";
 import useBlogSettings from "../../../helper/database/useBlogSettings";
-import HandleBlog from "../../../utils/HandleBlog/HandleBlog";
+// import HandleBlog from "../../../utils/HandleBlog/HandleBlog";
+import HandleBlog from "../../Selection_handler/HandleBlog/HandleBlog"
 import Button from "../../../components/Button/Button";
 import Spinner from "../../../components/Spinner/Spinner";
 import { useAuth } from "../../../helper/auth/useAuthContext";

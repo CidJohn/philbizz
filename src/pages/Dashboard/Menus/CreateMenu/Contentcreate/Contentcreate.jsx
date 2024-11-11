@@ -67,14 +67,7 @@ function Contentcreate(props) {
     location: "",
     service: "",
   });
-  const [entries, setEntries] = useState([
-    {
-      id: Date.now(),
-      imagePreview: null,
-      personnelName: "",
-      position: "",
-    },
-  ]);
+  const [entries, setEntries] = useState([]);
   const [imageInsert, setImageInsert] = useState([
     {
       id: Date.now(),
@@ -102,6 +95,7 @@ function Contentcreate(props) {
       social: socialText,
     },
     Texteditor: editorContent,
+    Personnel: { entries },
   };
 
   const initialBusinessContent = {
@@ -403,6 +397,7 @@ function Contentcreate(props) {
   };
 
   const handleSave = () => {
+    console.log(initialSelectionContent);
     postCard(initialSelectionContent);
   };
 
