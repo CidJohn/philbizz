@@ -75,7 +75,6 @@ export const useLogin = () => {
       setLoading(false);
     }
   };
-
   return {
     fetchingLogin,
     loginLoad,

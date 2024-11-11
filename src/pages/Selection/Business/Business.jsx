@@ -5,7 +5,8 @@ import SearchBar from "../../../components/Searchbar/Searchbar";
 import useBusinessCategory from "../../../helper/database/usebusinessCategory";
 import { useCompanyFilter } from "../../../helper/database/useBusinessData";
 import Spinner from "../../../components/Spinner/Spinner";
-import HandleCompanyCard from "../../../utils/HandleCompanyCard/handleCompanyCard";
+// import HandleCompanyCard from "../../../utils/HandleCompanyCard/handleCompanyCard";
+import HandleCompanyCard from "../../Selection_handler/HandleCompanyCard/handleCompanyCard";
 import { useTranslation } from "react-i18next";
 import Description from "../Description/Description";
 import { useLocation } from "react-router-dom";
@@ -140,7 +141,7 @@ const Business = ({ businessSettings }) => {
               </div>
             </div>
             <div className="flex flex-col mt-5">
-              <div className="flex flex-wrap pt-10">
+              <div className="  items-center w-full ">
                 <HandleCompanyCard
                   category={CompanyFilter}
                   sideBarColor={sideBarColorChanger}

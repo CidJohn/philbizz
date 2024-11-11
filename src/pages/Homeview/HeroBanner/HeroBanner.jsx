@@ -32,7 +32,7 @@ export const HeroBanner = ({ blogData }) => {
     setLan(getlan);
 
     if (blogData) {
-      const filterBlog = blogData ? blogData.slice(0, 2) : [];
+      const filterBlog = blogData ? blogData.slice(0, 3) : [];
       setBlog(filterBlog);
     }
 
