@@ -63,7 +63,7 @@ const HandleBlog = (props) => {
         : item.like_counter;
 
       return (
-        <div className="p-2" key={index}>
+        <div className='p-2' key={index}>
           <List
             title={item.title}
             desc={item.description}
@@ -78,7 +78,7 @@ const HandleBlog = (props) => {
             datetime={item.created_at}
             classStyle={"text-2xl"}
           />
-          <div className="flex gap-5 items-center ">
+          <div className='flex gap-5 items-center '>
             <div>
               <LikeButton
                 liked={isLiked}
@@ -86,10 +86,10 @@ const HandleBlog = (props) => {
               />
             </div>
             <div
-              className="flex items-center gap-2"
+              className='flex items-center gap-2'
               onClick={() => handleCommentClick(item.commentID)}
             >
-              <FaRegComment className="hover:underline cursor-pointer" />
+              <FaRegComment className='hover:underline cursor-pointer' />
               <Button
                 text={"Comment"}
                 className={"text-gray-500 hover:underline"}
@@ -97,13 +97,13 @@ const HandleBlog = (props) => {
             </div>
           </div>
           {!isLiked && (
-            <div className="text-xs text-gray-500 mt-2">
+            <div className='text-xs text-gray-500 mt-2'>
               {displayedLikeCount >= 1 ? (
-                <span className="text-[#606060] fira-sans-condensed-bold">
+                <span className='text-[#606060] fira-sans-condensed-bold'>
                   {displayedLikeCount} likes this post
                 </span>
               ) : (
-                <span className="text-[#606060] fira-sans-condensed-bold">
+                <span className='text-[#606060] fira-sans-condensed-bold'>
                   {displayedLikeCount} like this post
                 </span>
               )}
