@@ -40,7 +40,10 @@ export default function Header({ hidden }) {
             href='/'
             className='hidden lg:flex font-bold text-3xl text-gray-800 bg-cover w-auto mx-auto p-3'
           >
-            <Image src={"philbizz.png"} style={{ width: "200px" }} />
+            <Image
+              src={"phillogo.png"}
+              style={{ width: "250px", height: "auto" }}
+            />
           </a>
         </div>
         <div className='w-full flex p-2 items-center justify-between '>
