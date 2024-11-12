@@ -1,7 +1,12 @@
 import axios from "axios";
 import { useEffect, useState, useRef } from "react";
 import restAPI from "./restAPI";
-import axiosInstance, { axiosGet, axiosPut } from "../auth/axiosInstance";
+import axiosInstance, {
+  axiosDelete,
+  axiosGet,
+  axiosPost,
+  axiosPut,
+} from "../auth/axiosInstance";
 
 let API_CALL = restAPI();
 
@@ -35,11 +40,12 @@ export const useTreeview = () => {
 export const useSideMenu = () => {
   const [resultMenu, setResultMenu] = useState();
   const [MenuLoading, setMenuLoading] = useState(true);
+  const [updateLoading, setLoading] = useState(true);
 
   const postSideMenu = async (data) => {
     if (!data) return;
     try {
-      const response = await axiosInstance.post(`/auth/menus/creation`, data);
+      const response = await axiosPost(`/auth/menus/creation`, data);
       const res = response;
       setResultMenu(res);
     } catch (error) {
@@ -49,7 +55,35 @@ export const useSideMenu = () => {
     }
   };
 
-  return { postSideMenu, resultMenu, MenuLoading };
+  const putSideMenu = async (data) => {
+    if (!data) return;
+    try {
+      const response = await axiosPut("/auth/menus/creation", data);
+      return response ? response : null;
+    } catch (error) {
+      console.error("Axios Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const deleteSideMenu = async (data) => {
+    if (!data) return;
+    try {
+      const response = await axiosDelete("/", data);
+      return response ? response.data : null;
+    } catch (error) {
+      console.error("axios error: ", error);
+    }
+  };
+  return {
+    postSideMenu,
+    putSideMenu,
+    deleteSideMenu,
+    updateLoading,
+    resultMenu,
+    MenuLoading,
+  };
 };
 
 export const useSideMenuView = () => {
@@ -75,18 +109,5 @@ export const useSideMenuView = () => {
 };
 
 export const useSideMenuUpdate = () => {
-  const [updateLoading, setLoading] = useState(true);
-
-  const putSideMenu = async (data) => {
-    if (!data) return;
-    try {
-      const response = await axiosPut("/auth/menus/creation", data);
-      return response ? response.data : null;
-    } catch (error) {
-      console.error("Axios Error:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  return { updateLoading, putSideMenu };
+  return {};
 };
