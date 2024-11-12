@@ -25,6 +25,7 @@ function NavbarView(props) {
   const [getID, setID] = useState();
   const { postNavbar, putNavbar, navbarResult, navbarLoading } =
     useNavbarSettings();
+    
   useEffect(() => {
     setTextLine({
       name: name || "",
