@@ -49,6 +49,7 @@ export const useLogin = () => {
   const [error, setErrors] = useState(null);
   const [access_token, setAccessToken] = useState(null);
   const [refresh_token, setRefreshToken] = useState(null);
+  const [accountId, setAccountId] = useState(null);
   const API_CALL = restAPI();
 
   const fetchingLogin = async (data) => {
@@ -61,8 +62,8 @@ export const useLogin = () => {
         `${API_CALL.pythonHost}/accounts/login`,
         data
       );
-      // const response = await axios.post(`api/accounts/login`, data);
       const res = await response.data.access_token_response;
+      setAccountId(response.data.account_id)
       setAccessToken(res.access_token);
       setRefreshToken(res.refresh_token);
     } catch (error) {
@@ -81,6 +82,7 @@ export const useLogin = () => {
     error,
     access_token,
     refresh_token,
+    accountId
   };
 };
 

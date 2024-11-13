@@ -16,7 +16,14 @@ export const Login = ({
   };
   const [formData, setFormData] = useState(initializeData);
   const [errors, setErrors] = useState([]);
-  const { fetchingLogin, access_token, refresh_token, loginLoad, error } = useLogin();
+  const {
+    fetchingLogin,
+    access_token,
+    refresh_token,
+    loginLoad,
+    accountId,
+    error,
+  } = useLogin();
   const { login, setRememberMe } = useAuth();
 
   const showAlert = useAlert();
@@ -59,12 +66,21 @@ export const Login = ({
   };
 
   useEffect(() => {
-    if ((access_token && refresh_token)) {
-      showAlert("Welcome", `Login Successfully!`, "success", "", false, "Ok");
+    if (access_token && refresh_token) {
+      showAlert(
+        "Welcome",
+        `Login Successfully!`,
+        "success",
+        "",
+        false,
+        "Ok",
+        "",
+        "#3085d6"
+      );
       handleModalOpen();
-      login(access_token, refresh_token);
+      login(access_token, refresh_token, accountId);
     }
-  }, [access_token, refresh_token, loginLoad]);
+  }, [access_token, refresh_token, loginLoad, accountId]);
 
   useEffect(() => {
     if (error) {

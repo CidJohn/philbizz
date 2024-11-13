@@ -23,8 +23,8 @@ const HandleBlog = (props) => {
     useBlogLiked();
 
   useEffect(() => {
-    fetchInitialLikes(blogdata, userdata.id);
-  }, [blogdata, userdata.id]);
+    fetchInitialLikes(blogdata, userdata);
+  }, [blogdata, userdata]);
 
   const handleCommentClick = (commentID) => {
     setCommentID(commentID);

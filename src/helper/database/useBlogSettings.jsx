@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import restAPI from "./restAPI";
-import axiosInstance from "../auth/axiosInstance";
+import axiosInstance, { axiosPost } from "../auth/axiosInstance";
 
 let API_CALL = restAPI();
 
@@ -69,7 +69,7 @@ export const useBlogPost = () => {
   const postBlog = async (data) => {
     if (!data) return;
     try {
-      const response = await axiosInstance.post(
+      const response = await axiosPost(
         `/app/blogs`,
         data,
         {
@@ -78,8 +78,7 @@ export const useBlogPost = () => {
           },
         }
       );
-      const res = response.data;
-      setResult(res);
+      setResult(response);
     } catch (error) {
       console.log("Error during fetching:", error);
     }

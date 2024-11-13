@@ -26,7 +26,7 @@ function Sidebar(props) {
   useEffect(() => {
     setTimeout(() => {
       setNavbarList(navbarData);
-    }, 0);
+    }, 1000);
   }, [navbarData]);
 
   const toggleDropdown = () => {
