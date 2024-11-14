@@ -1,45 +1,55 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Button from "../Button/Button";
 import i18n from "../../i18n/i18n";
-import Images from "../Image/Images";
 
 const Translation = ({ IsOpenMenu }) => {
+  const [activeLanguage, setActiveLanguage] = useState(
+    localStorage.getItem("i18nextLng") || "en"
+  );
+
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
-    localStorage.setItem("i18nextLng", lng); // Save the language in localStorage
+    localStorage.setItem("i18nextLng", lng);
+    setActiveLanguage(lng);
   };
+
+  useEffect(() => {
+    setActiveLanguage(localStorage.getItem("i18nextLng") || "en");
+  }, []);
+
   return (
-    <div
-      className={IsOpenMenu ? "flex flex-col gap-2" : "flex flex-wrap gap-2"}
-    >
+    <div className='flex gap-2 '>
       <Button
         onClick={() => changeLanguage("en")}
-        icon={<Images src={"flagIcon/english.png"} style={{width: "20px"}} />}
         className={
-          IsOpenMenu
-            ? "flex items-start justify-start border rounded p-4 hover:bg-gray-400 text-gray-600 hover:text-gray-900"
-            : " border rounded-full p-2 hover:bg-gray-400 text-gray-600 hover:text-gray-900"
+          activeLanguage === "en"
+            ? "border border-[#013A63] bg-[#013A63] text-white fira-sans-regular px-4 p-2 rounded-md hover:bg-[#013A63]/95 hover:text-slate-100"
+            : "border border-[#013A63] bg-transparent text-black fira-sans-regular px-4 p-2 rounded-md hover:bg-[#013A63]/95 hover:text-slate-100"
         }
-      />
+      >
+        ENG
+      </Button>
 
       <Button
         onClick={() => changeLanguage("ko")}
-        icon={<Images src={"flagIcon/korean.png"} style={{width: "20px"}} />}
         className={
-          IsOpenMenu
-            ? "flex items-start justify-start border rounded p-4 hover:bg-gray-400 text-gray-600 hover:text-gray-900"
-            : " border rounded-full p-2 hover:bg-gray-400 text-gray-600 hover:text-gray-900"
+          activeLanguage === "ko"
+            ? "border border-[#013A63] bg-[#013A63] text-white fira-sans-regular px-4 p-2 rounded-md hover:bg-[#013A63]/95 hover:text-slate-100"
+            : "border border-[#013A63] bg-transparent text-black fira-sans-regular px-4 p-2 rounded-md hover:bg-[#013A63]/95 hover:text-slate-100"
         }
-      />
+      >
+        KOR
+      </Button>
       <Button
         onClick={() => changeLanguage("ja")}
-        icon={<Images src={"flagIcon/japanese.png"} style={{width: "20px"}} />}
         className={
-          IsOpenMenu
-            ? "flex items-start justify-start border rounded p-4 hover:bg-gray-400 text-gray-600 hover:text-gray-900"
-            : " border rounded-full p-2 hover:bg-gray-400 text-gray-600 hover:text-gray-900"
+          activeLanguage === "ja"
+            ? "border border-[#013A63] bg-[#013A63] text-white fira-sans-regular px-4 p-2 rounded-md hover:bg-[#013A63]/95 hover:text-slate-100"
+            : "border border-[#013A63] bg-transparent text-black fira-sans-regular px-4 p-2 rounded-md hover:bg-[#013A63]/95 hover:text-slate-100"
         }
-      />
+      >
+        JPN
+      </Button>
     </div>
   );
 };

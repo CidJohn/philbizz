@@ -1,18 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Categories from "../../../components/Categories/Categories";
-import Description from "../Description/Description";
 import Dropdown from "../../../components/Dropdown/Dropdown";
 import SearchBar from "../../../components/Searchbar/Searchbar";
 import useBusinessCategory from "../../../helper/database/usebusinessCategory";
-import {
-  useBusinessSettings,
-  useCompanyFilter,
-} from "../../../helper/database/useBusinessData";
+import { useCompanyFilter } from "../../../helper/database/useBusinessData";
 import Spinner from "../../../components/Spinner/Spinner";
-import HandleCompanyCard from "../../../utils/HandleCompanyCard/handleCompanyCard";
+// import HandleCompanyCard from "../../../utils/HandleCompanyCard/handleCompanyCard";
+import HandleCompanyCard from "../../Selection_handler/HandleCompanyCard/handleCompanyCard";
 import { useTranslation } from "react-i18next";
+import Description from "../Description/Description";
+import { useLocation } from "react-router-dom";
+import { useCardDesc } from "../../../helper/database/useCardPath";
 
 const Business = ({ businessSettings }) => {
+  const { state } = useLocation();
+  const { path, pageName, sideBarColorChanger } = state || {
+    path: null,
+    pageName: null,
+    sideBarColorChanger: null,
+  };
+  const cardSectionRef = useRef(null);
   const [getLocation, setLocation] = useState("");
   const [getDataInfo, setDataInfo] = useState([]);
   const [filterFound, setFilterFound] = useState();
@@ -24,8 +31,12 @@ const Business = ({ businessSettings }) => {
     title: filterFound,
     description: getdropDown,
   });
+  const { businesses } = useCardDesc(
+    pageName.toLowerCase() === "ktv/jtv" ? "ktv_jtv" : pageName.toLowerCase()
+  );
 
   const category = getCategory ? getCategory : "";
+  const desc = businesses ? businesses : "";
 
   useEffect(() => {
     if (businessSettings.businessSettings) {
@@ -38,6 +49,9 @@ const Business = ({ businessSettings }) => {
     setDropdown("");
     setFilterFound("");
     setLocation(selectedLocation);
+    if (cardSectionRef.current) {
+      cardSectionRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const handleDropdownChange = (e) => {
@@ -63,6 +77,8 @@ const Business = ({ businessSettings }) => {
     })),
   ];
 
+  const imagecarousel = getDataInfo ? getDataInfo.slice(0, 4) : [];
+
   if (businessSettings.getCompanyLoad) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -70,40 +86,33 @@ const Business = ({ businessSettings }) => {
       </div>
     );
   }
+
   return (
-    <div className="">
-      <div className="flex flex-wrap mx-auto max-w-screen-lg">
+    <div className="p-2">
+      <div className=" md:w-[73vw]  mx-auto">
         <div className="flex flex-row mx-auto">
           <div className="flex flex-col">
             <div className="flex flex-col container ">
-              <div className="flex">
-                <div className="px-2 flex mt-5">
-                  <div className="flex flex-col ">
-                    <h1 className="text-4xl md:text-6xl mb-4 font-serif">
-                      {t("Business")}
-                    </h1>
-                    <p className="text-left mb-4 ">
-                      We present a range of local Philippine businesses
-                      categorized by industry! We also include interviews with
-                      business professionals operating in the Philippines, as
-                      well as serialized pieces written by specialists in law,
-                      accounting, market research, and other areas. For anyone
-                      who work in the Philippines or are thinking about doing
-                      business there, we offer helpful business information.
-                    </p>
-                  </div>
-                </div>
+              <div className="flex flex-col gap-2 p-2">
+                <Description
+                  content={desc}
+                  pageName={pageName}
+                  carousel={imagecarousel}
+                  txtHeaderColor={sideBarColorChanger.textColor}
+                />
               </div>
               <div className="flex block">
                 <Categories
                   footerContent={category}
                   handleClick={handleLocation}
+                  colorChanger={sideBarColorChanger.textColor}
                 />
               </div>
             </div>
             <div
               className="flex flex-col lg:flex-row items-center justify-center mt-5"
               id="card"
+              ref={cardSectionRef}
             >
               <div className="flex flex-col max-w-80">
                 <div className="text-md">Address:</div>
@@ -113,6 +122,8 @@ const Business = ({ businessSettings }) => {
                   onChange={handleDropdownChange}
                   options={dropdownOptions}
                   placeholder={"Select Address"}
+                  adsBorder={sideBarColorChanger.textColor}
+                  textColor={sideBarColorChanger.textColor}
                 />
               </div>
               <div className="hidden lg:block text-sm py-5 h-[30px] border-gray-500 mx-3">
@@ -120,12 +131,22 @@ const Business = ({ businessSettings }) => {
               </div>
               <div className="flex flex-col mt-5 lg:mt-0">
                 <div className="text-md">Branch Name:</div>
-                <SearchBar hidden={true} onSearch={handleSearch} />
+                <SearchBar
+                  hidden={true}
+                  onSearch={handleSearch}
+                  adsBorder={sideBarColorChanger.textColor}
+                  textColor={sideBarColorChanger.textColor}
+                  placeholderColor={sideBarColorChanger.placeholderColor}
+                />
               </div>
             </div>
             <div className="flex flex-col mt-5">
-              <div className="flex flex-wrap pt-10">
-                <HandleCompanyCard category={CompanyFilter} />
+              <div className="  items-center w-full ">
+                <HandleCompanyCard
+                  category={CompanyFilter}
+                  sideBarColor={sideBarColorChanger}
+                  navigates={{ path, pageName, sideBarColorChanger }}
+                />
               </div>
             </div>
           </div>

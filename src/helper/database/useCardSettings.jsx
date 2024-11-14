@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import restAPI from "./restAPI";
 import axios from "axios";
+import axiosInstance, { axiosPost, axiosPut } from "../auth/axiosInstance";
 
 const useCardSettings = (type) => {
   const [searchload, setSearchLoad] = useState(true);
@@ -40,7 +41,7 @@ export const useCreateCardContent = () => {
         initialData
       );
       const res = await response.data;
-      console.log(response);
+      console.log(response.data);
       setResult(res);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -134,7 +135,7 @@ export const useCreateTreeView = () => {
   const [resultNew, setResult] = useState("");
   const [treeload, setLoading] = useState(true);
   const API_CALL = restAPI();
-  
+
   const fetchTreeCreate = async (initialData) => {
     try {
       const response = await axios.post(
@@ -150,18 +151,21 @@ export const useCreateTreeView = () => {
     }
   };
 
-  return {resultNew, treeload, fetchTreeCreate}
-}
+  return { resultNew, treeload, fetchTreeCreate };
+};
 
 export const useUpdateCardContent = () => {
   const [resultCardUpdate, setResult] = useState("");
   const [cardLoading, setLoading] = useState(true);
-  const API_CALL = restAPI()
-  
+  const API_CALL = restAPI();
+
   const fetchUpdateCard = async (data) => {
-    if(!data) return
+    if (!data) return;
     try {
-      const response = await axios.put(`${API_CALL.host}/card-content/put/data`, data);
+      const response = await axios.put(
+        `${API_CALL.host}/card-content/put/data`,
+        data
+      );
       const res = response.data;
       setResult(res);
     } catch (error) {
@@ -169,8 +173,38 @@ export const useUpdateCardContent = () => {
     } finally {
       setLoading(false);
     }
-  }
-  return {fetchUpdateCard, resultCardUpdate, cardLoading}
-}
+  };
+  return { fetchUpdateCard, resultCardUpdate, cardLoading };
+};
+
+export const useCardPosting = () => {
+  const [cardResult, setCardResult] = useState(null);
+  const [cardLoading, setCardLoading] = useState(true);
+
+  const postCard = async (data) => {
+    try {
+      const response = await axiosPost("auth/post-card-content/", data);
+      setCardResult(response);
+    } catch (error) {
+      console.error("axios error: ", error);
+      setCardResult(error);
+    } finally {
+      setCardLoading(false);
+    }
+  };
+
+  const putCard = async (data) => {
+    try {
+      const response = await axiosPut("auth/post-card-content/", data);
+      setCardResult(response.data);
+    } catch (error) {
+      console.error("axios error: ", error);
+    } finally {
+      setCardLoading(false);
+    }
+  };
+
+  return { postCard, putCard, cardResult, cardLoading };
+};
 
 export default useCardSettings;

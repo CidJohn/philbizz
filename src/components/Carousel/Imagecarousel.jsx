@@ -43,7 +43,7 @@ const Imagecarousel = ({ images }) => {
           >
             {/* Image */}
             <Images
-              src={image.images}
+              src={image.images || image.image}
               alt={image.title}
               className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 cover"
             />

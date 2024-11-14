@@ -12,45 +12,115 @@
     },
     {
       "pageName": "Beauty",
-      "bgColor": "#f4defa",
+      "bgColor": "#fbf7fc",
       "textColor": "#D866FA",
-      "adsBorder": "#e5b0f5"
+      "adsBorder": "#e5b0f5",
+      "theme": 2
     },
     {
       "pageName": "Festival",
-      "bgColor": "#d2d3fc",
+      "bgColor": "#f2f2fc",
       "textColor": "#6d72fc",
       "adsBorder": "#a5a9fa"
     },
     {
       "pageName": "Ktv/Jtv",
-      "bgColor": "#d2d3fc",
+      "bgColor": "#f2f2fc",
       "textColor": "#6d72fc",
       "adsBorder": "#a5a9fa"
     },
     {
       "pageName": "Massage",
-      "bgColor": "#d2d3fc",
+      "bgColor": "#f2f2fc",
       "textColor": "#6d72fc",
       "adsBorder": "#a5a9fa"
     },
     {
       "pageName": "Travel",
-      "bgColor": "#d2d3fc",
+      "bgColor": "#f2f2fc",
       "textColor": "#6d72fc",
       "adsBorder": "#a5a9fa"
     },
     {
       "pageName": "Medical",
-      "bgColor": "#d2d3fc",
+      "bgColor": "#f2f2fc",
       "textColor": "#6d72fc",
       "adsBorder": "#a5a9fa"
     },
     {
       "pageName": "Car",
-      "bgColor": "#d2d3fc",
+      "bgColor": "#f2f2fc",
       "textColor": "#6d72fc",
       "adsBorder": "#a5a9fa"
+    },
+    {
+      "pageName": "Business",
+      "bgColor": "#E639460D",
+      "textColor": "#013A63",
+      "theme": 1
+    },
+    {
+      "pageName": "Bank",
+      "bgColor": "#faf8e8",
+      "textColor": "#827619",
+      "theme": 1
+    },
+    {
+      "pageName": "Shopping",
+      "bgColor": "#faf8e8",
+      "textColor": "#827619",
+      "theme": 1
+    },
+    {
+      "pageName": "Golf",
+      "bgColor": "#E639460D",
+      "textColor": "#013A63",
+      "theme": 1
+    },
+    {
+      "pageName": "Education",
+      "bgColor": "#E639460D",
+      "textColor": "#013A63",
+      "theme": 1
     }
+  ],
+  "counter": [
+    {
+      "name": "Users",
+      "count": "123",
+      "color": "#d1e3ff"
+    },
+    {
+      "name": "Blog",
+      "count": "23",
+      "color": "#d1e3ff"
+    },
+    {
+      "name": "Notification",
+      "count": "5",
+      "color": "#ffd1d5"
+    },
+    {
+      "name": "Content",
+      "count": "645",
+      "color": "#fffad1"
+    }
+  ],
+  "archived": [
+    { "item": "item", "desc": "description" },
+    { "item": "item2", "desc": "description1" },
+    { "item": "item3", "desc": "description2" }
+  ],
+
+  "mainPageSelection": [
+    { "label": "Select Main Page", "value": "" },
+    { "label": "Top Carousel", "value": "Top Carousel" },
+    { "label": "Left Cards", "value": "Left Cards" }
+  ],
+  "sectionPageSelection": [
+    { "label": "Select Section Page", "value": "" },
+    { "label": " Right Cards", "value": " Right Cards" },
+    { "label": "Center Cards", "value": "Center Cards" },
+    { "label": "Center List", "value": "Center List" }
   ]
 }

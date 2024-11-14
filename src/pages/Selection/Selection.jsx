@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Spinner from "../../components/Spinner/Spinner";
-import ContentLayout from "../../utils/Selection/ContentLayout";
+// import ContentLayout from "../../utils/Selection/ContentLayout";
+// import RenderTreeView from "../../utils/RenderTreeView/renderTreeView";
+// import HandleCards from "../../utils/HandleCards/handleCards";
 import { useTreeview } from "../../helper/database/useTreeview";
-import RenderTreeView from "../../utils/RenderTreeView/renderTreeView";
-import HandleCards from "../../utils/HandleCards/handleCards";
-import useCardSettings from "../../helper/database/useCardSettings"; // Import the custom hook
+import ContentLayout from "../Selection_handler/Selection/ContentLayout";
+import RenderTreeView from "../Selection_handler/RenderTreeView/renderTreeView"
+import HandleCards from "../Selection_handler/HandleCards/handleCards"
+import useCardSettings from "../../helper/database/useCardSettings"; 
 import { useCardDesc } from "../../helper/database/useCardPath";
 
 const Selection = ({ navbar }) => {
+  const currentRef = useRef()
   const navigate = useNavigate();
   const { state } = useLocation();
   const { id, path, pageName, sideBarColorChanger } = state || {
@@ -32,7 +36,7 @@ const Selection = ({ navbar }) => {
   const { businesses } = useCardDesc(
     pageName.toLowerCase() === "ktv/jtv" ? "ktv_jtv" : pageName.toLowerCase()
   );
-
+ 
   useEffect(() => {
     if (data) {
       const selectedItemObj = data ? findItemById(data, path) : null;
@@ -60,7 +64,18 @@ const Selection = ({ navbar }) => {
   useEffect(() => {
     const desc = businesses ? businesses : [];
     setDesc(desc);
+    
   }, [businesses]);
+
+  useEffect(() => {
+    if(selectedItem){
+      if (currentRef.current) {
+        currentRef.current.scrollIntoView({ behavior: "smooth" });
+      } else {
+        window.scrollTo({ behavior: "smooth" });
+      }
+    }
+  },[selectedItem])
 
   const findItemById = (items, id) => {
     if (!items) return null;
@@ -156,7 +171,7 @@ const Selection = ({ navbar }) => {
   };
 
   const handleLink = (data) => {
-    navigate(`/${data}`, { state: { title: data } });
+    navigate(`/card-page/${data}`, { state: { title: data } });
   };
 
   const totalPages = Math.ceil(
@@ -222,6 +237,7 @@ const Selection = ({ navbar }) => {
       sideAds={sideAds}
       adName={pageName}
       handleLink={handleLink}
+      currentRef={currentRef}
     ></ContentLayout>
   );
 };

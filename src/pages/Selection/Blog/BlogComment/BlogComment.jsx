@@ -49,11 +49,43 @@ const BlogComment = (props) => {
   };
   if (commentLoad) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Spinner />
+      <div className="fixed inset-0 z-50 flex items-center justify-center w-full h-full bg-gray-800 bg-opacity-50">
+        <div className="relative p-4 w-full max-w-md max-h-[80vh] bg-white rounded-lg shadow dark:bg-gray-700 flex flex-col">
+          <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+              Comment
+            </h3>
+            <button
+              type="button"
+              className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+              onClick={() => handleCommentOpen()}
+            >
+              <svg
+                className="w-3 h-3"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 14 14"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                />
+              </svg>
+              <span className="sr-only">Close modal</span>
+            </button>
+          </div>
+          <div className="flex  justify-center min-h-[30vh]">
+            <Spinner />
+          </div>
+        </div>
       </div>
     );
   }
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center w-full h-full bg-gray-800 bg-opacity-50">
       <div className="relative p-4 w-full max-w-md max-h-[80vh] bg-white rounded-lg shadow dark:bg-gray-700 flex flex-col">
@@ -64,7 +96,7 @@ const BlogComment = (props) => {
           <button
             type="button"
             className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-            onClick={handleCommentOpen}
+            onClick={() => handleCommentOpen()}
           >
             <svg
               className="w-3 h-3"

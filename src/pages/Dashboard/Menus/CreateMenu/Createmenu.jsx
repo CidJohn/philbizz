@@ -14,11 +14,11 @@ const Createmenu = () => {
     name,
     path,
     content,
-    treeviewdata,
     businessCategory,
     title,
     cardlocation,
     blogTitle,
+    viewMenus,
   } = state || {
     name: null,
     path: null,
@@ -28,6 +28,7 @@ const Createmenu = () => {
     title: null,
     cardlocation: null,
     blogTitle: null,
+    viewMenus: null,
   };
   const [isCreateOpen, setCreateOpen] = useState(false);
   const handleBack = () => {
@@ -44,26 +45,17 @@ const Createmenu = () => {
         <Button
           text={"Update Treeview"}
           className={
-            " ms-2 px-2 py-1 border hover:bg-green-500 hover:border-none hover:text-white text-sm  rounded-lg"
+            " ms-2 px-4 py-2 border hover:bg-yellow-300 shadow-lg text-lg  rounded-lg transform transform duration-500 hover:scale-95"
           }
           onClick={handleCreateView}
         />
-        <Treeviewcreate path={path} treeview={treeviewdata} name={name} />
+        <Treeviewcreate
+          path={path}
+          name={name}
+          viewMenus={viewMenus}
+          navigate={navigate}
+        />
       </>
-    );
-  };
-  const renderCardContent = () => {
-    return (
-      <Contentcreate
-        name={name}
-        path={path}
-        downTree={treeviewdata}
-        category={businessCategory}
-        title={title}
-        location={cardlocation}
-        blogTitle={blogTitle}
-        handleBack={() => handleBack}
-      />
     );
   };
 
@@ -73,22 +65,38 @@ const Createmenu = () => {
         <Button
           text={"Create New"}
           className={
-            "ms-2  px-2 py-1 border hover:bg-green-500 hover:border-none hover:text-white text-sm rounded-lg "
+            "ms-5 px-4 py-2 border hover:bg-green-300 shadow-lg text-lg  rounded-lg transform transform duration-500 hover:scale-95 "
           }
           onClick={handleCreateView}
         />
         <Treeviewupdate
-          treeview={treeviewdata}
           name={name}
           path={path}
           business={businessCategory}
+          viewMenus={viewMenus}
+          handleBack={() => handleBack}
         />
       </>
     );
   };
 
+  const renderCardContent = () => {
+    return (
+      <Contentcreate
+        name={name}
+        path={path}
+        downTree={viewMenus}
+        category={businessCategory}
+        title={title}
+        location={cardlocation}
+        blogTitle={blogTitle}
+        handleBack={() => handleBack}
+      />
+    );
+  };
+
   return (
-    <div className="p-5">
+    <div className="p-5 ">
       <div className="flex items-center">
         <Button
           onClick={handleBack}
@@ -99,7 +107,7 @@ const Createmenu = () => {
         />
         <h1 className="text-2xl font-bold">Menu - {name} Page </h1>
       </div>
-      <div className="p-2">
+      <div className="p-2 h-[95vh]">
         {content === "Edit Tree Content" || content === "Add Category"
           ? isCreateOpen
             ? renderTreeContent()

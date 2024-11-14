@@ -7,6 +7,12 @@ import cardContent from "../../../content/cardContent";
 import List from "../../../components/List/List";
 import Images from "../../../components/Image/Images";
 import SearchBar from "../../../components/Searchbar/Searchbar";
+import Textline from "../../../components/Textline/Textline";
+import { replySchema } from "./validation";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useToast } from "../../../components/Sonner/Sonner";
+import { AiFillCheckCircle } from "react-icons/ai";
 
 const Inbox = () => {
   const navigate = useNavigate();
@@ -19,6 +25,27 @@ const Inbox = () => {
   const handleView = (item) => {
     setDisplayMessage(item);
   };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(replySchema),
+    defaultValues: { reply: "" },
+  });
+
+  const toastify = useToast();
+
+  const onSubmit = (data) => {
+    try {
+      console.log(data);
+      toastify("Reply Submitted.", "success");
+    } catch (error) {
+      toastify("Failed to Submit Reply.", "error");
+    }
+  };
+
   return (
     <div className="p-5">
       <div className="  min-w-80 min-h-80">
@@ -38,30 +65,31 @@ const Inbox = () => {
           </div>
         </div>
         <div className="flex border min-w-full min-h-[80vh] px-2">
-          <div className=" border-r w-[30vw] min-h-[70vh] p-2 overflow-hidden hover:overflow-y-scroll">
+          <div className="flex flex-col border-r w-[30vw] min-h-[70vh] p-2 overflow-hidden hover:overflow-y-scroll">
             <h2 className="text-lg p-2 border ">Message:</h2>
-            {cardContent.map((item) => (
-              <>
+            {cardContent.map((item, index) => (
+              <React.Fragment key={index}>
                 <List
                   title={item.title}
                   desc={item.desc}
                   onLink={() => handleView(item)}
                   className={"p-5 "}
-                  user={"John Doe"}
+                  user={item.user}
+                  datetime={Date()}
                 />
-              </>
+              </React.Fragment>
             ))}
           </div>
           <div className="p-2 border-l min-w-80 min-h-80">
             <h2 className="text-lg p-2 border">View Message:</h2>
 
-            <div className="min-w-[40vw] min-h-80 border  mt-3">
+            <div className="min-w-[40vw] h-full border  mt-3">
               {displayMessage.length === 0 ? (
-                <div className="  min-w-80  min-h-80 flex items-center justify-center">
+                <div className="  min-w-80  h-full flex items-center justify-center">
                   <p className="text-lg italic font-bold">NO Message!!</p>
                 </div>
               ) : (
-                <div className=" flex flex-col p-2 max-h-[70vh]  overflow-hidden hover:overflow-y-scroll">
+                <div className=" flex flex-col p-2 max-h-[70vh]  ">
                   <div className="flex border p-2 w-full">
                     title:{" "}
                     <h2 className="text-md font-bold ">
@@ -76,6 +104,29 @@ const Inbox = () => {
                   <div className="flex justify-center">
                     <Images src={displayMessage.images} className={""} />
                   </div>
+                  <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className="mt-6 px-20 w-full">
+                      <Textline
+                        textarea={true}
+                        name="reply"
+                        className="bg-gray-50 w-full h-40 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+                        placeholder="Type your reply here..."
+                        {...register("reply")}
+                      />
+                      {errors.reply && (
+                        <p className="text-red-500 text-sm">
+                          {errors.reply.message}
+                        </p>
+                      )}
+                      <div className="w-full flex items-end justify-end flex-col mt-4">
+                        <Button
+                          text="Send Reply"
+                          className="text-md bg-[#013A63] transform px-4 py-3 rounded-md fira-sans-condensed-regular text-white hover:bg-[#013A63]/95"
+                          type="submit"
+                        />
+                      </div>
+                    </div>
+                  </form>
                 </div>
               )}
             </div>
