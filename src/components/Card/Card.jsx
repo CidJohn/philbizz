@@ -30,13 +30,13 @@ function Card(props) {
                   {title}
                 </h5>
               </a>
-              <div className='flex'>
+              <div className='flex w-full'>
                 <div className=' w-full overflow-hidden '>
-                  <div className='h-full p-2  '>
+                  <div className='w-full h-full p-2  '>
                     <Images
                       src={src}
-                      className='object-cover h-full  rounded-sm shadow-lg '
-                      style={{ height: "200px" }}
+                      className='object-cover h-full w-full  rounded-sm shadow-lg '
+                      style={{ height: "200px", width: "200px" }}
                     />
                   </div>
                 </div>
@@ -54,15 +54,6 @@ function Card(props) {
                   >
                     {desc}
                   </p>
-                  <a
-                    onClick={onLink}
-                    className='w-full h-10 border flex items-center justify-center text-center py-3 fira-sans-condensed-regular text-white mt-4 bg-[#013A63] rounded-lg hover:bg-[#013A63]/95 '
-                    style={{
-                      backgroundColor: btnColor,
-                      borderColor: textColor,
-                      color: textColor,
-                    }}
-                  ></a>
                 </div>
               </div>
             </div>
@@ -111,15 +102,6 @@ function Card(props) {
                   >
                     {desc}
                   </p>
-                  <a
-                    onClick={onLink}
-                    className='w-full h-10 border flex items-center justify-center text-center py-3 fira-sans-condensed-regular text-white mt-4 bg-[#013A63] rounded-lg hover:bg-[#013A63]/95 '
-                    style={{
-                      backgroundColor: btnColor,
-                      borderColor: textColor,
-                      color: textColor,
-                    }}
-                  ></a>
                 </div>
               </div>
             </div>

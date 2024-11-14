@@ -10,6 +10,7 @@ const restAPI = () => {
     image: imageURL2 + "/images/",
     pythonHost: pythonAPI + "/api",
   };
+
   return API_CALL;
 };
 

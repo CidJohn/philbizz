@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import restAPI from "./restAPI";
 import axios from "axios";
-import axiosInstance, { axiosPost } from "../auth/axiosInstance";
+import axiosInstance, { axiosPost, axiosPut } from "../auth/axiosInstance";
 
 const useCardSettings = (type) => {
   const [searchload, setSearchLoad] = useState(true);
@@ -178,12 +178,24 @@ export const useUpdateCardContent = () => {
 };
 
 export const useCardPosting = () => {
-  const [cardResult, setCardResult] = useState([]);
+  const [cardResult, setCardResult] = useState(null);
   const [cardLoading, setCardLoading] = useState(true);
 
   const postCard = async (data) => {
     try {
-      const response = await axiosInstance.post("auth/post-card-content/", data);
+      const response = await axiosPost("auth/post-card-content/", data);
+      setCardResult(response);
+    } catch (error) {
+      console.error("axios error: ", error);
+      setCardResult(error);
+    } finally {
+      setCardLoading(false);
+    }
+  };
+
+  const putCard = async (data) => {
+    try {
+      const response = await axiosPut("auth/post-card-content/", data);
       setCardResult(response.data);
     } catch (error) {
       console.error("axios error: ", error);
@@ -191,7 +203,8 @@ export const useCardPosting = () => {
       setCardLoading(false);
     }
   };
-  return { postCard, cardResult, cardLoading };
+
+  return { postCard, putCard, cardResult, cardLoading };
 };
 
 export default useCardSettings;

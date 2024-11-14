@@ -79,7 +79,7 @@ function Defaultpage(props) {
         getData.map((item) => (
           <div
             key={item.id}
-            className="flex flex-col items-center justify-center  w-full "
+            className="flex flex-col  justify-center  w-full "
           >
             <div className="flex flex-wrap">
               <p className="mb-3 text-lg text-slate-500 fira-sans-condensed-regular text-wrap  ">

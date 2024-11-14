@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Spinner from "../../components/Spinner/Spinner";
-import ContentLayout from "../../utils/Selection/ContentLayout";
+// import ContentLayout from "../../utils/Selection/ContentLayout";
+// import RenderTreeView from "../../utils/RenderTreeView/renderTreeView";
+// import HandleCards from "../../utils/HandleCards/handleCards";
 import { useTreeview } from "../../helper/database/useTreeview";
-import RenderTreeView from "../../utils/RenderTreeView/renderTreeView";
-import HandleCards from "../../utils/HandleCards/handleCards";
-import useCardSettings from "../../helper/database/useCardSettings"; // Import the custom hook
+import ContentLayout from "../Selection_handler/Selection/ContentLayout";
+import RenderTreeView from "../Selection_handler/RenderTreeView/renderTreeView"
+import HandleCards from "../Selection_handler/HandleCards/handleCards"
+import useCardSettings from "../../helper/database/useCardSettings"; 
 import { useCardDesc } from "../../helper/database/useCardPath";
 
 const Selection = ({ navbar }) => {
@@ -168,7 +171,7 @@ const Selection = ({ navbar }) => {
   };
 
   const handleLink = (data) => {
-    navigate(`/${data}`, { state: { title: data } });
+    navigate(`/card-page/${data}`, { state: { title: data } });
   };
 
   const totalPages = Math.ceil(
