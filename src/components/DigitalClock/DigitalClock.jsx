@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Dropdown from "../Dropdown/Dropdown";
-import timeZone from "../../content/content.json";
 
 function DigitalClock() {
   const [currentTimePHT, setCurrentTimePHT] = useState("");
@@ -106,34 +104,27 @@ function DigitalClock() {
     };
 
     return (
-      <div className='rounded py-4 text-center bg-[#013A63] min-h-[25vh]'>
-        <div className='py-7 gap-4'>
-          <div className='text-sm md:text-[2vw] font-bold text-gray-100 font-mono mt-4'>
+      <div className='w-full flex items-center justify-center px-4 gap-4 mt-4'>
+        <div className='text-sm text-[#013A63] fira-sans-bold'>
+          {clockData[selectedOption].date}
+        </div>
+        <div className='text-sm'>
+          <div className='text-[#013A63] fira-sans-condensed-bold'>
             {clockData[selectedOption].time}
           </div>
-          <div className='flex justify-center gap-1 text-sm my-3'>
-            <div className='block text-gray-100 fira-sans-condensed-regular'>
-              {clockData[selectedOption].day}
-            </div>
-            <div className='block text-gray-100 fira-sans-condensed-regular'>
-              {clockData[selectedOption].date}
-            </div>
-          </div>
-          <div className='flex justify-center'>
-            <span className='text-xs block text-gray-100 border border-white rounded-full px-4 py-2 fira-sans-condensed-regular'>
-              {clockData[selectedOption].label}
-            </span>
-          </div>
+        </div>
+        <div className='text-[#013A63] text-sm fira-sans-condensed-bold'>
+          {clockData[selectedOption].day}
         </div>
       </div>
     );
   };
 
   return (
-    <div className='w-full p-5 min-h-80 bg-[#013A63]/5 rounded flex flex-col justify-center '>
+    <div className='w-full p-2 bg-[#013A63]/5 rounded flex flex-col justify-center '>
       {renderClock()}
       <div className='w-full flex py-2 '>
-        <div className='w-full'>
+        {/* <div className='w-full'>
           <Dropdown
             name={"selection"}
             options={timeZone.DigitalClock}
@@ -141,7 +132,7 @@ function DigitalClock() {
             onChange={handleChange}
             placeholder={selectedOption}
           />
-        </div>
+        </div> */}
       </div>
     </div>
   );
