@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
         const response = await axiosPost("app/token/refresh/", {
           refresh: refresher,
         });
-        const newToken = response;
+        const newToken = response.access;
         postStorage("access_token", newToken, !rememberMe);
         setIsAuthenticated(true);
       } catch (error) {
