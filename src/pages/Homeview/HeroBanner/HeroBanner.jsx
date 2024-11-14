@@ -16,6 +16,7 @@ import TreeView from "../../../components/Treeviews/Treeview";
 import changeColor from "../../../content/content.json";
 import Rightads from "./HomeContent/Rightads";
 import { socialContent } from "../../../content/cardContent";
+import { CustomTabs } from "../../../components/Tabs/Tabs";
 
 export const HeroBanner = (props) => {
   const { blogData, navbar, businessCarousel } = props;
@@ -134,17 +135,40 @@ export const HeroBanner = (props) => {
     setSelectedDate(date);
   };
 
+  const tabs = [
+    {
+      title: "Weather Forecast",
+      content: (
+        <WeatherContent
+          weatherData={weatherData}
+          loading={loading}
+          error={error}
+        />
+      ),
+    },
+    {
+      title: "Currency Converter",
+      content: (
+        <div className='flex w-full '>
+          <div className='w-full'>
+            <Currency />
+          </div>
+        </div>
+      ),
+    },
+  ];
+
   return (
-    <div className="w-full flex flex-col px-6 lg:grid lg:grid-cols-8 lg:grid-rows-5 gap-4 lg:px-60 mt-10">
-      <div className="w-full lg:col-span-2 lg:row-span-5">
+    <div className='w-full flex flex-col px-6 lg:grid lg:grid-cols-8 lg:grid-rows-5 gap-4 lg:px-60 mt-10'>
+      <div className='w-full lg:col-span-2 lg:row-span-5'>
         <Blogs getBlog={getBlog} />
-        <div className=" w-full lg:w-[18vw]">
+        <div className=' w-full lg:w-[18vw]'>
           {Object.keys(groupedTreeView).map((name, index) => (
-            <div key={index} className="p-2 ">
-              <h3 className="font-bold text-2xl my-2 py-2 text-white bg-[#013A63] px-4 rounded-md">
+            <div key={index} className='p-2 '>
+              <h3 className='font-bold text-2xl my-2 py-2 text-white bg-[#013A63] px-4 rounded-md'>
                 {name}
               </h3>
-              <div className="w-full p-2 border rounded-lg bg-[#013A63]/5 px-4 py-6">
+              <div className='w-full p-2 border rounded-lg bg-[#013A63]/5 px-4 py-6'>
                 <TreeView
                   treeViewContent={groupedTreeView[name]}
                   onItemClick={handleClick}
@@ -154,43 +178,31 @@ export const HeroBanner = (props) => {
           ))}
         </div>
       </div>
-      <div className="w-full flex flex-col lg:col-span-4 lg:row-span-5 lg:col-start-3">
+      <div className='w-full flex flex-col lg:col-span-4 lg:row-span-5 lg:col-start-3'>
         {" "}
-        <div className="w-full flex flex-col gap-3 ">
+        <div className='w-full flex flex-col gap-3 '>
           <Headlines
             getArticles={getArticles}
             getImgCarousel={getImgCarousel}
           />
-          <WeatherContent
-            weatherData={weatherData}
-            loading={loading}
-            error={error}
-          />
           <BusinessList listItems={listItems} />
         </div>
       </div>
-      <div className="w-full flex flex-col lg:col-span-3 lg:row-span-5 lg:col-start-7">
-        <h1 className="text-center w-full lg:text-start text-2xl lg:text-4xl p-2 fira-sans-bold text-[#013A63]">
+      <div className='w-full flex flex-col lg:col-span-3 lg:row-span-5 lg:col-start-7'>
+        <h1 className='text-center w-full lg:text-start text-2xl lg:text-4xl p-2 fira-sans-bold text-[#013A63]'>
           Digital Clock
         </h1>
-        <div className="z-10 flex shadow border-2 w-full ">
-          <div className="w-full ">
+        <div className='z-10 flex shadow border-2 w-full h-auto '>
+          <div className='w-full p-4 '>
             <DigitalClock />
+            <CustomTabs tabs={tabs} />
           </div>
         </div>
-        <h1 className="text-center w-full lg:text-start text-2xl lg:text-4xl p-2 fira-sans-bold text-[#013A63]">
-          Currency Converter
-        </h1>
-        <div className="flex w-full ">
-          <div className="w-full">
-            <Currency />
-          </div>
-        </div>
-          <Rightads
-            selectedDate={selectedDate}
-            handleDateSelect={handleDateSelect}
-            socialContent={socialContent}
-          />
+        <Rightads
+          selectedDate={selectedDate}
+          handleDateSelect={handleDateSelect}
+          socialContent={socialContent}
+        />
       </div>
     </div>
   );
