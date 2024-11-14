@@ -9,26 +9,19 @@ export const useRegistration = () => {
   const [error, setErrors] = useState(null);
   const API_CALL = restAPI();
 
-  const fetchRegistration = async (data) => {
+  const fetchRegistration = async (props) => {
     if (
-      !data ||
-      !data.imgurl ||
-      !data.firstname ||
-      !data.middlename ||
-      !data.lastname ||
-      !data.email ||
-      !data.mobile_number ||
-      !data.password
+      !props ||
+      !props.username ||
+      !props.email ||
+      !props.number ||
+      !props.password
     ) {
       setLoadData(false);
       return;
     }
     try {
-      const response = await axios.post(
-        `${API_CALL.pythonHost}/accounts/create`,
-        data
-      );
-      //const response = await axios.post(`api/accounts/create`, data);
+      const response = await axios.post(`${API_CALL.auth}/register`, props);
       setResponse(response.data);
       setLoadData(false);
     } catch (error) {
@@ -47,17 +40,20 @@ export const useRegistration = () => {
 export const useLogin = () => {
   const [loginLoad, setLoading] = useState(true);
   const [error, setErrors] = useState(null);
+
   const [access_token, setAccessToken] = useState(null);
   const [refresh_token, setRefreshToken] = useState(null);
   const [accountId, setAccountId] = useState(null);
+
   const API_CALL = restAPI();
 
-  const fetchingLogin = async (data) => {
-    if (!data || !data.email || !data.password) {
+  const fetchingLogin = async (props) => {
+    if (!props || !props.email || !props.password) {
       setLoading(false);
       return;
     }
     try {
+
       const response = await axios.post(
         `${API_CALL.pythonHost}/accounts/login`,
         data

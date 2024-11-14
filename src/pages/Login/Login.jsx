@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from "react";
-import Textline from "../../components/Textline/Textline";
 import Button from "../../components/Button/Button";
-import { useLogin } from "../../helper/auth/useAuthentication";
+import Textline from "../../components/Textline/Textline";
+import { useLogin, useUserData } from "../../helper/auth/useAuthentication";
 import useAlert from "../../helper/alert/useAlert";
 import { useAuth } from "../../helper/auth/useAuthContext";
 
-export const Login = ({
-  handleModalOpen,
-  handleRegistrationOpen,
-  handleForgotPassword,
-}) => {
+export const Login = ({ handleModalOpen, handleRegistrationOpen }) => {
   const initializeData = {
     email: "",
+    number: "",
     password: "",
   };
   const [formData, setFormData] = useState(initializeData);
   const [errors, setErrors] = useState([]);
+
   const {
     fetchingLogin,
     access_token,
@@ -45,10 +43,9 @@ export const Login = ({
     setFormData({ ...formData, [name]: value });
 
     if (errors[name]) {
-      setErrors({ ...errors, [name]: null });
+      setErrors({ ...errors, [name]: null }); // Clear specific field error when user types
     }
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (handleValidation()) {
@@ -66,6 +63,7 @@ export const Login = ({
   };
 
   useEffect(() => {
+
     if (access_token && refresh_token) {
       showAlert("Welcome", `Login Successfully!`, "success", "", false, "Ok");
       handleModalOpen();
@@ -172,11 +170,12 @@ export const Login = ({
                       Remember me
                     </label>
                   </div>
-                  <Button
-                    className="text-blue-700 hover:underline dark:text-blue-500"
-                    text={"Forgot Password"}
-                    onClick={handleForgotPassword}
-                  />
+                  <a
+                    href="#"
+                    className="text-sm text-blue-700 hover:underline dark:text-blue-500"
+                  >
+                    Forget Password?
+                  </a>
                 </div>
                 <button
                   type="submit"

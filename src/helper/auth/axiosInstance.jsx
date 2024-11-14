@@ -1,22 +1,19 @@
 import axios from "axios";
 import restAPI from "../database/restAPI";
-import useStorage from "../storage/Storage";
 
-let API_CALL = restAPI();
+const API_CALL = restAPI();
+
 const axiosInstance = axios.create({
-  baseURL: API_CALL.pythonHost,
-  headers: {
-    "Content-Type": "application/json",
-  },
+  baseURL: API_CALL.auth,
 });
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const { getStorage } = useStorage();
-    const token = getStorage("access_token");
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
     if (!token) return;
     if (token) {
-      config.headers["Authorization"] = `Bearer  ${token}`;
+      config.headers["Authorization"] = `${token}`;
     }
     return config;
   },
@@ -24,41 +21,5 @@ axiosInstance.interceptors.request.use(
     return Promise.reject(error);
   }
 );
-
-export const axiosGet = async (apiLink) => {
-  try {
-    const response = await axios.get(API_CALL.pythonHost + apiLink);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const axiosPost = async (apiLink, data) => {
-  try {
-    const response = await axiosInstance.post(apiLink, data);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const axiosPut = async (apiLink, data) => {
-  try {
-    const response = await axiosInstance.put(apiLink, data);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const axiosDelete = async (apliLink, data) => {
-  try {
-    const response = await axiosInstance.delete(apliLink, data);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
 
 export default axiosInstance;

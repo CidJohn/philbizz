@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import imageIcon from "../../assets/img/image-icon.png";
-import Images from "../Image/Images";
 
 const UploadImage = ({
   onUpload,
@@ -8,7 +7,6 @@ const UploadImage = ({
   className = "",
   imagePreview,
   handleFileChange,
-  style
 }) => {
   const [isDragging, setIsDragging] = useState(false);
 
@@ -75,15 +73,14 @@ const UploadImage = ({
           } border-dashed rounded-lg flex items-center justify-center transition-colors duration-200`}
         >
           {imagePreview ? (
-            <Images
+            <img
               src={imagePreview}
               alt="Preview"
               className="object-cover w-full h-full rounded-lg"
-              style={style}
             />
           ) : (
             <div className="flex flex-col items-center justify-center text-gray-500">
-              <Images
+              <img
                 src={placeholder}
                 alt="Placeholder"
                 className="w-16 h-16 mb-4"

@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "../../../components/Button/Button";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-  useSideMenuView,
-  useTreeview,
-} from "../../../helper/database/useTreeview";
+import { useTreeview } from "../../../helper/database/useTreeview";
 import TreeView from "../../../components/Treeviews/Treeview";
 import useCardSettings from "../../../helper/database/useCardSettings";
 import Table from "../../../components/Table/Table";
@@ -19,7 +16,7 @@ function Menus(props) {
   const { blogData, business } = props;
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { name, path } = state || { name: null, path: null };
+  const { name, path } = state || { name: null, path: null};
   const { data } = useTreeview();
   const [getTreeview, setTreeview] = useState([]);
   const [selectedItem, setSelectectItem] = useState([]);
@@ -35,12 +32,11 @@ function Menus(props) {
     name.toLowerCase() === "ktv/jtv" ? "ktv_jtv" : name.toLowerCase()
   );
   const { getCategory, loadCategory } = useBusinessCategory();
-  const { viewMenu, menuLoading } = useSideMenuView(); //python side menu get display data
 
   useEffect(() => {
-    if (viewMenu) {
-      const filterTreeview = viewMenu
-        ? viewMenu.filter((item) => item.path === path)
+    if (data) {
+      const filterTreeview = data
+        ? data.filter((item) => item.path === path)
         : [];
       setTreeview(filterTreeview);
 
@@ -62,15 +58,15 @@ function Menus(props) {
         : [];
       setTreeviewFilter(treeviewFilter);
     }
-    // if (business) {
-    //   const getBusiness = business ? business : [];
-    //   setBusiness(getBusiness);
+    if (business) {
+      const getBusiness = business ? business : [];
+      setBusiness(getBusiness);
 
-    //   const categoryFilter = business
-    //     ? business.filter((item) => item.parentName === getFilterCategory)
-    //     : [];
-    //   setFilterCategoryData(categoryFilter);
-    // }
+      const categoryFilter = business
+        ? business.filter((item) => item.parentName === getFilterCategory)
+        : [];
+      setFilterCategoryData(categoryFilter);
+    }
   }, [
     data,
     path,
@@ -130,10 +126,12 @@ function Menus(props) {
       cancelButtonText: "Cancel",
     }).then((result) => {
       if (result.isConfirmed) {
+        // Proceed with deletion
         console.log(`Deleted: ${data}`);
+        // Here you can call the function to delete the data or make an API request
         Swal.fire(
           "Deleted!",
-          `Your data "${data.title}" has been deleted.`,
+          `Your data "${data}" has been deleted.`,
           "success"
         );
       } else {
@@ -151,7 +149,7 @@ function Menus(props) {
     } else {
       setTreeviewFilter([]);
       setFilterCategoryData([]);
-      if (name === "Company") {
+      if (name === "Business") {
         const filteredResults = await getBusiness.filter((item) =>
           item.title.toLowerCase().includes(e.title.toLowerCase())
         );
@@ -169,7 +167,7 @@ function Menus(props) {
     setFilterCategory(e.target.innerText);
   };
 
-  const handleCreateButton = (e) => {
+  const handlCreateTree = (e) => {
     navigate(`/dashboard/Form/Create`, {
       state: {
         name: name,
@@ -177,7 +175,18 @@ function Menus(props) {
         content: e.target.innerText,
         treeviewdata: data,
         businessCategory: getCategory,
-        viewMenus: viewMenu,
+      },
+    });
+  };
+
+  const handleAddContent = (e) => {
+    navigate(`/dashboard/Form/Create`, {
+      state: {
+        name: name,
+        path: path,
+        content: e.target.innerText,
+        treeviewdata: data,
+        businessCategory: getCategory,
       },
     });
   };
@@ -219,33 +228,51 @@ function Menus(props) {
               <Searchbar hidden={true} onSearch={handleSearch} />
             </div>
           </div>
-          <div className="flex flex-row p-5 gap-4   justify-center">
+          <div className="flex flex-row p-5 gap-4 min-w-80  justify-center">
             <div className="flex flex-col">
-              <div className="min-w-full  bg-gray-100 border-t-2 border-r-2 border-l-2 border-dashed rounded-t-lg  flex items-center p-2 text-lg font-bold">
-                {name === "Company" ? `${name} Category` : `${name} Tree View`}
+              <div className="min-w-full h-10 bg-gray-100 border-t-2 border-r-2 border-l-2 border-dashed rounded-t-lg  flex items-center p-2 text-lg font-bold">
+                {name === "Business" ? `${name} Category` : `${name} Tree View`}
               </div>
               <div className="bg-white capitalize flex flex-col p-2 border-b-2 border-r-2 border-l-2  border-dashed rounded-b-lg px-10 h-[70vh] overflow-hidden hover:overflow-y-scroll ">
-                {viewMenu
-                  ? viewMenu.map(
-                      (item, index) =>
-                        item.path === path && (
-                          <React.Fragment key={index}>
-                            <TreeView
-                              treeViewContent={[item]}
-                              onItemClick={handleTreeview}
-                            />
-                          </React.Fragment>
-                        )
-                    )
-                  : "Add New"}
+                {name === "Business" ? (
+                  getCategory ? (
+                    getCategory.map((item, index) => (
+                      <>
+                        <div className="text-lg bg-blue-500 p-1 min-w-full font-bold">
+                          {item.title}
+                        </div>
+                        <ul className="px-4 py-2">
+                          {item.links.map((items, index) => (
+                            <>
+                              <Button
+                                className="flex flex-col hover:ms-2 hover:underline underline-offset-4 hover:font-bold text-md decoration-pink-500 decoration-2"
+                                text={items.name}
+                                onClick={handleCategory}
+                              />
+                            </>
+                          ))}
+                        </ul>
+                      </>
+                    ))
+                  ) : (
+                    "Add New"
+                  )
+                ) : getTreeview.length ? (
+                  <TreeView
+                    treeViewContent={getTreeview}
+                    onItemClick={handleTreeview}
+                  />
+                ) : (
+                  "Add New"
+                )}
               </div>
               <div className="flex py-2">
                 <Button
                   text={
-                    name === "Company" ? "Add Category" : "Edit Tree Content"
+                    name === "Business" ? "Add Category" : "Edit Tree Content"
                   }
                   icon={<FontAwesomeIcon icon={faAdd} className="" />}
-                  onClick={handleCreateButton}
+                  onClick={handlCreateTree}
                   className={
                     "p-2 border-2 gap-2 flex items-center font-bold hover:border-gray-100 hover:bg-blue-700 hover:text-gray-100 rounded-lg"
                   }
@@ -254,10 +281,10 @@ function Menus(props) {
             </div>
             <div className="flex flex-col  ">
               <div className="min-w-full h-10 bg-gray-100 border-t-2 border-r-2 border-l-2 border-dashed rounded-t-lg  flex items-center p-2 text-lg font-bold">
-                {name} List
+                {name} Table of Content
               </div>
-              <div className="flex  max-w-[60vw] h-[70vh] border-b-2 border-r-2 border-l-2  border-dashed rounded-b-lg">
-                {name === "Company" ? (
+              <div className="flex  max-w-[100vh] h-[70vh] border-b-2 border-r-2 border-l-2  border-dashed rounded-b-lg">
+                {name === "Business" ? (
                   getFilterCategoryData.length > 0 ? (
                     renderTable(getFilterCategoryData)
                   ) : getSearchValueBusiness.length > 0 ? (
@@ -288,7 +315,7 @@ function Menus(props) {
                   className={
                     "p-2 border-2 gap-2 flex items-center font-bold hover:border-gray-100 hover:bg-blue-700 hover:text-gray-100 rounded-lg"
                   }
-                  onClick={handleCreateButton}
+                  onClick={handleAddContent}
                 />
               </div>
             </div>

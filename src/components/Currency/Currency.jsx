@@ -22,23 +22,23 @@ const Currency = () => {
   ];
 
   return (
-    <div className=' w-full bg-[#013A63]/5 shadow-md rounded-lg p-6'>
-      <div className='mb-4'>
-        <label className='block fira-sans-condensed-bold text-[#013A63]'>
+    <div className=" mx-auto bg-[#013A63]/5 shadow-md rounded-lg p-6">
+      <div className="mb-4">
+        <label className="block fira-sans-condensed-bold text-[#013A63]">
           Amount:
         </label>
         <input
-          type='number'
+          type="number"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          className='mt-2 p-2 w-full border rounded-md bg-transparent border-[#013A63]'
+          className="mt-2 p-2 w-full border rounded-md bg-transparent border-[#013A63]"
         />
       </div>
 
-      <div className='mb-4 flex items-center flex-col'>
-        <label className='block text-gray-700'>Base Currency:</label>
+      <div className="mb-4 flex items-center flex-col">
+        <label className="block text-gray-700">Base Currency:</label>
         <Dropdown
-          name='baseCurrency'
+          name="baseCurrency"
           value={baseCurrency}
           onChange={(e) => setBaseCurrency(e.target.value)}
           options={currencies}
@@ -49,10 +49,10 @@ const Currency = () => {
         />
       </div>
 
-      <div className='mb-4 flex items-center flex-col '>
-        <label className='block text-gray-700'>Target Currency:</label>
+      <div className="mb-4 flex items-center flex-col ">
+        <label className="block text-gray-700">Target Currency:</label>
         <Dropdown
-          name='targetCurrency'
+          name="targetCurrency"
           value={targetCurrency}
           onChange={(e) => setTargetCurrency(e.target.value)}
           options={currencies}
@@ -63,7 +63,7 @@ const Currency = () => {
         />
       </div>
 
-      <div className='text-lg font-semibold bg-[#013A63]/5 w-full py-3 px-6 fira-sans-condensed-bold text-[#013A63]'>
+      <div className="text-lg font-semibold bg-[#013A63]/5 w-full py-3 px-6 fira-sans-condensed-bold text-[#013A63]">
         {amount} {baseCurrency} = {convertedAmount} {targetCurrency}
       </div>
     </div>

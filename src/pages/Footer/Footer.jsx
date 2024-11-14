@@ -5,7 +5,7 @@ import Link from "../../components/Link/Link";
 
 function Footer() {
   return (
-    <footer className="bg-white shadow-inner ">
+    <footer className="bg-white shadow-inner mt-4">
       <div className="relative mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-0 lg:pt-24">
         <div className="lg:flex lg:items-end lg:justify-between">
           <div>
@@ -30,8 +30,8 @@ function Footer() {
             ))}
           </ul>
         </div>
-        <hr className=" border-gray-200 sm:mx-auto dark:border-gray-700 my-4" />
         <p className="mt-12 text-center text-sm text-gray-500 lg:text-right">
+          <hr className=" border-gray-200 sm:mx-auto dark:border-gray-700 my-4" />
           <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
             © 2024{" "}
             <a href="/" className="hover:underline">

@@ -4,10 +4,11 @@ import useStorage from "../storage/Storage";
 import { axiosPost } from "./axiosInstance";
 import { useNavigate } from "react-router-dom";
 
+
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const navigate = useNavigate();
+ const navigate = useNavigate();
   const { getStorage, postStorage, deleteStorage } = useStorage();
 
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -16,6 +17,7 @@ export const AuthProvider = ({ children }) => {
   const [rememberMe, setRememberMe] = useState(false);
   const [authload, setLoading] = useState(false);
   const [adminAccess, setAdminAccess] = useState(false);
+  
   const tokenRefresher = async () => {
     const refresher = getStorage("refresh_token");
     if (refresher) {
@@ -24,7 +26,7 @@ export const AuthProvider = ({ children }) => {
           refresh: refresher,
         });
         const newToken = response;
-        postStorage("access_token", newToken, !rememberMe);
+        postStorage("access_token", newToken.access, !rememberMe);
         setIsAuthenticated(true);
       } catch (error) {
         console.error("Failed to refresh token:", error);
@@ -41,7 +43,8 @@ export const AuthProvider = ({ children }) => {
     return () => clearInterval(refreshInterval);
   }, [rememberMe]);
 
-  const login = (access_token, refresh_token, accountId) => {
+
+const login = (access_token, refresh_token, accountId) => {
     setLoading(true);
     if (rememberMe) {
       postStorage("user_identity", accountId, false);

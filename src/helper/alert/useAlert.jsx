@@ -1,27 +1,14 @@
 import Swal from "sweetalert2";
 
 const useAlert = () => {
-  const showAlert = (
-    title,
-    text,
-    icon,
-    width = "400px",
-    cancel = false,
-    btnConfirm,
-    btnCancel,
-    btnConfirmColor = "#d33",
-    btnCancelColor = "#3085d6"
-  ) => {
+  const showAlert = (title, text, icon, width = "400px") => {
+    // Return the promise from Swal.fire
     return Swal.fire({
       title,
       text,
       icon,
+      confirmButtonText: "OK",
       width,
-      showCancelButton: cancel,
-      confirmButtonText: btnConfirm,
-      cancelButtonText: btnCancel,
-      confirmButtonColor: btnConfirmColor,
-      cancelButtonColor: btnCancelColor,
     });
   };
   return showAlert;
