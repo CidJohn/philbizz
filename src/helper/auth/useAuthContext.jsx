@@ -2,10 +2,12 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { useProtect } from "./useAuthentication";
 import useStorage from "../storage/Storage";
 import { axiosPost } from "./axiosInstance";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const navigate = useNavigate();
   const { getStorage, postStorage, deleteStorage } = useStorage();
 
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -13,7 +15,7 @@ export const AuthProvider = ({ children }) => {
   );
   const [rememberMe, setRememberMe] = useState(false);
   const [authload, setLoading] = useState(false);
-
+  const [adminAccess, setAdminAccess] = useState(false);
   const tokenRefresher = async () => {
     const refresher = getStorage("refresh_token");
     if (refresher) {
@@ -39,25 +41,33 @@ export const AuthProvider = ({ children }) => {
     return () => clearInterval(refreshInterval);
   }, [rememberMe]);
 
-  const login = (access_token, refresh_token) => {
+  const login = (access_token, refresh_token, accountId) => {
     setLoading(true);
     if (rememberMe) {
+      postStorage("user_identity", accountId, false);
       postStorage("access_token", access_token, false);
       postStorage("refresh_token", refresh_token, false);
     } else {
       postStorage("access_token", access_token, true);
       postStorage("refresh_token", refresh_token, true);
+      postStorage("user_identity", accountId, true);
+    }
+    if (accountId.level === "ADMIN") {
+      return navigate("/dashboard");
     }
     setTimeout(() => {
       setLoading(false);
       setIsAuthenticated(true);
     }, 2000);
+
+    return;
   };
 
   const logout = () => {
     setLoading(true);
     deleteStorage("access_token");
     deleteStorage("refresh_token");
+    deleteStorage("user_identity");
     setTimeout(() => {
       setLoading(false);
       setIsAuthenticated(false);
@@ -66,7 +76,14 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, login, logout, setRememberMe, authload }}
+      value={{
+        isAuthenticated,
+        login,
+        logout,
+        setRememberMe,
+        authload,
+        adminAccess,
+      }}
     >
       {children}
     </AuthContext.Provider>
