@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import QuillResizeImage from "quill-resize-image";
 
-// Register the Quill resize image module
 ReactQuill.Quill.register("modules/resize", QuillResizeImage);
 
-// Quill's default behavior is to sanitize content. Override this:
 const Parchment = Quill.import("parchment");
 const Style = new Parchment.Attributor.Style("style", "style", {
   scope: Parchment.Scope.INLINE,
@@ -14,6 +12,7 @@ const Style = new Parchment.Attributor.Style("style", "style", {
 Quill.register(Style, true);
 
 const TextEditor = ({ value, onChange, placeholder, className }) => {
+  const quillRef = useRef(null);
   const modules = {
     toolbar: [
       ["bold", "italic", "underline", "strike"],
@@ -53,12 +52,13 @@ const TextEditor = ({ value, onChange, placeholder, className }) => {
     "script",
     "code-block",
     "formula",
-    "style", // Allow inline styles such as resizing and alignment
+    "style", 
   ];
 
   return (
     <div className="text-editor-container">
       <ReactQuill
+        ref={quillRef}
         theme="snow"
         value={value}
         onChange={onChange}

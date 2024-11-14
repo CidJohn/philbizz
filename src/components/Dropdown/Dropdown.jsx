@@ -12,6 +12,7 @@ const Dropdown = (props) => {
     onChange({ target: { name, value } });
     setIsOpen(false);
   };
+ 
   return (
     <div className="relative inline-block text-left w-full">
       <button
@@ -22,7 +23,7 @@ const Dropdown = (props) => {
         onClick={handleToggle}
         style={{
           color: textColor,
-          borderColor: textColor
+          borderColor: textColor,
         }}
       >
         <span

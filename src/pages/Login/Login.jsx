@@ -1,19 +1,29 @@
 import React, { useEffect, useState } from "react";
-import Button from "../../components/Button/Button";
 import Textline from "../../components/Textline/Textline";
-import { useLogin, useUserData } from "../../helper/auth/useAuthentication";
+import Button from "../../components/Button/Button";
+import { useLogin } from "../../helper/auth/useAuthentication";
 import useAlert from "../../helper/alert/useAlert";
 import { useAuth } from "../../helper/auth/useAuthContext";
 
-export const Login = ({ handleModalOpen, handleRegistrationOpen }) => {
+export const Login = ({
+  handleModalOpen,
+  handleRegistrationOpen,
+  handleForgotPassword,
+}) => {
   const initializeData = {
     email: "",
-    number: "",
     password: "",
   };
   const [formData, setFormData] = useState(initializeData);
   const [errors, setErrors] = useState([]);
-  const { fetchingLogin, token, loginLoad, error } = useLogin();
+  const {
+    fetchingLogin,
+    access_token,
+    refresh_token,
+    loginLoad,
+    accountId,
+    error,
+  } = useLogin();
   const { login, setRememberMe } = useAuth();
 
   const showAlert = useAlert();
@@ -35,9 +45,10 @@ export const Login = ({ handleModalOpen, handleRegistrationOpen }) => {
     setFormData({ ...formData, [name]: value });
 
     if (errors[name]) {
-      setErrors({ ...errors, [name]: null }); // Clear specific field error when user types
+      setErrors({ ...errors, [name]: null });
     }
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (handleValidation()) {
@@ -55,12 +66,21 @@ export const Login = ({ handleModalOpen, handleRegistrationOpen }) => {
   };
 
   useEffect(() => {
-    if (token) {
-      showAlert("Welcome", `Login Successfully!`, "success");
+    if (access_token && refresh_token) {
+      showAlert(
+        "Welcome",
+        `Login Successfully!`,
+        "success",
+        "",
+        false,
+        "Ok",
+        "",
+        "#3085d6"
+      );
       handleModalOpen();
-      login(token);
+      login(access_token, refresh_token, accountId);
     }
-  }, [token, loginLoad]);
+  }, [access_token, refresh_token, loginLoad, accountId]);
 
   useEffect(() => {
     if (error) {
@@ -161,12 +181,11 @@ export const Login = ({ handleModalOpen, handleRegistrationOpen }) => {
                       Remember me
                     </label>
                   </div>
-                  <a
-                    href="#"
-                    className="text-sm text-blue-700 hover:underline dark:text-blue-500"
-                  >
-                    Forget Password?
-                  </a>
+                  <Button
+                    className="text-blue-700 hover:underline dark:text-blue-500"
+                    text={"Forgot Password"}
+                    onClick={handleForgotPassword}
+                  />
                 </div>
                 <button
                   type="submit"

@@ -39,6 +39,7 @@ export const useCardDesc = (type) => {
     const fetchData = async () => {
       try {
         if (!type) return;
+       
         const response = await axios.get(
           `${API_CALL.host}/card-desciption/${type.toLowerCase()}`
         );
@@ -51,7 +52,7 @@ export const useCardDesc = (type) => {
       }
     };
 
-    fetchData()
+    fetchData();
     // if (!isFetched.current) {
     //   fetchData();
     //   isFetched.current = true;

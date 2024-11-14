@@ -9,19 +9,26 @@ export const useRegistration = () => {
   const [error, setErrors] = useState(null);
   const API_CALL = restAPI();
 
-  const fetchRegistration = async (props) => {
+  const fetchRegistration = async (data) => {
     if (
-      !props ||
-      !props.username ||
-      !props.email ||
-      !props.number ||
-      !props.password
+      !data ||
+      !data.imgurl ||
+      !data.firstname ||
+      !data.middlename ||
+      !data.lastname ||
+      !data.email ||
+      !data.mobile_number ||
+      !data.password
     ) {
       setLoadData(false);
       return;
     }
     try {
-      const response = await axios.post(`${API_CALL.auth}/register`, props);
+      const response = await axios.post(
+        `${API_CALL.pythonHost}/accounts/create`,
+        data
+      );
+      //const response = await axios.post(`api/accounts/create`, data);
       setResponse(response.data);
       setLoadData(false);
     } catch (error) {
@@ -40,18 +47,25 @@ export const useRegistration = () => {
 export const useLogin = () => {
   const [loginLoad, setLoading] = useState(true);
   const [error, setErrors] = useState(null);
-  const [token, setToken] = useState(null);
+  const [access_token, setAccessToken] = useState(null);
+  const [refresh_token, setRefreshToken] = useState(null);
+  const [accountId, setAccountId] = useState(null);
   const API_CALL = restAPI();
 
-  const fetchingLogin = async (props) => {
-    if (!props || !props.email || !props.password) {
+  const fetchingLogin = async (data) => {
+    if (!data || !data.email || !data.password) {
       setLoading(false);
       return;
     }
     try {
-      const response = await axios.post(`${API_CALL.auth}/login`, props);
-      const res = await response.data.token;
-      setToken(res);
+      const response = await axios.post(
+        `${API_CALL.pythonHost}/accounts/login`,
+        data
+      );
+      const res = await response.data.access_token_response;
+      setAccountId(response.data.account_id)
+      setAccessToken(res.access_token);
+      setRefreshToken(res.refresh_token);
     } catch (error) {
       setErrors(error.response?.data);
       console.error(
@@ -62,8 +76,14 @@ export const useLogin = () => {
       setLoading(false);
     }
   };
-
-  return { fetchingLogin, loginLoad, error, token };
+  return {
+    fetchingLogin,
+    loginLoad,
+    error,
+    access_token,
+    refresh_token,
+    accountId
+  };
 };
 
 export const useProtect = () => {
