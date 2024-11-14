@@ -1,14 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Button from "../Button/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faArrowDown,
+  faArrowRight,
+  faChevronCircleLeft,
   faChevronDown,
   faChevronRight,
+  faGreaterThan,
+  faLessThan,
 } from "@fortawesome/free-solid-svg-icons";
 
+// Function to capitalize the first letter
 const capitalize = (str) => {
-  if (!str) return "";
+  if (!str) return ""; // Handle empty or undefined input
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 };
 
@@ -16,42 +22,27 @@ const TreeItem = ({ item, onItemClick, textColor }) => {
   const [isOpen, setIsOpen] = useState(true);
   const { t } = useTranslation();
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 768) {
-        setIsOpen(false);
-      }
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
 
   const handleItemClick = (e) => {
     if (item.id) {
-      onItemClick(item.id, item.path, item.name);
+      onItemClick(item.id, item.path, item.name); // Pass the clicked item's id to the parent component
     }
   };
 
   return (
-    <li className=''>
+    <li className="">
       <div
         onClick={handleToggle}
-        className='flex items-center cursor-pointer font-normal hover:font-bold  '
+        className="flex items-center cursor-pointer font-normal hover:font-bold  "
       >
         <Button
           className={
             item.children && item.children.length > 0
-              ? ` font-bold hover:underline decoration-sky-500 underline-offset-8 decoration-4 text-left truncate w-[10vw]`
-              : "text-gray-500 text-[15px] text-left"
+              ? ` font-bold hover:underline decoration-sky-500 underline-offset-8 decoration-4 `
+              : "text-gray-500 text-[15px]"
           }
           onClick={handleItemClick}
           text={capitalize(t(item.name))}
@@ -60,18 +51,17 @@ const TreeItem = ({ item, onItemClick, textColor }) => {
               ? { color: textColor }
               : {}
           }
-          title={item.name}
         />
         {item.children && item.children.length > 0 && (
           <FontAwesomeIcon
             icon={isOpen ? faChevronDown : faChevronRight}
-            className={`mr-2 w-[20px] px-1  `}
+            className={`mr-2 w-[20px] px-1 `}
             style={{ color: textColor }}
           />
         )}
       </div>
       {isOpen && item.children && (
-        <ul className='px-5 lg:px-10  font-bold'>
+        <ul className="px-5 lg:px-10  font-bold">
           {item.children.map((child, index) => (
             <TreeItem
               key={index}
@@ -88,7 +78,7 @@ const TreeItem = ({ item, onItemClick, textColor }) => {
 
 const TreeView = ({ treeViewContent, onItemClick, textColor }) => {
   return (
-    <ul className='font-bold text-sm lg:text-lg capitalize '>
+    <ul className="font-bold text-sm lg:text-lg capitalize ">
       {treeViewContent.map((item, index) => (
         <TreeItem
           key={index}

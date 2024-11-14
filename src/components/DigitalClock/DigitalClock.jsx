@@ -106,21 +106,21 @@ function DigitalClock() {
     };
 
     return (
-      <div className='rounded py-4 text-center bg-[#013A63] min-h-[25vh]'>
-        <div className='py-7 gap-4'>
-          <div className='text-sm md:text-[2vw] font-bold text-gray-100 font-mono mt-4'>
+      <div className="rounded py-4 text-center bg-[#013A63] min-h-[25vh]">
+        <div className="py-7 gap-4">
+          <div className="text-sm md:text-[2vw] font-bold text-gray-100 font-mono mt-4">
             {clockData[selectedOption].time}
           </div>
-          <div className='flex justify-center gap-1 text-sm my-3'>
-            <div className='block text-gray-100 fira-sans-condensed-regular'>
+          <div className="flex justify-center gap-1 text-sm my-3">
+            <div className="block text-gray-100 fira-sans-condensed-regular">
               {clockData[selectedOption].day}
             </div>
-            <div className='block text-gray-100 fira-sans-condensed-regular'>
+            <div className="block text-gray-100 fira-sans-condensed-regular">
               {clockData[selectedOption].date}
             </div>
           </div>
-          <div className='flex justify-center'>
-            <span className='text-xs block text-gray-100 border border-white rounded-full px-4 py-2 fira-sans-condensed-regular'>
+          <div className="flex justify-center">
+            <span className="text-xs block text-gray-100 border border-white rounded-full px-4 py-2 fira-sans-condensed-regular">
               {clockData[selectedOption].label}
             </span>
           </div>
@@ -130,10 +130,10 @@ function DigitalClock() {
   };
 
   return (
-    <div className='w-full p-5 min-h-80 bg-[#013A63]/5 rounded flex flex-col justify-center '>
+    <div className="p-5 min-h-80 bg-[#013A63]/5 rounded flex flex-col justify-center ">
       {renderClock()}
-      <div className='w-full flex py-2 '>
-        <div className='w-full'>
+      <div className="flex py-2 ">
+        <div className="w-full">
           <Dropdown
             name={"selection"}
             options={timeZone.DigitalClock}

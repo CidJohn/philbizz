@@ -1,54 +1,31 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useProtect } from "./useAuthentication";
-import useStorage from "../storage/Storage";
-import { axiosPost } from "./axiosInstance";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const { getStorage, postStorage, deleteStorage } = useStorage();
-
+  const { data, isLoading, isError } = useProtect(); // Assume these are available
   const [isAuthenticated, setIsAuthenticated] = useState(
-    !!getStorage("access_token") && !!getStorage("refresh_token")
+    !!localStorage.getItem("token") || !!sessionStorage.getItem("token")
   );
   const [rememberMe, setRememberMe] = useState(false);
   const [authload, setLoading] = useState(false);
 
-  const tokenRefresher = async () => {
-    const refresher = getStorage("refresh_token");
-    if (refresher) {
-      try {
-        const response = await axiosPost("app/token/refresh/", {
-          refresh: refresher,
-        });
-        const newToken = response.access;
-        postStorage("access_token", newToken, !rememberMe);
-        setIsAuthenticated(true);
-      } catch (error) {
-        console.error("Failed to refresh token:", error);
-        logout();
-      }
-    }
-  };
-
   useEffect(() => {
-    const refreshInterval = setInterval(() => {
-      tokenRefresher();
-    }, 300000);
+    // Check if the token is valid on component mount
+    if (data && !isError && !isLoading) {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, [data, isLoading, isError]);
 
-    return () => clearInterval(refreshInterval);
-  }, [rememberMe]);
-
-  const login = (access_token, refresh_token, accountId) => {
+  const login = (token) => {
     setLoading(true);
     if (rememberMe) {
-      postStorage("account_id", accountId, false)
-      postStorage("access_token", access_token, false);
-      postStorage("refresh_token", refresh_token, false);
+      localStorage.setItem("token", token);
     } else {
-      postStorage("refresh_token", refresh_token, true);
-      postStorage("access_token", access_token, true);
-      postStorage("account_id", accountId, true)
+      sessionStorage.setItem("token", token);
     }
     setTimeout(() => {
       setLoading(false);
@@ -58,9 +35,8 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setLoading(true);
-    deleteStorage("access_token");
-    deleteStorage("refresh_token");
-    deleteStorage("account_id");
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     setTimeout(() => {
       setLoading(false);
       setIsAuthenticated(false);

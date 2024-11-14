@@ -10,8 +10,6 @@ const Button = ({
   icon,
   spinner,
   style,
-  title,
-  children,
 }) => {
   const { t } = useTranslation();
   return (
@@ -21,12 +19,10 @@ const Button = ({
       className={`btn ${className}`}
       onClick={onClick}
       disabled={disabled}
-      title={title}
     >
       {icon}
       {t(text)}
       {spinner}
-      {children}
     </button>
   );
 };
