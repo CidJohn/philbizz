@@ -23,12 +23,12 @@ const SearchBar = ({ onSearch, textColor }) => {
   };
 
   const renderTextline = (name, placeholder) => (
-    <div className='relative w-full '>
-      <div className='absolute inset-y-0 right-0 flex items-center pr-4  pointer-events-none text-[#013A63] text-xl'>
+    <div className="relative w-full ">
+      <div className="absolute inset-y-0 right-0 flex items-center pr-4  pointer-events-none text-[#013A63] text-xl">
         <IoSearchSharp style={{ color: textColor }} />
       </div>
       <Textline
-        type='text'
+        type="text"
         id={`simple-search-${name}`}
         name={name}
         className={`bg-transparent border h-10  py-3 font-bold text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5`}
@@ -46,8 +46,8 @@ const SearchBar = ({ onSearch, textColor }) => {
   );
 
   return (
-    <form onSubmit={handleSubmit} className='flex  gap-3 '>
-      <label htmlFor='simple-search-title' className='sr-only'>
+    <form onSubmit={handleSubmit} className="flex  gap-3 ">
+      <label htmlFor="simple-search-title" className="sr-only">
         {t("search")}
       </label>
       {renderTextline("title", t("Search Name"))}{" "}

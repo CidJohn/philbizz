@@ -13,7 +13,6 @@ import {
 } from "../../../../../helper/database/useBusinessData";
 import socialmedia from "../../../../../content/socialmedia.json";
 import {
-  useCardPosting,
   useCreateCardContent,
   useUpdateCardContent,
 } from "../../../../../helper/database/useCardSettings";
@@ -21,57 +20,50 @@ import Createblog from "./Createblog";
 import {
   useCardInfo,
   useImgCardURL,
-  useSocialContent,
 } from "../../../../../helper/database/useCardInfo";
 import { useBlogContent } from "../../../../../helper/database/useBlogSettings";
 import useAlert from "../../../../../helper/alert/useAlert";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { formSchema } from "./Contentvalidation";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import contents from "../../../../../content/content.json";
-import { useToast } from "../../../../../components/Sonner/Sonner";
 
 function Contentcreate(props) {
   const { downTree, path, category, name, title, location, blogTitle } = props;
-  const showAlert = useAlert();
-  const navigate = useNavigate();
-  const toastify = useToast();
   const [dropdownOptions, setDropdownOptions] = useState([]);
   const [dropdownChildOptions, setDropDownChild] = useState([]);
   const [selectedValue, setSelectedValue] = useState("");
   const [selectChildValue, setSelectChildValue] = useState("");
   const [editorContent, setEditorContent] = useState("");
-  const [addTextLine, setAddTextLine] = useState([{ id: 1, value: "" }]);
-  const [newTextLine, setNewTextLine] = useState([]);
-  const [parentID, setParentID] = useState(0);
-  const [mainPageSelection, setMainPageSelection] = useState([]);
-  const [sectionPageSelection, setSectionPageSelection] = useState([]);
-  const [mainPageDropDown, setMainPageDropdown] = useState("");
-  const [sectionPageDropDown, setSectionPageDropdown] = useState("");
-  const [alertData, setAlertData] = useState();
-  const { fetchUpdateCompany, resultUpdate } = useUpdateCompanyContent();
-  const { postCard, cardResult, cardLoading } = useCardPosting();
+  const [addTextLine, setAddTextLine] = useState([{}]);
+  const [newTextLine, setNewTextLine] = useState({});
+  const { fetchBusinessContent, result, businessLoad } = useBusinessPost();
+  const { fetchCreateCard, resultCard, cardload } = useCreateCardContent();
+  const { fetchUpdateCompany, resultUpdate, companyLoad } =
+    useUpdateCompanyContent();
+  const { fetchUpdateCard, resultCardUpdate, cardLoading } =
+    useUpdateCardContent();
   const { getData, getURL, loadData } = useCardInfo(title);
   const { getImage, loadImage } = useImgCardURL(title);
   const { viewData, vieloading } = useCompanyView(title);
   const { content, contentload } = useBlogContent(blogTitle ? blogTitle : "");
-  const { resSocial, load } = useSocialContent(parentID);
+  const showAlert = useAlert();
+  const navigate = useNavigate();
   const [TextLine, setTextLine] = useState({
     title: "",
-    address: "",
     description: "",
+    image: "",
     contact: 0,
     email: "",
     location: "",
     service: "",
+    website: "",
+    address: "",
   });
-  const [entries, setEntries] = useState([]);
-  const [imageInsert, setImageInsert] = useState([
+  const [entries, setEntries] = useState([
     {
       id: Date.now(),
       imagePreview: null,
+      personnelName: "",
+      position: "",
     },
   ]);
   const [socialText, setSocialText] = useState([
@@ -84,53 +76,27 @@ function Contentcreate(props) {
 
   const initialSelectionContent = {
     Treeview: {
+      parent: selectedValue,
       child: !selectChildValue ? location : selectChildValue,
       name: name,
       title: title,
-      imageTitle: imageInsert.imagePreview,
+      childloc: location,
     },
-    Textline: {
-      required: { ...TextLine, image: imageInsert.imagePreview },
-      option: newTextLine,
-      social: socialText,
-    },
-    Texteditor: editorContent,
-    Personnel: { entries },
+    TextLine: { required: TextLine, option: newTextLine, social: socialText },
+    TextEditor: editorContent,
   };
-
   const initialBusinessContent = {
-    displayPosition: { mainPageDropDown, sectionPageDropDown },
     Treeview: {
       parent: selectedValue,
       child: selectChildValue,
       name: name,
       title: title,
       childloc: location,
-      imageTitle: imageInsert.imagePreview,
     },
-    TextLine: {
-      required: { ...TextLine, image: imageInsert.imagePreview },
-      option: newTextLine,
-      social: socialText,
-    },
+    TextLine: { required: TextLine, option: newTextLine, social: socialText },
     TextEditor: editorContent,
     Personnel: { entries },
   };
-
-  useEffect(() => {
-    const { mainPageSelection, sectionPageSelection } = contents || {};
-    if (mainPageSelection) {
-      setMainPageSelection(
-        Array.isArray(mainPageSelection) ? mainPageSelection : []
-      );
-    }
-    if (sectionPageSelection) {
-      setSectionPageSelection(
-        Array.isArray(sectionPageSelection) ? sectionPageSelection : []
-      );
-    }
-  }, [contents, mainPageSelection, sectionPageSelection]);
-
   useEffect(() => {
     if (viewData.info) {
       viewData.info.map((item) => {
@@ -153,29 +119,36 @@ function Contentcreate(props) {
       setEditorContent(imageContent);
     }
 
-    if (viewData && Array.isArray(viewData.personnels)) {
-      const personnel = viewData.personnels.map((item) => ({
-        id: item.id || "",
-        personnelName: item.personName || "",
-        position: item.position || "",
-        imagePreview: item.personPhoto || "",
-      }));
-      setEntries(personnel);
+    if (viewData.personnels) {
+      const personnel = viewData.personnels
+        ? viewData.personnels.map((item) => item)
+        : [];
+      setEntries(() => [
+        ...personnel.map((item) => ({
+          id: item.id,
+          personnelName: item.personName,
+          position: item.position,
+          imagePreview: item.personPhoto,
+        })),
+      ]);
     }
 
-    if (viewData?.product) {
-      const product = viewData.product.map((item) => ({
-        id: item.id,
-        value: item.productImage || "",
-      }));
-
-      setAddTextLine(product);
-      setNewTextLine(() =>
-        product.reduce((acc, item) => {
-          acc[item.id] = { value: item.productImage || "" };
-          return acc;
-        }, {})
-      );
+    if (viewData.product) {
+      const product = viewData.product
+        ? viewData.product.map((item) => item)
+        : [];
+      setAddTextLine(() => [
+        ...product.map((item) => ({
+          id: item.id,
+          value: item.productImage,
+        })),
+      ]);
+      setNewTextLine(() => [
+        ...product.map((item) => ({
+          id: item.id,
+          value: item.productImage,
+        })),
+      ]);
     }
 
     if (viewData.socials) {
@@ -195,7 +168,6 @@ function Contentcreate(props) {
       getData.map((item) => {
         setTextLine({
           title: item.Name,
-          address: item.address,
           description: item.desc,
           image: item.icon_image,
           contact: item.contact,
@@ -203,37 +175,18 @@ function Contentcreate(props) {
           service: item.type,
           location: getURL,
         });
-        setImageInsert({ id: Date.now(), imagePreview: item.images || "" });
         setEditorContent(item.Content);
-        setParentID(item.ParentID);
-        const socials = resSocial ? resSocial.map((item) => item) : [];
-        setSocialText(() => [
-          ...socials.map((item) => ({
-            id: item.ParentID,
-            social: item.SocialMedia,
-            link: item.SocialValue,
-          })),
-        ]);
       });
     }
     const textLink = getImage ? getImage.map((item) => item) : [];
-    if (textLink.length > 0) {
-      setAddTextLine(() =>
-        textLink.map((url) => ({
-          id: url.childID,
-          value: url.imageURL || "",
-        }))
-      );
 
-      setNewTextLine((prev) => ({
-        ...prev,
-        ...textLink.reduce((acc, url) => {
-          acc[url.childID] = { id: url.childID, value: url.imageURL || "" };
-          return acc;
-        }, {}),
-      }));
-    }
-  }, [getData, getURL, getImage, resSocial]);
+    setAddTextLine((prev) => [
+      ...textLink.map((url) => ({ id: url.childID, value: url.imageURL })),
+    ]);
+    setNewTextLine(() => ({
+      ...textLink.map((url) => ({ id: url.childID, value: url.imageURL })),
+    }));
+  }, [getData, getURL, getImage]);
 
   useEffect(() => {
     if (name === "Business") {
@@ -306,120 +259,58 @@ function Contentcreate(props) {
     }
   }, [downTree, selectedValue, path, category]);
 
-  useEffect(() => {
-    if (cardResult) {
-      const timer = setTimeout(() => {
-        if (cardResult.message.includes("undefined")) {
-          toastify("Something Went Wrong!", "error");
-        } else {
-          showAlert(
-            "Successful",
-            cardResult.message,
-            "success",
-            "",
-            true,
-            "Create New",
-            "View list"
-          ).then((result) => {
-            if (result.isConfirmed) {
-              handleReset();
-            } else {
-              navigate(-1);
-            }
-          });
-        }
-      });
-      return () => clearTimeout(timer);
-    }
-  }, [cardResult, navigate]);
-
-  const handleReset = () => {
-    setEditorContent("");
-    setAddTextLine([{ id: 1, value: "" }]);
-    setNewTextLine([]);
-    setParentID(0);
-    setMainPageSelection([]);
-    setSectionPageSelection([]);
-    setMainPageDropdown("");
-    setSectionPageDropdown("");
-    setTextLine({
-      title: "",
-      address: "",
-      description: "",
-      contact: 0,
-      email: "",
-      location: "",
-      service: "",
-    });
-    setEntries([
-      {
-        id: Date.now(),
-        imagePreview: null,
-        personnelName: "",
-        position: "",
-      },
-    ]);
-    setImageInsert([
-      {
-        id: Date.now(),
-        imagePreview: null,
-      },
-    ]);
-    setSocialText([
-      {
-        id: 1,
-        link: "",
-        social: "",
-      },
-    ]);
-  };
-
   const handleParentDropdownChange = (e) => {
-    const { name, value } = e.target;
     setSelectedValue(e.target.value);
-    setValue(name, value);
   };
 
   const handleChildDropdownChange = (e) => {
-    const { name, value } = e.target;
     setSelectChildValue(e.target.value);
-    setValue(name, value);
   };
 
-  const handleMainPage = (e) => {
-    const value = e.target.value;
-    setMainPageDropdown(value);
-  };
-
-  const handleSectionPage = (e) => {
-    const value = e.target.value;
-    setSectionPageDropdown(value);
-  };
-
-  const handleSave = () => {
-    console.log(initialSelectionContent);
-    postCard(initialSelectionContent);
+  const handleSave = (e) => {
+    e.preventDefault();
+    if (name === "Business") {
+      console.log(initialBusinessContent);
+      fetchBusinessContent(initialBusinessContent);
+      Swal.fire(
+        "Business Content",
+        `New ${name} content has been created successfully.`,
+        "success"
+      ).then(() => {
+        navigate(-1);
+      });
+    } else {
+      fetchCreateCard(initialSelectionContent);
+      Swal.fire(
+        "Card Created",
+        `A new ${name} has been created successfully.`,
+        "success"
+      ).then(() => {
+        navigate(-1);
+      });
+    }
+    console.log(result || resultCard);
   };
 
   const handleUpdate = () => {
     if (name === "Business") {
-      if (fetchUpdateCompany(initialBusinessContent)) {
-        try {
-          console.log(initialBusinessContent);
-          toastify(` Successfully Update ${name} Content! `, "success");
-        } catch (error) {
-          toastify("Failed to Submit Reply.", "error");
-        }
-      }
+      fetchUpdateCompany(initialBusinessContent);
+      showAlert(
+        "Business Updated",
+        `The ${name} has been updated successfully.`,
+        "success"
+      ).then(() => {
+        navigate(-1);
+      });
     } else {
-      // if (fetchUpdateCard(initialSelectionContent)) {
-      try {
-        console.log(initialSelectionContent);
-        toastify(` Successfully Update ${name} Content `, "success");
-      } catch (error) {
-        toastify("Failed to Submit Reply.", "error");
-      }
-      // }
+      fetchUpdateCard(initialSelectionContent);
+      showAlert(
+        "Card Updated",
+        `The ${name} content card has been updated successfully.`,
+        "success"
+      ).then(() => {
+        navigate(-1 );
+      });
     }
   };
 
@@ -449,7 +340,6 @@ function Contentcreate(props) {
       ...prevState,
       [name]: value,
     }));
-    setValue(name, value);
   };
 
   const handleDeleteTextline = (id) => {
@@ -487,23 +377,6 @@ function Contentcreate(props) {
         );
       };
       reader.readAsDataURL(file);
-      //setValue("image", e.target.files);
-    }
-  };
-
-  const handleTitleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImageInsert((prev) => ({
-          ...prev,
-          imagePreview: reader.result,
-        }));
-      };
-      reader.readAsDataURL(file);
-
-      setValue("image", e.target.files);
     }
   };
 
@@ -517,7 +390,6 @@ function Contentcreate(props) {
       };
       return updatedEntries;
     });
-    // setValue(name, value);
   };
 
   const handleAddNewEntry = () => {
@@ -533,6 +405,7 @@ function Contentcreate(props) {
     ]);
   };
 
+  // Handle text input changes for link field
   const handleSocialText = (e, index) => {
     const { name, value } = e.target;
     setSocialText((prev) =>
@@ -559,15 +432,6 @@ function Contentcreate(props) {
     ]);
   };
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(formSchema),
-  });
-
   return (
     <div className="p-5">
       {name === "Blog" ? (
@@ -580,7 +444,7 @@ function Contentcreate(props) {
           />
         </div>
       ) : (
-        <div className="flex flex-col border rounded-lg shadow-lg   bg-gray-100">
+        <div className="flex flex-col border rounded-lg shadow-lg min-w-80 min-h-80  bg-gray-100">
           <div className="text-2xl font-bold p-4">Create Form Content</div>
           <form className="flex flex-col p-3 gap-2">
             <div className="flex gap-3">
@@ -591,21 +455,13 @@ function Contentcreate(props) {
                   placeholder={selectedValue ? selectedValue : "Select Parent"}
                   value={selectedValue}
                   options={dropdownOptions}
-                  name="parent"
-                  {...register("parent")}
                   onChange={handleParentDropdownChange}
                 />
-                {errors.parent && (
-                  <span className="text-red-500 text-sm italic">
-                    {errors.parent.message}
-                  </span>
-                )}
               </div>
               <div className="flex flex-col ">
                 <label htmlFor="child">Child Name:</label>
                 <Dropdown
                   id="child"
-                  name="child"
                   placeholder={
                     !selectedValue
                       ? location
@@ -626,116 +482,50 @@ function Contentcreate(props) {
                         ]
                       : dropdownChildOptions
                   }
-                  {...register("child")}
                   onChange={handleChildDropdownChange}
-                />
-                {errors.child && (
-                  <span className="text-red-500 text-sm italic">
-                    {errors.child.message}
-                  </span>
-                )}
-              </div>
-              <div className="flex flex-col">
-                <label htmlFor="child">Main Page:</label>
-                <Dropdown
-                  value={mainPageDropDown}
-                  options={
-                    mainPageSelection.length > 0 ? mainPageSelection : []
-                  }
-                  placeholder={mainPageDropDown || "Select Main Page"}
-                  onChange={handleMainPage}
-                />
-              </div>
-              <div className="flex flex-col">
-                <label htmlFor="child">Section Page:</label>
-                <Dropdown
-                  value={sectionPageDropDown}
-                  options={
-                    sectionPageSelection.length > 0 ? sectionPageSelection : []
-                  }
-                  placeholder={sectionPageDropDown || "Select Section Page"}
-                  onChange={handleSectionPage}
                 />
               </div>
             </div>
             <div className="flex flex-wrap gap-3">
-              <div className="flex w-full ">
-                <div className="flex flex-col w-full ">
-                  <div className="flex flex-col w-full ">
-                    <label htmlFor="Title">Title</label>
-                    <Textline
-                      className={
-                        "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
-                      }
-                      type={"text"}
-                      placeholder={"Enter Title"}
-                      value={TextLine.title}
-                      name={"title"}
-                      {...register("title")}
-                      onChange={handleTextLineChange}
-                    />
-                    {errors.title && (
-                      <span className="text-red-500 text-sm italic">
-                        {errors.title.message}
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex  flex-col w-full">
-                    <label htmlFor="Description">Address</label>
-                    <Textline
-                      className={
-                        "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
-                      }
-                      type={"text"}
-                      placeholder={"Enter Address"}
-                      value={TextLine.address}
-                      name={"address"}
-                      {...register("address")}
-                      onChange={handleTextLineChange}
-                    />
-                    {errors.address && (
-                      <span className="text-red-500 text-sm italic">
-                        {errors.address.message}
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex  flex-col w-full">
-                    <label htmlFor="Description">Description</label>
-                    <Textline
-                      className={
-                        "w-full text-gray-900 focus:ring-4 h-[14vh] bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
-                      }
-                      type={"text"}
-                      placeholder={"Enter Description"}
-                      value={TextLine.description}
-                      name={"description"}
-                      {...register("description")}
-                      onChange={handleTextLineChange}
-                      textarea={true}
-                    />
-                    {errors.description && (
-                      <span className="text-red-500 text-sm italic">
-                        {errors.description.message}
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <div className="flex w-[30vw] justify-end ">
-                  <div>
-                    <UploadImage
-                      imagePreview={imageInsert.imagePreview}
-                      handleFileChange={(e) => handleTitleFileChange(e)}
-                      className="flex "
-                    />
-                    {errors.image && (
-                      <span className="text-red-500 text-sm italic">
-                        {errors.image.message}
-                      </span>
-                    )}
-                  </div>
-                </div>
+              <div className="flex flex-col w-full">
+                <label htmlFor="Title">Title</label>
+                <Textline
+                  className={
+                    "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
+                  }
+                  type={"text"}
+                  placeholder={"Enter Title"}
+                  value={TextLine.title}
+                  name={"title"}
+                  onChange={handleTextLineChange}
+                />
               </div>
-
+              <div className="flex  flex-col w-full">
+                <label htmlFor="Description">Address</label>
+                <Textline
+                  className={
+                    "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
+                  }
+                  type={"text"}
+                  placeholder={"Enter Description"}
+                  value={TextLine.address}
+                  name={"address"}
+                  onChange={handleTextLineChange}
+                />
+              </div>
+              <div className="flex  flex-col w-full">
+                <label htmlFor="Description">Description</label>
+                <Textline
+                  className={
+                    "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
+                  }
+                  type={"text"}
+                  placeholder={"Enter Description"}
+                  value={TextLine.description}
+                  name={"description"}
+                  onChange={handleTextLineChange}
+                />
+              </div>
               <div className="flex w-full gap-2">
                 <div className="flex  flex-col w-full">
                   <label htmlFor="Description">Contact</label>
@@ -747,17 +537,11 @@ function Contentcreate(props) {
                     placeholder={"Enter Contact"}
                     value={TextLine.contact}
                     name={"contact"}
-                    {...register("contact")}
                     onChange={handleTextLineChange}
                   />
-                  {errors.contact && (
-                    <span className="text-red-500 text-sm italic">
-                      {errors.contact.message}
-                    </span>
-                  )}
                 </div>
                 <div className="flex  flex-col w-full">
-                  <label htmlFor="Email">Email</label>
+                  <label htmlFor="Description">Email</label>
                   <Textline
                     className={
                       "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
@@ -766,17 +550,11 @@ function Contentcreate(props) {
                     placeholder={"Enter Email"}
                     value={TextLine.email}
                     name={"email"}
-                    {...register("email")}
                     onChange={handleTextLineChange}
                   />
-                  {errors.email && (
-                    <span className="text-red-500 text-sm italic">
-                      {errors.email.message}
-                    </span>
-                  )}
                 </div>
                 <div className="flex  flex-col w-full">
-                  <label htmlFor="Service">Service Type</label>
+                  <label htmlFor="Description">Service Type</label>
                   <Textline
                     className={
                       "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
@@ -790,7 +568,7 @@ function Contentcreate(props) {
                 </div>
               </div>
               <div className="flex  flex-col w-full">
-                <label htmlFor="Location">Location</label>
+                <label htmlFor="Description">Location</label>
                 <Textline
                   className={
                     "w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 "
@@ -815,64 +593,84 @@ function Contentcreate(props) {
                 />
               </div>
               <div className="flex  flex-col w-full">
-                <label htmlFor="Image">Image Link</label>
+                <label htmlFor="Image">
+                  {name === "Business" ? "Product Image Link" : "Image Link"}
+                </label>
                 <div className="flex flex-wrap  max-w-full gap-1">
-                  <div className=" min-w-full ">
-                    {addTextLine.map((textLine, index) => (
-                      <div key={textLine.id} className="flex w-full gap-1 mt-2">
-                        <div className="w-full">
-                          <Textline
-                            className="min-w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
-                            type="text"
-                            placeholder={`Enter Image link (Optional)`}
-                            value={textLine.value}
-                            onChange={(e) =>
-                              handleTextlineChange(textLine.id, e.target.value)
-                            }
-                            required={false}
-                          />
-                        </div>
-                        <div className="flex justify-center ">
-                          <Button
-                            icon={
-                              <FontAwesomeIcon
-                                icon={
-                                  textLine.id < addTextLine.length
-                                    ? faMinus
-                                    : faAdd
-                                }
-                                className="border p-3  rounded-lg hover:bg-blue-500 hover:text-white"
-                                onClick={
-                                  textLine.id < addTextLine.length
-                                    ? () => handleDeleteTextline(textLine.id)
-                                    : handleAddLink
-                                }
-                              />
-                            }
-                          />
-                        </div>
-                      </div>
-                    ))}
+                  <div className="flex gap-2 min-w-full">
+                    <div className="w-full">
+                      <Textline
+                        className="min-w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
+                        type="text"
+                        placeholder={"Enter Image link (Required)"}
+                        value={TextLine.image}
+                        name={"image"}
+                        onChange={handleTextLineChange}
+                        required={true}
+                      />
+                    </div>
                   </div>
+
+                  {/* Conditionally render the dynamically added Textlines only if at least one has been added */}
+                  {TextLine.image !== "" && (
+                    <div className=" min-w-full ">
+                      {addTextLine.map((textLine, index) => (
+                        <div
+                          key={textLine.id}
+                          className="flex w-full gap-1 mt-2"
+                        >
+                          <div className="w-full">
+                            <Textline
+                              className="min-w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
+                              type="text"
+                              placeholder={`Enter Image link (Optional)`}
+                              value={textLine.value}
+                              onChange={(e) =>
+                                handleTextlineChange(
+                                  textLine.id,
+                                  e.target.value
+                                )
+                              }
+                              required={false}
+                            />
+                          </div>
+                          <div className="flex justify-center ">
+                            <Button
+                              icon={
+                                <FontAwesomeIcon
+                                  icon={
+                                    textLine.id < addTextLine.length
+                                      ? faMinus
+                                      : faAdd
+                                  }
+                                  className="border p-3 mt-2 rounded-lg hover:bg-blue-500 hover:text-white"
+                                  onClick={
+                                    textLine.id < addTextLine.length
+                                      ? () => handleDeleteTextline(textLine.id)
+                                      : handleAddLink
+                                  } // Add new Textline on button click
+                                />
+                              }
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
-              <div
-                className={
-                  name === "Company" ? "flex flex-col w-full" : "hidden"
-                }
-              >
-                <label htmlFor="personel">Personnel </label>
-                <div className="grid grid-cols-3 gap-2">
-                  {entries.map((entry, index) => (
-                    <div className="px-5 " key={entry.id}>
-                      <div className="p-2">
-                        <UploadImage
-                          imagePreview={entry.imagePreview}
-                          handleFileChange={(e) => handleFileChange(index, e)}
-                          style={{ width: "15vw" }}
-                        />
-                      </div>
-                      <div className="flex flex-col p-2">
+              {name === "Business" && (
+                <div className="flex flex-col w-full">
+                  <label htmlFor="personel">Personnel </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {entries.map((entry, index) => (
+                      <div className="px-5" key={entry.id}>
+                        <div>
+                          <UploadImage
+                            imagePreview={entry.imagePreview}
+                            handleFileChange={(e) => handleFileChange(index, e)}
+                          />
+                        </div>
                         <Textline
                           className="w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
                           type="text"
@@ -881,8 +679,6 @@ function Contentcreate(props) {
                           value={entry.personnelName}
                           onChange={(e) => handleInputChange(index, e)}
                         />
-                      </div>
-                      <div className="flex flex-col p-2">
                         <Textline
                           className="w-full text-gray-900 focus:ring-4 bg-gray-50 border border-gray-300 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5"
                           type="text"
@@ -892,21 +688,21 @@ function Contentcreate(props) {
                           onChange={(e) => handleInputChange(index, e)}
                         />
                       </div>
-                    </div>
-                  ))}
-                  {entries.length < 10 && (
-                    <div className="flex p-5">
-                      <Button
-                        icon={<FontAwesomeIcon icon={faAdd} />}
-                        className={
-                          "border-2 border-dashed min-w-[20vw] min-h-80 rounded-lg"
-                        }
-                        onClick={handleAddNewEntry}
-                      />
-                    </div>
-                  )}
+                    ))}
+                    {entries.length < 10 && (
+                      <div className="flex p-5">
+                        <Button
+                          icon={<FontAwesomeIcon icon={faAdd} />}
+                          className={
+                            "border-2 border-dashed min-w-[20vw] min-h-80 rounded-lg"
+                          }
+                          onClick={handleAddNewEntry}
+                        />
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
               <div className="flex  flex-wrap w-full p-2 gap-3">
                 {socialText &&
                   socialText.map((item, index) => (
@@ -955,7 +751,7 @@ function Contentcreate(props) {
                       ? "min-w-64 border p-2  rounded-lg hover:bg-green-500 hover:text-gray-100 hover:border-none"
                       : "min-w-64 border p-2  rounded-lg hover:bg-blue-500 hover:text-gray-100 hover:border-none"
                   }
-                  onClick={title ? handleUpdate : handleSubmit(handleSave)}
+                  onClick={title ? handleUpdate : handleSave}
                 />
               </div>
             </div>

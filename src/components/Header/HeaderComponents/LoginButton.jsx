@@ -4,7 +4,6 @@ import Spinner from "../../Spinner/Spinner";
 import Button from "../../Button/Button";
 import { Login } from "../../../pages/Login/Login";
 import { Registration } from "../../../pages/Login/Registration";
-import { ForgotPassword } from "../../../pages/Login/ForgotPassword";
 
 export default function LoginButton({
   translation,
@@ -13,9 +12,6 @@ export default function LoginButton({
   isRegistration,
   isModalOpen,
   handleModalOpen,
-  isForgotPassword,
-  handleForgotPassword,
-  handleForgotPasswordClose,
 }) {
   const { isAuthenticated, logout, authload } = useAuth();
 
@@ -50,7 +46,6 @@ export default function LoginButton({
         <Login
           handleModalOpen={handleModalOpen}
           handleRegistrationOpen={handleRegistrationOpen}
-          handleForgotPassword={handleForgotPassword}
         />
       )}
       {isRegistration && (
@@ -58,9 +53,6 @@ export default function LoginButton({
           handleRegistrationClose={handleRegistrationOpen}
           handleLoginOpen={handleModalOpen}
         />
-      )}
-      {isForgotPassword && (
-        <ForgotPassword handleForgotPasswordClose={handleForgotPasswordClose} />
       )}
     </React.Fragment>
   );

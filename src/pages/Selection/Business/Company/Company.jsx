@@ -1,41 +1,26 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Carousel from "../../../../components/Carousel/Carousel";
 import ContactForm from "../../../../components/ContactUs/ContactUs";
+import { personnelContent } from "../../../../content/personnelContent";
 import { Link, useLocation } from "react-router-dom";
 import Images from "../../../../components/Image/Images";
 import GoogleMapEmbed from "../../../../components/GoogleMapEmbed/GoogleMapEmbed";
 import { useCompanyView } from "../../../../helper/database/useBusinessData";
 import Maintenance from "../../../../components/Maintenance/Maintenance";
 import Spinner from "../../../../components/Spinner/Spinner";
-import Horizontal from "../../../../components/Horizontal/Horizontal";
-import Swal from "sweetalert2";
-import { RiKakaoTalkFill } from "react-icons/ri";
-import { SiGmail } from "react-icons/si";
-import { FaTelegram } from "react-icons/fa";
+import Table from "../../../../components/Table/Table";
 
 const Company = (props) => {
   const { CompanyData } = props;
   const { state } = useLocation();
   const { title } = state || { title: null };
-  const contentRef = useRef(null);
   const [getCompanyInfo, setCompanyInfo] = useState([]);
   const [companyName, setCompanyName] = useState("");
   const [getCompanyImages, setCompanyImages] = useState([]);
   const [getCompanyProduct, setCompanyProduct] = useState([]);
   const [getCompanySocial, setCompanySocial] = useState([]);
-  const [getpersonnel, setPersonnel] = useState([]);
-  const { viewData, viewloading } = useCompanyView(companyName);
-  const { info, images, socials, personnels, product } = viewData;
-
-  useEffect(() => {
-    if (!viewloading && viewData) {
-      if (contentRef.current) {
-        contentRef.current.scrollIntoView({ behavior: "smooth" });
-      } else {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-    }
-  }, [viewloading, viewData]);
+  const [personnel, setPersonnel] = useState([]);
+  const { viewData, vieloading } = useCompanyView(companyName);
 
   useEffect(() => {
     const cardname = CompanyData
@@ -44,117 +29,108 @@ const Company = (props) => {
     const getCompanyInfo = CompanyData
       ? CompanyData.find((item) => item.title === cardname)
       : [];
+    const getImage = viewData.images ? viewData.images.map((item) => item) : [];
+    const getProduct = viewData.products
+      ? viewData.products.map((item) => item)
+      : [];
+    const getSocial = viewData.socials
+      ? viewData.socials.map((item) => item)
+      : [];
+    const getPerson = viewData.personnel
+      ? viewData.personnel.map((item) => item)
+      : [];
 
-    const getImage = images ? images.map((item) => item) : [];
-    const getProduct = product ? product.map((item) => item) : [];
-    const getSocial = socials ? socials.map((item) => item) : [];
-    const getPerson = personnels ? personnels.map((item) => item) : [];
-    const infos = info ? info[0] : [];
-
-    setCompanyInfo(infos);
     setPersonnel(getPerson);
     setCompanySocial(getSocial);
     setCompanyImages(getImage);
     setCompanyProduct(getProduct);
-    setCompanyInfo(infos);
+    setCompanyInfo(getCompanyInfo);
     setCompanyName(cardname);
-  }, [CompanyData, info, images, socials, personnels, product, title]);
+  }, [CompanyData, viewData]);
 
-  if (!getCompanyInfo.companyName) {
+  if (!viewData.companyName) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Maintenance />
       </div>
     );
   }
-  if (viewloading) {
+  if (vieloading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Spinner />
       </div>
     );
   }
-
-  const website = getCompanySocial ? getCompanySocial[0] : [];
+  const website = getCompanySocial
+    ? getCompanySocial.map((item) => item.website)
+    : [];
   const capitalizeWords = (str) => {
-    if (!str) return "";
     return str
-      .replace(/([a-z])([A-Z])/g, "$1 $2")
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(" ");
+      .replace(/([a-z])([A-Z])/g, "$1 $2") // Add space before capital letters
+      .split(" ") // Split into words
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
+      .join(" "); // Join back into a string
   };
 
-  const viewkeys = Object.keys(getCompanyInfo);
-
-  const copyToClipboard = (text, message) => {
-    navigator.clipboard
-      .writeText(text)
-      .then(() =>
-        Swal.fire({
-          title: "Good job!",
-          text: `${message} copied to clipboard! ${text}`,
-          icon: "success",
-          customClass: { popup: "small-swal-popup" },
-        })
-      )
-      .catch((err) => console.error("Failed to copy: ", err));
-  };
-
-  const handleCopyClick = () =>
-    copyToClipboard("philtong15@gmail.com", "Gmail Address");
-  const handleCopyTalk = () =>
-    copyToClipboard("09928599984", "Kakao Talk Number");
-  const handleCopyTelegram = () =>
-    copyToClipboard("09943514205", "Telegram Number");
-
+  const viewkeys = Object.keys(viewData);
+  const tblheader = ["Information", "Details"];
+  const tblrow = ["Information", "Details"];
+  const tbldata = [
+    {
+      Information: capitalizeWords(viewkeys[0]) + ":",
+      Details: viewData.companyName,
+    },
+    {
+      Information: capitalizeWords(viewkeys[3]),
+      Details: viewData.contact,
+    },
+    {
+      Information: capitalizeWords(viewkeys[5]),
+      Details: viewData.address,
+    },
+    {
+      Information: "Director:",
+      Details: viewData.person,
+    },
+    {
+      Information: capitalizeWords(viewkeys[7]),
+      Details: viewData.establish,
+    },
+    {
+      Information: capitalizeWords(viewkeys[8]),
+      Details: viewData.employee,
+    },
+    {
+      Information: "URL:",
+      Details: website.length ? (
+        <a
+          href={website}
+          target={"_black"}
+          className="text-blue-700 hover:underline"
+        >
+          {website}
+        </a>
+      ) : (
+        "N/A"
+      ),
+    },
+  ];
+  
   return (
-    <div
-      className="px-[30rem] w-full py-10 flex items-start justify-center flex-col "
-      ref={contentRef}
-    >
-      <h1 className="fira-sans-bold text-[#013A63] font-bold text-3xl text-start mb-3">
-        {getCompanyInfo.companyName}
-      </h1>
-      <div className="flex flex-wrap">
-        <p className="mb-3 text-lg text-slate-500 fira-sans-condensed-regular text-wrap  ">
-          {getCompanyInfo.description}
-        </p>
-        <hr className="w-full " />
-
-        <div className="w-full flex items-center justify-between rounded-md py-3 gap-3 mb-4">
-          <h1 className="text-xl fira-sans-condensed-bold text-slate-600">
-            Social Media Contacts:
-          </h1>
-          <div className="flex items-center gap-3">
-            <div
-              onClick={handleCopyTalk}
-              className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-yellow-500 rounded-md cursor-pointer hover:bg-yellow-400 "
-            >
-              <RiKakaoTalkFill className="text-4xl mr-2" />
-              KakaoTalk
-            </div>
-            <div
-              onClick={handleCopyClick}
-              className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-red-500 rounded-md cursor-pointer hover:bg-red-400"
-            >
-              <SiGmail className="text-4xl mr-2 " />
-              Gmail
-            </div>
-            <div
-              onClick={handleCopyTelegram}
-              className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-blue-400 rounded-md cursor-pointer hover:bg-blue-300"
-            >
-              <FaTelegram className="text-4xl mr-2 text-black" />
-              Telegram
-            </div>
-          </div>
-        </div>
-        <hr className="w-full py-4 " />
-      </div>
+    <div className="flex flex-col mx-auto max-w-srceen-md items-center p-5">
+      <div className="text-2xl p-3 font-bold">"{viewData.companyName}"</div>
       <div className="flex flex-col">
         <div className="p-3 flex  justify-center">
-          <Images src={getCompanyInfo.imgLOGO} />
+          <Images
+            src={viewData.imgLOGO}
+            //style={{ width: "100px" }}
+          />
+        </div>
+        <div className="flex flex-wrap-reverse  justify-center">
+          <p className="text-wrap text-sm max-w-prose indent-8 p-2 ">
+            {viewData.description}
+          </p>
         </div>
       </div>
       <section id="about">
@@ -206,58 +182,31 @@ const Company = (props) => {
           </div>
         </div>
       </section>
-      {getpersonnel ? (
+      {personnel ? (
         <section id="personnel">
           <div className="text-2xl font-bold mt-5 p-2">Personnel</div>
-          <div className=" w-[45vw] border  p-3">
-            <Carousel items={getpersonnel} />
+          <div className=" max-w-screen-md p-3">
+            <Carousel items={personnel} />
           </div>
         </section>
       ) : (
         ""
       )}
-
-      <Horizontal />
-      <div className="bg-[#f4f1de]">
-        <div className="bg-[#e63946] fira-sans-bold text-white font-bold text-3xl text-start mt-5 p-5">
+      <section id="address">
+        <div className="font-mono font-bold text-3xl text-center mt-5 p-5">
           Location
         </div>
         <div className="flex justify-center">
-          <GoogleMapEmbed src={getCompanyInfo.locationURL} />
+          <GoogleMapEmbed src={viewData.locationURL} />
         </div>
+      </section>
 
-        <div className="flex items-start px-6 py-6 gap-2 flex-col">
-          {/* <Table tblheader={tblheader} tblrow={tblrow} tbldata={tbldata} /> */}
-          <p className="fira-sans-condensed-regular text-lg text-gray-600">
-            <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
-              {capitalizeWords(viewkeys[0])} :
-            </span>
-            {getCompanyInfo.companyName}
-          </p>
-          <p className="fira-sans-condensed-regular text-lg text-gray-600">
-            <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
-              {capitalizeWords(viewkeys[3])} :
-            </span>
-            {getCompanyInfo.contact}
-          </p>
-          <p className="fira-sans-condensed-regular text-lg text-gray-600">
-            <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
-              {capitalizeWords(viewkeys[4])} :
-            </span>
-            {getCompanyInfo.email}
-          </p>
-          <p className="fira-sans-condensed-regular text-lg text-gray-600">
-            <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
-              {capitalizeWords(viewkeys[5])} :
-            </span>
-            {getCompanyInfo.address}
-          </p>
-          <p className="fira-sans-condensed-regular text-lg text-gray-600">
-            <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
-              Website :
-            </span>
-            {website.SocialValue}
-          </p>
+      <section id="CompanyInfo">
+        <div className="font-mono font-bold text-3xl text-center mt-5 p-5">
+          Company Info
+        </div>
+        <div className="p-2 mt-5">
+          <Table tblheader={tblheader} tblrow={tblrow} tbldata={tbldata} />
         </div>
         <div className="">
           {getCompanySocial
@@ -268,13 +217,10 @@ const Company = (props) => {
               ))
             : ""}
         </div>
-      </div>
+      </section>
 
       <section id="contact" className="max-w-screen-md">
-        <ContactForm
-          email={getCompanyInfo.email}
-          company={getCompanyInfo.companyName}
-        />
+        <ContactForm email={viewData.email} company={viewData.companyName} />
       </section>
     </div>
   );

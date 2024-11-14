@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { useLocation } from "react-router-dom";
 import { AuthProvider } from "../../helper/auth/useAuthContext";
-import SonnerToaster from "../../components/Sonner/Sonner";
 
 const DashboardLayout = ({ children, props }) => {
   const { navbar } = props;
@@ -10,18 +9,18 @@ const DashboardLayout = ({ children, props }) => {
   const hiddenDash = location.pathname.includes("dashboard");
   return (
     <>
-        <SonnerToaster />
-
+      <AuthProvider>
         {hiddenDash && (
-          <div className="flex ">
-            <div className="flex sticky top-0 h-full  ">
+          <div className="flex flex-row">
+            <div className="flex sticky top-0 h-screen  ">
               <Sidebar navbar={navbar} />
             </div>
-            <div className="flex w-full bg-[#013A63]/5 overflow-hidden hover:overflow-y-scroll">
+            <div className="flex min-w-80 h-full">
               {React.cloneElement(children)}
             </div>
           </div>
         )}
+      </AuthProvider>
     </>
   );
 };

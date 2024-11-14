@@ -3,41 +3,35 @@ import Textline from "../../components/Textline/Textline";
 import Button from "../../components/Button/Button";
 import { useRegistration } from "../../helper/auth/useAuthentication";
 import useAlert from "../../helper/alert/useAlert";
-import UploadImage from "../../components/UploadImage/UploadImage";
 
 export const Registration = ({ handleRegistrationClose, handleLoginOpen }) => {
   const initialData = {
-    imgurl: "http://example.com/image.jpg",
-    //imgurl: null,
-    firstname: "",
-    middlename: "",
-    lastname: "",
+    username: "",
     email: "",
-    mobile_number: "",
+    number: "",
     password: "",
     confirmPassword: "",
-    access_level: "CUSTOMER",
   };
 
   const [formData, setFormData] = useState(initialData);
   const [errors, setErrors] = useState({});
+  const [getData, setRegisterData] = useState([]);
   const { fetchRegistration, response, error, loadData } = useRegistration();
   const showAlert = useAlert();
 
+  // Validation function
   const validate = () => {
     const newErrors = {};
-    if (!formData.firstname) newErrors.firstname = "Firstname is required.";
-    if (!formData.middlename) newErrors.middlename = "Middle name is required.";
-    if (!formData.lastname) newErrors.lastname = "Lastname is required.";
+    if (!formData.username) newErrors.username = "Username is required.";
     if (!formData.email) {
       newErrors.email = "Email is required.";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Email address is invalid.";
     }
-    if (!formData.mobile_number) {
-      newErrors.mobile_number = "Number is required.";
-    } else if (!/^09\d{9}$/.test(formData.mobile_number)) {
-      newErrors.mobile_number = "Number format is invalid. Use '09*********'.";
+    if (!formData.number) {
+      newErrors.number = "Number is required.";
+    } else if (!/^09\d{9}$/.test(formData.number)) {
+      newErrors.number = "Number format is invalid. Use '09*********'.";
     }
     if (!formData.password) newErrors.password = "Password is required.";
     if (formData.password !== formData.confirmPassword) {
@@ -52,14 +46,13 @@ export const Registration = ({ handleRegistrationClose, handleLoginOpen }) => {
     setFormData({ ...formData, [name]: value });
 
     if (errors[name]) {
-      setErrors({ ...errors, [name]: null });
+      setErrors({ ...errors, [name]: null }); // Clear specific field error when user types
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      //console.log(formData);
       fetchRegistration(formData);
     }
   };
@@ -67,8 +60,8 @@ export const Registration = ({ handleRegistrationClose, handleLoginOpen }) => {
   useEffect(() => {
     if (response) {
       showAlert("Success", "Registration successful!", "success");
-      handleRegistrationClose();
-      handleLoginOpen();
+      handleRegistrationClose(); // Close the registration modal
+      handleLoginOpen(); // Open the login modal
     }
   }, [response, showAlert, handleRegistrationClose, handleLoginOpen]);
 
@@ -85,19 +78,6 @@ export const Registration = ({ handleRegistrationClose, handleLoginOpen }) => {
     }
   }, [error]);
 
-  const handleUploadChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData((prev) => ({
-          ...prev,
-          imgurl: reader.result,
-        }));
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   return (
     <div className="">
@@ -107,7 +87,7 @@ export const Registration = ({ handleRegistrationClose, handleLoginOpen }) => {
         aria-hidden="true"
         className="fixed inset-0 z-50 flex items-center justify-center w-full h-full bg-gray-800 bg-opacity-50"
       >
-        <div className="relative p-4 w-full max-w-[40vw] max-h-full">
+        <div className="relative p-4 w-full max-w-md max-h-full">
           <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
@@ -138,108 +118,55 @@ export const Registration = ({ handleRegistrationClose, handleLoginOpen }) => {
             </div>
             <div className="p-4 md:p-5">
               <form className="space-y-4" onSubmit={handleSubmit}>
-                <div className="flex  justify-center">
-                  <UploadImage
-                    handleFileChange={(e) => handleUploadChange(e)}
-                    imagePreview={formData.imgurl}
-                    style={{ width: "15vw" }}
-                  />
-                </div>
-                <div className="flex gap-3">
-                  <div className="w-full">
-                    <Textline
-                      type="text"
-                      name="firstname"
-                      id="firstname"
-                      className={`bg-gray-50 border ${
-                        errors.firstname ? "border-red-500" : "border-gray-300"
-                      } text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white`}
-                      placeholder="John "
-                      label={"Firstname"}
-                      value={formData.firstname}
-                      onChange={handleChange}
-                    />
-                    {errors.firstname && (
-                      <p className="text-red-500 text-sm">{errors.firstname}</p>
-                    )}
-                  </div>
-                  <div className="w-full">
-                    <Textline
-                      type="text"
-                      name="middlename"
-                      id="middlename"
-                      className={`bg-gray-50 border ${
-                        errors.middlename ? "border-red-500" : "border-gray-300"
-                      } text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white`}
-                      placeholder="C"
-                      label={"Middle name"}
-                      value={formData.middlename}
-                      onChange={handleChange}
-                    />
-                    {errors.middlename && (
-                      <p className="text-red-500 text-sm">
-                        {errors.middlename}
-                      </p>
-                    )}
-                  </div>
-                  <div className="w-full">
-                    <Textline
-                      type="text"
-                      name="lastname"
-                      id="lastname"
-                      className={`bg-gray-50 border ${
-                        errors.lastname ? "border-red-500" : "border-gray-300"
-                      } text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white`}
-                      placeholder="Doe"
-                      label={"Lastname"}
-                      value={formData.lastname}
-                      onChange={handleChange}
-                    />
-                    {errors.lastname && (
-                      <p className="text-red-500 text-sm">{errors.lastname}</p>
-                    )}
-                  </div>
-                </div>
-                <div className="flex w-full gap-3 ">
-                  <div className=" w-full">
-                    <Textline
-                      type="email"
-                      name="email"
-                      id="email"
-                      className={`bg-gray-50 border ${
-                        errors.email ? "border-red-500" : "border-gray-300"
-                      } text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white`}
-                      placeholder="name@company.com"
-                      label={"Email"}
-                      value={formData.email}
-                      onChange={handleChange}
-                    />
-                    {errors.email && (
-                      <p className="text-red-500 text-sm">{errors.email}</p>
-                    )}
-                  </div>
+                <Textline
+                  type="text"
+                  name="username"
+                  id="username"
+                  className={`bg-gray-50 border ${
+                    errors.username ? "border-red-500" : "border-gray-300"
+                  } text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white`}
+                  placeholder="John Doe"
+                  label={"Username"}
+                  value={formData.username}
+                  onChange={handleChange}
+                />
+                {errors.username && (
+                  <p className="text-red-500 text-sm">{errors.username}</p>
+                )}
 
-                  <div className=" w-full">
-                    <Textline
-                      type="tel"
-                      name="mobile_number"
-                      id="mobile_number"
-                      pattern="^09\d{9}$"
-                      className={`bg-gray-50 border ${
-                        errors.number ? "border-red-500" : "border-gray-300"
-                      } text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white`}
-                      placeholder="09*********"
-                      label={"Number"}
-                      value={formData.mobile_number}
-                      onChange={handleChange}
-                    />
-                    {errors.mobile_number && (
-                      <p className="text-red-500 text-sm">
-                        {errors.mobile_number}
-                      </p>
-                    )}
-                  </div>
-                </div>
+                <Textline
+                  type="email"
+                  name="email"
+                  id="email"
+                  className={`bg-gray-50 border ${
+                    errors.email ? "border-red-500" : "border-gray-300"
+                  } text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white`}
+                  placeholder="name@company.com"
+                  label={"Email"}
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+                {errors.email && (
+                  <p className="text-red-500 text-sm">{errors.email}</p>
+                )}
+
+                <Textline
+                  type="tel"
+                  name="number"
+                  id="number"
+                  pattern="^09\d{9}$"
+                  className={`bg-gray-50 border ${
+                    errors.number ? "border-red-500" : "border-gray-300"
+                  } text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white`}
+                  placeholder="09*********"
+                  label={"Number"}
+                  value={formData.number}
+                  onChange={handleChange}
+                />
+                {errors.number && (
+                  <p className="text-red-500 text-sm">{errors.number}</p>
+                )}
+
                 <Textline
                   type="password"
                   name="password"
