@@ -27,7 +27,7 @@ const DashboardLayout = ({ children, props }) => {
       {accessLevel !== null && accessLevel !== "CUSTOMER" ? (
         hiddenDash && (
           <div className="flex ">
-            <div className="flex sticky top-0 h-full  ">
+            <div className="flex sticky top-0 h-full a ">
               <Sidebar navbar={navbar} />
             </div>
             <div className="flex w-full bg-[#013A63]/5 overflow-hidden hover:overflow-y-scroll">
