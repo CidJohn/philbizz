@@ -3,11 +3,13 @@ import { useProtect } from "./useAuthentication";
 import useStorage from "../storage/Storage";
 import { axiosPost } from "./axiosInstance";
 import { useNavigate } from "react-router-dom";
+import Account from "./access/account";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
+  const access = Account();
   const { getStorage, postStorage, deleteStorage } = useStorage();
 
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -15,7 +17,8 @@ export const AuthProvider = ({ children }) => {
   );
   const [rememberMe, setRememberMe] = useState(false);
   const [authload, setLoading] = useState(false);
-  const [adminAccess, setAdminAccess] = useState(false);
+  const [accountLevel, setAccountLevel] = useState();
+
   const tokenRefresher = async () => {
     const refresher = getStorage("refresh_token");
     if (refresher) {
@@ -43,18 +46,26 @@ export const AuthProvider = ({ children }) => {
 
   const login = (access_token, refresh_token, accountId) => {
     setLoading(true);
+    const accessLevel = accountId
+      ? { ...accountId, access: accountId.access === access[2] ? 2 : 1 }
+      : null;
     if (rememberMe) {
-      postStorage("user_identity", accountId, false);
+      postStorage("user_identity", accessLevel, false);
       postStorage("access_token", access_token, false);
       postStorage("refresh_token", refresh_token, false);
     } else {
       postStorage("access_token", access_token, true);
       postStorage("refresh_token", refresh_token, true);
-      postStorage("user_identity", accountId, true);
+      postStorage("user_identity", accessLevel, true);
     }
-    if (accountId.level === "ADMIN") {
+    if (accountId.access === access[2]) {
+      setTimeout(() => {
+        setLoading(false);
+        setIsAuthenticated(true);
+      }, 2000);
       return navigate("/dashboard");
     }
+
     setTimeout(() => {
       setLoading(false);
       setIsAuthenticated(true);
@@ -82,7 +93,7 @@ export const AuthProvider = ({ children }) => {
         logout,
         setRememberMe,
         authload,
-        adminAccess,
+        accountLevel,
       }}
     >
       {children}

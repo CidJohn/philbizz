@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from "../../helper/auth/useAuthContext";
 import SonnerToaster from "../../components/Sonner/Sonner";
 import useStorage from "../../helper/storage/Storage";
 import Lock from "../../components/Lock/Lock";
+import Account from "../../helper/auth/access/account";
 
 const DashboardLayout = ({ children, props }) => {
   const { navbar } = props;
@@ -12,19 +13,19 @@ const DashboardLayout = ({ children, props }) => {
   const { getStorage } = useStorage();
   const hiddenDash = location.pathname.includes("dashboard");
   const access = getStorage("user_identity");
-  const [accessLevel, setAccessLevel] = useState(null);
+  const [accessLevel, setAdminAccess] = useState()
+  const account_level = Account();
 
   useEffect(() => {
-    const parseAccess = JSON.parse(access);
-    const access_level = access ? parseAccess.level : null;
-    setAccessLevel(access_level);
-  }, [access]);
+    const adminAccess = access ? JSON.parse(access) : undefined;
+    setAdminAccess(adminAccess)
+  },[access])
 
   return (
     <>
       <SonnerToaster />
 
-      {accessLevel !== null && accessLevel !== "CUSTOMER" ? (
+      {accessLevel && account_level[accessLevel.access] === account_level[2] ? (
         hiddenDash && (
           <div className="flex ">
             <div className="flex sticky top-0 h-full a ">

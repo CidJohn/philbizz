@@ -10,8 +10,7 @@ import { RxExit } from "react-icons/rx";
 import { TbLayoutNavbar } from "react-icons/tb";
 import { useNavbarView } from "../../helper/database/useNavbarSettings";
 
-function Sidebar(props) {
-  const { navbar } = props;
+function Sidebar() {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -37,8 +36,8 @@ function Sidebar(props) {
     setIsDropdownOpenAchived(!isDropdownOpenAchived);
   };
 
-  const handleSidebar = (path, name) => {
-    navigate(`/dashboard${path}`, { state: { name: name, path: path } });
+  const handleSidebar = (path, name, id) => {
+    navigate(`/dashboard${path}`, { state: { name: name, path: path, id:id } });
   };
 
   const handleArchived = (path, name) => {
@@ -161,7 +160,7 @@ function Sidebar(props) {
                       <button
                         type='button'
                         className='flex p-1 gap-2'
-                        onClick={() => handleSidebar(item.path, item.name)}
+                        onClick={() => handleSidebar(item.path, item.name, item.id)}
                       >
                         <Images src={item.icons} style={{ width: "20px" }} />
                         <span className='text-[#013A63] fira-sans-regular'>
@@ -189,15 +188,15 @@ function Sidebar(props) {
                     : "max-h-0 opacity-0"
                 }`}
               >
-                {navbar &&
-                  navbar.map((item, index) => (
+                {viewNavbarList &&
+                  viewNavbarList.map((item, index) => (
                     <li key={index} className='ms-6'>
                       <button
                         type='button'
                         className='flex p-1 gap-2'
                         onClick={() => handleArchived(item.path, item.name)}
                       >
-                        <Image src={item.iconPath} style={{ width: "20px" }} />
+                        <Images src={item.icons} style={{ width: "20px" }} />
                         <span className='text-[#013A63] fira-sans-regular'>
                           {item.name}
                         </span>
