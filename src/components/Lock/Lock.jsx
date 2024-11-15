@@ -1,8 +1,7 @@
-import React from 'react';
-
+import React from "react";
 const Lock = () => {
   return (
-    <div id="container_anim" className="flex flex-col items-center">
+    <div id="container_anim body_lock" className="flex flex-col items-center">
       <div id="lock" className="key-container">
         <svg
           xmlns="http://www.w3.org/2000/svg"
