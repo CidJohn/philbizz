@@ -47,7 +47,7 @@ function Menus(props) {
       setDataLoading(false);
     }, 500);
     const updatedViewContent = viewContent.filter(
-      (item) => item.business.navId === id
+      (item) => item.business.id === id
     );
     setViewContent(updatedViewContent);
     return () => clearTimeout(timer);
@@ -69,14 +69,7 @@ function Menus(props) {
         }
       });
     }
-  }, [
-    data,
-    path,
-    name,
-    selectedItem,
-    childname,
-    business,
-  ]);
+  }, [data, path, name, selectedItem, childname, business]);
 
   const handleBack = () => {
     navigate(-1);
@@ -87,33 +80,19 @@ function Menus(props) {
   };
 
   const handlOnUpdate = (item) => {
-    if (name === "Business") {
-      navigate(`/dashboard/Form/Create`, {
-        state: {
-          title: item.title,
-          name: name,
-          path: path,
-          businessCategory: getCategory,
-          cardlocation: getBusiness
-            ? getBusiness.find((items) => items.title === item.title)
-                ?.parentName
-            : [],
-        },
-      });
-    } else {
-      navigate(`/dashboard/Form/Create`, {
-        state: {
-          title: item.title,
-          name: name,
-          path: path,
-          treeviewdata: data,
-          cardlocation: card
-            ? card.find((items) => items.title === item.title)?.location
-            : [],
-        },
-      });
-    }
+    navigate(`/dashboard/Form/Create`, {
+      state: {
+        title: item.title,
+        name: name,
+        path: path,
+        treeviewdata: data,
+        viewMenus: viewMenu,
+        cardlocation: item.location,
+        viewContent: item,
+      },
+    });
   };
+
   const handleOnDelete = (data) => {
     Swal.fire({
       title: "Are you sure?",
@@ -150,7 +129,6 @@ function Menus(props) {
       setSearchValue(filteredResults);
     }
   };
-
 
   const handleCreateButton = (e) => {
     navigate(`/dashboard/Form/Create`, {
