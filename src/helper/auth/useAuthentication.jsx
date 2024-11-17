@@ -65,7 +65,7 @@ export const useLogin = () => {
       const res = await response.data.access_token_response;
       setAccountId({
         uuid: response.data.account_id,
-        level: response.data.access_level,
+        access: response.data.access_level,
       });
       setAccessToken(res.access_token);
       setRefreshToken(res.refresh_token);
