@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import CustomSwiper from "../Advertisement/Advertisement";
 
 function DigitalClock() {
   const [currentTimePHT, setCurrentTimePHT] = useState("");
