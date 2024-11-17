@@ -34,7 +34,8 @@ import contents from "../../../../../content/content.json";
 import { useToast } from "../../../../../components/Sonner/Sonner";
 
 function Contentcreate(props) {
-  const { downTree, path, category, name, title, location, blogTitle } = props;
+  const { downTree, path, name, title, location, blogTitle, viewContent } =
+    props;
   const showAlert = useAlert();
   const navigate = useNavigate();
   const toastify = useToast();
@@ -53,11 +54,7 @@ function Contentcreate(props) {
   const [alertData, setAlertData] = useState();
   const { fetchUpdateCompany, resultUpdate } = useUpdateCompanyContent();
   const { postCard, cardResult, cardLoading } = useCardPosting();
-  const { getData, getURL, loadData } = useCardInfo(title);
-  const { getImage, loadImage } = useImgCardURL(title);
-  const { viewData, vieloading } = useCompanyView(title);
   const { content, contentload } = useBlogContent(blogTitle ? blogTitle : "");
-  const { resSocial, load } = useSocialContent(parentID);
   const [TextLine, setTextLine] = useState({
     title: "",
     address: "",
@@ -81,7 +78,6 @@ function Contentcreate(props) {
       social: "",
     },
   ]);
-
   const initialSelectionContent = {
     Treeview: {
       child: !selectChildValue ? location : selectChildValue,
@@ -132,161 +128,74 @@ function Contentcreate(props) {
   }, [contents, mainPageSelection, sectionPageSelection]);
 
   useEffect(() => {
-    if (viewData.info) {
-      viewData.info.map((item) => {
-        setTextLine({
-          title: item.companyName,
-          description: item.description,
-          image: item.imgLOGO,
+    if (viewContent) {
+      viewContent.card_info.map((item) => {
+        setTextLine((prev) => ({
+          ...prev,
+          title: item.name,
           contact: item.contact,
           email: item.email,
-          location: item.locationURL,
-          service: item.person,
+          location: item.location_image,
+          service: item.servicetype,
           website: "",
-          address: item.address,
-        });
-      });
-    }
-
-    if (viewData.images) {
-      const imageContent = viewData.images.map((item) => item.content).join("");
-      setEditorContent(imageContent);
-    }
-
-    if (viewData && Array.isArray(viewData.personnels)) {
-      const personnel = viewData.personnels.map((item) => ({
-        id: item.id || "",
-        personnelName: item.personName || "",
-        position: item.position || "",
-        imagePreview: item.personPhoto || "",
-      }));
-      setEntries(personnel);
-    }
-
-    if (viewData?.product) {
-      const product = viewData.product.map((item) => ({
-        id: item.id,
-        value: item.productImage || "",
-      }));
-
-      setAddTextLine(product);
-      setNewTextLine(() =>
-        product.reduce((acc, item) => {
-          acc[item.id] = { value: item.productImage || "" };
-          return acc;
-        }, {})
-      );
-    }
-
-    if (viewData.socials) {
-      const socials = viewData.socials.map((item) => item);
-      setSocialText(() => [
-        ...socials.map((item) => ({
-          id: item.id,
-          social: item.SocialMedia,
-          link: item.SocialValue,
-        })),
-      ]);
-    }
-  }, [viewData.info, viewData.images, viewData.personnels, viewData.socials]);
-
-  useEffect(() => {
-    if (getData) {
-      getData.map((item) => {
-        setTextLine({
-          title: item.Name,
-          address: item.address,
           description: item.desc,
-          image: item.icon_image,
-          contact: item.contact,
-          email: item.email,
-          service: item.type,
-          location: getURL,
-        });
-        setImageInsert({ id: Date.now(), imagePreview: item.images || "" });
-        setEditorContent(item.Content);
-        setParentID(item.ParentID);
-        const socials = resSocial ? resSocial.map((item) => item) : [];
-        setSocialText(() => [
-          ...socials.map((item) => ({
-            id: item.ParentID,
-            social: item.SocialMedia,
-            link: item.SocialValue,
-          })),
-        ]);
+        }));
+        setEditorContent(item.content);
+        setImageInsert({ imagePreview: item.icon_image });
+        const image_link = item.images.map((item, index) => ({
+          id: index,
+          value: item,
+        }));
+        setAddTextLine(image_link);
+        const socials = item.social_links.map((item, index) => ({
+          id: index,
+          link: item.social_value,
+          social: item.social_media,
+        }));
+        setSocialText(socials);
+        const persons = item.people_involved.map((item, index) => ({
+          id: index,
+          imagePreview: item.image,
+          personnelName: item.name,
+          position: item.position,
+        }));
+        setEntries(persons);
       });
+      setTextLine((prev) => ({ ...prev, address: viewContent.description }));
+      const childDropDown = viewContent.location;
+      setSelectChildValue(childDropDown ? childDropDown : "");
     }
-    const textLink = getImage ? getImage.map((item) => item) : [];
-    if (textLink.length > 0) {
-      setAddTextLine(() =>
-        textLink.map((url) => ({
-          id: url.childID,
-          value: url.imageURL || "",
-        }))
+  }, [viewContent]);
+
+  useEffect(() => {
+    if (downTree) {
+      const uniqueLocations = Array.from(
+        new Set(
+          downTree.filter((item) => item.path === path).map((item) => item.name)
+        )
       );
 
-      setNewTextLine((prev) => ({
-        ...prev,
-        ...textLink.reduce((acc, url) => {
-          acc[url.childID] = { id: url.childID, value: url.imageURL || "" };
-          return acc;
-        }, {}),
-      }));
-    }
-  }, [getData, getURL, getImage, resSocial]);
+      const optionsList = [
+        { value: "", label: "Select Parent" },
+        ...uniqueLocations.map((location) => ({
+          value: location,
+          label: location,
+        })),
+      ];
+      setDropdownOptions(optionsList);
 
-  useEffect(() => {
-    if (name === "Business") {
-      if (category) {
-        const uniqueCategory = Array.from(
-          new Set(category.map((item) => item.title))
-        );
-        const optionCategory = [
-          { value: "", label: "Select Parent" },
-          ...uniqueCategory.map((location) => ({
-            value: location,
-            label: location,
-          })),
-        ];
-        setDropdownOptions(optionCategory);
-        if (optionCategory.length > 0) {
-          setSelectedValue(optionCategory[0].value);
-        }
-      }
-    } else {
-      if (downTree) {
-        const uniqueLocations = Array.from(
-          new Set(
-            downTree
-              .filter((item) => item.path === path)
-              .map((item) => item.name)
-          )
-        );
-
-        const optionsList = [
-          { value: "", label: "Select Parent" },
-          ...uniqueLocations.map((location) => ({
-            value: location,
-            label: location,
-          })),
-        ];
-        setDropdownOptions(optionsList);
-
-        if (optionsList.length > 0) {
-          setSelectedValue(optionsList[0].value);
-        }
+      if (optionsList.length > 0) {
+        setSelectedValue(optionsList[0].value);
       }
     }
-  }, [downTree, path, category]);
+  }, [downTree, path]);
 
   useEffect(() => {
-    if (category || (downTree && selectedValue)) {
+    if (downTree && selectedValue) {
       const children =
-        name === "Business"
-          ? category.find((item) => item.title === selectedValue)?.links || []
-          : downTree.find(
-              (item) => item.name === selectedValue && item.path === path
-            )?.children || [];
+        downTree.find(
+          (item) => item.name === selectedValue && item.path === path
+        )?.children || [];
 
       const optionChild = [
         { value: "", label: "Select Child" },
@@ -304,7 +213,7 @@ function Contentcreate(props) {
         setSelectChildValue("");
       }
     }
-  }, [downTree, selectedValue, path, category]);
+  }, [downTree, selectedValue, path]);
 
   useEffect(() => {
     if (cardResult) {
