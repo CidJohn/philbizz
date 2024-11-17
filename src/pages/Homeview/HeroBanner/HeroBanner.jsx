@@ -159,7 +159,21 @@ export const HeroBanner = (props) => {
   ];
 
   return (
-    <div className='w-full flex flex-col px-6 lg:grid lg:grid-cols-8 lg:grid-rows-5 gap-4 lg:px-60 mt-10'>
+    <div className='w-full flex flex-col px-6 lg:grid lg:grid-cols-9 lg:grid-rows-5 gap-4 lg:px-[6.5rem]'>
+      <div className='row-span-5 mt-4'>
+        <div className='space-y-1 hidden lg:block'>
+          {/* advertisements side images here */}
+          <img
+            src='https://i.pinimg.com/originals/37/8b/99/378b99936dd29a3cc185b7437be70737.jpg'
+            alt=''
+          />
+          <img
+            src='http://graphicdesignjunction.com/wp-content/uploads/2011/05/creative-advertising-2.jpg'
+            alt=''
+          />
+          ,
+        </div>
+      </div>
       <div className='w-full lg:col-span-2 lg:row-span-5'>
         <Blogs getBlog={getBlog} />
         <div className=' w-full lg:w-[18vw]'>
@@ -178,8 +192,7 @@ export const HeroBanner = (props) => {
           ))}
         </div>
       </div>
-      <div className='w-full flex flex-col lg:col-span-4 lg:row-span-5 lg:col-start-3'>
-        {" "}
+      <div className='w-full flex flex-col lg:col-span-3 lg:row-span-5 lg:col-start-4'>
         <div className='w-full flex flex-col gap-3 '>
           <Headlines
             getArticles={getArticles}
@@ -188,7 +201,7 @@ export const HeroBanner = (props) => {
           <BusinessList listItems={listItems} />
         </div>
       </div>
-      <div className='w-full flex flex-col lg:col-span-3 lg:row-span-5 lg:col-start-7'>
+      <div className='w-full flex flex-col lg:col-span-2 lg:row-span-5 lg:col-start-7'>
         <h1 className='text-center w-full lg:text-start text-2xl lg:text-4xl p-2 fira-sans-bold text-[#013A63]'>
           Digital Clock
         </h1>
@@ -203,6 +216,20 @@ export const HeroBanner = (props) => {
           handleDateSelect={handleDateSelect}
           socialContent={socialContent}
         />
+      </div>
+      <div className='row-span-5 col-start-9'>
+        {/* advertisements side images here */}
+        <div className='space-y-1 hidden lg:block'>
+          <img
+            src='https://i.pinimg.com/originals/37/8b/99/378b99936dd29a3cc185b7437be70737.jpg'
+            alt=''
+          />
+          <img
+            src='http://graphicdesignjunction.com/wp-content/uploads/2011/05/creative-advertising-2.jpg'
+            alt=''
+          />
+          ,
+        </div>
       </div>
     </div>
   );

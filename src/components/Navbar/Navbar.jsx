@@ -9,6 +9,9 @@ import changeColor from "../../content/content.json";
 import { BsThreeDots } from "react-icons/bs";
 import HeadlessDropdown from "../Dropdown/HeadlessDropdown";
 import Button from "../Button/Button";
+import AdvertisementSlider from "../Advertisement/Advertisement";
+import { sliderData } from "./sliderData";
+import { SwiperSlide } from "swiper/react";
 
 export default function Navbar(props) {
   const { navbarData, hidden } = props;
@@ -142,10 +145,13 @@ export default function Navbar(props) {
 
   return (
     <nav className={!hidden ? "bg-white " : "hidden"}>
-      <div className=' w-full border-b px-4 sm:px-6 lg:px-8  mx-auto shadow-inner'>
-        <div className='flex items-center justify-between  '>
+      <div className=' w-full border-b px-4 sm:px-6 lg:px-[5rem]  mx-auto shadow-inner'>
+        <div className='w-full flex items-center justify-between'>
+          <div className='hidden lg:block'>
+            <AdvertisementSlider slides={sliderData} />
+          </div>
           <div className='hidden lg:block mx-auto'>
-            <div className='z-50 flex items-baseline  bg-[#013A63]/5 space-x-1 relative gap-1  '>
+            <div className='z-50 flex items-baseline  bg-[#013A63]/5 space-x-0.4 relative  '>
               {!navbarData ? "" : !hidden ? navbarItem(navbarData) : ""}
               <div className='hidden lg:flex items-center justify-center flex-col cursor-pointer'>
                 <HeadlessDropdown
@@ -235,6 +241,9 @@ export default function Navbar(props) {
                 />
               </svg>
             </button>
+          </div>
+          <div className='hidden lg:block'>
+            <AdvertisementSlider slides={sliderData} />
           </div>
         </div>
       </div>
