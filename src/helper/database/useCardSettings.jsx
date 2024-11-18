@@ -199,8 +199,8 @@ export const useCardPosting = () => {
 
   const putCard = async (data) => {
     try {
-      const response = await axiosPut("auth/post-card-content/", data);
-      setCardResult(response.data);
+      const response = await axiosPut("auth/put-card-content/", data);
+      setCardResult(response);
     } catch (error) {
       console.error("axios error: ", error);
     } finally {

@@ -45,7 +45,6 @@ function Contentcreate(props) {
   const [selectChildValue, setSelectChildValue] = useState("");
   const [editorContent, setEditorContent] = useState("");
   const [addTextLine, setAddTextLine] = useState([{ id: 1, value: "" }]);
-  const [newTextLine, setNewTextLine] = useState([]);
   const [parentID, setParentID] = useState(0);
   const [mainPageSelection, setMainPageSelection] = useState([]);
   const [sectionPageSelection, setSectionPageSelection] = useState([]);
@@ -53,7 +52,7 @@ function Contentcreate(props) {
   const [sectionPageDropDown, setSectionPageDropdown] = useState("");
   const [alertData, setAlertData] = useState();
   const { fetchUpdateCompany, resultUpdate } = useUpdateCompanyContent();
-  const { postCard, cardResult, cardLoading } = useCardPosting();
+  const { postCard, putCard, cardResult, cardLoading } = useCardPosting();
   const { content, contentload } = useBlogContent(blogTitle ? blogTitle : "");
   const [TextLine, setTextLine] = useState({
     title: "",
@@ -84,10 +83,11 @@ function Contentcreate(props) {
       name: name,
       title: title,
       imageTitle: imageInsert.imagePreview,
+      uuid: viewContent ? viewContent.id : null,
     },
     Textline: {
       required: { ...TextLine, image: imageInsert.imagePreview },
-      option: newTextLine,
+      option: addTextLine,
       social: socialText,
     },
     Texteditor: editorContent,
@@ -106,7 +106,7 @@ function Contentcreate(props) {
     },
     TextLine: {
       required: { ...TextLine, image: imageInsert.imagePreview },
-      option: newTextLine,
+      option: addTextLine,
       social: socialText,
     },
     TextEditor: editorContent,
@@ -126,12 +126,13 @@ function Contentcreate(props) {
       );
     }
   }, [contents, mainPageSelection, sectionPageSelection]);
-
+  console.log(addTextLine);
   useEffect(() => {
     if (viewContent) {
       viewContent.card_info.map((item) => {
         setTextLine((prev) => ({
           ...prev,
+          uuid: item.id,
           title: item.name,
           contact: item.contact,
           email: item.email,
@@ -144,24 +145,28 @@ function Contentcreate(props) {
         setImageInsert({ imagePreview: item.icon_image });
         const image_link = item.images.map((item, index) => ({
           id: index,
-          value: item,
+          uuid: item.id,
+          value: item.images,
         }));
-        setAddTextLine(image_link);
+        setAddTextLine([
+          ...image_link,
+          { id: addTextLine.length + 1, value: "" },
+        ]);
         const socials = item.social_links.map((item, index) => ({
-          id: index,
+          uuid: item.id,
           link: item.social_value,
           social: item.social_media,
         }));
         setSocialText(socials);
         const persons = item.people_involved.map((item, index) => ({
-          id: index,
+          uuid: item.id,
           imagePreview: item.image,
           personnelName: item.name,
           position: item.position,
         }));
         setEntries(persons);
       });
-      setTextLine((prev) => ({ ...prev, address: viewContent.description }));
+      setTextLine((prev) => ({ ...prev, address: viewContent.address }));
       const childDropDown = viewContent.location;
       setSelectChildValue(childDropDown ? childDropDown : "");
     }
@@ -245,7 +250,6 @@ function Contentcreate(props) {
   const handleReset = () => {
     setEditorContent("");
     setAddTextLine([{ id: 1, value: "" }]);
-    setNewTextLine([]);
     setParentID(0);
     setMainPageSelection([]);
     setSectionPageSelection([]);
@@ -311,25 +315,8 @@ function Contentcreate(props) {
   };
 
   const handleUpdate = () => {
-    if (name === "Business") {
-      if (fetchUpdateCompany(initialBusinessContent)) {
-        try {
-          console.log(initialBusinessContent);
-          toastify(` Successfully Update ${name} Content! `, "success");
-        } catch (error) {
-          toastify("Failed to Submit Reply.", "error");
-        }
-      }
-    } else {
-      // if (fetchUpdateCard(initialSelectionContent)) {
-      try {
-        console.log(initialSelectionContent);
-        toastify(` Successfully Update ${name} Content `, "success");
-      } catch (error) {
-        toastify("Failed to Submit Reply.", "error");
-      }
-      // }
-    }
+    console.log(initialSelectionContent);
+    putCard(initialSelectionContent);
   };
 
   const handleContentChange = (content) => {
@@ -340,16 +327,12 @@ function Contentcreate(props) {
     setAddTextLine([...addTextLine, { id: addTextLine.length + 1, value: "" }]);
   };
 
-  const handleTextlineChange = (id, newValue) => {
+  const handleAddTextlineChange = (id, newValue) => {
     setAddTextLine(
       addTextLine.map((textLine) =>
         textLine.id === id ? { ...textLine, value: newValue } : textLine
       )
     );
-    setNewTextLine((prev) => ({
-      ...prev,
-      [id]: { id: id, value: newValue },
-    }));
   };
 
   const handleTextLineChange = (e) => {
@@ -373,7 +356,7 @@ function Contentcreate(props) {
 
     setAddTextLine(reindexedTextLines);
 
-    setNewTextLine((prev) => {
+    setAddTextLine((prev) => {
       const newState = {};
 
       reindexedTextLines.forEach((textLine) => {
@@ -736,32 +719,27 @@ function Contentcreate(props) {
                             placeholder={`Enter Image link (Optional)`}
                             value={textLine.value}
                             onChange={(e) =>
-                              handleTextlineChange(textLine.id, e.target.value)
+                              handleAddTextlineChange(
+                                textLine.id,
+                                e.target.value
+                              )
                             }
                             required={false}
                           />
                         </div>
-                        <div className="flex justify-center ">
-                          <Button
-                            icon={
-                              <FontAwesomeIcon
-                                icon={
-                                  textLine.id < addTextLine.length
-                                    ? faMinus
-                                    : faAdd
-                                }
-                                className="border p-3  rounded-lg hover:bg-blue-500 hover:text-white"
-                                onClick={
-                                  textLine.id < addTextLine.length
-                                    ? () => handleDeleteTextline(textLine.id)
-                                    : handleAddLink
-                                }
-                              />
-                            }
-                          />
-                        </div>
                       </div>
                     ))}
+                    <div className="w-full flex mt-3">
+                      <Button
+                        icon={
+                          <FontAwesomeIcon
+                            icon={faAdd}
+                            className="w-full border p-3  rounded-lg hover:bg-blue-500 hover:text-white"
+                            onClick={handleAddLink}
+                          />
+                        }
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -770,7 +748,7 @@ function Contentcreate(props) {
                   name === "Company" ? "flex flex-col w-full" : "hidden"
                 }
               >
-                <label htmlFor="personel">Personnel </label>
+                <label htmlFor="personel">Add Personnel </label>
                 <div className="grid grid-cols-3 gap-2">
                   {entries.map((entry, index) => (
                     <div className="px-5 " key={entry.id}>

@@ -105,7 +105,7 @@ function Menus(props) {
       cancelButtonText: "Cancel",
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(`Deleted: ${data}`);
+        console.log(data);
         Swal.fire(
           "Deleted!",
           `Your data "${data.title}" has been deleted.`,
@@ -153,9 +153,9 @@ function Menus(props) {
   const renderTable = (data) => {
     return (
       <Table
-        tblheader={["Title", "description"]}
+        tblheader={["Title", "address"]}
         tbldata={data}
-        tblrow={["title", "description"]}
+        tblrow={["title", "address"]}
         onUpdate={handlOnUpdate}
         onDelete={handleOnDelete}
       />
@@ -227,11 +227,15 @@ function Menus(props) {
               </div>
               <div className="flex  max-w-[60vw] h-[70vh] border-b-2 border-r-2 border-l-2  border-dashed rounded-b-lg">
                 {dataLoading ? (
-                  <div className="w-full text-2xl font-bold flex items-center justify-center mx-auto">
+                  <div className="w-[40vw] text-2xl font-bold flex items-center justify-center mx-auto">
                     <Spinner />
                   </div>
-                ) : (
+                ) : tableFilter.length > 0 ? (
                   renderTable(tableFilter)
+                ): (
+                  <div className="text-2xl flex items-center justify-center w-[40vw]">
+                  "No data, please add content."
+                  </div>
                 )}
               </div>
               <div className="flex py-2">
