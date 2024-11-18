@@ -10,13 +10,14 @@ import Blogs from "./HomeContent/Blogs";
 import Headlines from "./HomeContent/Headlines";
 import WeatherContent from "./HomeContent/WeatherContent";
 import BusinessList from "./HomeContent/BusinessList";
-import { useTreeview } from "../../../helper/database/useTreeview";
+import { useSideMenuView, useTreeview } from "../../../helper/database/useTreeview";
 import { useNavigate } from "react-router-dom";
 import TreeView from "../../../components/Treeviews/Treeview";
 import changeColor from "../../../content/content.json";
 import Rightads from "./HomeContent/Rightads";
 import { socialContent } from "../../../content/cardContent";
 import { CustomTabs } from "../../../components/Tabs/Tabs";
+import { useNavbarView } from "../../../helper/database/useNavbarSettings";
 
 export const HeroBanner = (props) => {
   const { blogData, navbar, businessCarousel } = props;
@@ -38,6 +39,7 @@ export const HeroBanner = (props) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const { data } = useTreeview();
   const navigate = useNavigate();
+  const {viewMenu} = useSideMenuView();
 
   useEffect(() => {
     const articles = getNewsData ? getNewsData.articles : [];
@@ -80,9 +82,9 @@ export const HeroBanner = (props) => {
       setNavbar(filterNav);
     }
 
-    if (data && navbar) {
+    if (viewMenu && navbar) {
       const groupedData = navbar.reduce((acc, navItem) => {
-        const filterData = data.filter((node) => node.path === navItem.path);
+        const filterData = viewMenu.filter((node) => node.path === navItem.path);
         if (navItem.restrict === 19) {
           return acc;
         }
@@ -93,7 +95,7 @@ export const HeroBanner = (props) => {
       }, {});
       setGroupedTreeView(groupedData);
     }
-  }, [header, navbar, data]);
+  }, [header, navbar, viewMenu]);
 
   const carousel = Array.isArray(businessCarousel)
     ? businessCarousel.slice(0, 4)

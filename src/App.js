@@ -25,18 +25,20 @@ import Accounts from "./pages/Dashboard/Accounts/Accounts";
 import { useNavbarcontent } from "./helper/database/useNavbarcontent";
 import { useBusinessSettings } from "./helper/database/useBusinessData";
 import useBlogSettings from "./helper/database/useBlogSettings";
+import { useNavbarView } from "./helper/database/useNavbarSettings";
 
 function App() {
   const { cardpath, load } = useCardPath();
-  const { navbarData, loading } = useNavbarcontent();
+  //const { navbarData, loading } = useNavbarcontent();
   const { getCardInfo, getCompanyLoad } = useBusinessSettings();
   const { blogData } = useBlogSettings();
+  const {navbarData, loadingData} = useNavbarView()
 
   return (
     <BrowserRouter>
       <AuthProvider>
         <Layout
-          navbar={{ navbar: navbarData, navload: loading }}
+          navbar={{ navbar: navbarData, navload: loadingData }}
           key={"layout"}
         >
           <Routes>

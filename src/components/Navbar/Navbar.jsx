@@ -114,7 +114,7 @@ export default function Navbar(props) {
               target={item.name === "Business" ? "_blank" : "_self"}
             >
               <span className='text-2xl hover:border-gray-900 px-4 py-2 rounded '>
-                <Images src={item.iconPath} style={{ width: "50px" }} />
+                <Images src={item.icons || item.iconPath} style={{ width: "50px" }} />
               </span>
               <span className='fira-sans-bold'>{t(item.name)}</span>
             </a>
@@ -170,7 +170,7 @@ export default function Navbar(props) {
                                   icon={
                                     <div className='flex flex-col items-center justify-center gap-3'>
                                       <Images
-                                        src={item.iconPath}
+                                        src={item.icons || item.iconPath}
                                         alt=''
                                         className='px-4 w-20 h-auto'
                                       />
