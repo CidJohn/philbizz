@@ -98,14 +98,22 @@ const Business = ({ businessSettings }) => {
                   content={desc}
                   pageName={pageName}
                   carousel={imagecarousel}
-                  txtHeaderColor={sideBarColorChanger.textColor}
+                  txtHeaderColor={
+                    sideBarColorChanger.textColor
+                      ? sideBarColorChanger.textColor
+                      : ""
+                  }
                 />
               </div>
               <div className="flex block">
                 <Categories
                   footerContent={category}
                   handleClick={handleLocation}
-                  colorChanger={sideBarColorChanger.textColor}
+                  colorChanger={
+                    sideBarColorChanger.textColor
+                      ? sideBarColorChanger.textColor
+                      : ""
+                  }
                 />
               </div>
             </div>

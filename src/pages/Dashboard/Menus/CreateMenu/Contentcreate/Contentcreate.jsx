@@ -126,7 +126,6 @@ function Contentcreate(props) {
       );
     }
   }, [contents, mainPageSelection, sectionPageSelection]);
-  console.log(addTextLine);
   useEffect(() => {
     if (viewContent) {
       viewContent.card_info.map((item) => {

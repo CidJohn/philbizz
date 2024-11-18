@@ -111,7 +111,7 @@ export default function Navbar(props) {
                   : "border-transparent"
               } `}
               onClick={() => handleClick(item)}
-              target={item.name === "Business" ? "_blank" : "_self"}
+              target={item.name === "Company" ? "_blank" : "_self"}
             >
               <span className='text-2xl hover:border-gray-900 px-4 py-2 rounded '>
                 <Images src={item.icons || item.iconPath} style={{ width: "50px" }} />
