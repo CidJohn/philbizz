@@ -4,7 +4,7 @@ import Spinner from "../../components/Spinner/Spinner";
 // import ContentLayout from "../../utils/Selection/ContentLayout";
 // import RenderTreeView from "../../utils/RenderTreeView/renderTreeView";
 // import HandleCards from "../../utils/HandleCards/handleCards";
-import { useTreeview } from "../../helper/database/useTreeview";
+import { useSideMenuView, useTreeview } from "../../helper/database/useTreeview";
 import ContentLayout from "../Selection_handler/Selection/ContentLayout";
 import RenderTreeView from "../Selection_handler/RenderTreeView/renderTreeView"
 import HandleCards from "../Selection_handler/HandleCards/handleCards"
@@ -28,7 +28,8 @@ const Selection = ({ navbar }) => {
   const [itemsMainPage, setItemsMainPage] = useState(15);
   const [dropdownValue, setDropdownValue] = useState("");
   const [desc, setDesc] = useState([]);
-  const { data, loading } = useTreeview();
+  const { data } = useTreeview();
+  const {viewMenu, loading} = useSideMenuView();
   const { businessTypes } = useCardSettings(
     pageName.toLowerCase() === "ktv/jtv" ? "ktv_jtv" : pageName.toLowerCase()
   );
@@ -38,8 +39,8 @@ const Selection = ({ navbar }) => {
   );
  
   useEffect(() => {
-    if (data) {
-      const selectedItemObj = data ? findItemById(data, path) : null;
+    if (viewMenu) {
+      const selectedItemObj = viewMenu ? findItemById(viewMenu, path) : null;
       setSelectedItem(selectedItemObj);
     }
     const selectedItemPath = navbar ? findingPath(navbar, path) : "";
@@ -55,11 +56,11 @@ const Selection = ({ navbar }) => {
     }
 
     if (id) {
-      const selectedItemObj = data ? findItemById(data, id) : null;
+      const selectedItemObj = viewMenu ? findItemById(viewMenu, id) : null;
       setSelectedItem(selectedItemObj);
       setFilteredData("");
     }
-  }, [path, data, navbar, currentPath, businessTypes, dropdownValue]);
+  }, [path, viewMenu, navbar, currentPath, businessTypes, dropdownValue]);
 
   useEffect(() => {
     const desc = businesses ? businesses : [];
@@ -111,7 +112,7 @@ const Selection = ({ navbar }) => {
       },
     });
 
-    const selectedItemObj = data ? findItemById(data, clickedId || id) : null;
+    const selectedItemObj = viewMenu ? findItemById(viewMenu, clickedId || id) : null;
     setSelectedItem(selectedItemObj);
     setFilteredData("");
     setTimeout(() => {
@@ -187,7 +188,7 @@ const Selection = ({ navbar }) => {
   const currentCardItem = Array.isArray(currentItems)
     ? currentItems.slice(4)
     : [];
-  if (!data) {
+  if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Spinner />
@@ -199,7 +200,7 @@ const Selection = ({ navbar }) => {
       renderTreeView={() => (
         <RenderTreeView
           currentPath={currentPath}
-          data={data}
+          data={viewMenu}
           handleItemClick={handleItemClick}
           adName={pageName}
           sideBarColor={sideBarColorChanger}
@@ -221,7 +222,7 @@ const Selection = ({ navbar }) => {
       sideBarColor={sideBarColorChanger}
       desc={desc}
       loading={loading}
-      data={data}
+      data={viewMenu}
       currentPage={currentPage}
       itemsPerPage={itemsPerPage}
       itemsMainPage={itemsMainPage}
