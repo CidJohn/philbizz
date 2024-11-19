@@ -111,11 +111,11 @@ function Card(props) {
         <>
           <button className='block' onClick={onLink}>
             <div className=' w-full overflow-hidden '>
-              <div className='h-full p-3 '>
+              <div className='w-full h-full p-3 '>
                 <Images
                   src={src}
-                  className='object-cover h-full w-full rounded-sm'
-                  style={{ height: "200px" }}
+                  className='object-cover block h-full w-full rounded-sm'
+                  // style={{ height: "200px" }}
                 />
               </div>
             </div>

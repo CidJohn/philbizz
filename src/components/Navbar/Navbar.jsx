@@ -199,48 +199,6 @@ export default function Navbar(props) {
             <a href='/' className='font-bold text-3xl text-gray-800 flex '>
               <Image src={"philbizzLogo.png"} style={{ width: "200px" }} />
             </a>
-            <button
-              className='inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500'
-              aria-controls='mobile-menu'
-              aria-expanded={isMenuOpen}
-              onClick={toggleMenu}
-            >
-              <span className='sr-only'>Open main menu</span>
-              <svg
-                className={`${
-                  isMenuOpen ? "hidden" : "flex"
-                } h-7 w-7 text-[#013A63]`}
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-                aria-hidden='true'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='M4 6h16M4 12h16m-7 6h7'
-                />
-              </svg>
-              <svg
-                className={`${
-                  isMenuOpen ? "flex" : "hidden"
-                } h-7 w-7 text-[#013A63]`}
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-                aria-hidden='true'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='M6 18L18 6M6 6l12 12'
-                />
-              </svg>
-            </button>
           </div>
           <div className='hidden lg:block'>
             <AdvertisementSlider slides={sliderData} />
@@ -248,47 +206,48 @@ export default function Navbar(props) {
         </div>
       </div>
 
-      {isMenuOpen && (
-        <div className='w-full px-4  py-2 lg:hidden' id='mobile-menu'>
-          <div className='px-2  pb-3 space-y-1 sm:px-3'>
-            {navbarData.map((item, index) => (
-              <div
-                key={index}
-                className='w-full'
-                onMouseEnter={() => handleMouseEnter(item.name)}
-                onMouseLeave={handleMouseLeave}
+      <div className='w-full  py-2 px-4 lg:hidden' id='mobile-menu'>
+        <div className='grid grid-cols-5 grid-rows-auto gap-2'>
+          {navbarData.map((item, index) => (
+            <div
+              key={index}
+              className='w-full'
+              onMouseEnter={() => handleMouseEnter(item.name)}
+              onMouseLeave={handleMouseLeave}
+            >
+              <a
+                href={item.path}
+                className=' text-gray-600 hover:text-gray-900 w-full flex items-center justify-center flex-col'
+                onClick={
+                  item.name === "Ktv/jtv"
+                    ? handleKtvJtvClick(item)
+                    : handleClick
+                }
               >
-                <a
-                  href={item.path}
-                  className=' text-gray-600 hover:text-gray-900 w-full '
-                  onClick={
-                    item.name === "Ktv/jtv"
-                      ? handleKtvJtvClick(item)
-                      : handleClick
-                  }
-                >
-                  <div className=' border rounded bg-[#013A63]/5 p-4 fira-sans-regular hover:bg-[#013A63] flex items-center justify-center w-full hover:text-white'>
-                    {t(item.name)}
-                  </div>
-                </a>
-                {item.children && showDropdown2 === item.name && (
-                  <div className='absolute mt-2  bg-white border rounded-lg shadow-lg z-50'>
-                    {item.children.map((childItem, childIndex) => (
-                      <a
-                        key={childIndex}
-                        href={childItem.path}
-                        className='block px-4 py-2 hover:bg-gray-200'
-                      >
-                        {t(childItem.name)}
-                      </a>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+                <span className='text-2xl hover:border-gray-900 px-4 py-2 rounded '>
+                  <Images src={item.iconPath} style={{ width: "50px" }} />
+                </span>
+                <div className=' border rounded bg-[#013A63]/5 p-4 fira-sans-regular hover:bg-[#013A63] flex items-center justify-center w-full hover:text-white'>
+                  {t(item.name)}
+                </div>
+              </a>
+              {item.children && showDropdown2 === item.name && (
+                <div className='absolute mt-2  bg-white border rounded-lg shadow-lg z-50'>
+                  {item.children.map((childItem, childIndex) => (
+                    <a
+                      key={childIndex}
+                      href={childItem.path}
+                      className='block px-4 py-2 hover:bg-gray-200'
+                    >
+                      {t(childItem.name)}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
-      )}
+      </div>
     </nav>
   );
 }

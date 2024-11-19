@@ -22,43 +22,43 @@ const Listedcard = (props) => {
   };
 
   return (
-    <section id={section} className="">
-      <div className="flex flex-col  md:mt-1">
-        <h1 className="text-4xl  mx-2 font-bold">{t(title)}</h1>
+    <section id={section} className=''>
+      <div className='flex flex-col  md:mt-1'>
+        <h1 className='text-4xl  mx-2 font-bold'>{t(title)}</h1>
       </div>
-      <div className="w-full gap-6 mr-12 gap-3">
+      <div className='w-full gap-6 mr-12 gap-3'>
         {listItems
           ? listItems.map((item, index) => (
               <div
                 key={index}
-                className="w-full h-auto  rounded-md gap-3 py-2 cursor-pointer"
+                className='w-full h-auto  rounded-md gap-3 py-2 cursor-pointer'
                 onClick={() => handleLink(item.title)}
               >
-                <article className="flex group overflow-hidden rounded-lg border border-gray-100 p-2 bg-[#013A63]/5 shadow-sm ">
-                  <div className="flex">
+                <article className='flex group overflow-hidden rounded-lg border border-gray-100 p-2 bg-[#013A63]/5 shadow-sm '>
+                  <div className='flex h-auto w-52'>
                     <Images
-                      alt=""
+                      alt=''
                       src={item.images || item.image}
-                      className="h-40 w-52 w-full rounded-lg object-cover  "
+                      className=' w-full h-full rounded-lg object-cover  '
                     />
                   </div>
-                  <div className="p-8  w-full ">
-                    <div className="flex items-center justify-between ">
-                      <h3 className="text-lg font-medium text-[#013A63] fira-sans-bold">
+                  <div className='p-8  w-full '>
+                    <div className='flex items-center justify-between '>
+                      <h3 className='text-lg font-medium text-[#013A63] fira-sans-bold'>
                         {item.title}
                       </h3>
                     </div>
-                    <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500 fira-sans-condensed-regular">
+                    <p className='mt-2 line-clamp-3 text-sm/relaxed text-gray-500 fira-sans-condensed-regular'>
                       {item.description}
                     </p>
                     <a
-                      className="group mt-4 inline-flex items-center gap-1 text-sm text-[#013A63] fira-sans-condensed-bold"
-                    onClick={() => handleLink(item.title)}
+                      className='group mt-4 inline-flex items-center gap-1 text-sm text-[#013A63] fira-sans-condensed-bold'
+                      onClick={() => handleLink(item.title)}
                     >
                       Find out more
                       <span
-                        aria-hidden="true"
-                        className="block transition-all group-hover:ms-0.5 rtl:rotate-180"
+                        aria-hidden='true'
+                        className='block transition-all group-hover:ms-0.5 rtl:rotate-180'
                       >
                         &rarr;
                       </span>
