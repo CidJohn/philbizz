@@ -307,14 +307,12 @@ function Contentcreate(props) {
     const value = e.target.value;
     setSectionPageDropdown(value);
   };
-
+  
   const handleSave = () => {
-    console.log(initialSelectionContent);
     postCard(initialSelectionContent);
   };
 
   const handleUpdate = () => {
-    console.log(initialSelectionContent);
     putCard(initialSelectionContent);
   };
 

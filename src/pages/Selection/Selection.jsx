@@ -185,9 +185,10 @@ const Selection = (props) => {
     setDropdownValue(e.target.value);
   };
 
-  const handleLink = (data) => {
-    navigate(`/card-page/${data}`, { state: { title: data } });
+  const handleLink = (data, ) => {
+    navigate(`/card-page/${data.title}`, { state: { pageContent: data } });
   };
+
   const totalPages = Math.ceil(
     selectedItem?.id
       ? contentView.length / itemsPerPage
