@@ -127,7 +127,7 @@ function NavbarView(props) {
     navigate("/dashboard/reload");
     setTimeout(() => {
       setNavbarList(navbarData);
-      navigate("/dashboard/Navigation", { state: { navbar: navbarList } });
+      navigate("/dashboard/item/Navigation", { state: { navbar: navbarList } });
     }, 1000);
   };
 

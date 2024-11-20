@@ -12,22 +12,24 @@ import restAPI from "../../../../../helper/database/restAPI";
 import Dropdown from "../../../../../components/Dropdown/Dropdown";
 import blog_category from "../../../../../content/blog_categories.json";
 import { useToast } from "../../../../../components/Sonner/Sonner";
+import useAlert from "../../../../../helper/alert/useAlert";
+import Spinner from "../../../../../components/Spinner/Spinner";
 
 function Createblog(props) {
   const imagelink = restAPI();
   const toastify = useToast();
   const { name, path, title, blogContent } = props;
-  const { fetchPostBlog, result, postloading } = usePostBlogContent();
   const { fetchBlogUpdate, resultBlogUpdate, blogLoading } =
     useUpdateBlogContent();
-  const { postBlog, resultPost } = useBlogPost();
-
+  const { postBlog, resultPost, blogPostLoading } = useBlogPost();
+  const [timerLoader, setTimerLoader] = useState(true);
   const [editorContent, setEditorContent] = useState("");
   const [dropdownValue, setDropdownValue] = useState("");
   const [dropdownChildValue, setDropdownChildValue] = useState("");
   const [blogCategory, setBlogCategory] = useState([]);
   const [blogCategoryChild, setBlogCategoryChild] = useState([]);
   const [fileImage, setFileImage] = useState(null);
+
   const [imageInsert, setImageInsert] = useState([
     {
       id: Date.now(),
@@ -39,6 +41,7 @@ function Createblog(props) {
     title: "",
     description: "",
   });
+  const showAlert = useAlert();
 
   useEffect(() => {
     if (blogContent) {
@@ -95,6 +98,33 @@ function Createblog(props) {
       }
     }
   }, [blog_category, dropdownValue]);
+  useEffect(() => {
+    setTimerLoader(true);
+    const timer = setTimeout(() => {
+      if (resultPost) {
+        toastify("New Blog is Created!", "success");
+        showAlert(
+          "Successfull",
+          `${resultPost.title} is Create Successfully!`,
+          "success",
+          "",
+          false,
+          "Ok",
+          "",
+          "blue",
+          ""
+        ).then((res) => {
+          if (res.isConfirmed) {
+            setTextLine({ title: "", description: "" });
+            setEditorContent("");
+            setImageInsert({});
+          }
+        });
+      }
+      setTimerLoader(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [resultPost]);
 
   const handleContentChange = (content) => {
     setEditorContent(content);
@@ -124,37 +154,16 @@ function Createblog(props) {
   };
 
   const handleSavePost = () => {
-    const initials = {
-      header: { text: textline, image: imageInsert.imagePreview },
-      content: editorContent,
-    };
     const initialData = {
       title: textline.title,
       description: textline.description,
-      //image: imageInsert.imagePreview,
-      //image: "http://example.com/path/to/image.jpg",
       image: fileImage,
       content: editorContent,
       comment: [],
     };
-    postBlog(initialData);
-    if (fetchPostBlog(initials)) {
-      try {
-        console.log(initials);
-        console.log(result);
-        toastify(`Blog Posted!`, "success");
-        setEditorContent("");
-        setDropdownValue("");
-        setDropdownChildValue("");
-        setBlogCategory("");
-        setBlogCategoryChild("");
-        setImageInsert(null);
-        setTextLine("");
-      } catch (error) {
-        toastify("Failed to Posted your blog", "error");
-      }
-    }
+    postBlog(initialData, imageInsert.imagePreview);
   };
+
   const handleUpdate = () => {
     const initials = {
       header: {
@@ -164,11 +173,9 @@ function Createblog(props) {
       },
       content: editorContent,
     };
-
     if (fetchBlogUpdate(initials)) {
       try {
         console.log(initials);
-        console.log(result);
         toastify(`Blog Updated!`, "success");
       } catch (error) {
         toastify("Failed to Updates your blog", "error");
@@ -184,7 +191,13 @@ function Createblog(props) {
     const { value } = e.target;
     setDropdownChildValue(value);
   };
-
+  if (timerLoader) {
+    return (
+      <div className="w-[40vw] text-2xl font-bold flex items-center justify-center mx-auto">
+        <Spinner />
+      </div>
+    );
+  }
   return (
     <div className="flex w-full h-full ">
       <div className="border rounded-lg shadow-lg bg-gray-100 min-w-80 min-h-80 p-2">
