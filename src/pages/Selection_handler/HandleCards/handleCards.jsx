@@ -36,7 +36,7 @@ const HandleCards = (props) => {
               backgroundSize: "cover",
             }}
             hidden={true}
-            onLink={() => handleLink(item.title)}
+            onLink={() => handleLink(items)}
             btnColor={sideBarColor ? sideBarColor.bgColor : "#E639460D"}
             textColor={sideBarColor ? sideBarColor.textColor : "#E63946"}
             theme={sideBarColor ? sideBarColor.theme : ""}
@@ -72,7 +72,7 @@ const HandleCards = (props) => {
                   style={{
                     backgroundSize: "cover",
                   }}
-                  onLink={() => handleLink(select.name)}
+                  onLink={() => handleLink(item)}
                   btnColor={sideBarColor ? sideBarColor.bgColor : "#E639460D"}
                   textColor={sideBarColor ? sideBarColor.textColor : "#E63946"}
                   theme={sideBarColor ? sideBarColor.theme : ""}
@@ -104,7 +104,7 @@ const HandleCards = (props) => {
                         style={{
                           backgroundSize: "cover",
                         }}
-                        onLink={() => handleLink(item.title)}
+                        onLink={() => handleLink(select)}
                         btnColor={
                           sideBarColor ? sideBarColor.bgColor : "#E639460D"
                         }

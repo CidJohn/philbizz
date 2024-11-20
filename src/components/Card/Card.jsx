@@ -40,7 +40,7 @@ function Card(props) {
                     />
                   </div>
                 </div>
-                <div className='flex flex-wrap'>
+                <div className='flex '>
                   <p
                     className='px-3 py-1 font-normal h-[15vh]  w-[10vw] text-sm text-gray-600 fira-sans-condensed-regular'
                     style={{
