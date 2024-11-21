@@ -20,6 +20,7 @@ function Defaultpage(props) {
   const { cardpath, load } = props;
   const [getTitle, setTitle] = useState("");
   const [getSocial, setSocial] = useState([]);
+  const [imageMenus, setImageMenus] = useState([]);
   const [getContent, setContent] = useState({});
   const { state } = useLocation();
   const { pageContent } = state || { pageContent: null };
@@ -36,7 +37,8 @@ function Defaultpage(props) {
   useEffect(() => {
     pageContent.card_info.map((item) => setContent(item));
     const socialLinks = getContent.social_links ? getContent.social_links : [];
-
+    const imageMenus = getContent.images ? getContent.images : [];
+    setImageMenus(imageMenus);
     setSocial(socialLinks);
   }, [pageContent, getContent]);
   // const copyToClipboard = (text, message) => {
@@ -74,7 +76,7 @@ function Defaultpage(props) {
       </div>
     );
   }
-  console.log(pageContent);
+  console.log(imageMenus);
   return (
     <div className="px-[30rem] w-full py-10 flex items-start justify-center flex-col ">
       <h1 className="fira-sans-bold text-[#e63946] font-bold text-3xl text-start mb-3">
@@ -93,18 +95,42 @@ function Defaultpage(props) {
               Social Media Contacts:
             </h1>
             <div className="flex items-center gap-3">
-              <div className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-yellow-500 rounded-md cursor-pointer hover:bg-yellow-400 ">
-                <RiKakaoTalkFill className="text-4xl mr-2" />
-                KakaoTalk
-              </div>
-              <div className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-red-500 rounded-md cursor-pointer hover:bg-red-400">
-                <SiGmail className="text-4xl mr-2 " />
-                Gmail
-              </div>
-              <div className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-blue-400 rounded-md cursor-pointer hover:bg-blue-300">
-                <FaTelegram className="text-4xl mr-2 text-black" />
-                Telegram
-              </div>
+              {getSocial.length > 0
+                ? getSocial.map((item) =>
+                    item.social_media === "KakaoTalk" ? (
+                      <a
+                        href={item.social_links}
+                        target="_black"
+                        className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-yellow-500 rounded-md cursor-pointer hover:bg-yellow-400 "
+                      >
+                        <RiKakaoTalkFill className="text-4xl mr-2" />
+                        KakaoTalk
+                      </a>
+                    ) : item.social_media === "Gmail" ? (
+                      <>
+                        <a
+                          href={item.social_links}
+                          target="_black"
+                          className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-red-500 rounded-md cursor-pointer hover:bg-red-400"
+                        >
+                          <SiGmail className="text-4xl mr-2 " />
+                          Gmail
+                        </a>
+                      </>
+                    ) : (
+                      item.social_media === "Telegram" && (
+                        <a
+                          href={item.social_links}
+                          target="_black"
+                          className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-blue-400 rounded-md cursor-pointer hover:bg-blue-300"
+                        >
+                          <FaTelegram className="text-4xl mr-2 text-black" />
+                          Telegram
+                        </a>
+                      )
+                    )
+                  )
+                : ""}
             </div>
           </div>
           <hr className="w-full py-4 " />
@@ -150,13 +176,21 @@ function Defaultpage(props) {
                     )} */}
               </div>
             </div>
-            <Horizontal />
+            {getContent.servicetype ? <Horizontal /> : ""}
             <h1 className="fira-sans-bold text-[#e63946] font-bold text-3xl text-start my-5">
-              Menus
+              {getContent.servicetype}
             </h1>
-            <div className="flex justify-center items-center">
-              {/* <Imagecarousel images={[getContent.images]}/> */}
-              {/* <Images src={item.menu_image} style={{ width: "500px" }} /> */}
+            <div
+              className={imageMenus.map((item) =>
+                item.images ? "flex justify-center items-center" : "hidden"
+              )}
+            >
+              {imageMenus.length > 0 && (
+                <Imagecarousel
+                  images={imageMenus}
+                  style={{ height: "100vh" }}
+                />
+              )}
             </div>
             <Horizontal />
             <div className="bg-[#f4f1de] ">

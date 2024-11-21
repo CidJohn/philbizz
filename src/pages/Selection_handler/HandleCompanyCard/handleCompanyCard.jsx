@@ -31,7 +31,6 @@ const HandleCompanyCard = (props) => {
     listCurrentPage * itemsPerPage
   );
   const handleLink = (title, content) => {
-    console.log(content);
     navigate(`/company-page/${title}`, {
       state: { title: title, content: content },
     });
@@ -66,6 +65,7 @@ const HandleCompanyCard = (props) => {
 
   const renderCard = (item, index, content) => (
     <div className="" key={index}>
+      {console.log(item)}
       <div className="p-2">
         <Card
           src={item.icon_image}
@@ -102,10 +102,10 @@ const HandleCompanyCard = (props) => {
     </div>
   );
 
-  const renderCardData = (data, content) => (
+  const renderCardData = (data) => (
     <div className="data-section">
       <div className="flex flex-wrap justify-center  border-t py-5 w-full">
-        {data.map((item, index) => renderCard(item, index, content))}
+        {data.map((item, index) => item.card_info.map((items) => renderCard(items, index, item)) )}
       </div>
     </div>
   );
@@ -123,11 +123,7 @@ const HandleCompanyCard = (props) => {
       {
         <>
           <div className="" id="card-pagination" ref={cardPaginationRef}>
-            <div className="p-3 ">
-              {cardCurrentData.map((item) =>
-                renderCardData(item.card_info, item)
-              )}
-            </div>
+            <div className="p-3 ">{renderCardData(cardCurrentData)}</div>
           </div>
           <div className="flex p-3 items-center justify-center" id="page">
             <div className="flex mt-5">

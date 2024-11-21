@@ -111,7 +111,7 @@ const Company = (props) => {
 
   const handleCopyClick = () =>
     copyToClipboard("philtong15@gmail.com", "Gmail Address");
-  const handleCopyTalk = () =>
+  const handleCopyTalk = (link) =>
     copyToClipboard("09928599984", "Kakao Talk Number");
   const handleCopyTelegram = () =>
     copyToClipboard("09943514205", "Telegram Number");
@@ -135,27 +135,42 @@ const Company = (props) => {
             Social Media Contacts:
           </h1>
           <div className="flex items-center gap-3">
-            <div
-              onClick={handleCopyTalk}
-              className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-yellow-500 rounded-md cursor-pointer hover:bg-yellow-400 "
-            >
-              <RiKakaoTalkFill className="text-4xl mr-2" />
-              KakaoTalk
-            </div>
-            <div
-              onClick={handleCopyClick}
-              className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-red-500 rounded-md cursor-pointer hover:bg-red-400"
-            >
-              <SiGmail className="text-4xl mr-2 " />
-              Gmail
-            </div>
-            <div
-              onClick={handleCopyTelegram}
-              className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-blue-400 rounded-md cursor-pointer hover:bg-blue-300"
-            >
-              <FaTelegram className="text-4xl mr-2 text-black" />
-              Telegram
-            </div>
+            {getSocial.length > 0
+              ? getSocial.map((item) =>
+                  item.social_media === "KakaoTalk" ? (
+                    <a
+                      href={item.social_links}
+                      target="_black"
+                      className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-yellow-500 rounded-md cursor-pointer hover:bg-yellow-400 "
+                    >
+                      <RiKakaoTalkFill className="text-4xl mr-2" />
+                      KakaoTalk
+                    </a>
+                  ) : item.social_media === "Gmail" ? (
+                    <>
+                      <a
+                        href={item.social_links}
+                        target="_black"
+                        className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-red-500 rounded-md cursor-pointer hover:bg-red-400"
+                      >
+                        <SiGmail className="text-4xl mr-2 " />
+                        Gmail
+                      </a>
+                    </>
+                  ) : (
+                    item.social_media === "Telegram" && (
+                      <a
+                        href={item.social_links}
+                        target="_black"
+                        className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-blue-400 rounded-md cursor-pointer hover:bg-blue-300"
+                      >
+                        <FaTelegram className="text-4xl mr-2 text-black" />
+                        Telegram
+                      </a>
+                    )
+                  )
+                )
+              : ""}
           </div>
         </div>
         <hr className="w-full py-4 " />
@@ -178,24 +193,6 @@ const Company = (props) => {
                 className="min-w-full"
               />
             </div>
-            {/* {getCompanyImages &&
-              getCompanyImages.map((item, index) => (
-                <div className="" key={index}>
-                  <Images
-                    src={item.companyImage}
-                    style={{ width: "500px", height: "400px" }}
-                    className="transform transition-transform duration-500 hover:scale-105"
-                  />
-                  <div
-                    dangerouslySetInnerHTML={{ __html: item.content }}
-                    style={{
-                      padding: "10px",
-                      marginTop: "10px",
-                    }}
-                    className="min-w-full text-center"
-                  />
-                </div>
-              ))} */}
           </div>
         </div>
       </section>
@@ -302,15 +299,6 @@ const Company = (props) => {
                 )
               )
             : ""}
-        </div>
-        <div className="">
-          {/* {getCompanySocial
-            ? getCompanySocial.map((item) => (
-                <div className="">
-                  <div className=""></div>
-                </div>
-              ))
-            : ""} */}
         </div>
       </div>
 

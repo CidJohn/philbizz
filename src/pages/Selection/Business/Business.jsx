@@ -89,7 +89,7 @@ const Business = (props) => {
     })),
   ];
 
-  const imagecarousel = getDataInfo ? getDataInfo.slice(0, 4) : [];
+  const imagecarousel = getDataInfo ? getDataInfo.slice(1) : [];
 
   if (menuLoading) {
     return (
@@ -98,6 +98,7 @@ const Business = (props) => {
       </div>
     );
   }
+  
   return (
     <div className="p-2">
       <div className=" md:w-[73vw]  mx-auto flex items-center">
@@ -107,8 +108,8 @@ const Business = (props) => {
               <div className="flex flex-col gap-2 p-2">
                 <Description
                   content={getDataInfo}
-                  pageName={businessSettings.title}
-                  carousel={getDataInfo}
+                  pageName={"Company"}
+                  carousel={imagecarousel}
                   txtHeaderColor={
                     sideBarColorChanger.textColor
                       ? sideBarColorChanger.textColor
