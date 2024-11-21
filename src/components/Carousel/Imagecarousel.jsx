@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Images from "../Image/Images";
 import { FaMapMarkerAlt } from "react-icons/fa";
 
-const Imagecarousel = ({ images }) => {
+const Imagecarousel = ({ images, style }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handlePrev = () => {
@@ -16,7 +16,6 @@ const Imagecarousel = ({ images }) => {
       prevIndex === images.length - 1 ? 0 : prevIndex + 1
     );
   };
-
   useEffect(() => {
     const interval = setInterval(() => {
       handleNext();
@@ -31,7 +30,7 @@ const Imagecarousel = ({ images }) => {
       data-carousel="static"
     >
       {/* Carousel wrapper */}
-      <div className="relative h-56 overflow-hidden  md:h-96 w-full">
+      <div className="relative h-56 overflow-hidden  md:h-96 w-full" style={style}>
         {images.map((image, index) =>
           image.card_info ? (
             image.card_info.map((item, indexs) => (
