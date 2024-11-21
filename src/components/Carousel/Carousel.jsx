@@ -65,9 +65,9 @@ const Carousel = ({ items }) => {
         {duplicateItems.slice(0, itemsToShow * 2).map((item, index) => (
           <CarouselItem key={index} className="p-10">
             <Card
-              title={item.title}
+              title={item.title || item.name}
               link={item.title}
-              desc={item.desc}
+              desc={item.desc || item.position}
               src={item.image}
               hidden={true}
               style={{ width: "200px", height: "300px" }}

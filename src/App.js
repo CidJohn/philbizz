@@ -33,8 +33,8 @@ function App() {
   //const { navbarData, loading } = useNavbarcontent();
   const { getCardInfo, getCompanyLoad } = useBusinessSettings();
   const { blogData } = useBlogSettings();
-  const {navbarData, loadingData} = useNavbarView()
-  const {viewContent} = useContentView()
+  const { navbarData, loadingData } = useNavbarView();
+  const { viewContent } = useContentView();
 
   return (
     <BrowserRouter>
@@ -52,7 +52,7 @@ function App() {
                   data={{
                     blogData: blogData,
                     navbar: navbarData,
-                    businessSettings: getCardInfo,
+                    businessSettings: viewContent,
                   }}
                 />
               }
@@ -60,18 +60,13 @@ function App() {
             />
             <Route
               path={"/:navbar"}
-              element={<Selection navbar={navbarData} viewContent={viewContent} />}
+              element={
+                <Selection navbar={navbarData} viewContent={viewContent} />
+              }
             />
             <Route
               path={"/company"}
-              element={
-                <Business
-                  businessSettings={{
-                    businessSettings: getCardInfo,
-                    getCompanyLoad: getCompanyLoad,
-                  }}
-                />
-              }
+              element={<Business businessSettings={viewContent} />}
             />
             <Route path="/blog" element={<Blog />} key={"blog"} />
             <Route path="/blog/post" element={<BlogPost />} key={"blog-post"} />
