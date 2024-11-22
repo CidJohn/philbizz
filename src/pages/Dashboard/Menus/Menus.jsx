@@ -231,9 +231,9 @@ function Menus(props) {
                   </div>
                 ) : tableFilter.length > 0 ? (
                   renderTable(tableFilter)
-                ): (
+                ) : (
                   <div className="text-2xl flex items-center justify-center w-[40vw]">
-                  "No data, please add content."
+                    loading...
                   </div>
                 )}
               </div>

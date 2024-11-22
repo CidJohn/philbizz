@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const refreshInterval = setInterval(() => {
       tokenRefresher();
-    }, 300000);
+    }, 30000);
 
     return () => clearInterval(refreshInterval);
   }, [rememberMe]);
