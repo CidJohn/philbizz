@@ -63,18 +63,18 @@ export const HeroBanner = (props) => {
 
   useEffect(() => {
     if (header) {
-      const filteredBeauty = header
-        .filter((item) => item.Header === "Beauty")
+      const filteredBeauty = businessCarousel
+        .filter((item) => item.business.header === "Beauty")
         .slice(0, 5);
       setBeauty(filteredBeauty);
 
-      const filteredFood = header
-        .filter((item) => item.Header === "Food")
+      const filteredFood = businessCarousel
+        .filter((item) => item.business.header === "Food")
         .slice(0, 5);
       setFood(filteredFood);
 
-      const filteredFestival = header
-        .filter((item) => item.Header === "Festival")
+      const filteredFestival = businessCarousel
+        .filter((item) => item.business.header === "Festival")
         .slice(0, 4);
       setFestival(filteredFestival);
     }

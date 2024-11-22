@@ -7,26 +7,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd, faMinus } from "@fortawesome/free-solid-svg-icons";
 import UploadImage from "../../../../../components/UploadImage/UploadImage";
 import {
-  useBusinessPost,
-  useCompanyView,
   useUpdateCompanyContent,
 } from "../../../../../helper/database/useBusinessData";
 import socialmedia from "../../../../../content/socialmedia.json";
 import {
   useCardPosting,
-  useCreateCardContent,
-  useUpdateCardContent,
 } from "../../../../../helper/database/useCardSettings";
 import Createblog from "./Createblog";
-import {
-  useCardInfo,
-  useImgCardURL,
-  useSocialContent,
-} from "../../../../../helper/database/useCardInfo";
 import { useBlogContent } from "../../../../../helper/database/useBlogSettings";
 import useAlert from "../../../../../helper/alert/useAlert";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 import { formSchema } from "./Contentvalidation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";

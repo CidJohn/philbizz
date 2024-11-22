@@ -29,7 +29,6 @@ const Imagecarousel = ({ images, style }) => {
       className="relative w-full"
       data-carousel="static"
     >
-      {/* Carousel wrapper */}
       <div className="relative h-56 overflow-hidden  md:h-96 w-full" style={style}>
         {images.map((image, index) =>
           image.card_info ? (
@@ -41,14 +40,12 @@ const Imagecarousel = ({ images, style }) => {
                 }`}
                 data-carousel-item={activeIndex === indexs ? "active" : ""}
               >
-                {/* Image */}
                 <Images
                   src={item.image || item.icon_image}
                   alt={item.name}
                   className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 cover"
                 />
 
-                {/* Title and Description */}
                 <div className="absolute bottom-0 left-0 w-full p-6 bg-black/50 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-100 text-white">
                   <h2 className="text-xl font-bold fira-sans-condensed-bold">
                     {item.name}
@@ -68,14 +65,12 @@ const Imagecarousel = ({ images, style }) => {
               }`}
               data-carousel-item={activeIndex === index ? "active" : ""}
             >
-              {/* Image */}
               <Images
                 src={image.images || image.image}
                 alt={image.title}
                 className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 cover"
               />
 
-              {/* Title and Description */}
               <div className="absolute bottom-0 left-0 w-full p-6 bg-black/50 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-100 text-white">
                 <h2 className="text-xl font-bold fira-sans-condensed-bold">
                   {image.title}
@@ -90,7 +85,6 @@ const Imagecarousel = ({ images, style }) => {
         )}
       </div>
 
-      {/* Previous Button */}
       <button
         type="button"
         className="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
@@ -116,7 +110,6 @@ const Imagecarousel = ({ images, style }) => {
         </span>
       </button>
 
-      {/* Next Button */}
       <button
         type="button"
         className="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
