@@ -27,13 +27,6 @@ function Defaultpage(props) {
   const { getData, getURL, loadData } = useCardInfo(getTitle);
   const { getImage, loadImage } = useImgCardURL(getTitle);
 
-  // useEffect(() => {
-  //   const path = cardpath?.find((item) => item.title === title)?.title || "";
-  //   const content = getData ? getData.map((item) => item.Content) : [];
-  //   setContent(content);
-  //   setCard(path);
-  //   setTitle(path);
-  // }, [cardpath, title, getData]);
   useEffect(() => {
     pageContent.card_info.map((item) => setContent(item));
     const socialLinks = getContent.social_links ? getContent.social_links : [];
@@ -41,34 +34,7 @@ function Defaultpage(props) {
     setImageMenus(imageMenus);
     setSocial(socialLinks);
   }, [pageContent, getContent]);
-  // const copyToClipboard = (text, message) => {
-  //   navigator.clipboard
-  //     .writeText(text)
-  //     .then(() =>
-  //       Swal.fire({
-  //         title: "Good job!",
-  //         text: `${message} copied to clipboard! ${text}`,
-  //         icon: "success",
-  //         customClass: { popup: "small-swal-popup" },
-  //       })
-  //     )
-  //     .catch((err) => console.error("Failed to copy: ", err));
-  // };
-
-  // const handleCopyClick = () =>
-  //   copyToClipboard("philtong15@gmail.com", "Gmail Address");
-  // const handleCopyTalk = () =>
-  //   copyToClipboard("09928599984", "Kakao Talk Number");
-  // const handleCopyTelegram = () =>
-  //   copyToClipboard("09943514205", "Telegram Number");
-
-  // if (load) {
-  //   return (
-  //     <div className="flex items-center justify-center min-h-screen">
-  //       <Spinner />
-  //     </div>
-  //   );
-  // }
+  
   if (!pageContent) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -76,7 +42,7 @@ function Defaultpage(props) {
       </div>
     );
   }
-  console.log(imageMenus);
+
   return (
     <div className="px-[30rem] w-full py-10 flex items-start justify-center flex-col ">
       <h1 className="fira-sans-bold text-[#e63946] font-bold text-3xl text-start mb-3">
@@ -135,9 +101,6 @@ function Defaultpage(props) {
           </div>
           <hr className="w-full py-4 " />
         </div>
-        <div className="mx-auto ">
-          {/* <Images src={item.icon_image} alt={getCard} /> */}
-        </div>
         <div className="flex flex-wrap">
           <Horizontal />
           <div className="">
@@ -151,41 +114,16 @@ function Defaultpage(props) {
                 className="min-w-full"
               />
             </div>
-            <h1 className="fira-sans-bold text-[#e63946] font-bold text-3xl text-start my-5">
-              {/* {item.type} */}
-            </h1>
-            <div className="w-full  flex flex-wrap justify-center">
-              <div className="grid md:grid-cols-3 gap-2">
-                {/* {loadImage ? (
-                      <Spinner />
-                    ) : (
-                      getImage.map((items) => (
-                        <Images
-                          key={item.id}
-                          src={items.imageURL}
-                          style={{
-                            width: "100%",
-                            height: "300px",
-                            borderRadius: 6,
-                          }}
-                          className={
-                            "transform transition-transform duration-500 hover:scale-95"
-                          }
-                        />
-                      ))
-                    )} */}
-              </div>
-            </div>
             {getContent.servicetype ? <Horizontal /> : ""}
             <h1 className="fira-sans-bold text-[#e63946] font-bold text-3xl text-start my-5">
               {getContent.servicetype}
             </h1>
             <div
               className={imageMenus.map((item) =>
-                item.images ? "flex justify-center items-center" : "hidden"
+                item.image ? "flex justify-center items-center" : "hidden"
               )}
             >
-              {imageMenus.length > 0 && (
+              {imageMenus && (
                 <Imagecarousel
                   images={imageMenus}
                   style={{ height: "100vh" }}
@@ -220,12 +158,6 @@ function Defaultpage(props) {
                   </span>
                   {getContent.contact}
                 </p>
-                {/* <p className="fira-sans-condensed-regular text-lg text-gray-600">
-                    <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
-                      Open Hours:
-                    </span>
-                    {item.hours}
-                  </p>  */}
                 {getSocial.length > 0
                   ? getSocial.map((item, index) =>
                       item.social_media === "Website" ? (

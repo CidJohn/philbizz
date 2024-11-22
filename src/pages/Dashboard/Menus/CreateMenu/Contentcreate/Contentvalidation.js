@@ -13,16 +13,9 @@ export const formSchema = yup.object({
     .required("Address is required")
     .max(200, "Address must be at most 200 characters"),
   description: yup.string().required("Description is required"),
-  contact: yup
-    .number()
-    .typeError("Contact must be a number")
-    .required("Contact is required")
-    .positive("Contact must be a positive number")
-    .integer("Contact must be an integer"),
   email: yup
     .string()
-    .email("Invalid email format")
-    .required("Email is required"),
+    .email("Invalid email format"),
   parent: yup.string().required("Parent Name is required"),
   child: yup.string().required("Children Name is required"),
   image: yup
