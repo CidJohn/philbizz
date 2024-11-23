@@ -4,7 +4,10 @@ import SearchBar from "../../../../components/Searchbar/Searchbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Button from "../../../../components/Button/Button";
-import { useBlogContent } from "../../../../helper/database/useBlogSettings";
+import {
+  useBlogContent,
+  useBlogViewList,
+} from "../../../../helper/database/useBlogSettings";
 import { BlogView } from "../BlogView/BlogView";
 import { useNavigate } from "react-router-dom";
 
@@ -14,26 +17,31 @@ const Blogmenu = (props) => {
   const [blogTitle, setBlogTitle] = useState("");
   const [blogImage, setBlogImage] = useState("");
   const [dataBlog, setDataBlog] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { content, contentload } = useBlogContent(blogTitle);
+  const { viewBlogs, fireBlogView } = useBlogViewList();
 
   useEffect(() => {
-    const imageblog = content.images ? content.images.map((item) => item) : [];
-    setBlogImage(imageblog);
-  }, [content]);
-
+    setLoading(true);
+    const loading = setTimeout(() => {
+      setLoading(false);
+      setDataBlog(viewBlogs);
+    }, 500);
+    return () => clearTimeout(loading);
+  }, [content, viewBlogs]);
   const handleBlogDelete = (data) => {
     console.log(data);
   };
   const handleBlogView = (data) => {
-    setBlogTitle({ title: data.title, user: data.username });
+    setBlogTitle(data);
   };
 
   const handleSearch = async (e) => {
     if (e.title === "") {
       setDataBlog([]);
     } else {
-      const filterBlog = blog
-        ? blog.filter((item) => item.title.toLowerCase().includes(e.title))
+      const filterBlog = viewBlogs
+        ? viewBlogs.filter((item) => item.title.toLowerCase().includes(e.title))
         : "";
       setDataBlog(filterBlog);
     }
@@ -97,8 +105,8 @@ const Blogmenu = (props) => {
               <h1 className="text-2xl font-bold p-2 ">{pageName} list</h1>
               {dataBlog.length > 0
                 ? renderTable(dataBlog)
-                : blog.length > 0
-                ? renderTable(blog)
+                : viewBlogs.length > 0
+                ? renderTable(viewBlogs)
                 : ""}
             </div>
             <div className="flex min-w-full justify-center">
@@ -115,7 +123,7 @@ const Blogmenu = (props) => {
             </div>
             <div className="flex bg-white min-w-[70vh] max-h-[70vh] overflow-y-scroll p-2 rounded-lg">
               {content ? (
-                <BlogView content={content} blogImage={blogImage} />
+                <BlogView content={blogTitle} />
               ) : (
                 <div className="text-2xl font-bold flex items-center mx-auto">
                   Please Select Place

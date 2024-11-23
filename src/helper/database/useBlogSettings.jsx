@@ -1,7 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import restAPI from "./restAPI";
-import axiosInstance, { axiosPost } from "../auth/axiosInstance";
+import axiosInstance, { axiosGet } from "../auth/axiosInstance";
+import { storage } from "../storage/firebase/firebasestorage";
+import { getDownloadURL, ref, uploadBytes, set, get } from "firebase/database";
 
 let API_CALL = restAPI();
 
@@ -66,27 +68,78 @@ export const useBlogContent = (props) => {
 
 export const useBlogPost = () => {
   const [resultPost, setResult] = useState();
-  const postBlog = async (data) => {
+  const [blogPostLoading, setBlogLoading] = useState(true);
+  const postBlog = async (data, imgEmbed) => {
     if (!data) return;
     try {
-      const response = await axiosPost(
-        `/app/blogs`,
-        data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      setResult(response);
+      const response = await axiosInstance.post(`/app/blogs`, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      const res = response.data;
+      setResult(res);
+      const blogId = res.id;
+      const imageFile = imgEmbed;
+      if (imageFile) {
+        const saveImage = {
+          id: blogId,
+          imageUrl: imageFile,
+          content: data.content
+        };
+        const storageRef = ref(storage, `blogs/${blogId}`);
+        await set(storageRef, saveImage);
+      }
     } catch (error) {
       console.log("Error during fetching:", error);
+    } finally {
+      setBlogLoading(false);
     }
   };
 
-  return { resultPost, postBlog };
+  return { resultPost, postBlog, blogPostLoading };
 };
 
+export const useBlogViewList = () => {
+  const [viewBlogs, setViewBlogs] = useState([]);
+  const [blogLoading, setBlogLoading] = useState(true);
+  const [fireBlogView, setFirebaseBlogs] = useState([]);
+
+  useEffect(() => {
+    const blogsRef = ref(storage, "blogs");
+    const getBlogViewList = async () => {
+      try {
+        const response = await axiosGet("/app/blog-list");
+        const snapshot = await get(blogsRef);
+        if (snapshot.exists()) {
+          const firebaseData = snapshot.val();
+          const firebaseBlogsArray = Object.keys(firebaseData).map((key) => ({
+            id: key,
+            ...firebaseData[key],
+          }));
+          //setFirebaseBlogs(firebaseBlogsArray);
+          const combinedBlogs = response.map((apiBlog) => {
+            const firebaseBlog = firebaseBlogsArray.find(
+              (fbBlog) => fbBlog.id === apiBlog.id
+            );
+            return {
+              ...apiBlog,
+              ...firebaseBlog,
+            };
+          });
+          setViewBlogs(combinedBlogs);
+        }
+      } catch (error) {
+        console.log("axios error:", error);
+      } finally {
+        setBlogLoading(false);
+      }
+    };
+    getBlogViewList();
+  }, []);
+
+  return { viewBlogs, blogLoading, fireBlogView };
+};
 
 export const useBlogCommentContent = ({ id }) => {
   const [commentData, setCommentData] = useState([]);

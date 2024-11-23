@@ -1,18 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Spinner from "../../components/Spinner/Spinner";
-// import ContentLayout from "../../utils/Selection/ContentLayout";
-// import RenderTreeView from "../../utils/RenderTreeView/renderTreeView";
-// import HandleCards from "../../utils/HandleCards/handleCards";
-import { useTreeview } from "../../helper/database/useTreeview";
+import {
+  useSideMenuView,
+  useTreeview,
+} from "../../helper/database/useTreeview";
 import ContentLayout from "../Selection_handler/Selection/ContentLayout";
-import RenderTreeView from "../Selection_handler/RenderTreeView/renderTreeView"
-import HandleCards from "../Selection_handler/HandleCards/handleCards"
-import useCardSettings from "../../helper/database/useCardSettings"; 
+import RenderTreeView from "../Selection_handler/RenderTreeView/renderTreeView";
+import HandleCards from "../Selection_handler/HandleCards/handleCards";
+import useCardSettings, {
+  useContentView,
+} from "../../helper/database/useCardSettings";
 import { useCardDesc } from "../../helper/database/useCardPath";
 
-const Selection = ({ navbar }) => {
-  const currentRef = useRef()
+const Selection = (props) => {
+  const { navbar, viewContent } = props;
+  const currentRef = useRef();
   const navigate = useNavigate();
   const { state } = useLocation();
   const { id, path, pageName, sideBarColorChanger } = state || {
@@ -27,8 +30,10 @@ const Selection = ({ navbar }) => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [itemsMainPage, setItemsMainPage] = useState(15);
   const [dropdownValue, setDropdownValue] = useState("");
+  const [contentView, setFilterContent] = useState([]);
   const [desc, setDesc] = useState([]);
-  const { data, loading } = useTreeview();
+  const { data } = useTreeview();
+  const { viewMenu, loading } = useSideMenuView();
   const { businessTypes } = useCardSettings(
     pageName.toLowerCase() === "ktv/jtv" ? "ktv_jtv" : pageName.toLowerCase()
   );
@@ -36,10 +41,19 @@ const Selection = ({ navbar }) => {
   const { businesses } = useCardDesc(
     pageName.toLowerCase() === "ktv/jtv" ? "ktv_jtv" : pageName.toLowerCase()
   );
- 
+
   useEffect(() => {
-    if (data) {
-      const selectedItemObj = data ? findItemById(data, path) : null;
+    if (!viewContent) return;
+
+    const filteredContent = viewContent.filter((item) => {
+      return item.business?.header === pageName;
+    });
+    setFilterContent(filteredContent);
+  }, [viewContent, pageName]);
+
+  useEffect(() => {
+    if (viewMenu) {
+      const selectedItemObj = viewMenu ? findItemById(viewMenu, path) : null;
       setSelectedItem(selectedItemObj);
     }
     const selectedItemPath = navbar ? findingPath(navbar, path) : "";
@@ -55,27 +69,26 @@ const Selection = ({ navbar }) => {
     }
 
     if (id) {
-      const selectedItemObj = data ? findItemById(data, id) : null;
+      const selectedItemObj = viewMenu ? findItemById(viewMenu, id) : null;
       setSelectedItem(selectedItemObj);
       setFilteredData("");
     }
-  }, [path, data, navbar, currentPath, businessTypes, dropdownValue]);
+  }, [path, viewMenu, navbar, currentPath, businessTypes, dropdownValue]);
 
   useEffect(() => {
     const desc = businesses ? businesses : [];
     setDesc(desc);
-    
   }, [businesses]);
 
   useEffect(() => {
-    if(selectedItem){
+    if (selectedItem) {
       if (currentRef.current) {
         currentRef.current.scrollIntoView({ behavior: "smooth" });
       } else {
         window.scrollTo({ behavior: "smooth" });
       }
     }
-  },[selectedItem])
+  }, [selectedItem]);
 
   const findItemById = (items, id) => {
     if (!items) return null;
@@ -111,7 +124,9 @@ const Selection = ({ navbar }) => {
       },
     });
 
-    const selectedItemObj = data ? findItemById(data, clickedId || id) : null;
+    const selectedItemObj = viewMenu
+      ? findItemById(viewMenu, clickedId || id)
+      : null;
     setSelectedItem(selectedItemObj);
     setFilteredData("");
     setTimeout(() => {
@@ -138,7 +153,7 @@ const Selection = ({ navbar }) => {
     if (e.title === "") {
       setFilteredData("");
     } else {
-      const filteredResults = await businessTypes.filter((item) =>
+      const filteredResults = await contentView.filter((item) =>
         item.title.toLowerCase().includes(e.title)
       );
       setFilteredData(filteredResults);
@@ -149,7 +164,7 @@ const Selection = ({ navbar }) => {
     currentPage * (selectedItem?.id ? itemsPerPage : itemsMainPage);
   const indexOfFirstItem =
     indexOfLastItem - (selectedItem?.id ? itemsPerPage : itemsMainPage);
-  const currentItems = businessTypes.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = contentView.slice(indexOfFirstItem, indexOfLastItem);
 
   if (loading) {
     return (
@@ -160,9 +175,9 @@ const Selection = ({ navbar }) => {
   }
   const dropdownOptions = [
     { value: "", label: "Select All" },
-    ...businessTypes.map((item) => ({
-      value: item.description,
-      label: item.description,
+    ...contentView.map((item) => ({
+      value: item.address,
+      label: item.address,
     })),
   ];
 
@@ -170,24 +185,24 @@ const Selection = ({ navbar }) => {
     setDropdownValue(e.target.value);
   };
 
-  const handleLink = (data) => {
-    navigate(`/card-page/${data}`, { state: { title: data } });
+  const handleLink = (data, ) => {
+    navigate(`/card-page/${data.title}`, { state: { pageContent: data } });
   };
 
   const totalPages = Math.ceil(
     selectedItem?.id
-      ? businessTypes.length / itemsPerPage
-      : businessTypes.length / itemsMainPage
+      ? contentView.length / itemsPerPage
+      : contentView.length / itemsMainPage
   );
-  const currentItemsPage = businessTypes.slice(
+  const currentItemsPage = contentView.slice(
     (currentPage - 1) * (selectedItem?.id ? itemsPerPage : itemsMainPage),
     currentPage * (selectedItem?.id ? itemsPerPage : itemsMainPage)
   );
   const sideAds = Array.isArray(currentItems) ? currentItems.slice(0, 3) : [];
   const currentCardItem = Array.isArray(currentItems)
-    ? currentItems.slice(4)
+    ? currentItems.slice(3)
     : [];
-  if (!data) {
+  if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Spinner />
@@ -199,7 +214,7 @@ const Selection = ({ navbar }) => {
       renderTreeView={() => (
         <RenderTreeView
           currentPath={currentPath}
-          data={data}
+          data={viewMenu}
           handleItemClick={handleItemClick}
           adName={pageName}
           sideBarColor={sideBarColorChanger}
@@ -209,19 +224,20 @@ const Selection = ({ navbar }) => {
         <HandleCards
           currentPath={currentPath}
           selectedItem={selectedItem}
-          currentItems={currentCardItem}
+          currentCardItem={currentCardItem}
           currentPage={currentPage}
           itemsPerPage={itemsPerPage}
           searchResult={filteredData}
           handleLink={handleLink}
           navbar={navbar}
           sideBarColor={sideBarColorChanger}
+          currentItems={currentItems}
         />
       )}
       sideBarColor={sideBarColorChanger}
       desc={desc}
       loading={loading}
-      data={data}
+      data={viewMenu}
       currentPage={currentPage}
       itemsPerPage={itemsPerPage}
       itemsMainPage={itemsMainPage}

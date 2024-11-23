@@ -63,7 +63,10 @@ export const useLogin = () => {
         data
       );
       const res = await response.data.access_token_response;
-      setAccountId(response.data.account_id)
+      setAccountId({
+        uuid: response.data.account_id,
+        access: response.data.access_level,
+      });
       setAccessToken(res.access_token);
       setRefreshToken(res.refresh_token);
     } catch (error) {
@@ -82,7 +85,7 @@ export const useLogin = () => {
     error,
     access_token,
     refresh_token,
-    accountId
+    accountId,
   };
 };
 

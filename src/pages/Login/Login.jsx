@@ -73,7 +73,7 @@ export const Login = ({
         "success",
         "",
         false,
-        "Ok",
+        "Okay",
         "",
         "#3085d6"
       );

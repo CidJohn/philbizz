@@ -9,7 +9,7 @@ function Footer() {
       <div className='relative mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-0 lg:pt-24'>
         <div className='lg:flex lg:items-end lg:justify-between'>
           <div>
-            <Image src={"phillogo.png"} style={{ width: "250px" }} />
+            <Image src={"philbizzLogo.png"} style={{ width: "250px" }} />
             <p className='mx-auto mt-6 max-w-md text-center leading-relaxed text-gray-500 lg:text-left'>
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt
               consequuntur amet culpa cum itaque neque.

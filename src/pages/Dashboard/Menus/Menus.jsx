@@ -6,7 +6,9 @@ import {
   useTreeview,
 } from "../../../helper/database/useTreeview";
 import TreeView from "../../../components/Treeviews/Treeview";
-import useCardSettings from "../../../helper/database/useCardSettings";
+import useCardSettings, {
+  useContentView,
+} from "../../../helper/database/useCardSettings";
 import Table from "../../../components/Table/Table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
@@ -14,13 +16,13 @@ import Searchbar from "../../../components/Searchbar/Searchbar";
 import Blogmenu from "./Blogmenu/Blogmenu";
 import useBusinessCategory from "../../../helper/database/usebusinessCategory";
 import Swal from "sweetalert2";
+import Spinner from "../../../components/Spinner/Spinner";
 
 function Menus(props) {
   const { blogData, business } = props;
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { name, path } = state || { name: null, path: null };
-  const { data } = useTreeview();
+  const { name, path, id } = state || { name: null, path: null, id };
   const [getTreeview, setTreeview] = useState([]);
   const [selectedItem, setSelectectItem] = useState([]);
   const [childname, setTreeChild] = useState([]);
@@ -28,14 +30,28 @@ function Menus(props) {
   const [getBusiness, setBusiness] = useState([]);
   const [treeviewFilter, setTreeviewFilter] = useState([]);
   const [getSearchValue, setSearchValue] = useState([]);
-  const [getFilterCategory, setFilterCategory] = useState([]);
-  const [getFilterCategoryData, setFilterCategoryData] = useState([]);
-  const [getSearchValueBusiness, setSearchValueBusiness] = useState([]);
-  const { businessTypes } = useCardSettings(
-    name.toLowerCase() === "ktv/jtv" ? "ktv_jtv" : name.toLowerCase()
-  );
+  const [getViewContent, setViewContent] = useState([]);
+  const [dataLoading, setDataLoading] = useState(true);
   const { getCategory, loadCategory } = useBusinessCategory();
-  const { viewMenu, menuLoading } = useSideMenuView(); //python side menu get display data
+  const { viewMenu, menuLoading } = useSideMenuView();
+  const { viewContent } = useContentView();
+  const { data } = useTreeview();
+
+  useEffect(() => {
+    setDataLoading(true);
+    const timer = setTimeout(() => {
+      const filteredContent = viewContent.filter(
+        (item) => item.location === childname
+      );
+      setTreeviewFilter(filteredContent);
+      setDataLoading(false);
+    }, 500);
+    const updatedViewContent = viewContent.filter(
+      (item) => item.business.id === id
+    );
+    setViewContent(updatedViewContent);
+    return () => clearTimeout(timer);
+  }, [viewContent, id, childname]);
 
   useEffect(() => {
     if (viewMenu) {
@@ -53,71 +69,30 @@ function Menus(props) {
         }
       });
     }
-    if (businessTypes) {
-      const getcard = businessTypes ? businessTypes : [];
-      setCard(getcard);
-
-      const treeviewFilter = businessTypes
-        ? businessTypes.filter((node) => node.location === childname)
-        : [];
-      setTreeviewFilter(treeviewFilter);
-    }
-    // if (business) {
-    //   const getBusiness = business ? business : [];
-    //   setBusiness(getBusiness);
-
-    //   const categoryFilter = business
-    //     ? business.filter((item) => item.parentName === getFilterCategory)
-    //     : [];
-    //   setFilterCategoryData(categoryFilter);
-    // }
-  }, [
-    data,
-    path,
-    businessTypes,
-    name,
-    selectedItem,
-    childname,
-    business,
-    getFilterCategory,
-  ]);
+  }, [data, path, name, selectedItem, childname, business]);
 
   const handleBack = () => {
     navigate(-1);
   };
 
-  const handleTreeview = (id, path) => {
+  const handleTreeview = (id, path, name) => {
     setSelectectItem(id);
   };
 
   const handlOnUpdate = (item) => {
-    if (name === "Business") {
-      navigate(`/dashboard/Form/Create`, {
-        state: {
-          title: item.title,
-          name: name,
-          path: path,
-          businessCategory: getCategory,
-          cardlocation: getBusiness
-            ? getBusiness.find((items) => items.title === item.title)
-                ?.parentName
-            : [],
-        },
-      });
-    } else {
-      navigate(`/dashboard/Form/Create`, {
-        state: {
-          title: item.title,
-          name: name,
-          path: path,
-          treeviewdata: data,
-          cardlocation: card
-            ? card.find((items) => items.title === item.title)?.location
-            : [],
-        },
-      });
-    }
+    navigate(`/dashboard/Form/Create`, {
+      state: {
+        title: item.title,
+        name: name,
+        path: path,
+        treeviewdata: data,
+        viewMenus: viewMenu,
+        cardlocation: item.location,
+        viewContent: item,
+      },
+    });
   };
+
   const handleOnDelete = (data) => {
     Swal.fire({
       title: "Are you sure?",
@@ -130,7 +105,7 @@ function Menus(props) {
       cancelButtonText: "Cancel",
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(`Deleted: ${data}`);
+        console.log(data);
         Swal.fire(
           "Deleted!",
           `Your data "${data.title}" has been deleted.`,
@@ -145,28 +120,14 @@ function Menus(props) {
   const handleSearch = async (e) => {
     if (e.title === "") {
       setSearchValue([]);
-      setFilterCategoryData([]);
       setTreeviewFilter([]);
-      setSearchValueBusiness([]);
     } else {
       setTreeviewFilter([]);
-      setFilterCategoryData([]);
-      if (name === "Company") {
-        const filteredResults = await getBusiness.filter((item) =>
-          item.title.toLowerCase().includes(e.title.toLowerCase())
-        );
-        setSearchValueBusiness(filteredResults);
-      } else {
-        const filteredResults = await businessTypes.filter((item) =>
-          item.title.toLowerCase().includes(e.title.toLowerCase())
-        );
-        setSearchValue(filteredResults);
-      }
+      const filteredResults = await getViewContent.filter((item) =>
+        item.title.toLowerCase().includes(e.title.toLowerCase())
+      );
+      setSearchValue(filteredResults);
     }
-  };
-
-  const handleCategory = (e) => {
-    setFilterCategory(e.target.innerText);
   };
 
   const handleCreateButton = (e) => {
@@ -182,12 +143,19 @@ function Menus(props) {
     });
   };
 
+  const tableFilter =
+    treeviewFilter.length > 0
+      ? treeviewFilter
+      : getSearchValue.length > 0
+      ? getSearchValue
+      : getViewContent;
+
   const renderTable = (data) => {
     return (
       <Table
-        tblheader={["Title", "Address"]}
+        tblheader={["Title", "address"]}
         tbldata={data}
-        tblrow={["title", "description"]}
+        tblrow={["title", "address"]}
         onUpdate={handlOnUpdate}
         onDelete={handleOnDelete}
       />
@@ -257,27 +225,15 @@ function Menus(props) {
                 {name} List
               </div>
               <div className="flex  max-w-[60vw] h-[70vh] border-b-2 border-r-2 border-l-2  border-dashed rounded-b-lg">
-                {name === "Company" ? (
-                  getFilterCategoryData.length > 0 ? (
-                    renderTable(getFilterCategoryData)
-                  ) : getSearchValueBusiness.length > 0 ? (
-                    renderTable(getSearchValueBusiness)
-                  ) : getBusiness.length > 0 ? (
-                    renderTable(getBusiness)
-                  ) : (
-                    <div className="text-2xl font-bold flex items-center mx-auto">
-                      Please Select Place
-                    </div>
-                  )
-                ) : treeviewFilter.length > 0 ? (
-                  renderTable(treeviewFilter)
-                ) : getSearchValue.length > 0 ? (
-                  renderTable(getSearchValue)
-                ) : card.length > 0 ? (
-                  renderTable(card)
-                ) : (
-                  <div className="text-2xl font-bold flex items-center mx-auto">
-                    Please Select Place
+                {dataLoading ? (
+                  <div className="w-[40vw] text-2xl font-bold flex items-center justify-center mx-auto">
+                    <Spinner />
+                  </div>
+                ) : tableFilter.length > 0 ? (
+                  renderTable(tableFilter)
+                ): (
+                  <div className="text-2xl flex items-center justify-center w-[40vw]">
+                  "No data, please add content."
                   </div>
                 )}
               </div>
