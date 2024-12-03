@@ -32,6 +32,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import contents from "../../../../../content/content.json";
 import { useToast } from "../../../../../components/Sonner/Sonner";
+import { useGlobalContext } from "../../../../../helper/context/useContext";
 
 function Contentcreate(props) {
   const { downTree, path, name, title, location, blogTitle, viewContent } =
@@ -54,6 +55,7 @@ function Contentcreate(props) {
   const { fetchUpdateCompany, resultUpdate } = useUpdateCompanyContent();
   const { postCard, putCard, cardResult, cardLoading } = useCardPosting();
   const { content, contentload } = useBlogContent(blogTitle ? blogTitle : "");
+  const { contentInfo, setUuid } = useGlobalContext();
   const [TextLine, setTextLine] = useState({
     title: "",
     address: "",
@@ -126,27 +128,25 @@ function Contentcreate(props) {
       );
     }
   }, [contents, mainPageSelection, sectionPageSelection]);
+
   useEffect(() => {
-    if (viewContent) {
-      viewContent.card_info.map((item) => {
+    setUuid(viewContent.id);
+    console.log(contentInfo);
+    if (contentInfo) {
+      contentInfo.map((item) => {
         setTextLine((prev) => ({
           ...prev,
-          uuid: item.id,
-          title: item.name,
           contact: item.contact,
           email: item.email,
+          service: item.service,
           location: item.location_image,
-          service: item.servicetype,
-          website: "",
-          description: item.desc,
         }));
         setEditorContent(item.content);
-        setImageInsert({ imagePreview: item.icon_image });
-        const image_link = item.images.map((item, index) => ({
-          id: index,
-          uuid: item.id,
-          value: item.images,
-        }));
+         const image_link = item.images.map((item, index) => ({
+           id: index,
+           uuid: item.id,
+           value: item.images,
+         }));
         setAddTextLine([
           ...image_link,
           { id: addTextLine.length + 1, value: "" },
@@ -165,11 +165,19 @@ function Contentcreate(props) {
         }));
         setEntries(persons);
       });
-      setTextLine((prev) => ({ ...prev, address: viewContent.address }));
+    }
+    if (viewContent) {
+      setTextLine((prev) => ({
+        ...prev,
+        title: viewContent.title,
+        address: viewContent.address,
+        description: viewContent.description,
+      }));
       const childDropDown = viewContent.location;
       setSelectChildValue(childDropDown ? childDropDown : "");
+      setImageInsert({ imagePreview: viewContent.title_image });
     }
-  }, [viewContent]);
+  }, [viewContent, contentInfo]);
 
   useEffect(() => {
     if (downTree) {
@@ -307,8 +315,9 @@ function Contentcreate(props) {
     const value = e.target.value;
     setSectionPageDropdown(value);
   };
-  
+
   const handleSave = () => {
+    console.log(initialSelectionContent);
     postCard(initialSelectionContent);
   };
 

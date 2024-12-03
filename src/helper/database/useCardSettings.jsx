@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import restAPI from "./restAPI";
 import axios from "axios";
 import axiosInstance, {
@@ -187,7 +187,8 @@ export const useCardPosting = () => {
 
   const postCard = async (data) => {
     try {
-      const response = await axiosPost("auth/post-card-content/", data);
+      const response = await axiosPost("/auth/post-card-content/", data);
+      console.log(response);
       setCardResult(response);
     } catch (error) {
       console.error("axios error: ", error);
@@ -211,25 +212,48 @@ export const useCardPosting = () => {
   return { postCard, putCard, cardResult, cardLoading };
 };
 
-export const useContentView = () => {
+export const useContentViewList = () => {
+  const [header, setHeader] = useState("");
   const [viewContent, setViewContent] = useState([]);
   const [loadContent, setLoadContent] = useState(true);
 
   useEffect(() => {
     const getContentList = async () => {
-      try {
-        const response = await axiosGet("/app/content/list");
-        setViewContent(response);
-      } catch (err) {
-        console.error("Axios Error:", err);
-      } finally {
-        setLoadContent(false);
-      }
+      if (header)
+        try {
+          const response = await axiosGet(`/app/content/list?header=${header}`);
+          setViewContent(response ? response : "");
+        } catch (err) {
+          console.error("Axios Error:", err);
+        } finally {
+          setLoadContent(false);
+        }
     };
     getContentList();
-  }, []);
+  }, [header]);
+  return { viewContent, loadContent, setHeader };
+};
 
-  return { viewContent, loadContent };
+export const useViewContentInfo = () => {
+  const [getUuid, setUuid] = useState("");
+  const [viewInfo, setViewInfo] = useState([]);
+
+  useEffect(() => {
+    if (!getUuid) return;
+    const fetchingInfo = async () => {
+      try {
+        const response = await axiosGet(
+          `/app/content/view/info?content=${getUuid}`
+        );
+        setViewInfo(response);
+      } catch (error) {
+        console.log("axios error: ", error);
+      }
+    };
+    fetchingInfo();
+  }, [getUuid]);
+
+  return { setUuid, viewInfo };
 };
 
 export default useCardSettings;

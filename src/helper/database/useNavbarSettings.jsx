@@ -32,7 +32,7 @@ function useNavbarSettings() {
 }
 
 export const useNavbarView = () => {
-  const [navbarData, setNavbarData] = useState();
+  const [navbarData, setNavbarData] = useState([]);
   const [loadingData, setLoading] = useState(true);
 
   useEffect(() => {
