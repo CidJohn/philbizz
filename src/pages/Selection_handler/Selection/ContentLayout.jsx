@@ -128,42 +128,42 @@ const ContentLayout = (props) => {
             </h1>
           </div>
           <div className="w-full flex flex-col gap-2 p-2">
-            {sideAds.map((item) =>
-              item.card_info.map((info, index) => (
-                <div
-                  className="border-b-2 dashed py-3 border-dashed"
-                  style={{
-                    borderColor: sideBarColor
-                      ? sideBarColor.textColor
-                      : "#E63946",
-                  }}
-                  key={index}
-                >
-                  <div className="w-full  ">
-                    <Card
-                      src={info.icon_image}
-                      title={info.name}
-                      desc={info.desc}
-                      style={{
-                        width: "100%",
-                        backgroundSize: "cover",
-                        border: "1px solid",
-                        borderColor: sideBarColor
-                          ? sideBarColor.textColor
-                          : "#E63946",
-                      }}
-                      onLink={() => handleLink(item)}
-                      btnColor={
-                        sideBarColor ? sideBarColor.bgColor : "#E639460D"
-                      }
-                      textColor={
-                        sideBarColor ? sideBarColor.textColor : "#E63946"
-                      }
-                    />
+            {sideAds
+              ? sideAds.map((item, index) => (
+                  <div
+                    className="border-b-2 dashed py-3 border-dashed"
+                    style={{
+                      borderColor: sideBarColor
+                        ? sideBarColor.textColor
+                        : "#E63946",
+                    }}
+                    key={index}
+                  >
+                    <div className="w-full  ">
+                      <Card
+                        src={item.title_image}
+                        title={item.title}
+                        desc={item.address}
+                        style={{
+                          width: "100%",
+                          backgroundSize: "cover",
+                          border: "1px solid",
+                          borderColor: sideBarColor
+                            ? sideBarColor.textColor
+                            : "#E63946",
+                        }}
+                        onLink={() => handleLink(item)}
+                        btnColor={
+                          sideBarColor ? sideBarColor.bgColor : "#E639460D"
+                        }
+                        textColor={
+                          sideBarColor ? sideBarColor.textColor : "#E63946"
+                        }
+                      />
+                    </div>
                   </div>
-                </div>
-              ))
-            )}
+                ))
+              : ""}
           </div>
         </div>
       </div>

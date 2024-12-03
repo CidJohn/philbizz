@@ -12,9 +12,11 @@ import useCardSettings, {
   useContentView,
 } from "../../helper/database/useCardSettings";
 import { useCardDesc } from "../../helper/database/useCardPath";
+import { useGlobalContext } from "../../helper/context/useContext";
 
 const Selection = (props) => {
-  const { navbar, viewContent } = props;
+  const { navbar } = props;
+  const { contentList, setHeader } = useGlobalContext();
   const currentRef = useRef();
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -43,13 +45,14 @@ const Selection = (props) => {
   );
 
   useEffect(() => {
-    if (!viewContent) return;
+    if (!contentList) return;
 
-    const filteredContent = viewContent.filter((item) => {
+    const filteredContent = contentList.filter((item) => {
       return item.business?.header === pageName;
     });
     setFilterContent(filteredContent);
-  }, [viewContent, pageName]);
+    setHeader(pageName);
+  }, [contentList, pageName]);
 
   useEffect(() => {
     if (viewMenu) {
@@ -185,7 +188,7 @@ const Selection = (props) => {
     setDropdownValue(e.target.value);
   };
 
-  const handleLink = (data, ) => {
+  const handleLink = (data) => {
     navigate(`/card-page/${data.title}`, { state: { pageContent: data } });
   };
 

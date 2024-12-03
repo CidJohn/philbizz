@@ -28,15 +28,15 @@ const HandleCards = (props) => {
       <React.Fragment key={index}>
         <div className="bg-cover mx-auto ">
           <Card
-            src={item.card_image}
+            src={item.title_image}
             title={item.title}
-            desc={item.description}
+            desc={item.address}
             style={{
               width: "240px",
               backgroundSize: "cover",
             }}
             hidden={true}
-            onLink={() => handleLink(items)}
+            onLink={() => handleLink(item.title)}
             btnColor={sideBarColor ? sideBarColor.bgColor : "#E639460D"}
             textColor={sideBarColor ? sideBarColor.textColor : "#E63946"}
             theme={sideBarColor ? sideBarColor.theme : ""}
@@ -61,26 +61,24 @@ const HandleCards = (props) => {
           </div>
         );
       } else {
-        return currentCardItem.map((item) => {
-          return item.card_info.map((select, index) => (
-            <React.Fragment key={index}>
-              <div className="w-full">
-                <Card
-                  src={select.icon_image}
-                  title={select.name}
-                  desc={select.desc}
-                  style={{
-                    backgroundSize: "cover",
-                  }}
-                  onLink={() => handleLink(item)}
-                  btnColor={sideBarColor ? sideBarColor.bgColor : "#E639460D"}
-                  textColor={sideBarColor ? sideBarColor.textColor : "#E63946"}
-                  theme={sideBarColor ? sideBarColor.theme : ""}
-                />
-              </div>
-            </React.Fragment>
-          ));
-        });
+        return currentCardItem.map((item, index) => (
+          <React.Fragment key={index}>
+            <div className="bg-cover mx-auto ">
+              <Card
+                src={item.title_image}
+                title={item.title}
+                desc={item.address}
+                style={{
+                  backgroundSize: "cover",
+                }}
+                onLink={() => handleLink(item.title)}
+                btnColor={sideBarColor ? sideBarColor.bgColor : "#E639460D"}
+                textColor={sideBarColor ? sideBarColor.textColor : "#E63946"}
+                theme={sideBarColor ? sideBarColor.theme : ""}
+              />
+            </div>
+          </React.Fragment>
+        ));
       }
     } else {
       if (searchResult && searchResult.length > 0) {
@@ -92,31 +90,30 @@ const HandleCards = (props) => {
       } else {
         return (
           selectedItem &&
-          currentItems.map((select) =>
-            select.location === selectedItem.name
-              ? select.card_info.map((item, index) => (
-                  <React.Fragment key={index}>
-                    <div className="bg-cover mx-auto ">
-                      <Card
-                        src={item.icon_image}
-                        title={item.name}
-                        desc={item.desc}
-                        style={{
-                          backgroundSize: "cover",
-                        }}
-                        onLink={() => handleLink(select)}
-                        btnColor={
-                          sideBarColor ? sideBarColor.bgColor : "#E639460D"
-                        }
-                        textColor={
-                          sideBarColor ? sideBarColor.textColor : "#E63946"
-                        }
-                        theme={sideBarColor ? sideBarColor.theme : ""}
-                      />
-                    </div>
-                  </React.Fragment>
-                ))
-              : ""
+          currentItems.map(
+            (item, index) =>
+              item.location === selectedItem.name && (
+                <React.Fragment key={index}>
+                  <div className="bg-cover mx-auto ">
+                    <Card
+                      src={item.title_image}
+                      title={item.title}
+                      desc={item.address}
+                      style={{
+                        backgroundSize: "cover",
+                      }}
+                      onLink={() => handleLink(item.title)}
+                      btnColor={
+                        sideBarColor ? sideBarColor.bgColor : "#E639460D"
+                      }
+                      textColor={
+                        sideBarColor ? sideBarColor.textColor : "#E63946"
+                      }
+                      theme={sideBarColor ? sideBarColor.theme : ""}
+                    />
+                  </div>
+                </React.Fragment>
+              )
           )
         );
       }

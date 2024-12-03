@@ -10,12 +10,12 @@ export const useCardInfo = (type) => {
 
   useEffect(() => {
     const fetchingData = async () => {
-      if (!type) return; // Ensure type is defined
+      if (!type) return;
       try {
         const results = await axios.get(`${API_CALL.host}/card_info/${type}`);
         const data = results.data;
         setData(data);
-        const url = data[0]?.location_image; // Ensure url is defined
+        const url = data[0]?.location_image;
         setURL(url);
       } catch (error) {
         console.error("Error fetching data:", error);

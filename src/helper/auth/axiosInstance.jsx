@@ -2,12 +2,10 @@ import axios from "axios";
 import restAPI from "../database/restAPI";
 import useStorage from "../storage/Storage";
 
-let API_CALL = restAPI();
+const API_CALL = restAPI();
+
 const axiosInstance = axios.create({
   baseURL: API_CALL.pythonHost,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 axiosInstance.interceptors.request.use(
