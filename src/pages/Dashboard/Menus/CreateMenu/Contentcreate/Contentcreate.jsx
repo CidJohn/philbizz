@@ -96,25 +96,6 @@ function Contentcreate(props) {
     Personnel: { entries },
   };
 
-  const initialBusinessContent = {
-    displayPosition: { mainPageDropDown, sectionPageDropDown },
-    Treeview: {
-      parent: selectedValue,
-      child: selectChildValue,
-      name: name,
-      title: title,
-      childloc: location,
-      imageTitle: imageInsert.imagePreview,
-    },
-    TextLine: {
-      required: { ...TextLine, image: imageInsert.imagePreview },
-      option: addTextLine,
-      social: socialText,
-    },
-    TextEditor: editorContent,
-    Personnel: { entries },
-  };
-
   useEffect(() => {
     const { mainPageSelection, sectionPageSelection } = contents || {};
     if (mainPageSelection) {
@@ -130,43 +111,9 @@ function Contentcreate(props) {
   }, [contents, mainPageSelection, sectionPageSelection]);
 
   useEffect(() => {
-    setUuid(viewContent.id);
-    console.log(contentInfo);
-    if (contentInfo) {
-      contentInfo.map((item) => {
-        setTextLine((prev) => ({
-          ...prev,
-          contact: item.contact,
-          email: item.email,
-          service: item.service,
-          location: item.location_image,
-        }));
-        setEditorContent(item.content);
-         const image_link = item.images.map((item, index) => ({
-           id: index,
-           uuid: item.id,
-           value: item.images,
-         }));
-        setAddTextLine([
-          ...image_link,
-          { id: addTextLine.length + 1, value: "" },
-        ]);
-        const socials = item.social_links.map((item, index) => ({
-          uuid: item.id,
-          link: item.social_value,
-          social: item.social_media,
-        }));
-        setSocialText(socials);
-        const persons = item.people_involved.map((item, index) => ({
-          uuid: item.id,
-          imagePreview: item.image,
-          personnelName: item.name,
-          position: item.position,
-        }));
-        setEntries(persons);
-      });
-    }
     if (viewContent) {
+      console.log(viewContent);
+      setUuid(viewContent.id);
       setTextLine((prev) => ({
         ...prev,
         title: viewContent.title,
@@ -176,6 +123,38 @@ function Contentcreate(props) {
       const childDropDown = viewContent.location;
       setSelectChildValue(childDropDown ? childDropDown : "");
       setImageInsert({ imagePreview: viewContent.title_image });
+    }
+    if (contentInfo) {
+      setTextLine((prev) => ({
+        ...prev,
+        contact: contentInfo.contact,
+        email: contentInfo.email,
+        service: contentInfo.service,
+        location: contentInfo.location_image,
+      }));
+      setEditorContent(contentInfo.content);
+      const image_link = contentInfo.images.map((item, index) => ({
+        id: index,
+        uuid: item.id,
+        value: item.images,
+      }));
+      setAddTextLine([
+        ...image_link,
+        { id: addTextLine.length + 1, value: "" },
+      ]);
+      const socials = contentInfo.social_links.map((item, index) => ({
+        uuid: item.id,
+        link: item.social_value,
+        social: item.social_media,
+      }));
+      setSocialText(socials);
+      const persons = contentInfo.people_involved.map((item, index) => ({
+        uuid: item.id,
+        imagePreview: item.image,
+        personnelName: item.name,
+        position: item.position,
+      }));
+      setEntries(persons);
     }
   }, [viewContent, contentInfo]);
 

@@ -91,7 +91,7 @@ const ContentLayout = (props) => {
                   />
                 </div>
               </div>
-              <div className="w-full flex flex-col mt-3 lg:grid lg:grid-cols-3  ap-2 ">
+              <div className="w-full flex flex-col mt-3 lg:grid lg:grid-cols-3  ">
                 {handleCards(currentItems)}
               </div>
             </div>
