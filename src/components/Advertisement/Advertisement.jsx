@@ -17,7 +17,7 @@ export default function AdvertisementSlider({ slides }) {
       modules={[Autoplay, Pagination, Navigation]}
     >
       {slides && slides.length > 0
-        ? slides?.map((item) => <SwiperSlide key={item.id}>{item}</SwiperSlide>)
+        ? slides?.map((item, index) => <SwiperSlide key={item.id || index}>{item}</SwiperSlide>)
         : "no data..."}
     </Swiper>
   );

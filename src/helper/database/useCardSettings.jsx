@@ -237,7 +237,7 @@ export const useContentViewList = () => {
 export const useViewContentInfo = () => {
   const [getUuid, setUuid] = useState("");
   const [viewInfo, setViewInfo] = useState([]);
-
+  const [infoLoader, setLoader] = useState(true)
   useEffect(() => {
     if (!getUuid) return;
     const fetchingInfo = async () => {
@@ -248,12 +248,14 @@ export const useViewContentInfo = () => {
         setViewInfo(response);
       } catch (error) {
         console.log("axios error: ", error);
+      }finally{
+        setLoader(false)
       }
     };
     fetchingInfo();
   }, [getUuid]);
 
-  return { setUuid, viewInfo };
+  return { setUuid, viewInfo, infoLoader };
 };
 
 export default useCardSettings;

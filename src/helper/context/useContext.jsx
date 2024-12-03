@@ -11,16 +11,18 @@ export const GlobalProvider = ({ children }) => {
   const [contentList, setContentList] = useState([]);
   const [contentInfo, setContentInfo] = useState([]);
   const { viewContent, setHeader } = useContentViewList();
-  const { setUuid, viewInfo } = useViewContentInfo();
+  const { setUuid, viewInfo, infoLoader } = useViewContentInfo();
 
   useEffect(() => {
     setContentList(viewContent ? viewContent : []);
-    setContentInfo(viewInfo ? viewInfo : "");
+    if (viewInfo.length > 0) {
+      viewInfo.map((item) => setContentInfo(item));
+    }
   }, [viewContent, viewInfo]);
 
   return (
     <GlobalContext.Provider
-      value={{ contentList, setHeader, setUuid, contentInfo }}
+      value={{ contentList, setHeader, setUuid, contentInfo, infoLoader }}
     >
       {children}
     </GlobalContext.Provider>
