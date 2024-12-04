@@ -103,7 +103,6 @@ export const useBlogPost = () => {
 export const useBlogViewList = () => {
   const [viewBlogs, setViewBlogs] = useState([]);
   const [blogLoading, setBlogLoading] = useState(true);
-  const [fireBlogView, setFirebaseBlogs] = useState([]);
 
   useEffect(() => {
     const blogsRef = ref(storage, "blogs");
@@ -117,7 +116,6 @@ export const useBlogViewList = () => {
             id: key,
             ...firebaseData[key],
           }));
-          //setFirebaseBlogs(firebaseBlogsArray);
           const combinedBlogs = response.map((apiBlog) => {
             const firebaseBlog = firebaseBlogsArray.find(
               (fbBlog) => fbBlog.id === apiBlog.id
@@ -138,7 +136,7 @@ export const useBlogViewList = () => {
     getBlogViewList();
   }, []);
 
-  return { viewBlogs, blogLoading, fireBlogView };
+  return { viewBlogs, blogLoading };
 };
 
 export const useBlogCommentContent = ({ id }) => {

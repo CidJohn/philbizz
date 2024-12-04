@@ -30,6 +30,7 @@ export default function Navbar(props) {
       : [];
     navigation(item.path, {
       state: {
+        id: item.id,
         path: item.path,
         pageName: item.name,
         sideBarColorChanger: dynamicColorChanger[0],
@@ -102,7 +103,7 @@ export default function Navbar(props) {
         className='  p-2 relative mt-2 hover:text-gray-900  '
         onMouseEnter={() => setShowDropdown(item.name)}
       >
-        {item.restrict !== 19 ? (
+        {!item.restrict ? (
           <>
             <a
               className={`border-b-2 hover:border-gray-900 cursor-pointer flex flex-col text-gray-600 hover:text-gray-900 hover:font-bold items-center  transform transition-transform duration-500 hover:scale-90 ${
@@ -163,7 +164,7 @@ export default function Navbar(props) {
                     {navbarData
                       ? navbarData.map(
                           (item, index) =>
-                            item.restrict === 19 && (
+                            item.restrict && (
                               <React.Fragment key={index}>
                                 <Button
                                   onClick={handleKtvJtvClick(item)}

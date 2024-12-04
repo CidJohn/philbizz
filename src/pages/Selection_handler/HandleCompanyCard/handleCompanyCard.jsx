@@ -6,13 +6,13 @@ import Horizontal from "../../../components/Horizontal/Horizontal";
 import { useNavigate } from "react-router-dom";
 
 const HandleCompanyCard = (props) => {
-  const { category, sideBarColor, navigates } = props;
+  const { content, sideBarColor, navigates } = props;
   const { path, pageName, sideBarColorChanger } = navigates;
   const navigate = useNavigate();
   const listPaginationRef = useRef(null);
   const cardPaginationRef = useRef(null);
-  const cardData = Array.isArray(category) ? category.slice(0, 115) : [];
-  const listData = Array.isArray(category) ? category.slice(115) : [];
+  const cardData = Array.isArray(content) ? content.slice(0, 115) : [];
+  const listData = Array.isArray(content) ? content.slice(115) : [];
 
   const itemsPerPage = 10;
   const [cardCurrentPage, setCardCurrentPage] = useState(1);
@@ -30,8 +30,10 @@ const HandleCompanyCard = (props) => {
     (listCurrentPage - 1) * itemsPerPage,
     listCurrentPage * itemsPerPage
   );
-  const handleLink = (title) => {
-    navigate(`/company-page/${title}`, { state: { title: title } });
+  const handleLink = (title, content) => {
+    navigate(`/company-page/${title}`, {
+      state: { title: title, content: content },
+    });
   };
 
   const handleChangeListPage = (pageNumber) => {
@@ -61,14 +63,15 @@ const HandleCompanyCard = (props) => {
     }
   };
 
-  const renderCard = (item, index) => (
+  const renderCard = (item, index, content) => (
     <div className="" key={index}>
+      {console.log(item)}
       <div className="p-2">
         <Card
-          src={item.image}
-          desc={item.description}
-          title={item.title}
-          onLink={() => handleLink(item.title)}
+          src={item.icon_image}
+          desc={item.desc}
+          title={item.name}
+          onLink={() => handleLink(item.name, content)}
           hidden={true}
           style={{
             width: "400px",
@@ -82,14 +85,14 @@ const HandleCompanyCard = (props) => {
     </div>
   );
 
-  const renderList = (item, index) => (
+  const renderList = (item, index, content) => (
     <div className="" key={index}>
       <div className="flex w-full  ">
         <List
           image={item.image}
-          title={item.title}
-          onLink={() => handleLink(item.title)}
-          desc={item.description}
+          title={item.name}
+          onLink={() => handleLink(item.title, content)}
+          desc={item.desc}
           className={"hover:bg-slate-200 w-full"}
           imgstyle={{ width: "200px", height: "100px" }}
           colorText={sideBarColor.textColor}
@@ -102,15 +105,15 @@ const HandleCompanyCard = (props) => {
   const renderCardData = (data) => (
     <div className="data-section">
       <div className="flex flex-wrap justify-center  border-t py-5 w-full">
-        {data.map((item, index) => renderCard(item, index))}
+        {data.map((item, index) => item.card_info.map((items) => renderCard(items, index, item)) )}
       </div>
     </div>
   );
 
-  const renderListData = (data) => (
+  const renderListData = (data, content) => (
     <div className="data-section">
       <div className="gap-2 w-full ">
-        {data.map((item, index) => renderList(item, index))}
+        {data.map((item, index) => renderList(item, index, content))}
       </div>
     </div>
   );

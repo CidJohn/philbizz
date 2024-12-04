@@ -108,6 +108,3 @@ export const useSideMenuView = () => {
   return { viewMenu, menuLoading };
 };
 
-export const useSideMenuUpdate = () => {
-  return {};
-};

@@ -22,10 +22,10 @@ const Categories = (props) => {
                   href={section.href}
                   onClick={handleClickParent}
                 >
-                  {section.title}
+                  {section.name}
                 </button>
                 <ul className="grid grid-cols-2   text-gray-100 dark:text-gray-400   p-5 gap-2">
-                  {section.links.map((link, linkIndex) => (
+                  {section.children.map((link, linkIndex) => (
                     <button
                       className=" hover:bg-gray-200 border bg-blue-200 p-2 rounded-full hover:text-blue-400 "
                       onClick={handleClick}

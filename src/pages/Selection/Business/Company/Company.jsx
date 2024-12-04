@@ -16,66 +16,75 @@ import { FaTelegram } from "react-icons/fa";
 const Company = (props) => {
   const { CompanyData } = props;
   const { state } = useLocation();
-  const { title } = state || { title: null };
+  const { title, content } = state || { title: null, content: null };
   const contentRef = useRef(null);
-  const [getCompanyInfo, setCompanyInfo] = useState([]);
+  const [getContentInfo, setContentInfo] = useState([]);
   const [companyName, setCompanyName] = useState("");
   const [getCompanyImages, setCompanyImages] = useState([]);
   const [getCompanyProduct, setCompanyProduct] = useState([]);
-  const [getCompanySocial, setCompanySocial] = useState([]);
+  const [getSocial, setSocial] = useState([]);
   const [getpersonnel, setPersonnel] = useState([]);
   const { viewData, viewloading } = useCompanyView(companyName);
   const { info, images, socials, personnels, product } = viewData;
 
   useEffect(() => {
-    if (!viewloading && viewData) {
+    if (!content && content) {
       if (contentRef.current) {
         contentRef.current.scrollIntoView({ behavior: "smooth" });
       } else {
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
     }
-  }, [viewloading, viewData]);
-
-  useEffect(() => {
-    const cardname = CompanyData
-      ? CompanyData?.find((item) => item.title === title)?.title || ""
-      : "";
-    const getCompanyInfo = CompanyData
-      ? CompanyData.find((item) => item.title === cardname)
+    content.card_info.map((item) => setContentInfo(item));
+    const socialLinks = getContentInfo.social_links
+      ? getContentInfo.social_links
       : [];
+    const personInvolve = getContentInfo.people_involved
+      ? getContentInfo.people_involved
+      : [];
+    setSocial(socialLinks);
+    setPersonnel(personInvolve);
+  }, [viewloading, viewData, content, getContentInfo]);
 
-    const getImage = images ? images.map((item) => item) : [];
-    const getProduct = product ? product.map((item) => item) : [];
-    const getSocial = socials ? socials.map((item) => item) : [];
-    const getPerson = personnels ? personnels.map((item) => item) : [];
-    const infos = info ? info[0] : [];
+  // useEffect(() => {
+  //   const cardname = CompanyData
+  //     ? CompanyData?.find((item) => item.title === title)?.title || ""
+  //     : "";
+  //   const getCompanyInfo = CompanyData
+  //     ? CompanyData.find((item) => item.title === cardname)
+  //     : [];
 
-    setCompanyInfo(infos);
-    setPersonnel(getPerson);
-    setCompanySocial(getSocial);
-    setCompanyImages(getImage);
-    setCompanyProduct(getProduct);
-    setCompanyInfo(infos);
-    setCompanyName(cardname);
-  }, [CompanyData, info, images, socials, personnels, product, title]);
+  //   const getImage = images ? images.map((item) => item) : [];
+  //   const getProduct = product ? product.map((item) => item) : [];
+  //   const getSocial = socials ? socials.map((item) => item) : [];
+  //   const getPerson = personnels ? personnels.map((item) => item) : [];
+  //   const infos = info ? info[0] : [];
 
-  if (!getCompanyInfo.companyName) {
+  //   setCompanyInfo(infos);
+  //   setPersonnel(getPerson);
+  //   setCompanySocial(getSocial);
+  //   setCompanyImages(getImage);
+  //   setCompanyProduct(getProduct);
+  //   setCompanyInfo(infos);
+  //   setCompanyName(cardname);
+  // }, [CompanyData, info, images, socials, personnels, product, title]);
+
+  if (!content) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Maintenance />
       </div>
     );
   }
-  if (viewloading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Spinner />
-      </div>
-    );
-  }
+  // if (!content) {
+  //   return (
+  //     <div className="flex items-center justify-center min-h-screen">
+  //       <Spinner />
+  //     </div>
+  //   );
+  // }
 
-  const website = getCompanySocial ? getCompanySocial[0] : [];
+  // const website = getCompanySocial ? getCompanySocial[0] : [];
   const capitalizeWords = (str) => {
     if (!str) return "";
     return str
@@ -85,8 +94,7 @@ const Company = (props) => {
       .join(" ");
   };
 
-  const viewkeys = Object.keys(getCompanyInfo);
-
+  const viewkeys = Object.keys(getContentInfo);
   const copyToClipboard = (text, message) => {
     navigator.clipboard
       .writeText(text)
@@ -103,22 +111,22 @@ const Company = (props) => {
 
   const handleCopyClick = () =>
     copyToClipboard("philtong15@gmail.com", "Gmail Address");
-  const handleCopyTalk = () =>
+  const handleCopyTalk = (link) =>
     copyToClipboard("09928599984", "Kakao Talk Number");
   const handleCopyTelegram = () =>
     copyToClipboard("09943514205", "Telegram Number");
-
+  console.log(getpersonnel);
   return (
     <div
       className="px-[30rem] w-full py-10 flex items-start justify-center flex-col "
       ref={contentRef}
     >
       <h1 className="fira-sans-bold text-[#013A63] font-bold text-3xl text-start mb-3">
-        {getCompanyInfo.companyName}
+        {content.title}
       </h1>
       <div className="flex flex-wrap">
         <p className="mb-3 text-lg text-slate-500 fira-sans-condensed-regular text-wrap  ">
-          {getCompanyInfo.description}
+          {content.address}
         </p>
         <hr className="w-full " />
 
@@ -127,67 +135,71 @@ const Company = (props) => {
             Social Media Contacts:
           </h1>
           <div className="flex items-center gap-3">
-            <div
-              onClick={handleCopyTalk}
-              className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-yellow-500 rounded-md cursor-pointer hover:bg-yellow-400 "
-            >
-              <RiKakaoTalkFill className="text-4xl mr-2" />
-              KakaoTalk
-            </div>
-            <div
-              onClick={handleCopyClick}
-              className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-red-500 rounded-md cursor-pointer hover:bg-red-400"
-            >
-              <SiGmail className="text-4xl mr-2 " />
-              Gmail
-            </div>
-            <div
-              onClick={handleCopyTelegram}
-              className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-blue-400 rounded-md cursor-pointer hover:bg-blue-300"
-            >
-              <FaTelegram className="text-4xl mr-2 text-black" />
-              Telegram
-            </div>
+            {getSocial.length > 0
+              ? getSocial.map((item) =>
+                  item.social_media === "KakaoTalk" ? (
+                    <a
+                      href={item.social_links}
+                      target="_black"
+                      className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-yellow-500 rounded-md cursor-pointer hover:bg-yellow-400 "
+                    >
+                      <RiKakaoTalkFill className="text-4xl mr-2" />
+                      KakaoTalk
+                    </a>
+                  ) : item.social_media === "Gmail" ? (
+                    <>
+                      <a
+                        href={item.social_links}
+                        target="_black"
+                        className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-red-500 rounded-md cursor-pointer hover:bg-red-400"
+                      >
+                        <SiGmail className="text-4xl mr-2 " />
+                        Gmail
+                      </a>
+                    </>
+                  ) : (
+                    item.social_media === "Telegram" && (
+                      <a
+                        href={item.social_links}
+                        target="_black"
+                        className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-blue-400 rounded-md cursor-pointer hover:bg-blue-300"
+                      >
+                        <FaTelegram className="text-4xl mr-2 text-black" />
+                        Telegram
+                      </a>
+                    )
+                  )
+                )
+              : ""}
           </div>
         </div>
         <hr className="w-full py-4 " />
       </div>
       <div className="flex flex-col">
         <div className="p-3 flex  justify-center">
-          <Images src={getCompanyInfo.imgLOGO} />
+          <Images src={getContentInfo.icon_image} />
         </div>
       </div>
       <section id="about">
-        <div className="flex flex-wrap max-w-screen-md">
-          <div className="p-3 gap-3 flex  justify-center  ">
-            {getCompanyImages &&
-              getCompanyImages.map((item, index) => (
-                <div className="" key={index}>
-                  <Images
-                    src={item.companyImage}
-                    style={{ width: "500px", height: "400px" }}
-                    className="transform transition-transform duration-500 hover:scale-105"
-                  />
-                  <div
-                    dangerouslySetInnerHTML={{ __html: item.content }}
-                    style={{
-                      padding: "10px",
-                      marginTop: "10px",
-                    }}
-                    className="min-w-full text-center"
-                  />
-                </div>
-              ))}
+        <div className="flex flex-wrap max-w-screen-lg">
+          <div className="p-3 gap-3 flex    ">
+            <div className="flex ">
+              <div
+                dangerouslySetInnerHTML={{ __html: getContentInfo.content }}
+                style={{
+                  padding: "10px",
+                  marginTop: "10px",
+                }}
+                className="min-w-full"
+              />
+            </div>
           </div>
         </div>
       </section>
       <section id="products">
-        <div className="text-2xl font-bold mt-5 p-2 text-center">
-          Sample Products
-        </div>
-        <div className="flex max-w-screen-md ">
+        <div className="flex max-w-screen-lg ">
           <div className="flex flex-wrap justify-center">
-            {getCompanyProduct &&
+            {/* {getCompanyProduct &&
               getCompanyProduct.map((item, index) => (
                 <div key={index}>
                   <figure className=" p-4 transform transition-transform duration-500 hover:scale-105">
@@ -202,14 +214,14 @@ const Company = (props) => {
                     </figcaption>
                   </figure>
                 </div>
-              ))}
+              ))} */}
           </div>
         </div>
       </section>
       {getpersonnel ? (
         <section id="personnel">
           <div className="text-2xl font-bold mt-5 p-2">Personnel</div>
-          <div className=" w-[45vw] border  p-3">
+          <div className=" w-[45vw]  ">
             <Carousel items={getpersonnel} />
           </div>
         </section>
@@ -223,57 +235,77 @@ const Company = (props) => {
           Location
         </div>
         <div className="flex justify-center">
-          <GoogleMapEmbed src={getCompanyInfo.locationURL} />
+          <GoogleMapEmbed
+            src={getContentInfo ? getContentInfo.location_image : ""}
+          />
         </div>
 
         <div className="flex items-start px-6 py-6 gap-2 flex-col">
           {/* <Table tblheader={tblheader} tblrow={tblrow} tbldata={tbldata} /> */}
           <p className="fira-sans-condensed-regular text-lg text-gray-600">
             <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
-              {capitalizeWords(viewkeys[0])} :
+              {capitalizeWords(viewkeys[1])} :
             </span>
-            {getCompanyInfo.companyName}
+            {getContentInfo.name}
+          </p>
+          <p className="fira-sans-condensed-regular text-lg text-gray-600">
+            <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
+              {capitalizeWords(viewkeys[2])} :
+            </span>
+            {getContentInfo.contact}
           </p>
           <p className="fira-sans-condensed-regular text-lg text-gray-600">
             <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
               {capitalizeWords(viewkeys[3])} :
             </span>
-            {getCompanyInfo.contact}
+            {getContentInfo.email}
           </p>
           <p className="fira-sans-condensed-regular text-lg text-gray-600">
             <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
-              {capitalizeWords(viewkeys[4])} :
+              Address :
             </span>
-            {getCompanyInfo.email}
+            {content.address}
           </p>
-          <p className="fira-sans-condensed-regular text-lg text-gray-600">
-            <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
-              {capitalizeWords(viewkeys[5])} :
-            </span>
-            {getCompanyInfo.address}
-          </p>
-          <p className="fira-sans-condensed-regular text-lg text-gray-600">
-            <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
-              Website :
-            </span>
-            {website.SocialValue}
-          </p>
-        </div>
-        <div className="">
-          {getCompanySocial
-            ? getCompanySocial.map((item) => (
-                <div className="">
-                  <div className=""></div>
-                </div>
-              ))
+          {getSocial.length > 0
+            ? getSocial.map((item, index) =>
+                item.social_media === "Website" ? (
+                  <p className="fira-sans-condensed-regular text-lg text-gray-600">
+                    <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
+                      Website:
+                    </span>
+                    <a
+                      href={item.social_value}
+                      className="hover:text-blue-500 hover:underline"
+                      target="_blank"
+                    >
+                      {item.social_value}
+                    </a>
+                  </p>
+                ) : (
+                  item.social_media === "Facebook" && (
+                    <p className="fira-sans-condensed-regular text-lg text-gray-600">
+                      <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
+                        Facebook:
+                      </span>
+                      <a
+                        href={item.social_value}
+                        className="hover:text-blue-500 hover:underline"
+                        target="_blank"
+                      >
+                        {item.social_value}
+                      </a>
+                    </p>
+                  )
+                )
+              )
             : ""}
         </div>
       </div>
 
       <section id="contact" className="max-w-screen-md">
         <ContactForm
-          email={getCompanyInfo.email}
-          company={getCompanyInfo.companyName}
+          email={getContentInfo.email}
+          company={getContentInfo.name}
         />
       </section>
     </div>

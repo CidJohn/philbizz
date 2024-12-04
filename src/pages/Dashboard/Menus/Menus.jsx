@@ -6,9 +6,6 @@ import {
   useTreeview,
 } from "../../../helper/database/useTreeview";
 import TreeView from "../../../components/Treeviews/Treeview";
-import useCardSettings, {
-  useContentView,
-} from "../../../helper/database/useCardSettings";
 import Table from "../../../components/Table/Table";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
@@ -17,9 +14,11 @@ import Blogmenu from "./Blogmenu/Blogmenu";
 import useBusinessCategory from "../../../helper/database/usebusinessCategory";
 import Swal from "sweetalert2";
 import Spinner from "../../../components/Spinner/Spinner";
+import { useGlobalContext } from "../../../helper/context/useContext";
 
 function Menus(props) {
   const { blogData, business } = props;
+  const {contentList, setHeader} = useGlobalContext();
   const navigate = useNavigate();
   const { state } = useLocation();
   const { name, path, id } = state || { name: null, path: null, id };
@@ -34,24 +33,23 @@ function Menus(props) {
   const [dataLoading, setDataLoading] = useState(true);
   const { getCategory, loadCategory } = useBusinessCategory();
   const { viewMenu, menuLoading } = useSideMenuView();
-  const { viewContent } = useContentView();
   const { data } = useTreeview();
 
   useEffect(() => {
     setDataLoading(true);
     const timer = setTimeout(() => {
-      const filteredContent = viewContent.filter(
+      const filteredContent = contentList.filter(
         (item) => item.location === childname
       );
       setTreeviewFilter(filteredContent);
       setDataLoading(false);
     }, 500);
-    const updatedViewContent = viewContent.filter(
+    const updatedViewContent = contentList.filter(
       (item) => item.business.id === id
     );
     setViewContent(updatedViewContent);
     return () => clearTimeout(timer);
-  }, [viewContent, id, childname]);
+  }, [contentList, id, childname]);
 
   useEffect(() => {
     if (viewMenu) {
@@ -69,6 +67,7 @@ function Menus(props) {
         }
       });
     }
+    setHeader(name)
   }, [data, path, name, selectedItem, childname, business]);
 
   const handleBack = () => {
@@ -82,13 +81,14 @@ function Menus(props) {
   const handlOnUpdate = (item) => {
     navigate(`/dashboard/Form/Create`, {
       state: {
+        uuid: item.id,
         title: item.title,
         name: name,
         path: path,
         treeviewdata: data,
         viewMenus: viewMenu,
         cardlocation: item.location,
-        viewContent: item,
+        viewContent: item
       },
     });
   };
@@ -231,9 +231,9 @@ function Menus(props) {
                   </div>
                 ) : tableFilter.length > 0 ? (
                   renderTable(tableFilter)
-                ): (
+                ) : (
                   <div className="text-2xl flex items-center justify-center w-[40vw]">
-                  "No data, please add content."
+                    loading...
                   </div>
                 )}
               </div>

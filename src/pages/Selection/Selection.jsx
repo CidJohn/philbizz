@@ -12,9 +12,11 @@ import useCardSettings, {
   useContentView,
 } from "../../helper/database/useCardSettings";
 import { useCardDesc } from "../../helper/database/useCardPath";
+import { useGlobalContext } from "../../helper/context/useContext";
 
 const Selection = (props) => {
-  const { navbar, viewContent } = props;
+  const { navbar } = props;
+  const { contentList, setHeader } = useGlobalContext();
   const currentRef = useRef();
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -34,22 +36,17 @@ const Selection = (props) => {
   const [desc, setDesc] = useState([]);
   const { data } = useTreeview();
   const { viewMenu, loading } = useSideMenuView();
-  const { businessTypes } = useCardSettings(
-    pageName.toLowerCase() === "ktv/jtv" ? "ktv_jtv" : pageName.toLowerCase()
-  );
-  const [filteredData, setFilteredData] = useState(businessTypes);
-  const { businesses } = useCardDesc(
-    pageName.toLowerCase() === "ktv/jtv" ? "ktv_jtv" : pageName.toLowerCase()
-  );
+  const [filteredData, setFilteredData] = useState("");
 
   useEffect(() => {
-    if (!viewContent) return;
+    if (!contentList) return;
 
-    const filteredContent = viewContent.filter((item) => {
+    const filteredContent = contentList.filter((item) => {
       return item.business?.header === pageName;
     });
     setFilterContent(filteredContent);
-  }, [viewContent, pageName]);
+    setHeader(pageName);
+  }, [contentList, pageName]);
 
   useEffect(() => {
     if (viewMenu) {
@@ -59,26 +56,17 @@ const Selection = (props) => {
     const selectedItemPath = navbar ? findingPath(navbar, path) : "";
     setCurrentPath(selectedItemPath || "");
 
-    if (!dropdownValue) {
-      setFilteredData("");
-    } else {
-      const filteredResults = businessTypes.filter((item) =>
-        item.description.toLowerCase().includes(dropdownValue.toLowerCase())
-      );
-      setFilteredData(filteredResults);
-    }
-
     if (id) {
       const selectedItemObj = viewMenu ? findItemById(viewMenu, id) : null;
       setSelectedItem(selectedItemObj);
       setFilteredData("");
     }
-  }, [path, viewMenu, navbar, currentPath, businessTypes, dropdownValue]);
-
-  useEffect(() => {
-    const desc = businesses ? businesses : [];
-    setDesc(desc);
-  }, [businesses]);
+  }, [
+    path,
+    viewMenu,
+    navbar,
+    currentPath,
+  ]);
 
   useEffect(() => {
     if (selectedItem) {
@@ -183,9 +171,12 @@ const Selection = (props) => {
 
   const handleDropdownChange = (e) => {
     setDropdownValue(e.target.value);
+    console.log(e.target.value)
+    const filterResult = contentView.filter((item) => item.address.includes(e.target.value));
+    setFilteredData(filterResult)
   };
 
-  const handleLink = (data, ) => {
+  const handleLink = (data) => {
     navigate(`/card-page/${data.title}`, { state: { pageContent: data } });
   };
 
@@ -202,13 +193,15 @@ const Selection = (props) => {
   const currentCardItem = Array.isArray(currentItems)
     ? currentItems.slice(3)
     : [];
-  if (loading) {
+
+  if (currentItems.length === 0) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="w-full flex items-center justify-center min-h-screen">
         <Spinner />
       </div>
     );
   }
+
   return (
     <ContentLayout
       renderTreeView={() => (

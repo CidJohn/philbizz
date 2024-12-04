@@ -29,7 +29,7 @@ const Createmenu = () => {
     cardlocation: null,
     blogTitle: null,
     viewMenus: null,
-    viewContent: null,
+    viewContent: null
   };
   const [isCreateOpen, setCreateOpen] = useState(false);
   const handleBack = () => {
