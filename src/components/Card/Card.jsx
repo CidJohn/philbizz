@@ -13,10 +13,10 @@ function Card(props) {
     >
       {theme === 1 ? (
         <>
-          <button onClick={onLink} className='block'>
-            <div className='w-full overflow-hidden'>
+          <button onClick={onLink} className="block">
+            <div className="w-full overflow-hidden">
               <a
-                className='block cursor-pointer border text-center p-3 shadow rounded-sm'
+                className="block cursor-pointer border text-center p-3 shadow rounded-sm"
                 onClick={onLink}
               >
                 <h5
@@ -30,19 +30,19 @@ function Card(props) {
                   {title}
                 </h5>
               </a>
-              <div className='flex w-full'>
-                <div className=' w-full overflow-hidden '>
-                  <div className='w-full h-full p-2  '>
+              <div className="flex w-full">
+                <div className=" w-full overflow-hidden ">
+                  <div className="w-full h-full p-2  ">
                     <Images
                       src={src}
-                      className='object-cover h-full w-full  rounded-sm shadow-lg '
+                      className="object-cover h-full w-full  rounded-sm shadow-lg "
                       style={{ height: "200px", width: "200px" }}
                     />
                   </div>
                 </div>
-                <div className='flex flex-wrap'>
+                <div className="flex ">
                   <p
-                    className='px-3 py-1 font-normal h-[15vh]  w-[10vw] text-sm text-gray-600 fira-sans-condensed-regular'
+                    className="px-3 py-1 font-normal h-[15vh]  w-[10vw] text-sm text-gray-600 fira-sans-condensed-regular"
                     style={{
                       display: "-webkit-box",
                       WebkitLineClamp: 4,
@@ -61,10 +61,10 @@ function Card(props) {
         </>
       ) : theme === 2 ? (
         <>
-          <button className='block' onClick={onLink}>
-            <div className=' w-full overflow-hidden '>
+          <button className="block" onClick={onLink}>
+            <div className=" w-full overflow-hidden ">
               <div
-                className='block cursor-pointer border text-center p-3 shadow rounded-sm'
+                className="block cursor-pointer border text-center p-3 shadow rounded-sm"
                 onClick={onLink}
               >
                 <h5
@@ -78,19 +78,19 @@ function Card(props) {
                   {title}
                 </h5>
               </div>
-              <div className='flex flex-col'>
-                <div className=' w-full overflow-hidden '>
-                  <div className='h-full p-2  '>
+              <div className="flex flex-col">
+                <div className=" w-full overflow-hidden ">
+                  <div className="h-full p-2  ">
                     <Images
                       src={src}
-                      className='object-cover h-full  rounded-sm shadow-lg '
-                      style={{ height: "200px" }}
+                      className="object-cover rounded-sm shadow-lg"
+                      style={{ height: "200px", width: "200px" }}
                     />
                   </div>
                 </div>
-                <div className='flex flex-wrap'>
+                <div className="flex flex-wrap">
                   <p
-                    className='font-normal text-wrap min-h-[4vh] truncate text-sm text-gray-600 fira-sans-condensed-regular'
+                    className="font-normal text-wrap min-h-[4vh] truncate text-sm text-gray-600 fira-sans-condensed-regular"
                     style={{
                       display: "-webkit-box",
                       WebkitLineClamp: 2,
@@ -109,24 +109,24 @@ function Card(props) {
         </>
       ) : (
         <>
-          <button className='block' onClick={onLink}>
-            <div className=' w-full overflow-hidden '>
-              <div className='h-full p-3 '>
+          <button className="block" onClick={onLink}>
+            <div className=" w-full overflow-hidden ">
+              <div className="w-full h-full p-3 ">
                 <Images
                   src={src}
-                  className='object-cover h-full w-full rounded-sm'
-                  style={{ height: "200px" }}
+                  className="object-cover block h-full w-full rounded-sm"
+                   style={{ height: "200px" }}
                 />
               </div>
             </div>
           </button>
-          <div className='p-2 '>
-            <button className='block cursor-pointer' onClick={onLink}>
+          <div className="p-2 min-h-24 ">
+            <button className="block cursor-pointer" onClick={onLink}>
               <h5
                 className={
                   textColor
-                    ? "text-md font-bold tracking-tight text-[#013A63] fira-sans-bold"
-                    : "text-2xl font-bold tracking-tight text-[#013A63] fira-sans-bold "
+                    ? "text-sm font-bold text-left tracking-tight text-[#013A63] fira-sans-bold"
+                    : "text-md font-bold tracking-tight text-[#013A63] fira-sans-bold "
                 }
                 style={{ color: textColor }}
               >
@@ -134,7 +134,7 @@ function Card(props) {
               </h5>
             </button>
             <p
-              className='font-normal text-wrap truncate text-sm text-gray-600 fira-sans-condensed-regular'
+              className="font-normal text-wrap truncate text-sm text-gray-600 fira-sans-condensed-regular"
               style={{
                 display: "-webkit-box",
                 WebkitLineClamp: 2,

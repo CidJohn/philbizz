@@ -10,12 +10,16 @@ import Blogs from "./HomeContent/Blogs";
 import Headlines from "./HomeContent/Headlines";
 import WeatherContent from "./HomeContent/WeatherContent";
 import BusinessList from "./HomeContent/BusinessList";
-import { useTreeview } from "../../../helper/database/useTreeview";
+import {
+  useSideMenuView,
+  useTreeview,
+} from "../../../helper/database/useTreeview";
 import { useNavigate } from "react-router-dom";
 import TreeView from "../../../components/Treeviews/Treeview";
 import changeColor from "../../../content/content.json";
 import Rightads from "./HomeContent/Rightads";
 import { socialContent } from "../../../content/cardContent";
+import { CustomTabs } from "../../../components/Tabs/Tabs";
 
 export const HeroBanner = (props) => {
   const { blogData, navbar, businessCarousel } = props;
@@ -37,6 +41,7 @@ export const HeroBanner = (props) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const { data } = useTreeview();
   const navigate = useNavigate();
+  const { viewMenu } = useSideMenuView();
 
   useEffect(() => {
     const articles = getNewsData ? getNewsData.articles : [];
@@ -52,26 +57,24 @@ export const HeroBanner = (props) => {
       setBlog(filterBlog);
     }
 
-    const filterTypes = header.filter((item) => item.types && item.title);
-    setImgCarousel(filterTypes);
   }, [location, getNewsData, blogData]);
 
   useEffect(() => {
     if (header) {
-      const filteredBeauty = header
-        .filter((item) => item.Header === "Beauty")
+      const filteredBeauty = businessCarousel
+        .filter((item) => item.business.header === "Beauty")
         .slice(0, 5);
-      setBeauty(filteredBeauty);
+      setBeauty(filteredBeauty.length > 0 ? filteredBeauty : []);
 
-      const filteredFood = header
-        .filter((item) => item.Header === "Food")
+      const filteredFood = businessCarousel
+        .filter((item) => item.business.header === "Food")
         .slice(0, 5);
-      setFood(filteredFood);
+      setFood(filteredFood.length > 0 ? filteredFood : []);
 
-      const filteredFestival = header
-        .filter((item) => item.Header === "Festival")
+      const filteredFestival = businessCarousel
+        .filter((item) => item.business.header === "Festival")
         .slice(0, 4);
-      setFestival(filteredFestival);
+      setFestival(filteredFestival.legnth > 0 ? filteredFestival : []);
     }
 
     if (navbar) {
@@ -79,9 +82,11 @@ export const HeroBanner = (props) => {
       setNavbar(filterNav);
     }
 
-    if (data && navbar) {
+    if (viewMenu && navbar) {
       const groupedData = navbar.reduce((acc, navItem) => {
-        const filterData = data.filter((node) => node.path === navItem.path);
+        const filterData = viewMenu.filter(
+          (node) => node.path === navItem.path
+        );
         if (navItem.restrict === 19) {
           return acc;
         }
@@ -92,19 +97,22 @@ export const HeroBanner = (props) => {
       }, {});
       setGroupedTreeView(groupedData);
     }
-  }, [header, navbar, data]);
 
-  const carousel = Array.isArray(businessCarousel)
+    const carousel = Array.isArray(businessCarousel)
     ? businessCarousel.slice(0, 4)
     : [];
+    setImgCarousel(carousel)
+  }, [header, navbar, viewMenu, businessCarousel]);
+
+  
 
   const listItems = [
     { title: "Food", list: getFood },
     { title: "Festival", list: getFestival },
     { title: "Beauty", list: getBeauty },
-    { title: "Company", list: carousel },
+    { title: "Company", list: getImgCarousel },
   ];
-
+  console.log(listItems);
   const capitalize = (str) => {
     if (!str) return "";
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -134,8 +142,44 @@ export const HeroBanner = (props) => {
     setSelectedDate(date);
   };
 
+  const tabs = [
+    {
+      title: "Weather Forecast",
+      content: (
+        <WeatherContent
+          weatherData={weatherData}
+          loading={loading}
+          error={error}
+        />
+      ),
+    },
+    {
+      title: "Currency Converter",
+      content: (
+        <div className="flex w-full ">
+          <div className="w-full">
+            <Currency />
+          </div>
+        </div>
+      ),
+    },
+  ];
+
   return (
-    <div className="w-full flex flex-col px-6 lg:grid lg:grid-cols-8 lg:grid-rows-5 gap-4 lg:px-60 mt-10">
+    <div className="w-full mt-0 lg:mt-6 flex flex-col px-6 lg:grid lg:grid-cols-9 lg:grid-rows-5 gap-4 lg:px-[6.5rem]">
+      <div className="row-span-5 mt-0 lg:mt-16">
+        <div className="space-y-1 hidden lg:block">
+          <img
+            src="https://i.pinimg.com/originals/37/8b/99/378b99936dd29a3cc185b7437be70737.jpg"
+            alt=""
+          />
+          <img
+            src="http://graphicdesignjunction.com/wp-content/uploads/2011/05/creative-advertising-2.jpg"
+            alt=""
+          />
+          ,
+        </div>
+      </div>
       <div className="w-full lg:col-span-2 lg:row-span-5">
         <Blogs getBlog={getBlog} />
         <div className=" w-full lg:w-[18vw]">
@@ -154,43 +198,41 @@ export const HeroBanner = (props) => {
           ))}
         </div>
       </div>
-      <div className="w-full flex flex-col lg:col-span-4 lg:row-span-5 lg:col-start-3">
-        {" "}
+      <div className="w-full flex flex-col lg:col-span-3 lg:row-span-5 lg:col-start-4">
         <div className="w-full flex flex-col gap-3 ">
-          <Headlines
-            getArticles={getArticles}
-            getImgCarousel={getImgCarousel}
-          />
-          <WeatherContent
-            weatherData={weatherData}
-            loading={loading}
-            error={error}
-          />
+          <Headlines getArticles={getArticles} getImgCarousel={getImgCarousel ? getImgCarousel : []} />
           <BusinessList listItems={listItems} />
         </div>
       </div>
-      <div className="w-full flex flex-col lg:col-span-3 lg:row-span-5 lg:col-start-7">
+      <div className="hidden w-full lg:flex flex-col lg:col-span-2 lg:row-span-5 lg:col-start-7">
         <h1 className="text-center w-full lg:text-start text-2xl lg:text-4xl p-2 fira-sans-bold text-[#013A63]">
           Digital Clock
         </h1>
-        <div className="z-10 flex shadow border-2 w-full ">
-          <div className="w-full ">
+        <div className="z-10 flex shadow border-2 w-full h-auto ">
+          <div className="w-full p-4 ">
             <DigitalClock />
+            <CustomTabs tabs={tabs} />
           </div>
         </div>
-        <h1 className="text-center w-full lg:text-start text-2xl lg:text-4xl p-2 fira-sans-bold text-[#013A63]">
-          Currency Converter
-        </h1>
-        <div className="flex w-full ">
-          <div className="w-full">
-            <Currency />
-          </div>
-        </div>
-          <Rightads
-            selectedDate={selectedDate}
-            handleDateSelect={handleDateSelect}
-            socialContent={socialContent}
+        <Rightads
+          selectedDate={selectedDate}
+          handleDateSelect={handleDateSelect}
+          socialContent={socialContent}
+        />
+      </div>
+      <div className="row-span-5 col-start-9">
+        {/* advertisements side images here */}
+        <div className="space-y-1 hidden lg:block  mt-14">
+          <img
+            src="https://i.pinimg.com/originals/37/8b/99/378b99936dd29a3cc185b7437be70737.jpg"
+            alt=""
           />
+          <img
+            src="http://graphicdesignjunction.com/wp-content/uploads/2011/05/creative-advertising-2.jpg"
+            alt=""
+          />
+          ,
+        </div>
       </div>
     </div>
   );

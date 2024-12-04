@@ -1,51 +1,32 @@
 import React from "react";
-import Spinner from "../../../components/Spinner/Spinner";
 import Card from "../../../components/Card/Card";
-import useCardSettings from "../../../helper/database/useCardSettings";
 
-const HandleCards = ({
-  currentPath,
-  selectedItem,
-  currentItems,
-  searchError,
-  searchResult,
-  handleLink,
-  navbar,
-  sideBarColor,
-}) => {
-  const { businessTypes, searchload } = useCardSettings(
-    currentPath.businessPath
-  );
-
-  if (searchload) {
-    return (
-      <div className='flex items-center justify-center min-h-screen'>
-        <Spinner />
-      </div>
-    );
-  }
-  if (!currentItems && !businessTypes) {
-    return (
-      <div className='flex items-center justify-center min-h-screen'>
-        <Spinner />
-      </div>
-    );
-  }
+const HandleCards = (props) => {
+  const {
+    currentPath,
+    selectedItem,
+    currentItems,
+    searchError,
+    searchResult,
+    handleLink,
+    navbar,
+    sideBarColor,
+    currentCardItem,
+  } = props;
 
   const renderCards = (items) => {
     return items.map((item, index) => (
       <React.Fragment key={index}>
-        <div className='bg-cover mx-auto '>
+        <div className="bg-cover mx-auto ">
           <Card
-            src={item.card_image}
+            src={item.title_image}
             title={item.title}
             desc={item.description}
             style={{
-              width: "240px",
               backgroundSize: "cover",
             }}
             hidden={true}
-            onLink={() => handleLink(item.title)}
+            onLink={() => handleLink(item)}
             btnColor={sideBarColor ? sideBarColor.bgColor : "#E639460D"}
             textColor={sideBarColor ? sideBarColor.textColor : "#E63946"}
             theme={sideBarColor ? sideBarColor.theme : ""}
@@ -59,74 +40,52 @@ const HandleCards = ({
 
   if (matchingNavItem) {
     if (searchError) {
-      return <div className='error-message'>{searchError}</div>;
+      return <div className="error-message">{searchError}</div>;
     }
 
-    if (!selectedItem?.id) {
-      if (searchResult && searchResult.length > 0) {
-        return (
-          <div className='flex flex-col md:flex-row items-start gap-2'>
-            {renderCards(searchResult)}
-          </div>
-        );
-      } else {
-        return currentItems.map((select, index) => (
-          <React.Fragment key={index}>
-            {select.header === currentPath.name && (
-              <div className='w-full'>
+    if (searchResult && searchResult.length > 0) {
+      return renderCards(searchResult);
+    } else {
+      if (selectedItem) {
+        return currentItems.map((item, index) =>
+          item.location === selectedItem.name && (
+            <React.Fragment key={index}>
+              <div className="bg-cover mx-auto ">
                 <Card
-                  src={select.card_image}
-                  title={select.title}
-                  desc={select.description}
+                  src={item.title_image}
+                  title={item.title}
+                  desc={item.description}
                   style={{
                     backgroundSize: "cover",
                   }}
-                  onLink={() => handleLink(select.title)}
+                  onLink={() => handleLink(item)}
                   btnColor={sideBarColor ? sideBarColor.bgColor : "#E639460D"}
                   textColor={sideBarColor ? sideBarColor.textColor : "#E63946"}
                   theme={sideBarColor ? sideBarColor.theme : ""}
                 />
               </div>
-            )}
-          </React.Fragment>
-        ));
-      }
-    } else {
-      if (searchResult && searchResult.length > 0) {
-        return (
-          <div className='flex flex-col md:flex-row items-start gap-2 '>
-            {renderCards(searchResult)}
-          </div>
-        );
-      } else {
-        return (
-          selectedItem &&
-          businessTypes.map(
-            (select, index) =>
-              select.location === selectedItem.name && (
-                <React.Fragment key={index}>
-                  <div className='bg-cover mx-auto '>
-                    <Card
-                      src={select.card_image}
-                      title={select.title}
-                      desc={select.description}
-                      style={{
-                        backgroundSize: "cover",
-                      }}
-                      onLink={() => handleLink(select.title)}
-                      btnColor={
-                        sideBarColor ? sideBarColor.bgColor : "#E639460D"
-                      }
-                      textColor={
-                        sideBarColor ? sideBarColor.textColor : "#E63946"
-                      }
-                      theme={sideBarColor ? sideBarColor.theme : ""}
-                    />
-                  </div>
-                </React.Fragment>
-              )
+            </React.Fragment>
           )
         );
+      } else {
+        return currentItems.map((item, index) => (
+          <React.Fragment key={index}>
+            <div className="bg-cover mx-auto ">
+              <Card
+                src={item.title_image}
+                title={item.title}
+                desc={item.description}
+                style={{
+                  backgroundSize: "cover",
+                }}
+                onLink={() => handleLink(item)}
+                btnColor={sideBarColor ? sideBarColor.bgColor : "#E639460D"}
+                textColor={sideBarColor ? sideBarColor.textColor : "#E63946"}
+                theme={sideBarColor ? sideBarColor.theme : ""}
+              />
+            </div>
+          </React.Fragment>
+        ));
       }
     }
   }

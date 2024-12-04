@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import {
-  useCardInfo,
-  useImgCardURL,
-} from "../../../helper/database/useCardInfo";
 import Spinner from "../../../components/Spinner/Spinner";
 import Images from "../../../components/Image/Images";
 import Horizontal from "../../../components/Horizontal/Horizontal";
@@ -14,212 +10,208 @@ import { MapData } from "./MapData";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { SiGmail } from "react-icons/si";
 import { FaTelegram } from "react-icons/fa";
+import Imagecarousel from "../../../components/Carousel/Imagecarousel";
+import { useGlobalContext } from "../../../helper/context/useContext";
 
 function Defaultpage(props) {
   const { cardpath, load } = props;
-  const [getTitle, setTitle] = useState("");
-  const [getCard, setCard] = useState("");
+  const { setUuid, contentInfo, infoLoader } = useGlobalContext();
+  const [getSocial, setSocial] = useState([]);
+  const [imageMenus, setImageMenus] = useState([]);
   const [getContent, setContent] = useState({});
   const { state } = useLocation();
-  const { title } = state || { title: null };
-  const { getData, getURL, loadData } = useCardInfo(getTitle);
-  const { getImage, loadImage } = useImgCardURL(getTitle);
+  const { pageContent } = state || { pageContent: null };
 
   useEffect(() => {
-    const path = cardpath?.find((item) => item.title === title)?.title || "";
-    const content = getData ? getData.map((item) => item.Content) : [];
-    setContent(content);
-    setCard(path);
-    setTitle(path);
-  }, [cardpath, title, getData]);
+    const socialLinks = contentInfo.social_links
+      ? contentInfo.social_links
+      : [];
+    const imageMenus = contentInfo.images ? contentInfo.images : [];
+    setImageMenus(imageMenus);
+    setSocial(socialLinks);
+    setUuid(pageContent ? pageContent.id : "");
+  }, [pageContent, contentInfo, contentInfo]);
 
-  const copyToClipboard = (text, message) => {
-    navigator.clipboard
-      .writeText(text)
-      .then(() =>
-        Swal.fire({
-          title: "Good job!",
-          text: `${message} copied to clipboard! ${text}`,
-          icon: "success",
-          customClass: { popup: "small-swal-popup" },
-        })
-      )
-      .catch((err) => console.error("Failed to copy: ", err));
-  };
-
-  const handleCopyClick = () =>
-    copyToClipboard("philtong15@gmail.com", "Gmail Address");
-  const handleCopyTalk = () =>
-    copyToClipboard("09928599984", "Kakao Talk Number");
-  const handleCopyTelegram = () =>
-    copyToClipboard("09943514205", "Telegram Number");
-
-  if (load) {
+  if (infoLoader) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="w-full flex items-center justify-center min-h-screen">
         <Spinner />
       </div>
     );
   }
-  if (getData.length === 0) {
+  if (!pageContent) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <MaintenancePage />
       </div>
     );
   }
+
   return (
     <div className="px-[30rem] w-full py-10 flex items-start justify-center flex-col ">
       <h1 className="fira-sans-bold text-[#e63946] font-bold text-3xl text-start mb-3">
-        {getCard}
+        {pageContent.title}
       </h1>
-      {loadData ? (
-        <Spinner />
-      ) : (
-        getData.map((item) => (
-          <div
-            key={item.id}
-            className="flex flex-col  justify-center  w-full "
-          >
-            <div className="flex flex-wrap">
-              <p className="mb-3 text-lg text-slate-500 fira-sans-condensed-regular text-wrap  ">
-                {item.desc}
-              </p>
-              <hr className="w-full " />
 
-              <div className="w-full flex items-center justify-between rounded-md py-3 gap-3 mb-4">
-                <h1 className="text-xl fira-sans-condensed-bold text-slate-600">
-                  Social Media Contacts:
-                </h1>
-                <div className="flex items-center gap-3">
-                  <div
-                    onClick={handleCopyTalk}
-                    className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-yellow-500 rounded-md cursor-pointer hover:bg-yellow-400 "
-                  >
-                    <RiKakaoTalkFill className="text-4xl mr-2" />
-                    KakaoTalk
-                  </div>
-                  <div
-                    onClick={handleCopyClick}
-                    className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-red-500 rounded-md cursor-pointer hover:bg-red-400"
-                  >
-                    <SiGmail className="text-4xl mr-2 " />
-                    Gmail
-                  </div>
-                  <div
-                    onClick={handleCopyTelegram}
-                    className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-blue-400 rounded-md cursor-pointer hover:bg-blue-300"
-                  >
-                    <FaTelegram className="text-4xl mr-2 text-black" />
-                    Telegram
-                  </div>
-                </div>
-              </div>
-              <hr className="w-full py-4 " />
-            </div>
-            <div className="mx-auto ">
-              <Images src={item.icon_image} alt={getCard} />
-            </div>
-            <div className="flex flex-wrap">
-              <Horizontal />
-              <div className="">
-                <div className="flex ">
-                  {getContent ? (
-                    <div
-                      dangerouslySetInnerHTML={{ __html: getContent }}
-                      style={{
-                        padding: "10px",
-                        marginTop: "10px",
-                      }}
-                      className="min-w-full text-center"
-                    />
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <h1 className="fira-sans-bold text-[#e63946] font-bold text-3xl text-start my-5">
-                  {item.type}
-                </h1>
-                <div className="w-full  flex flex-wrap justify-center">
-                  <div className="grid md:grid-cols-3 gap-2">
-                    {loadImage ? (
-                      <Spinner />
+      <div className="flex flex-col  justify-center  w-full ">
+        <div className="flex flex-wrap">
+          <p className="mb-3 text-lg text-slate-500 fira-sans-condensed-regular text-wrap  ">
+            {pageContent.description}
+          </p>
+          <hr className="w-full " />
+
+          <div className="w-full flex items-center justify-between rounded-md py-3 gap-3 mb-4">
+            <h1 className="text-xl fira-sans-condensed-bold text-slate-600">
+              Social Media Contacts:
+            </h1>
+            <div className="flex items-center gap-3">
+              {getSocial.length > 0
+                ? getSocial.map((item) =>
+                    item.social_media === "KakaoTalk" ? (
+                      <a
+                        href={item.social_links}
+                        target="_black"
+                        className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-yellow-500 rounded-md cursor-pointer hover:bg-yellow-400 "
+                      >
+                        <RiKakaoTalkFill className="text-4xl mr-2" />
+                        KakaoTalk
+                      </a>
+                    ) : item.social_media === "Gmail" ? (
+                      <>
+                        <a
+                          href={item.social_links}
+                          target="_black"
+                          className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-red-500 rounded-md cursor-pointer hover:bg-red-400"
+                        >
+                          <SiGmail className="text-4xl mr-2 " />
+                          Gmail
+                        </a>
+                      </>
                     ) : (
-                      getImage.map((items) => (
-                        <Images
-                          key={item.id}
-                          src={items.imageURL}
-                          style={{
-                            width: "100%",
-                            height: "300px",
-                            borderRadius: 6,
-                          }}
-                          className={
-                            "transform transition-transform duration-500 hover:scale-95"
-                          }
-                        />
-                      ))
-                    )}
-                  </div>
-                </div>
-                <Horizontal />
-                <h1 className="fira-sans-bold text-[#e63946] font-bold text-3xl text-start my-5">
-                  Menus
-                </h1>
-                <div className="flex justify-center items-center">
-                  <Images src={item.menu_image} style={{ width: "500px" }} />
-                </div>
-                <Horizontal />
-                <div className="bg-[#f4f1de] ">
-                  <div className="bg-[#e63946] fira-sans-bold text-white font-bold text-3xl text-start mt-5 p-5">
-                    Location Details
-                  </div>
-                  <div className="flex justify-center p-4 ">
-                    <GoogleMapEmbed src={getURL} />
-                  </div>
-                  {MapData?.map((item, index) => (
-                    <div
-                      key={index}
-                      className="flex items-start px-6 py-6 gap-2 flex-col"
-                    >
-                      <p className="fira-sans-condensed-regular text-lg text-gray-600">
-                        <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
-                          Address
-                        </span>
-                        {item.address}
-                      </p>
-                      <p className="fira-sans-condensed-regular text-lg text-gray-600">
-                        <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
-                          Phone Number:
-                        </span>
-                        {item.number}
-                      </p>
-                      <p className="fira-sans-condensed-regular text-lg text-gray-600">
-                        <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
-                          Open Hours:
-                        </span>
-                        {item.hours}
-                      </p>
-                      <p className="fira-sans-condensed-regular text-lg text-gray-600">
-                        <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
-                          Website:
-                        </span>
-                        {item.web}
-                      </p>
-                      <p className="fira-sans-condensed-regular text-lg text-gray-600">
-                        <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
-                          Facebook:
-                        </span>
-                        {item.facebook}
-                      </p>
-                    </div>
-                  ))}
-                </div>
+                      item.social_media === "Telegram" && (
+                        <a
+                          href={item.social_links}
+                          target="_black"
+                          className="flex items-center fira-sans-condensed-bold px-4 py-2 bg-blue-400 rounded-md cursor-pointer hover:bg-blue-300"
+                        >
+                          <FaTelegram className="text-4xl mr-2 text-black" />
+                          Telegram
+                        </a>
+                      )
+                    )
+                  )
+                : ""}
+            </div>
+          </div>
+          <hr className="w-full py-4 " />
+        </div>
+        <div className="flex flex-wrap">
+          <Horizontal />
+          <div className="">
+            <div className="flex ">
+              {contentInfo ? (
+                <div
+                  dangerouslySetInnerHTML={{ __html: contentInfo.content }}
+                  style={{
+                    padding: "10px",
+                    marginTop: "10px",
+                  }}
+                  className="min-w-full"
+                />
+              ) : (
+                "loading"
+              )}
+            </div>
+            {contentInfo.servicetype ? <Horizontal /> : ""}
+            <h1 className="fira-sans-bold text-[#e63946] font-bold text-3xl text-start my-5">
+              {contentInfo.servicetype}
+            </h1>
+            <div
+              className={imageMenus.map((item) =>
+                item.image ? "flex justify-center items-center" : "hidden"
+              )}
+            >
+              {imageMenus.length > 0 ? (
+                <Imagecarousel
+                  images={imageMenus}
+                  style={{ height: "100vh" }}
+                />
+              ) : (
+                ""
+              )}
+            </div>
+            <Horizontal />
+            <div className="bg-[#f4f1de] ">
+              <div className="bg-[#e63946] fira-sans-bold text-white font-bold text-3xl text-start mt-5 p-5">
+                Location Details
+              </div>
+              <div className="flex justify-center p-4 ">
+                <GoogleMapEmbed src={contentInfo.location_image} />
+              </div>
+
+              <div className="flex items-start px-6 py-6 gap-2 flex-col">
+                <p className="fira-sans-condensed-regular text-lg text-gray-600">
+                  <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
+                    Company Name:
+                  </span>
+                  {pageContent.title}
+                </p>
+                <p className="fira-sans-condensed-regular text-lg text-gray-600">
+                  <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
+                    Address:
+                  </span>
+                  {pageContent.address}
+                </p>
+                <p className="fira-sans-condensed-regular text-lg text-gray-600">
+                  <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
+                    Phone Number:
+                  </span>
+                  {contentInfo.contact}
+                </p>
+                {getSocial.length > 0
+                  ? getSocial.map((item, index) =>
+                      item.social_media === "Website" ? (
+                        <p
+                          key={index}
+                          className="fira-sans-condensed-regular text-lg text-gray-600"
+                        >
+                          <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
+                            Website:
+                          </span>
+                          <a
+                            href={item.social_value}
+                            className="hover:text-blue-500 hover:underline"
+                            target="_blank"
+                          >
+                            {item.social_value}
+                          </a>
+                        </p>
+                      ) : (
+                        item.social_media === "Facebook" && (
+                          <p
+                            key={index}
+                            className="fira-sans-condensed-regular text-lg text-gray-600"
+                          >
+                            <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
+                              Facebook:
+                            </span>
+                            <a
+                              href={item.social_value}
+                              className="hover:text-blue-500 hover:underline"
+                              target="_blank"
+                            >
+                              {item.social_value}
+                            </a>
+                          </p>
+                        )
+                      )
+                    )
+                  : ""}
               </div>
             </div>
           </div>
-        ))
-      )}
+        </div>
+      </div>
     </div>
   );
 }

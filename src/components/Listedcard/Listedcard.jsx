@@ -18,7 +18,7 @@ const Listedcard = (props) => {
   const links = Array.isArray(getlink) ? getlink.slice(0, 1) : [];
 
   const handleLink = (data) => {
-    nav(`/card-page/${data}`, { state: { title: data } });
+    nav(`/card-page/${data.title}`, { state: { pageContent: data } });
   };
 
   return (
@@ -31,15 +31,15 @@ const Listedcard = (props) => {
           ? listItems.map((item, index) => (
               <div
                 key={index}
-                className="w-full h-auto  rounded-md gap-3 py-2 cursor-pointer"
-                onClick={() => handleLink(item.title)}
+                className="w-full h-auto  rounded-md gap-2 py-2 cursor-pointer"
+                onClick={() => handleLink(item)}
               >
                 <article className="flex group overflow-hidden rounded-lg border border-gray-100 p-2 bg-[#013A63]/5 shadow-sm ">
-                  <div className="flex">
+                  <div className="flex h-auto w-52">
                     <Images
                       alt=""
-                      src={item.images || item.image}
-                      className="h-40 w-52 w-full rounded-lg object-cover  "
+                      src={item.image || item.title_image}
+                      className=" w-full h-full rounded-lg object-cover  "
                     />
                   </div>
                   <div className="p-8  w-full ">
@@ -53,7 +53,7 @@ const Listedcard = (props) => {
                     </p>
                     <a
                       className="group mt-4 inline-flex items-center gap-1 text-sm text-[#013A63] fira-sans-condensed-bold"
-                    onClick={() => handleLink(item.title)}
+                      onClick={() => handleLink(item.title)}
                     >
                       Find out more
                       <span

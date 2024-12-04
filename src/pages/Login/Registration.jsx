@@ -66,7 +66,16 @@ export const Registration = ({ handleRegistrationClose, handleLoginOpen }) => {
 
   useEffect(() => {
     if (response) {
-      showAlert("Success", "Registration successful!", "success");
+      showAlert(
+        "Success",
+        "Registration successful!",
+        "success",
+        "",
+        false,
+        "Okay",
+        "",
+        "#3085d6"
+      );
       handleRegistrationClose();
       handleLoginOpen();
     }
@@ -138,13 +147,13 @@ export const Registration = ({ handleRegistrationClose, handleLoginOpen }) => {
             </div>
             <div className="p-4 md:p-5">
               <form className="space-y-4" onSubmit={handleSubmit}>
-                <div className="flex  justify-center">
+                {/* <div className="flex  justify-center">
                   <UploadImage
                     handleFileChange={(e) => handleUploadChange(e)}
                     imagePreview={formData.imgurl}
                     style={{ width: "15vw" }}
                   />
-                </div>
+                </div> */}
                 <div className="flex gap-3">
                   <div className="w-full">
                     <Textline

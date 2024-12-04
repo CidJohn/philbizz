@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import restAPI from "../database/restAPI";
 import axiosInstance from "./axiosInstance";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { fireAuth } from "../storage/firebase/firebasestorage";
 
 export const useRegistration = () => {
   const [loadData, setLoadData] = useState(true);
@@ -24,11 +26,20 @@ export const useRegistration = () => {
       return;
     }
     try {
+
+      const userCredential = await createUserWithEmailAndPassword(
+        fireAuth,
+        data.email,
+        data.password
+      );
+      const user = userCredential.user; 
+
+      console.log("User created in Firebase:", user);
+
       const response = await axios.post(
         `${API_CALL.pythonHost}/accounts/create`,
         data
       );
-      //const response = await axios.post(`api/accounts/create`, data);
       setResponse(response.data);
       setLoadData(false);
     } catch (error) {
@@ -57,7 +68,13 @@ export const useLogin = () => {
       setLoading(false);
       return;
     }
+   
     try {
+       const userCredential = await signInWithEmailAndPassword(
+         fireAuth,
+         data.email,
+         data.password
+       );
       const response = await axios.post(
         `${API_CALL.pythonHost}/accounts/login`,
         data
@@ -65,7 +82,7 @@ export const useLogin = () => {
       const res = await response.data.access_token_response;
       setAccountId({
         uuid: response.data.account_id,
-        level: response.data.access_level,
+        access: response.data.access_level,
       });
       setAccessToken(res.access_token);
       setRefreshToken(res.refresh_token);

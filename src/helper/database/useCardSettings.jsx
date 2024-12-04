@@ -1,7 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import restAPI from "./restAPI";
 import axios from "axios";
-import axiosInstance, { axiosPost, axiosPut } from "../auth/axiosInstance";
+import axiosInstance, {
+  axiosGet,
+  axiosPost,
+  axiosPut,
+} from "../auth/axiosInstance";
+import { ref, set } from "firebase/database";
+import { storage } from "../storage/firebase/firebasestorage";
 
 const useCardSettings = (type) => {
   const [searchload, setSearchLoad] = useState(true);
@@ -182,9 +188,28 @@ export const useCardPosting = () => {
   const [cardLoading, setCardLoading] = useState(true);
 
   const postCard = async (data) => {
+    if (!data) return;
+
+    const {
+      Textline: {
+        required: { title, image },
+      },
+      Texteditor: content,
+    } = data;
+
     try {
-      const response = await axiosPost("auth/post-card-content/", data);
+      const response = await axiosPost("/auth/post-card-content/", data);
+      console.log(response);
       setCardResult(response);
+      if (content) {
+        const saveContent = {
+          title: title,
+          content: content,
+          imageTitle: image,
+        };
+        const fireSStorage = ref(storage, `card-content/${title}`);
+        await set(fireSStorage, saveContent);
+      }
     } catch (error) {
       console.error("axios error: ", error);
       setCardResult(error);
@@ -195,8 +220,8 @@ export const useCardPosting = () => {
 
   const putCard = async (data) => {
     try {
-      const response = await axiosPut("auth/post-card-content/", data);
-      setCardResult(response.data);
+      const response = await axiosPut("auth/put-card-content/", data);
+      setCardResult(response);
     } catch (error) {
       console.error("axios error: ", error);
     } finally {
@@ -205,6 +230,52 @@ export const useCardPosting = () => {
   };
 
   return { postCard, putCard, cardResult, cardLoading };
+};
+
+export const useContentViewList = () => {
+  const [header, setHeader] = useState("");
+  const [viewContent, setViewContent] = useState([]);
+  const [loadContent, setLoadContent] = useState(true);
+
+  useEffect(() => {
+    const getContentList = async () => {
+      if (header)
+        try {
+          const response = await axiosGet(`/app/content/list?header=${header}`);
+          setViewContent(response ? response : "");
+        } catch (err) {
+          console.error("Axios Error:", err);
+        } finally {
+          setLoadContent(false);
+        }
+    };
+    getContentList();
+  }, [header]);
+  return { viewContent, loadContent, setHeader };
+};
+
+export const useViewContentInfo = () => {
+  const [getUuid, setUuid] = useState("");
+  const [viewInfo, setViewInfo] = useState([]);
+  const [infoLoader, setLoader] = useState(true)
+  useEffect(() => {
+    if (!getUuid) return;
+    const fetchingInfo = async () => {
+      try {
+        const response = await axiosGet(
+          `/app/content/view/info?content=${getUuid}`
+        );
+        setViewInfo(response);
+      } catch (error) {
+        console.log("axios error: ", error);
+      }finally{
+        setLoader(false)
+      }
+    };
+    fetchingInfo();
+  }, [getUuid]);
+
+  return { setUuid, viewInfo, infoLoader };
 };
 
 export default useCardSettings;

@@ -9,9 +9,9 @@ import { GrDocumentText } from "react-icons/gr";
 import { RxExit } from "react-icons/rx";
 import { TbLayoutNavbar } from "react-icons/tb";
 import { useNavbarView } from "../../helper/database/useNavbarSettings";
+import Spinner from "../Spinner/Spinner";
 
-function Sidebar(props) {
-  const { navbar } = props;
+function Sidebar() {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -26,7 +26,7 @@ function Sidebar(props) {
   useEffect(() => {
     setTimeout(() => {
       setNavbarList(navbarData);
-    }, 0);
+    }, 500);
   }, [navbarData]);
 
   const toggleDropdown = () => {
@@ -37,8 +37,10 @@ function Sidebar(props) {
     setIsDropdownOpenAchived(!isDropdownOpenAchived);
   };
 
-  const handleSidebar = (path, name) => {
-    navigate(`/dashboard${path}`, { state: { name: name, path: path } });
+  const handleSidebar = (path, name, id) => {
+    navigate(`/dashboard${path}`, {
+      state: { name: name, path: path, id: id },
+    });
   };
 
   const handleArchived = (path, name) => {
@@ -91,7 +93,7 @@ function Sidebar(props) {
                 href="/dashboard#dashboard"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white  group"
               >
-                <Images src={"philbizz.png"} style={{ width: "200px" }} />
+                <Images src={"philbizzLogo.png"} style={{ width: "200px" }} />
               </a>
             </li>
             <hr />
@@ -155,13 +157,15 @@ function Sidebar(props) {
                   isDropdownOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
                 }`}
               >
-                {viewNavbarList &&
+                {viewNavbarList ? (
                   viewNavbarList.map((item, index) => (
                     <li key={index} className="ms-6">
                       <button
                         type="button"
                         className="flex p-1 gap-2"
-                        onClick={() => handleSidebar(item.path, item.name)}
+                        onClick={() =>
+                          handleSidebar(item.path, item.name, item.id)
+                        }
                       >
                         <Images src={item.icons} style={{ width: "20px" }} />
                         <span className="text-[#013A63] fira-sans-regular">
@@ -169,7 +173,12 @@ function Sidebar(props) {
                         </span>
                       </button>
                     </li>
-                  ))}
+                  ))
+                ) : (
+                  <>
+                    <Spinner />
+                  </>
+                )}
               </ul>
             </li>
             <li>
@@ -189,15 +198,15 @@ function Sidebar(props) {
                     : "max-h-0 opacity-0"
                 }`}
               >
-                {navbar &&
-                  navbar.map((item, index) => (
+                {viewNavbarList &&
+                  viewNavbarList.map((item, index) => (
                     <li key={index} className="ms-6">
                       <button
                         type="button"
                         className="flex p-1 gap-2"
                         onClick={() => handleArchived(item.path, item.name)}
                       >
-                        <Image src={item.iconPath} style={{ width: "20px" }} />
+                        <Images src={item.icons} style={{ width: "20px" }} />
                         <span className="text-[#013A63] fira-sans-regular">
                           {item.name}
                         </span>

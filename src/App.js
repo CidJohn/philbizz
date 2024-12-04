@@ -22,109 +22,110 @@ import { useCardPath } from "./helper/database/useCardPath";
 import Company from "./pages/Selection/Business/Company/Company";
 import BlogContent from "./pages/Selection/Blog/BlogContent/BlogContent";
 import Accounts from "./pages/Dashboard/Accounts/Accounts";
-import { useNavbarcontent } from "./helper/database/useNavbarcontent";
 import { useBusinessSettings } from "./helper/database/useBusinessData";
 import useBlogSettings from "./helper/database/useBlogSettings";
+import { useNavbarView } from "./helper/database/useNavbarSettings";
+import { GlobalProvider } from "./helper/context/useContext";
 
 function App() {
   const { cardpath, load } = useCardPath();
-  const { navbarData, loading } = useNavbarcontent();
   const { getCardInfo, getCompanyLoad } = useBusinessSettings();
   const { blogData } = useBlogSettings();
+  const { navbarData, loadingData } = useNavbarView();
 
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Layout
-          navbar={{ navbar: navbarData, navload: loading }}
-          key={"layout"}
-        >
-          <Routes>
-            <Route path="/contact" element={<Contact />} key={"contact"} />
-            <Route
-              path="/"
-              element={
-                <Homeview
-                  data={{
-                    blogData: blogData,
-                    navbar: navbarData,
-                    businessSettings: getCardInfo,
-                  }}
-                />
-              }
-              key={"home"}
-            />
-            <Route
-              path={"/:navbar"}
-              element={<Selection navbar={navbarData} />}
-            />
-            <Route
-              path={"/business"}
-              element={
-                <Business
-                  businessSettings={{
-                    businessSettings: getCardInfo,
-                    getCompanyLoad: getCompanyLoad,
-                  }}
-                />
-              }
-            />
-            <Route path="/blog" element={<Blog />} key={"blog"} />
-            <Route path="/blog/post" element={<BlogPost />} key={"blog-post"} />
-            <Route
-              key={`blog`}
-              path={`/blog-page/:title`}
-              element={<BlogContent blogdata={blogData} />}
-            />
+        <GlobalProvider>
+          <Layout
+            navbar={{ navbar: navbarData, navload: loadingData }}
+            key={"layout"}
+          >
+            <Routes>
+              <Route path="/contact" element={<Contact />} key={"contact"} />
+              <Route
+                path="/"
+                element={
+                  <Homeview
+                    data={{
+                      blogData: blogData,
+                      navbar: navbarData,
+                    }}
+                  />
+                }
+                key={"home"}
+              />
+              <Route
+                path={"/:navbar"}
+                element={
+                  <Selection navbar={navbarData} />
+                }
+              />
+              <Route
+                path={"/company"}
+                element={<Business businessSettings={""} />}
+              />
+              <Route path="/blog" element={<Blog />} key={"blog"} />
+              <Route
+                path="/blog/post"
+                element={<BlogPost />}
+                key={"blog-post"}
+              />
+              <Route
+                key={`blog`}
+                path={`/blog-page/:title`}
+                element={<BlogContent blogdata={blogData} />}
+              />
 
-            <Route
-              key={`card-page`}
-              path={`/card-page/:title`}
-              element={<Defaultpage cardpath={cardpath} load={load} />}
-            />
-            <Route
-              key={`company-`}
-              path={`/company-page/:title`}
-              element={<Company CompanyData={getCardInfo} />}
-            />
-          </Routes>
-        </Layout>
-        <DashboardLayout
-          props={{ navbar: navbarData }}
-          key={"dashboard-layout"}
-        >
-          <Routes>
-            <Route path="/dashboard" element={<Home />} key={"dashboard"} />
-            <Route
-              path="/dashboard/Form/Create"
-              element={<Createmenu />}
-              key={"createForm"}
-            />
-            <Route path="/dashboard/Archived/:item" element={<Archived />} />
-            <Route path="/dashboard/item/:sidebar" element={<Navbarmenu />} />
-            <Route path="/dashboard/reload" element={<Reload />} />
-            <Route
-              key={`sidebar`}
-              path={`/dashboard/:content`}
-              element={<Menus blogData={blogData} business={getCardInfo} />}
-            />
-            <Route
-              key={`sample-account`}
-              path={`/dashboard/account/list`}
-              element={<Accounts />}
-            />
-            <Route
-              key={`company-dashboard`}
-              path={`/dashboard/business/:title`}
-              element={<Company CompanyData={getCardInfo} />}
-            />
-            <Route
-              key={`card-dashboard`}
-              path={`/dashboard/viewpage/:title`}
-              element={<Defaultpage cardpath={cardpath} load={load} />}
-            />
-          </Routes>
-        </DashboardLayout>
+              <Route
+                key={`card-page`}
+                path={`/card-page/:title`}
+                element={<Defaultpage cardpath={cardpath} load={load} />}
+              />
+              <Route
+                key={`company-`}
+                path={`/company-page/:title`}
+                element={<Company CompanyData={getCardInfo} />}
+              />
+            </Routes>
+          </Layout>
+          <DashboardLayout
+            props={{ navbar: navbarData }}
+            key={"dashboard-layout"}
+          >
+            <Routes>
+              <Route path="/dashboard" element={<Home />} key={"dashboard"} />
+              <Route
+                path="/dashboard/Form/Create"
+                element={<Createmenu />}
+                key={"createForm"}
+              />
+              <Route path="/dashboard/Archived/:item" element={<Archived />} />
+              <Route path="/dashboard/item/:sidebar" element={<Navbarmenu />} />
+              <Route path="/dashboard/reload" element={<Reload />} />
+              <Route
+                key={`sidebar`}
+                path={`/dashboard/:content`}
+                element={<Menus blogData={blogData} business={getCardInfo} />}
+              />
+              <Route
+                key={`sample-account`}
+                path={`/dashboard/account/list`}
+                element={<Accounts />}
+              />
+              <Route
+                key={`company-dashboard`}
+                path={`/dashboard/business/:title`}
+                element={<Company CompanyData={getCardInfo} />}
+              />
+              <Route
+                key={`card-dashboard`}
+                path={`/dashboard/viewpage/:title`}
+                element={<Defaultpage cardpath={cardpath} load={load} />}
+              />
+            </Routes>
+          </DashboardLayout>
+        </GlobalProvider>
       </AuthProvider>
     </BrowserRouter>
   );

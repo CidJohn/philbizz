@@ -11,9 +11,12 @@ import { useTranslation } from "react-i18next";
 import Description from "../Description/Description";
 import { useLocation } from "react-router-dom";
 import { useCardDesc } from "../../../helper/database/useCardPath";
+import { useSideMenuView } from "../../../helper/database/useTreeview";
 
-const Business = ({ businessSettings }) => {
+const Business = (props) => {
+  const { businessSettings } = props;
   const { state } = useLocation();
+  const location = useLocation();
   const { path, pageName, sideBarColorChanger } = state || {
     path: null,
     pageName: null,
@@ -23,6 +26,7 @@ const Business = ({ businessSettings }) => {
   const [getLocation, setLocation] = useState("");
   const [getDataInfo, setDataInfo] = useState([]);
   const [filterFound, setFilterFound] = useState();
+  const [getCategoryMenu, setCategoryMenu] = useState([]);
   const [getdropDown, setDropdown] = useState("");
   const { getCategory, loadCategory } = useBusinessCategory();
   const { t } = useTranslation();
@@ -34,15 +38,23 @@ const Business = ({ businessSettings }) => {
   const { businesses } = useCardDesc(
     pageName.toLowerCase() === "ktv/jtv" ? "ktv_jtv" : pageName.toLowerCase()
   );
+  const { viewMenu, menuLoading } = useSideMenuView();
 
   const category = getCategory ? getCategory : "";
   const desc = businesses ? businesses : "";
 
   useEffect(() => {
-    if (businessSettings.businessSettings) {
-      setDataInfo(businessSettings.businessSettings);
+    if (businessSettings) {
+      const filterCompanyCard = businessSettings
+        ? businessSettings.filter((item) => item.business.header === "Company")
+        : [];
+      setDataInfo(filterCompanyCard);
     }
-  }, [businessSettings.businessSettings]);
+    const filterCategory = viewMenu
+      ? viewMenu.filter((item) => item.path === location.pathname)
+      : [];
+    setCategoryMenu(filterCategory);
+  }, [businessSettings, viewMenu]);
 
   const handleLocation = (e) => {
     const selectedLocation = e.target.innerText;
@@ -77,35 +89,43 @@ const Business = ({ businessSettings }) => {
     })),
   ];
 
-  const imagecarousel = getDataInfo ? getDataInfo.slice(0, 4) : [];
+  const imagecarousel = getDataInfo ? getDataInfo.slice(1) : [];
 
-  if (businessSettings.getCompanyLoad) {
+  if (menuLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-[80vh]">
         <Spinner />
       </div>
     );
   }
-
+  
   return (
     <div className="p-2">
-      <div className=" md:w-[73vw]  mx-auto">
+      <div className=" md:w-[73vw]  mx-auto flex items-center">
         <div className="flex flex-row mx-auto">
           <div className="flex flex-col">
             <div className="flex flex-col container ">
               <div className="flex flex-col gap-2 p-2">
                 <Description
-                  content={desc}
-                  pageName={pageName}
+                  content={getDataInfo}
+                  pageName={"Company"}
                   carousel={imagecarousel}
-                  txtHeaderColor={sideBarColorChanger.textColor}
+                  txtHeaderColor={
+                    sideBarColorChanger.textColor
+                      ? sideBarColorChanger.textColor
+                      : ""
+                  }
                 />
               </div>
               <div className="flex block">
                 <Categories
-                  footerContent={category}
+                  footerContent={getCategoryMenu}
                   handleClick={handleLocation}
-                  colorChanger={sideBarColorChanger.textColor}
+                  colorChanger={
+                    sideBarColorChanger.textColor
+                      ? sideBarColorChanger.textColor
+                      : ""
+                  }
                 />
               </div>
             </div>
@@ -143,7 +163,7 @@ const Business = ({ businessSettings }) => {
             <div className="flex flex-col mt-5">
               <div className="  items-center w-full ">
                 <HandleCompanyCard
-                  category={CompanyFilter}
+                  content={getDataInfo}
                   sideBarColor={sideBarColorChanger}
                   navigates={{ path, pageName, sideBarColorChanger }}
                 />

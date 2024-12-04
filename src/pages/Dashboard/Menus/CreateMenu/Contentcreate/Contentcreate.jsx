@@ -7,34 +7,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd, faMinus } from "@fortawesome/free-solid-svg-icons";
 import UploadImage from "../../../../../components/UploadImage/UploadImage";
 import {
-  useBusinessPost,
-  useCompanyView,
   useUpdateCompanyContent,
 } from "../../../../../helper/database/useBusinessData";
 import socialmedia from "../../../../../content/socialmedia.json";
 import {
   useCardPosting,
-  useCreateCardContent,
-  useUpdateCardContent,
 } from "../../../../../helper/database/useCardSettings";
 import Createblog from "./Createblog";
-import {
-  useCardInfo,
-  useImgCardURL,
-  useSocialContent,
-} from "../../../../../helper/database/useCardInfo";
 import { useBlogContent } from "../../../../../helper/database/useBlogSettings";
 import useAlert from "../../../../../helper/alert/useAlert";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 import { formSchema } from "./Contentvalidation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import contents from "../../../../../content/content.json";
 import { useToast } from "../../../../../components/Sonner/Sonner";
+import { useGlobalContext } from "../../../../../helper/context/useContext";
 
 function Contentcreate(props) {
-  const { downTree, path, category, name, title, location, blogTitle } = props;
+  const { downTree, path, name, title, location, blogTitle, viewContent } =
+    props;
   const showAlert = useAlert();
   const navigate = useNavigate();
   const toastify = useToast();
@@ -44,7 +36,6 @@ function Contentcreate(props) {
   const [selectChildValue, setSelectChildValue] = useState("");
   const [editorContent, setEditorContent] = useState("");
   const [addTextLine, setAddTextLine] = useState([{ id: 1, value: "" }]);
-  const [newTextLine, setNewTextLine] = useState([]);
   const [parentID, setParentID] = useState(0);
   const [mainPageSelection, setMainPageSelection] = useState([]);
   const [sectionPageSelection, setSectionPageSelection] = useState([]);
@@ -52,12 +43,9 @@ function Contentcreate(props) {
   const [sectionPageDropDown, setSectionPageDropdown] = useState("");
   const [alertData, setAlertData] = useState();
   const { fetchUpdateCompany, resultUpdate } = useUpdateCompanyContent();
-  const { postCard, cardResult, cardLoading } = useCardPosting();
-  const { getData, getURL, loadData } = useCardInfo(title);
-  const { getImage, loadImage } = useImgCardURL(title);
-  const { viewData, vieloading } = useCompanyView(title);
+  const { postCard, putCard, cardResult, cardLoading } = useCardPosting();
   const { content, contentload } = useBlogContent(blogTitle ? blogTitle : "");
-  const { resSocial, load } = useSocialContent(parentID);
+  const { contentInfo, setUuid } = useGlobalContext();
   const [TextLine, setTextLine] = useState({
     title: "",
     address: "",
@@ -81,39 +69,20 @@ function Contentcreate(props) {
       social: "",
     },
   ]);
-
   const initialSelectionContent = {
     Treeview: {
       child: !selectChildValue ? location : selectChildValue,
       name: name,
       title: title,
       imageTitle: imageInsert.imagePreview,
+      uuid: viewContent ? viewContent.id : null,
     },
     Textline: {
       required: { ...TextLine, image: imageInsert.imagePreview },
-      option: newTextLine,
+      option: addTextLine,
       social: socialText,
     },
     Texteditor: editorContent,
-    Personnel: { entries },
-  };
-
-  const initialBusinessContent = {
-    displayPosition: { mainPageDropDown, sectionPageDropDown },
-    Treeview: {
-      parent: selectedValue,
-      child: selectChildValue,
-      name: name,
-      title: title,
-      childloc: location,
-      imageTitle: imageInsert.imagePreview,
-    },
-    TextLine: {
-      required: { ...TextLine, image: imageInsert.imagePreview },
-      option: newTextLine,
-      social: socialText,
-    },
-    TextEditor: editorContent,
     Personnel: { entries },
   };
 
@@ -132,161 +101,82 @@ function Contentcreate(props) {
   }, [contents, mainPageSelection, sectionPageSelection]);
 
   useEffect(() => {
-    if (viewData.info) {
-      viewData.info.map((item) => {
-        setTextLine({
-          title: item.companyName,
-          description: item.description,
-          image: item.imgLOGO,
-          contact: item.contact,
-          email: item.email,
-          location: item.locationURL,
-          service: item.person,
-          website: "",
-          address: item.address,
-        });
-      });
-    }
-
-    if (viewData.images) {
-      const imageContent = viewData.images.map((item) => item.content).join("");
-      setEditorContent(imageContent);
-    }
-
-    if (viewData && Array.isArray(viewData.personnels)) {
-      const personnel = viewData.personnels.map((item) => ({
-        id: item.id || "",
-        personnelName: item.personName || "",
-        position: item.position || "",
-        imagePreview: item.personPhoto || "",
-      }));
-      setEntries(personnel);
-    }
-
-    if (viewData?.product) {
-      const product = viewData.product.map((item) => ({
-        id: item.id,
-        value: item.productImage || "",
-      }));
-
-      setAddTextLine(product);
-      setNewTextLine(() =>
-        product.reduce((acc, item) => {
-          acc[item.id] = { value: item.productImage || "" };
-          return acc;
-        }, {})
-      );
-    }
-
-    if (viewData.socials) {
-      const socials = viewData.socials.map((item) => item);
-      setSocialText(() => [
-        ...socials.map((item) => ({
-          id: item.id,
-          social: item.SocialMedia,
-          link: item.SocialValue,
-        })),
-      ]);
-    }
-  }, [viewData.info, viewData.images, viewData.personnels, viewData.socials]);
-
-  useEffect(() => {
-    if (getData) {
-      getData.map((item) => {
-        setTextLine({
-          title: item.Name,
-          address: item.address,
-          description: item.desc,
-          image: item.icon_image,
-          contact: item.contact,
-          email: item.email,
-          service: item.type,
-          location: getURL,
-        });
-        setImageInsert({ id: Date.now(), imagePreview: item.images || "" });
-        setEditorContent(item.Content);
-        setParentID(item.ParentID);
-        const socials = resSocial ? resSocial.map((item) => item) : [];
-        setSocialText(() => [
-          ...socials.map((item) => ({
-            id: item.ParentID,
-            social: item.SocialMedia,
-            link: item.SocialValue,
-          })),
-        ]);
-      });
-    }
-    const textLink = getImage ? getImage.map((item) => item) : [];
-    if (textLink.length > 0) {
-      setAddTextLine(() =>
-        textLink.map((url) => ({
-          id: url.childID,
-          value: url.imageURL || "",
-        }))
-      );
-
-      setNewTextLine((prev) => ({
+    if (viewContent) {
+      console.log(viewContent);
+      setUuid(viewContent.id);
+      setTextLine((prev) => ({
         ...prev,
-        ...textLink.reduce((acc, url) => {
-          acc[url.childID] = { id: url.childID, value: url.imageURL || "" };
-          return acc;
-        }, {}),
+        title: viewContent.title,
+        address: viewContent.address,
+        description: viewContent.description,
       }));
+      const childDropDown = viewContent.location;
+      setSelectChildValue(childDropDown ? childDropDown : "");
+      setImageInsert({ imagePreview: viewContent.title_image });
     }
-  }, [getData, getURL, getImage, resSocial]);
+    if (contentInfo) {
+      setTextLine((prev) => ({
+        ...prev,
+        contact: contentInfo.contact,
+        email: contentInfo.email,
+        service: contentInfo.service,
+        location: contentInfo.location_image,
+      }));
+      setEditorContent(contentInfo.content);
+      const image_link = contentInfo.images.map((item, index) => ({
+        id: index,
+        uuid: item.id,
+        value: item.images,
+      }));
+      setAddTextLine([
+        ...image_link,
+        { id: addTextLine.length + 1, value: "" },
+      ]);
+      const socials = contentInfo.social_links.map((item, index) => ({
+        uuid: item.id,
+        link: item.social_value,
+        social: item.social_media,
+      }));
+      setSocialText(socials);
+      const persons = contentInfo.people_involved.map((item, index) => ({
+        uuid: item.id,
+        imagePreview: item.image,
+        personnelName: item.name,
+        position: item.position,
+      }));
+      setEntries(persons);
+    }
+  }, [viewContent, contentInfo]);
 
   useEffect(() => {
-    if (name === "Business") {
-      if (category) {
-        const uniqueCategory = Array.from(
-          new Set(category.map((item) => item.title))
-        );
-        const optionCategory = [
-          { value: "", label: "Select Parent" },
-          ...uniqueCategory.map((location) => ({
-            value: location,
-            label: location,
-          })),
-        ];
-        setDropdownOptions(optionCategory);
-        if (optionCategory.length > 0) {
-          setSelectedValue(optionCategory[0].value);
-        }
-      }
-    } else {
-      if (downTree) {
-        const uniqueLocations = Array.from(
-          new Set(
-            downTree
-              .filter((item) => item.path === path)
-              .map((item) => item.name)
-          )
-        );
+    if (downTree) {
+      const uniqueLocations = Array.from(
+        new Set(
+          downTree.filter((item) => item.path === path).map((item) => item.name)
+        )
+      );
 
-        const optionsList = [
-          { value: "", label: "Select Parent" },
-          ...uniqueLocations.map((location) => ({
-            value: location,
-            label: location,
-          })),
-        ];
-        setDropdownOptions(optionsList);
+      const optionsList = [
+        { value: "", label: "Select Parent" },
+        ...uniqueLocations.map((location) => ({
+          value: location,
+          label: location,
+        })),
+      ];
+      setDropdownOptions(optionsList);
 
-        if (optionsList.length > 0) {
-          setSelectedValue(optionsList[0].value);
-        }
+      if (optionsList.length > 0) {
+        setSelectedValue(optionsList[0].value);
       }
     }
-  }, [downTree, path, category]);
+  }, [downTree, path]);
 
   useEffect(() => {
-    if (category || (downTree && selectedValue)) {
+    if (downTree && selectedValue) {
       const children =
-        name === "Business"
-          ? category.find((item) => item.title === selectedValue)?.links || []
-          : downTree.find(
-              (item) => item.name === selectedValue && item.path === path
-            )?.children || [];
+        downTree.find(
+          (item) => item.name === selectedValue && item.path === path
+        )?.children || [];
 
       const optionChild = [
         { value: "", label: "Select Child" },
@@ -304,7 +194,7 @@ function Contentcreate(props) {
         setSelectChildValue("");
       }
     }
-  }, [downTree, selectedValue, path, category]);
+  }, [downTree, selectedValue, path]);
 
   useEffect(() => {
     if (cardResult) {
@@ -336,7 +226,6 @@ function Contentcreate(props) {
   const handleReset = () => {
     setEditorContent("");
     setAddTextLine([{ id: 1, value: "" }]);
-    setNewTextLine([]);
     setParentID(0);
     setMainPageSelection([]);
     setSectionPageSelection([]);
@@ -402,25 +291,7 @@ function Contentcreate(props) {
   };
 
   const handleUpdate = () => {
-    if (name === "Business") {
-      if (fetchUpdateCompany(initialBusinessContent)) {
-        try {
-          console.log(initialBusinessContent);
-          toastify(` Successfully Update ${name} Content! `, "success");
-        } catch (error) {
-          toastify("Failed to Submit Reply.", "error");
-        }
-      }
-    } else {
-      // if (fetchUpdateCard(initialSelectionContent)) {
-      try {
-        console.log(initialSelectionContent);
-        toastify(` Successfully Update ${name} Content `, "success");
-      } catch (error) {
-        toastify("Failed to Submit Reply.", "error");
-      }
-      // }
-    }
+    putCard(initialSelectionContent);
   };
 
   const handleContentChange = (content) => {
@@ -431,16 +302,12 @@ function Contentcreate(props) {
     setAddTextLine([...addTextLine, { id: addTextLine.length + 1, value: "" }]);
   };
 
-  const handleTextlineChange = (id, newValue) => {
+  const handleAddTextlineChange = (id, newValue) => {
     setAddTextLine(
       addTextLine.map((textLine) =>
         textLine.id === id ? { ...textLine, value: newValue } : textLine
       )
     );
-    setNewTextLine((prev) => ({
-      ...prev,
-      [id]: { id: id, value: newValue },
-    }));
   };
 
   const handleTextLineChange = (e) => {
@@ -464,7 +331,7 @@ function Contentcreate(props) {
 
     setAddTextLine(reindexedTextLines);
 
-    setNewTextLine((prev) => {
+    setAddTextLine((prev) => {
       const newState = {};
 
       reindexedTextLines.forEach((textLine) => {
@@ -827,32 +694,27 @@ function Contentcreate(props) {
                             placeholder={`Enter Image link (Optional)`}
                             value={textLine.value}
                             onChange={(e) =>
-                              handleTextlineChange(textLine.id, e.target.value)
+                              handleAddTextlineChange(
+                                textLine.id,
+                                e.target.value
+                              )
                             }
                             required={false}
                           />
                         </div>
-                        <div className="flex justify-center ">
-                          <Button
-                            icon={
-                              <FontAwesomeIcon
-                                icon={
-                                  textLine.id < addTextLine.length
-                                    ? faMinus
-                                    : faAdd
-                                }
-                                className="border p-3  rounded-lg hover:bg-blue-500 hover:text-white"
-                                onClick={
-                                  textLine.id < addTextLine.length
-                                    ? () => handleDeleteTextline(textLine.id)
-                                    : handleAddLink
-                                }
-                              />
-                            }
-                          />
-                        </div>
                       </div>
                     ))}
+                    <div className="w-full flex mt-3">
+                      <Button
+                        icon={
+                          <FontAwesomeIcon
+                            icon={faAdd}
+                            className="w-full border p-3  rounded-lg hover:bg-blue-500 hover:text-white"
+                            onClick={handleAddLink}
+                          />
+                        }
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -861,7 +723,7 @@ function Contentcreate(props) {
                   name === "Company" ? "flex flex-col w-full" : "hidden"
                 }
               >
-                <label htmlFor="personel">Personnel </label>
+                <label htmlFor="personel">Add Personnel </label>
                 <div className="grid grid-cols-3 gap-2">
                   {entries.map((entry, index) => (
                     <div className="px-5 " key={entry.id}>

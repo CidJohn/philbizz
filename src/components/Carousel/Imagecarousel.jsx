@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Images from "../Image/Images";
 import { FaMapMarkerAlt } from "react-icons/fa";
 
-const Imagecarousel = ({ images }) => {
+const Imagecarousel = ({ images, style }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handlePrev = () => {
@@ -16,7 +16,6 @@ const Imagecarousel = ({ images }) => {
       prevIndex === images.length - 1 ? 0 : prevIndex + 1
     );
   };
-
   useEffect(() => {
     const interval = setInterval(() => {
       handleNext();
@@ -24,15 +23,17 @@ const Imagecarousel = ({ images }) => {
 
     return () => clearInterval(interval);
   }, [activeIndex]);
-
   return (
     <div
       id="controls-carousel"
       className="relative w-full"
       data-carousel="static"
     >
-      {/* Carousel wrapper */}
-      <div className="relative h-56 overflow-hidden  md:h-96 w-full">
+
+      <div
+        className="relative h-56 overflow-hidden  md:h-96 w-full"
+        style={style}
+      >
         {images.map((image, index) => (
           <div
             key={index}
@@ -43,7 +44,7 @@ const Imagecarousel = ({ images }) => {
           >
             {/* Image */}
             <Images
-              src={image.images || image.image}
+              src={image.images || image.image || image.title_image}
               alt={image.title}
               className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 cover"
             />
@@ -62,7 +63,6 @@ const Imagecarousel = ({ images }) => {
         ))}
       </div>
 
-      {/* Previous Button */}
       <button
         type="button"
         className="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
@@ -88,7 +88,6 @@ const Imagecarousel = ({ images }) => {
         </span>
       </button>
 
-      {/* Next Button */}
       <button
         type="button"
         className="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"

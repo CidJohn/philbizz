@@ -6,6 +6,7 @@ import Spinner from "../components/Spinner/Spinner";
 import { AuthProvider } from "../helper/auth/useAuthContext";
 import Header from "../components/Header/Header";
 import SonnerToaster from "../components/Sonner/Sonner";
+import AdvertisementSlider from "../components/Advertisement/Advertisement";
 
 function Layout({ children, navbar }) {
   const location = useLocation();
