@@ -57,8 +57,6 @@ export const HeroBanner = (props) => {
       setBlog(filterBlog);
     }
 
-    // const filterTypes = header.filter((item) => item.types && item.title);
-    // setImgCarousel(filterTypes);
   }, [location, getNewsData, blogData]);
 
   useEffect(() => {
@@ -171,7 +169,6 @@ export const HeroBanner = (props) => {
     <div className="w-full mt-0 lg:mt-6 flex flex-col px-6 lg:grid lg:grid-cols-9 lg:grid-rows-5 gap-4 lg:px-[6.5rem]">
       <div className="row-span-5 mt-0 lg:mt-16">
         <div className="space-y-1 hidden lg:block">
-          {/* advertisements side images here */}
           <img
             src="https://i.pinimg.com/originals/37/8b/99/378b99936dd29a3cc185b7437be70737.jpg"
             alt=""

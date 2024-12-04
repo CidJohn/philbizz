@@ -22,6 +22,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import contents from "../../../../../content/content.json";
 import { useToast } from "../../../../../components/Sonner/Sonner";
+import { useGlobalContext } from "../../../../../helper/context/useContext";
 
 function Contentcreate(props) {
   const { downTree, path, name, title, location, blogTitle, viewContent } =
@@ -44,6 +45,7 @@ function Contentcreate(props) {
   const { fetchUpdateCompany, resultUpdate } = useUpdateCompanyContent();
   const { postCard, putCard, cardResult, cardLoading } = useCardPosting();
   const { content, contentload } = useBlogContent(blogTitle ? blogTitle : "");
+  const { contentInfo, setUuid } = useGlobalContext();
   const [TextLine, setTextLine] = useState({
     title: "",
     address: "",
@@ -84,25 +86,6 @@ function Contentcreate(props) {
     Personnel: { entries },
   };
 
-  const initialBusinessContent = {
-    displayPosition: { mainPageDropDown, sectionPageDropDown },
-    Treeview: {
-      parent: selectedValue,
-      child: selectChildValue,
-      name: name,
-      title: title,
-      childloc: location,
-      imageTitle: imageInsert.imagePreview,
-    },
-    TextLine: {
-      required: { ...TextLine, image: imageInsert.imagePreview },
-      option: addTextLine,
-      social: socialText,
-    },
-    TextEditor: editorContent,
-    Personnel: { entries },
-  };
-
   useEffect(() => {
     const { mainPageSelection, sectionPageSelection } = contents || {};
     if (mainPageSelection) {
@@ -116,50 +99,54 @@ function Contentcreate(props) {
       );
     }
   }, [contents, mainPageSelection, sectionPageSelection]);
+
   useEffect(() => {
     if (viewContent) {
-      viewContent.card_info.map((item) => {
-        setTextLine((prev) => ({
-          ...prev,
-          uuid: item.id,
-          title: item.name,
-          contact: item.contact,
-          email: item.email,
-          location: item.location_image,
-          service: item.servicetype,
-          website: "",
-          description: item.desc,
-        }));
-        setEditorContent(item.content);
-        setImageInsert({ imagePreview: item.icon_image });
-        const image_link = item.images.map((item, index) => ({
-          id: index,
-          uuid: item.id,
-          value: item.images,
-        }));
-        setAddTextLine([
-          ...image_link,
-          { id: addTextLine.length + 1, value: "" },
-        ]);
-        const socials = item.social_links.map((item, index) => ({
-          uuid: item.id,
-          link: item.social_value,
-          social: item.social_media,
-        }));
-        setSocialText(socials);
-        const persons = item.people_involved.map((item, index) => ({
-          uuid: item.id,
-          imagePreview: item.image,
-          personnelName: item.name,
-          position: item.position,
-        }));
-        setEntries(persons);
-      });
-      setTextLine((prev) => ({ ...prev, address: viewContent.address }));
+      console.log(viewContent);
+      setUuid(viewContent.id);
+      setTextLine((prev) => ({
+        ...prev,
+        title: viewContent.title,
+        address: viewContent.address,
+        description: viewContent.description,
+      }));
       const childDropDown = viewContent.location;
       setSelectChildValue(childDropDown ? childDropDown : "");
+      setImageInsert({ imagePreview: viewContent.title_image });
     }
-  }, [viewContent]);
+    if (contentInfo) {
+      setTextLine((prev) => ({
+        ...prev,
+        contact: contentInfo.contact,
+        email: contentInfo.email,
+        service: contentInfo.service,
+        location: contentInfo.location_image,
+      }));
+      setEditorContent(contentInfo.content);
+      const image_link = contentInfo.images.map((item, index) => ({
+        id: index,
+        uuid: item.id,
+        value: item.images,
+      }));
+      setAddTextLine([
+        ...image_link,
+        { id: addTextLine.length + 1, value: "" },
+      ]);
+      const socials = contentInfo.social_links.map((item, index) => ({
+        uuid: item.id,
+        link: item.social_value,
+        social: item.social_media,
+      }));
+      setSocialText(socials);
+      const persons = contentInfo.people_involved.map((item, index) => ({
+        uuid: item.id,
+        imagePreview: item.image,
+        personnelName: item.name,
+        position: item.position,
+      }));
+      setEntries(persons);
+    }
+  }, [viewContent, contentInfo]);
 
   useEffect(() => {
     if (downTree) {
@@ -297,8 +284,9 @@ function Contentcreate(props) {
     const value = e.target.value;
     setSectionPageDropdown(value);
   };
-  
+
   const handleSave = () => {
+    console.log(initialSelectionContent);
     postCard(initialSelectionContent);
   };
 

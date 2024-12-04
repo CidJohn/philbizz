@@ -30,6 +30,7 @@ export default function Navbar(props) {
       : [];
     navigation(item.path, {
       state: {
+        id: item.id,
         path: item.path,
         pageName: item.name,
         sideBarColorChanger: dynamicColorChanger[0],

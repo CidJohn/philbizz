@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import {
-  useCardInfo,
-  useImgCardURL,
-} from "../../../helper/database/useCardInfo";
 import Spinner from "../../../components/Spinner/Spinner";
 import Images from "../../../components/Image/Images";
 import Horizontal from "../../../components/Horizontal/Horizontal";
@@ -15,26 +11,34 @@ import { RiKakaoTalkFill } from "react-icons/ri";
 import { SiGmail } from "react-icons/si";
 import { FaTelegram } from "react-icons/fa";
 import Imagecarousel from "../../../components/Carousel/Imagecarousel";
+import { useGlobalContext } from "../../../helper/context/useContext";
 
 function Defaultpage(props) {
   const { cardpath, load } = props;
-  const [getTitle, setTitle] = useState("");
+  const { setUuid, contentInfo, infoLoader } = useGlobalContext();
   const [getSocial, setSocial] = useState([]);
   const [imageMenus, setImageMenus] = useState([]);
   const [getContent, setContent] = useState({});
   const { state } = useLocation();
   const { pageContent } = state || { pageContent: null };
-  const { getData, getURL, loadData } = useCardInfo(getTitle);
-  const { getImage, loadImage } = useImgCardURL(getTitle);
 
   useEffect(() => {
-    pageContent.card_info.map((item) => setContent(item));
-    const socialLinks = getContent.social_links ? getContent.social_links : [];
-    const imageMenus = getContent.images ? getContent.images : [];
+    const socialLinks = contentInfo.social_links
+      ? contentInfo.social_links
+      : [];
+    const imageMenus = contentInfo.images ? contentInfo.images : [];
     setImageMenus(imageMenus);
     setSocial(socialLinks);
-  }, [pageContent, getContent]);
-  
+    setUuid(pageContent ? pageContent.id : "");
+  }, [pageContent, contentInfo, contentInfo]);
+
+  if (infoLoader) {
+    return (
+      <div className="w-full flex items-center justify-center min-h-screen">
+        <Spinner />
+      </div>
+    );
+  }
   if (!pageContent) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -52,7 +56,7 @@ function Defaultpage(props) {
       <div className="flex flex-col  justify-center  w-full ">
         <div className="flex flex-wrap">
           <p className="mb-3 text-lg text-slate-500 fira-sans-condensed-regular text-wrap  ">
-            {getContent.desc}
+            {pageContent.description}
           </p>
           <hr className="w-full " />
 
@@ -105,29 +109,35 @@ function Defaultpage(props) {
           <Horizontal />
           <div className="">
             <div className="flex ">
-              <div
-                dangerouslySetInnerHTML={{ __html: getContent.content }}
-                style={{
-                  padding: "10px",
-                  marginTop: "10px",
-                }}
-                className="min-w-full"
-              />
+              {contentInfo ? (
+                <div
+                  dangerouslySetInnerHTML={{ __html: contentInfo.content }}
+                  style={{
+                    padding: "10px",
+                    marginTop: "10px",
+                  }}
+                  className="min-w-full"
+                />
+              ) : (
+                "loading"
+              )}
             </div>
-            {getContent.servicetype ? <Horizontal /> : ""}
+            {contentInfo.servicetype ? <Horizontal /> : ""}
             <h1 className="fira-sans-bold text-[#e63946] font-bold text-3xl text-start my-5">
-              {getContent.servicetype}
+              {contentInfo.servicetype}
             </h1>
             <div
               className={imageMenus.map((item) =>
                 item.image ? "flex justify-center items-center" : "hidden"
               )}
             >
-              {imageMenus && (
+              {imageMenus.length > 0 ? (
                 <Imagecarousel
                   images={imageMenus}
                   style={{ height: "100vh" }}
                 />
+              ) : (
+                ""
               )}
             </div>
             <Horizontal />
@@ -136,7 +146,7 @@ function Defaultpage(props) {
                 Location Details
               </div>
               <div className="flex justify-center p-4 ">
-                <GoogleMapEmbed src={getContent.location_image} />
+                <GoogleMapEmbed src={contentInfo.location_image} />
               </div>
 
               <div className="flex items-start px-6 py-6 gap-2 flex-col">
@@ -156,12 +166,15 @@ function Defaultpage(props) {
                   <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
                     Phone Number:
                   </span>
-                  {getContent.contact}
+                  {contentInfo.contact}
                 </p>
                 {getSocial.length > 0
                   ? getSocial.map((item, index) =>
                       item.social_media === "Website" ? (
-                        <p className="fira-sans-condensed-regular text-lg text-gray-600">
+                        <p
+                          key={index}
+                          className="fira-sans-condensed-regular text-lg text-gray-600"
+                        >
                           <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
                             Website:
                           </span>
@@ -175,7 +188,10 @@ function Defaultpage(props) {
                         </p>
                       ) : (
                         item.social_media === "Facebook" && (
-                          <p className="fira-sans-condensed-regular text-lg text-gray-600">
+                          <p
+                            key={index}
+                            className="fira-sans-condensed-regular text-lg text-gray-600"
+                          >
                             <span className="fira-sans-condensed-bold mr-2 py-2 text-[#e63946]">
                               Facebook:
                             </span>

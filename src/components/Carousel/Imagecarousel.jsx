@@ -29,60 +29,38 @@ const Imagecarousel = ({ images, style }) => {
       className="relative w-full"
       data-carousel="static"
     >
-      <div className="relative h-56 overflow-hidden  md:h-96 w-full" style={style}>
-        {images.map((image, index) =>
-          image.card_info ? (
-            image.card_info.map((item, indexs) => (
-              <div
-                key={indexs}
-                className={`absolute w-full h-full transition-opacity duration-700 ease-in-out ${
-                  activeIndex === indexs ? "opacity-100" : "opacity-0"
-                }`}
-                data-carousel-item={activeIndex === indexs ? "active" : ""}
-              >
-                <Images
-                  src={item.image || item.icon_image}
-                  alt={item.name}
-                  className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 cover"
-                />
 
-                <div className="absolute bottom-0 left-0 w-full p-6 bg-black/50 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-100 text-white">
-                  <h2 className="text-xl font-bold fira-sans-condensed-bold">
-                    {item.name}
-                  </h2>
-                  <p className="text-sm mt-2 fira-sans-condensed-regular flex items-center">
-                    {image.address}
-                    <FaMapMarkerAlt className="ml-2" />
-                  </p>
-                </div>
-              </div>
-            ))
-          ) : (
-            <div
-              key={index}
-              className={`absolute w-full h-full transition-opacity duration-700 ease-in-out ${
-                activeIndex === index ? "opacity-100" : "opacity-0"
-              }`}
-              data-carousel-item={activeIndex === index ? "active" : ""}
-            >
-              <Images
-                src={image.images || image.image}
-                alt={image.title}
-                className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 cover"
-              />
+      <div
+        className="relative h-56 overflow-hidden  md:h-96 w-full"
+        style={style}
+      >
+        {images.map((image, index) => (
+          <div
+            key={index}
+            className={`absolute w-full h-full transition-opacity duration-700 ease-in-out ${
+              activeIndex === index ? "opacity-100" : "opacity-0"
+            }`}
+            data-carousel-item={activeIndex === index ? "active" : ""}
+          >
+            {/* Image */}
+            <Images
+              src={image.images || image.image || image.title_image}
+              alt={image.title}
+              className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 cover"
+            />
 
-              <div className="absolute bottom-0 left-0 w-full p-6 bg-black/50 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-100 text-white">
-                <h2 className="text-xl font-bold fira-sans-condensed-bold">
-                  {image.title}
-                </h2>
-                <p className="text-sm mt-2 fira-sans-condensed-regular flex items-center">
-                  {image.description}
-                  <FaMapMarkerAlt className="ml-2" />
-                </p>
-              </div>
+            {/* Title and Description */}
+            <div className="absolute bottom-0 left-0 w-full p-6 bg-black/50 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-100 text-white">
+              <h2 className="text-xl font-bold fira-sans-condensed-bold">
+                {image.title}
+              </h2>
+              <p className="text-sm mt-2 fira-sans-condensed-regular flex items-center">
+                {image.description}
+                <FaMapMarkerAlt className="ml-2" />
+              </p>
             </div>
-          )
-        )}
+          </div>
+        ))}
       </div>
 
       <button

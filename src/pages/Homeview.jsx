@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { HeroBanner } from "./Homeview/HeroBanner/HeroBanner";
+import { useGlobalContext } from "../helper/context/useContext";
 import Spinner from "../components/Spinner/Spinner";
 
 function Homeview({ data }) {
   const { t } = useTranslation();
+  const { contentList, setHeader } = useGlobalContext();
 
-  if (!data.businessSettings) {
+  useEffect(() => {
+    setHeader("Food");
+  }, []);
+  if(contentList.contentList === 0) {
     return (
-      <div className="flex w-full justify-center items-center">
+      <div className="w-full flex items-center jsutify-center min-h-screen">
+
         <Spinner />
       </div>
     );
@@ -18,7 +24,7 @@ function Homeview({ data }) {
       <HeroBanner
         blogData={data.blogData}
         navbar={data.navbar}
-        businessCarousel={data.businessSettings}
+        businessCarousel={contentList}
       />
     </div>
   );
