@@ -64,17 +64,17 @@ export const HeroBanner = (props) => {
       const filteredBeauty = businessCarousel
         .filter((item) => item.business.header === "Beauty")
         .slice(0, 5);
-      setBeauty(filteredBeauty);
+      setBeauty(filteredBeauty.length > 0 ? filteredBeauty : []);
 
       const filteredFood = businessCarousel
         .filter((item) => item.business.header === "Food")
         .slice(0, 5);
-      setFood(filteredFood);
+      setFood(filteredFood.length > 0 ? filteredFood : []);
 
       const filteredFestival = businessCarousel
         .filter((item) => item.business.header === "Festival")
         .slice(0, 4);
-      setFestival(filteredFestival);
+      setFestival(filteredFestival.legnth > 0 ? filteredFestival : []);
     }
 
     if (navbar) {
@@ -112,7 +112,7 @@ export const HeroBanner = (props) => {
     { title: "Beauty", list: getBeauty },
     { title: "Company", list: getImgCarousel },
   ];
-
+  console.log(listItems);
   const capitalize = (str) => {
     if (!str) return "";
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
