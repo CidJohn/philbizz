@@ -32,9 +32,9 @@ export const axiosGet = async (apiLink) => {
   }
 };
 
-export const axiosPost = async (apiLink, data) => {
+export const axiosPost = async (apiLink, data, header) => {
   try {
-    const response = await axiosInstance.post(apiLink, data);
+    const response = await axiosInstance.post(apiLink, data, header);
     return response.data;
   } catch (error) {
     throw error;

@@ -11,10 +11,13 @@ import Dropdown from "../../../../components/Dropdown/Dropdown";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { formSchema } from "./BlogValidation";
+import { useToast } from "../../../../components/Sonner/Sonner";
 
 const BlogPost = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
+  const tostify = useToast();
+  const showAlert = useAlert();
   const { userIdentity } = state || { userIdentity: null };
   const [editorContent, setEditorContent] = useState("");
   const [dropdownValue, setDropdownValue] = useState("");
@@ -34,7 +37,6 @@ const BlogPost = () => {
     description: "",
   });
   const { postBlog, resultPost } = useBlogPost();
-  const showAlert = useAlert();
 
   useEffect(() => {
     if (blog_category) {
@@ -115,13 +117,35 @@ const BlogPost = () => {
       content: editorContent,
       comment: [],
     };
-    console.log(initialData);
+    //console.log(initialData);
     postBlog(initialData);
   };
 
-  if (resultPost) {
-    console.log(resultPost);
-  }
+  useEffect(() => {
+    if (resultPost) {
+      tostify("Blog Posted!", "success");
+     showAlert(
+          "Success!",
+          "You want to post another blog?",
+          "success",
+          "",
+          true,
+          "Yes",
+          "No",
+          "#3085d6",
+          "#d33"
+        ).then((res) => {
+          if (res.isConfirmed) {
+            setTextLine({ title: "", description: "" });
+            setEditorContent("");
+            setFileImage(null);
+            setImageInsert({});
+          } else {
+            navigate(-1);
+          }
+        });
+    }
+  }, [resultPost]);
 
   const handleChangeCategory = (e) => {
     const { value } = e.target;

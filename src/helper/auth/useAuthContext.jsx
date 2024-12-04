@@ -39,7 +39,8 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const refreshInterval = setInterval(() => {
       tokenRefresher();
-    }, 30000);
+    }, 300000);
+
 
     return () => clearInterval(refreshInterval);
   }, [rememberMe]);
@@ -54,7 +55,6 @@ export const AuthProvider = ({ children }) => {
       postStorage("access_token", access_token, false);
       postStorage("refresh_token", refresh_token, false);
     } else {
-      postStorage("access_token", access_token, true);
       postStorage("refresh_token", refresh_token, true);
       postStorage("user_identity", accessLevel, true);
     }
