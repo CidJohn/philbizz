@@ -22,20 +22,16 @@ import { useCardPath } from "./helper/database/useCardPath";
 import Company from "./pages/Selection/Business/Company/Company";
 import BlogContent from "./pages/Selection/Blog/BlogContent/BlogContent";
 import Accounts from "./pages/Dashboard/Accounts/Accounts";
-import { useNavbarcontent } from "./helper/database/useNavbarcontent";
 import { useBusinessSettings } from "./helper/database/useBusinessData";
 import useBlogSettings from "./helper/database/useBlogSettings";
 import { useNavbarView } from "./helper/database/useNavbarSettings";
-import { useContentView } from "./helper/database/useCardSettings";
 import { GlobalProvider } from "./helper/context/useContext";
 
 function App() {
   const { cardpath, load } = useCardPath();
-  //const { navbarData, loading } = useNavbarcontent();
   const { getCardInfo, getCompanyLoad } = useBusinessSettings();
   const { blogData } = useBlogSettings();
   const { navbarData, loadingData } = useNavbarView();
- // const { viewContent } = useContentView();
 
   return (
     <BrowserRouter>
@@ -54,7 +50,6 @@ function App() {
                     data={{
                       blogData: blogData,
                       navbar: navbarData,
-                      businessSettings: "",
                     }}
                   />
                 }
