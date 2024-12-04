@@ -29,7 +29,7 @@ const Imagecarousel = ({ images, style }) => {
       className="relative w-full"
       data-carousel="static"
     >
-      {/* Carousel wrapper */}
+
       <div
         className="relative h-56 overflow-hidden  md:h-96 w-full"
         style={style}
@@ -63,7 +63,6 @@ const Imagecarousel = ({ images, style }) => {
         ))}
       </div>
 
-      {/* Previous Button */}
       <button
         type="button"
         className="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
@@ -89,7 +88,6 @@ const Imagecarousel = ({ images, style }) => {
         </span>
       </button>
 
-      {/* Next Button */}
       <button
         type="button"
         className="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"

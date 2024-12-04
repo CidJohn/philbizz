@@ -6,6 +6,8 @@ import axiosInstance, {
   axiosPost,
   axiosPut,
 } from "../auth/axiosInstance";
+import { ref, set } from "firebase/database";
+import { storage } from "../storage/firebase/firebasestorage";
 
 const useCardSettings = (type) => {
   const [searchload, setSearchLoad] = useState(true);
@@ -186,10 +188,28 @@ export const useCardPosting = () => {
   const [cardLoading, setCardLoading] = useState(true);
 
   const postCard = async (data) => {
+    if (!data) return;
+
+    const {
+      Textline: {
+        required: { title, image },
+      },
+      Texteditor: content,
+    } = data;
+
     try {
       const response = await axiosPost("/auth/post-card-content/", data);
       console.log(response);
       setCardResult(response);
+      if (content) {
+        const saveContent = {
+          title: title,
+          content: content,
+          imageTitle: image,
+        };
+        const fireSStorage = ref(storage, `card-content/${title}`);
+        await set(fireSStorage, saveContent);
+      }
     } catch (error) {
       console.error("axios error: ", error);
       setCardResult(error);

@@ -14,6 +14,7 @@ function Homeview({ data }) {
   if(contentList.contentList === 0) {
     return (
       <div className="w-full flex items-center jsutify-center min-h-screen">
+
         <Spinner />
       </div>
     );
