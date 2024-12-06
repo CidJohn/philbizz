@@ -20,9 +20,10 @@ import changeColor from "../../../content/content.json";
 import Rightads from "./HomeContent/Rightads";
 import { socialContent } from "../../../content/cardContent";
 import { CustomTabs } from "../../../components/Tabs/Tabs";
+import Spinner from "../../../components/Spinner/Spinner";
 
 export const HeroBanner = (props) => {
-  const { blogData, navbar, businessCarousel } = props;
+  const { blogData, navbar, mainContentList } = props;
   const [getArticles, setArticles] = useState([]);
   const [getLat, setLat] = useState();
   const [getLan, setLan] = useState();
@@ -56,27 +57,12 @@ export const HeroBanner = (props) => {
       const filterBlog = blogData ? blogData.slice(0, 3) : [];
       setBlog(filterBlog);
     }
-
-  }, [location, getNewsData, blogData]);
+    mainContentList.map((item) => {
+      item.title === "Food" && setImgCarousel(item.list);
+    });
+  }, [location, getNewsData, blogData, mainContentList]);
 
   useEffect(() => {
-    if (header) {
-      const filteredBeauty = businessCarousel
-        .filter((item) => item.business.header === "Beauty")
-        .slice(0, 5);
-      setBeauty(filteredBeauty.length > 0 ? filteredBeauty : []);
-
-      const filteredFood = businessCarousel
-        .filter((item) => item.business.header === "Food")
-        .slice(0, 5);
-      setFood(filteredFood.length > 0 ? filteredFood : []);
-
-      const filteredFestival = businessCarousel
-        .filter((item) => item.business.header === "Festival")
-        .slice(0, 4);
-      setFestival(filteredFestival.legnth > 0 ? filteredFestival : []);
-    }
-
     if (navbar) {
       const filterNav = navbar.map((node) => node.name);
       setNavbar(filterNav);
@@ -97,22 +83,8 @@ export const HeroBanner = (props) => {
       }, {});
       setGroupedTreeView(groupedData);
     }
+  }, [navbar, viewMenu, mainContentList, getfilterNav]);
 
-    const carousel = Array.isArray(businessCarousel)
-    ? businessCarousel.slice(0, 4)
-    : [];
-    setImgCarousel(carousel)
-  }, [header, navbar, viewMenu, businessCarousel]);
-
-  
-
-  const listItems = [
-    { title: "Food", list: getFood },
-    { title: "Festival", list: getFestival },
-    { title: "Beauty", list: getBeauty },
-    { title: "Company", list: getImgCarousel },
-  ];
-  console.log(listItems);
   const capitalize = (str) => {
     if (!str) return "";
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -165,6 +137,14 @@ export const HeroBanner = (props) => {
     },
   ];
 
+  if (mainContentList.length === 0) {
+    return (
+      <div className="w-full flex items-center jsutify-center min-h-screen">
+        <Spinner />
+      </div>
+    );
+  }
+
   return (
     <div className="w-full mt-0 lg:mt-6 flex flex-col px-6 lg:grid lg:grid-cols-9 lg:grid-rows-5 gap-4 lg:px-[6.5rem]">
       <div className="row-span-5 mt-0 lg:mt-16">
@@ -200,8 +180,11 @@ export const HeroBanner = (props) => {
       </div>
       <div className="w-full flex flex-col lg:col-span-3 lg:row-span-5 lg:col-start-4">
         <div className="w-full flex flex-col gap-3 ">
-          <Headlines getArticles={getArticles} getImgCarousel={getImgCarousel ? getImgCarousel : []} />
-          <BusinessList listItems={listItems} />
+          <Headlines
+            getArticles={getArticles}
+            getImgCarousel={getImgCarousel ? getImgCarousel : []}
+          />
+          <BusinessList listItems={mainContentList} />
         </div>
       </div>
       <div className="hidden w-full lg:flex flex-col lg:col-span-2 lg:row-span-5 lg:col-start-7">

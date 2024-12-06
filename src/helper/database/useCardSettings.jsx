@@ -195,17 +195,18 @@ export const useCardPosting = () => {
         required: { title, image },
       },
       Texteditor: content,
+      Treeview: { imageTitle },
     } = data;
 
     try {
       const response = await axiosPost("/auth/post-card-content/", data);
-      console.log(response);
       setCardResult(response);
       if (content) {
         const saveContent = {
           title: title,
           content: content,
-          imageTitle: image,
+          imageTitle: imageTitle,
+          imageData: image,
         };
         const fireSStorage = ref(storage, `card-content/${title}`);
         await set(fireSStorage, saveContent);
@@ -257,7 +258,7 @@ export const useContentViewList = () => {
 export const useViewContentInfo = () => {
   const [getUuid, setUuid] = useState("");
   const [viewInfo, setViewInfo] = useState([]);
-  const [infoLoader, setLoader] = useState(true)
+  const [infoLoader, setLoader] = useState(true);
   useEffect(() => {
     if (!getUuid) return;
     const fetchingInfo = async () => {
@@ -268,14 +269,35 @@ export const useViewContentInfo = () => {
         setViewInfo(response);
       } catch (error) {
         console.log("axios error: ", error);
-      }finally{
-        setLoader(false)
+      } finally {
+        setLoader(false);
       }
     };
     fetchingInfo();
   }, [getUuid]);
 
   return { setUuid, viewInfo, infoLoader };
+};
+
+export const useMainPageContentList = () => {
+  const [mainList, setMainList] = useState([]);
+  const [listLoader, setLoader] = useState(true);
+
+  useEffect(() => {
+    const fetchingContentList = async () => {
+      try {
+        const response = await axiosGet("/app/main-content/view/list");
+        setMainList(response);
+      } catch (error) {
+        console.error("axios error:", error);
+      } finally {
+        setLoader(false);
+      }
+    };
+    fetchingContentList();
+  }, []);
+
+  return { mainList, listLoader };
 };
 
 export default useCardSettings;
