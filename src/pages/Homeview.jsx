@@ -6,25 +6,15 @@ import Spinner from "../components/Spinner/Spinner";
 
 function Homeview({ data }) {
   const { t } = useTranslation();
-  const { contentList, setHeader } = useGlobalContext();
+  const {mainContentList} = useGlobalContext();
 
-  useEffect(() => {
-    setHeader("Food");
-  }, []);
-  if(contentList.contentList === 0) {
-    return (
-      <div className="w-full flex items-center jsutify-center min-h-screen">
 
-        <Spinner />
-      </div>
-    );
-  }
   return (
     <div className="w-full">
       <HeroBanner
         blogData={data.blogData}
         navbar={data.navbar}
-        businessCarousel={contentList}
+        mainContentList = {mainContentList}
       />
     </div>
   );

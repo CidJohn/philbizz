@@ -6,13 +6,9 @@ import TextEditor from "../../../../../components/Texteditor/Texteditor";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd, faMinus } from "@fortawesome/free-solid-svg-icons";
 import UploadImage from "../../../../../components/UploadImage/UploadImage";
-import {
-  useUpdateCompanyContent,
-} from "../../../../../helper/database/useBusinessData";
+import { useUpdateCompanyContent } from "../../../../../helper/database/useBusinessData";
 import socialmedia from "../../../../../content/socialmedia.json";
-import {
-  useCardPosting,
-} from "../../../../../helper/database/useCardSettings";
+import { useCardPosting } from "../../../../../helper/database/useCardSettings";
 import Createblog from "./Createblog";
 import { useBlogContent } from "../../../../../helper/database/useBlogSettings";
 import useAlert from "../../../../../helper/alert/useAlert";
@@ -46,6 +42,7 @@ function Contentcreate(props) {
   const { postCard, putCard, cardResult, cardLoading } = useCardPosting();
   const { content, contentload } = useBlogContent(blogTitle ? blogTitle : "");
   const { contentInfo, setUuid } = useGlobalContext();
+  const [imageFilename, setImageFileName] = useState(null);
   const [TextLine, setTextLine] = useState({
     title: "",
     address: "",
@@ -74,7 +71,7 @@ function Contentcreate(props) {
       child: !selectChildValue ? location : selectChildValue,
       name: name,
       title: title,
-      imageTitle: imageInsert.imagePreview,
+      imageTitle: imageFilename.name,
       uuid: viewContent ? viewContent.id : null,
     },
     Textline: {
@@ -368,6 +365,7 @@ function Contentcreate(props) {
           imagePreview: reader.result,
         }));
       };
+      setImageFileName(file);
       reader.readAsDataURL(file);
 
       setValue("image", e.target.files);
