@@ -21,8 +21,15 @@ import { useToast } from "../../../../../components/Sonner/Sonner";
 import { useGlobalContext } from "../../../../../helper/context/useContext";
 
 function Contentcreate(props) {
-  const { downTree, path, name, title, location, blogTitle, viewContent } =
-    props;
+  const {
+    downTree,
+    path,
+    name,
+    title,
+    location,
+    blogTitle,
+    viewContent,
+  } = props;
   const showAlert = useAlert();
   const navigate = useNavigate();
   const toastify = useToast();
@@ -37,7 +44,6 @@ function Contentcreate(props) {
   const [sectionPageSelection, setSectionPageSelection] = useState([]);
   const [mainPageDropDown, setMainPageDropdown] = useState("");
   const [sectionPageDropDown, setSectionPageDropdown] = useState("");
-  const [alertData, setAlertData] = useState();
   const { fetchUpdateCompany, resultUpdate } = useUpdateCompanyContent();
   const { postCard, putCard, cardResult, cardLoading } = useCardPosting();
   const { content, contentload } = useBlogContent(blogTitle ? blogTitle : "");
@@ -149,6 +155,41 @@ function Contentcreate(props) {
         }));
         setEntries(persons);
       }
+    }
+    if (!viewContent || !contentInfo) {
+      setSelectedValue("");
+      setSelectChildValue("");
+      setEditorContent("");
+      setAddTextLine([{ id: 1, value: "" }]);
+      setParentID(0);
+      setMainPageSelection([]);
+      setSectionPageSelection([]);
+      setMainPageDropdown("");
+      setSectionPageDropdown("");
+      setImageFileName(null);
+      setTextLine({
+        title: "",
+        address: "",
+        description: "",
+        contact: 0,
+        email: "",
+        location: "",
+        service: "",
+      });
+      setEntries([]);
+      setImageInsert([
+        {
+          id: Date.now(),
+          imagePreview: null,
+        },
+      ]);
+      setSocialText([
+        {
+          id: 1,
+          link: "",
+          social: "",
+        },
+      ]);
     }
   }, [viewContent, contentInfo]);
 

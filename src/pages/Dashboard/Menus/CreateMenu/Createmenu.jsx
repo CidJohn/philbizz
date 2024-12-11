@@ -20,6 +20,7 @@ const Createmenu = () => {
     blogTitle,
     viewMenus,
     viewContent,
+    NewData,
   } = state || {
     name: null,
     path: null,
@@ -29,7 +30,8 @@ const Createmenu = () => {
     cardlocation: null,
     blogTitle: null,
     viewMenus: null,
-    viewContent: null
+    viewContent: null,
+    NewData: null,
   };
   const [isCreateOpen, setCreateOpen] = useState(false);
   const handleBack = () => {
@@ -55,6 +57,7 @@ const Createmenu = () => {
           name={name}
           viewMenus={viewMenus}
           navigate={navigate}
+          NewData={NewData}
         />
       </>
     );

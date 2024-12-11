@@ -15,10 +15,19 @@ import useBusinessCategory from "../../../helper/database/usebusinessCategory";
 import Swal from "sweetalert2";
 import Spinner from "../../../components/Spinner/Spinner";
 import { useGlobalContext } from "../../../helper/context/useContext";
+import Pagination from "../../../components/Pagination/Pagination";
 
 function Menus(props) {
   const { blogData, business } = props;
-  const {contentList, setHeader} = useGlobalContext();
+  const {
+    contentList,
+    setHeader,
+    currentPage,
+    totalPages,
+    setCurrentPage,
+    setSearch,
+    loadContent,
+  } = useGlobalContext();
   const navigate = useNavigate();
   const { state } = useLocation();
   const { name, path, id } = state || { name: null, path: null, id: null };
@@ -67,7 +76,7 @@ function Menus(props) {
         }
       });
     }
-    setHeader(name)
+    setHeader(name);
   }, [data, path, name, selectedItem, childname, business]);
 
   const handleBack = () => {
@@ -88,7 +97,7 @@ function Menus(props) {
         treeviewdata: data,
         viewMenus: viewMenu,
         cardlocation: item.location,
-        viewContent: item
+        viewContent: item,
       },
     });
   };
@@ -118,16 +127,8 @@ function Menus(props) {
   };
 
   const handleSearch = async (e) => {
-    if (e.title === "") {
-      setSearchValue([]);
-      setTreeviewFilter([]);
-    } else {
-      setTreeviewFilter([]);
-      const filteredResults = await getViewContent.filter((item) =>
-        item.title.toLowerCase().includes(e.title.toLowerCase())
-      );
-      setSearchValue(filteredResults);
-    }
+    setSearch(e.title);
+    setCurrentPage("")
   };
 
   const handleCreateButton = (e) => {
@@ -143,12 +144,20 @@ function Menus(props) {
     });
   };
 
+  const handlePageChange = (pageno) => {
+     navigate(`/dashboard${path}#content`, {
+       state: { name: name, path: path, id: id },
+     });
+    setCurrentPage(pageno);
+    setHeader(name);
+  };
+
   const tableFilter =
     treeviewFilter.length > 0
       ? treeviewFilter
-      : getSearchValue.length > 0
-      ? getSearchValue
-      : getViewContent;
+      : contentList.length > 0
+      ? contentList
+      : [];
 
   const renderTable = (data) => {
     return (
@@ -225,7 +234,7 @@ function Menus(props) {
                 {name} List
               </div>
               <div className="flex  max-w-[60vw] h-[70vh] border-b-2 border-r-2 border-l-2  border-dashed rounded-b-lg">
-                {dataLoading ? (
+                {loadContent ? (
                   <div className="w-[40vw] text-2xl font-bold flex items-center justify-center mx-auto">
                     <Spinner />
                   </div>
@@ -237,7 +246,7 @@ function Menus(props) {
                   </div>
                 )}
               </div>
-              <div className="flex py-2">
+              <div className="flex justify-between py-2">
                 <Button
                   text={"Add Content "}
                   icon={<FontAwesomeIcon icon={faAdd} className="" />}
@@ -245,6 +254,12 @@ function Menus(props) {
                     "p-2 border-2 gap-2 flex items-center font-bold hover:border-gray-100 hover:bg-blue-700 hover:text-gray-100 rounded-lg"
                   }
                   onClick={handleCreateButton}
+                />
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                  link={"content"}
                 />
               </div>
             </div>
