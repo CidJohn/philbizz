@@ -1,15 +1,13 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { useProtect } from "./useAuthentication";
 import useStorage from "../storage/Storage";
 import { axiosPost } from "./axiosInstance";
 import { useNavigate } from "react-router-dom";
-import Account from "./access/account";
+import CryptoJS from "crypto-js";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
-  const access = Account();
   const { getStorage, postStorage, deleteStorage } = useStorage();
 
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -17,7 +15,6 @@ export const AuthProvider = ({ children }) => {
   );
   const [rememberMe, setRememberMe] = useState(false);
   const [authload, setLoading] = useState(false);
-  const [accountLevel, setAccountLevel] = useState();
 
   const tokenRefresher = async () => {
     const refresher = getStorage("refresh_token");
@@ -39,27 +36,32 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const refreshInterval = setInterval(() => {
       tokenRefresher();
-    }, 300000);
-
+    }, 900000);
 
     return () => clearInterval(refreshInterval);
   }, [rememberMe]);
 
   const login = (access_token, refresh_token, accountId) => {
     setLoading(true);
-    const accessLevel = accountId
-      ? { ...accountId, access: accountId.access === access[2] ? 2 : 1 }
-      : null;
+    let encryptedLevel = "";
+    const secretKey = process.env.REACT_APP_SECRET_ACCESS_KEY;
+    if (accountId) {
+      encryptedLevel = CryptoJS.AES.encrypt(
+        accountId.access,
+        secretKey
+      ).toString();
+    }
     if (rememberMe) {
-      postStorage("user_identity", accessLevel, false);
+      postStorage("access_detail", encryptedLevel, false);
       postStorage("access_token", access_token, false);
       postStorage("refresh_token", refresh_token, false);
     } else {
+      postStorage("access_detail", encryptedLevel, true);
       postStorage("refresh_token", refresh_token, true);
-      postStorage("user_identity", accessLevel, true);
+      postStorage("access_token", access_token, true);
     }
-    
-    if (accountId.access === access[2]) {
+
+    if (accountId.access === "ADMIN") {
       setTimeout(() => {
         setLoading(false);
         setIsAuthenticated(true);
@@ -79,13 +81,12 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     deleteStorage("access_token");
     deleteStorage("refresh_token");
-    deleteStorage("user_identity");
+    deleteStorage("access_detail");
     setTimeout(() => {
       setLoading(false);
       setIsAuthenticated(false);
     }, 2000);
   };
-
   return (
     <AuthContext.Provider
       value={{
@@ -94,7 +95,6 @@ export const AuthProvider = ({ children }) => {
         logout,
         setRememberMe,
         authload,
-        accountLevel,
       }}
     >
       {children}

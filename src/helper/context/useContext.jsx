@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import {
-  useContentView,
   useContentViewList,
   useMainPageContentList,
   useViewContentInfo,
@@ -9,7 +8,15 @@ import {
 const GlobalContext = createContext();
 
 export const GlobalProvider = ({ children }) => {
-  const { viewContent, setHeader } = useContentViewList();
+  const {
+    viewContent,
+    setHeader,
+    currentPage,
+    totalPages,
+    setCurrentPage,
+    setSearch,
+    loadContent,
+  } = useContentViewList();
   const { setUuid, viewInfo, infoLoader } = useViewContentInfo();
   const { mainList, listLoader } = useMainPageContentList();
   const [contentList, setContentList] = useState([]);
@@ -21,7 +28,6 @@ export const GlobalProvider = ({ children }) => {
     if (viewInfo.length > 0) {
       viewInfo.map((item) => setContentInfo(item));
     }
-    console.log(mainList);
     if (mainList.length > 0) {
       setMainContentList(mainList);
     }
@@ -36,6 +42,11 @@ export const GlobalProvider = ({ children }) => {
         contentInfo,
         infoLoader,
         mainContentList,
+        currentPage,
+        totalPages,
+        setCurrentPage,
+        setSearch,
+        loadContent
       }}
     >
       {children}

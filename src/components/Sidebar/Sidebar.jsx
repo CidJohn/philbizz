@@ -10,6 +10,7 @@ import { RxExit } from "react-icons/rx";
 import { TbLayoutNavbar } from "react-icons/tb";
 import { useNavbarView } from "../../helper/database/useNavbarSettings";
 import Spinner from "../Spinner/Spinner";
+import { useAuth } from "../../helper/auth/useAuthContext";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ function Sidebar() {
   const [isDropdownOpenAchived, setIsDropdownOpenAchived] = useState(false);
   const [viewNavbarList, setNavbarList] = useState();
   const { navbarData, loadingData } = useNavbarView();
-
+  const { logout } = useAuth();
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
@@ -51,6 +52,12 @@ function Sidebar() {
 
   const handleDynamicNavbar = (data) => {
     navigate(`/dashboard/item/Navigation`);
+  };
+
+  const handleSignout = (e) => {
+    e.preventDefault();
+    navigate("/");
+    logout();
   };
 
   return (
@@ -216,15 +223,15 @@ function Sidebar() {
               </ul>
             </li>
             <li>
-              <a
-                href="/"
-                className="flex items-center p-4 text-[#013A63] fira-sans-regular rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              <button
+                onClick={handleSignout}
+                className="cursor-pointer flex items-center p-4 text-[#013A63] fira-sans-regular rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <RxExit className="text-lg" />
                 <span className="flex-1 ms-3 whitespace-nowrap fira-sans-regular">
                   Sign Out
                 </span>
-              </a>
+              </button>
             </li>
           </ul>
         </div>

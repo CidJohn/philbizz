@@ -71,7 +71,7 @@ function Contentcreate(props) {
       child: !selectChildValue ? location : selectChildValue,
       name: name,
       title: title,
-      imageTitle: imageFilename.name,
+      imageTitle: imageInsert.imagePreview,
       uuid: viewContent ? viewContent.id : null,
     },
     Textline: {
@@ -112,6 +112,7 @@ function Contentcreate(props) {
       setImageInsert({ imagePreview: viewContent.title_image });
     }
     if (contentInfo) {
+      const { images, social_links, people_involved } = contentInfo;
       setTextLine((prev) => ({
         ...prev,
         contact: contentInfo.contact,
@@ -120,28 +121,34 @@ function Contentcreate(props) {
         location: contentInfo.location_image,
       }));
       setEditorContent(contentInfo.content);
-      const image_link = contentInfo.images.map((item, index) => ({
-        id: index,
-        uuid: item.id,
-        value: item.images,
-      }));
-      setAddTextLine([
-        ...image_link,
-        { id: addTextLine.length + 1, value: "" },
-      ]);
-      const socials = contentInfo.social_links.map((item, index) => ({
-        uuid: item.id,
-        link: item.social_value,
-        social: item.social_media,
-      }));
-      setSocialText(socials);
-      const persons = contentInfo.people_involved.map((item, index) => ({
-        uuid: item.id,
-        imagePreview: item.image,
-        personnelName: item.name,
-        position: item.position,
-      }));
-      setEntries(persons);
+      if (images) {
+        const image_link = images.map((item, index) => ({
+          id: index,
+          uuid: item.id,
+          value: item.images,
+        }));
+        setAddTextLine([
+          ...image_link,
+          { id: addTextLine.length + 1, value: "" },
+        ]);
+      }
+      if (social_links) {
+        const socials = social_links.map((item, index) => ({
+          uuid: item.id,
+          link: item.social_value,
+          social: item.social_media,
+        }));
+        setSocialText(socials);
+      }
+      if (people_involved) {
+        const persons = people_involved.map((item, index) => ({
+          uuid: item.id,
+          imagePreview: item.image,
+          personnelName: item.name,
+          position: item.position,
+        }));
+        setEntries(persons);
+      }
     }
   }, [viewContent, contentInfo]);
 
@@ -365,7 +372,7 @@ function Contentcreate(props) {
           imagePreview: reader.result,
         }));
       };
-      setImageFileName(file);
+      setImageFileName(file.name);
       reader.readAsDataURL(file);
 
       setValue("image", e.target.files);

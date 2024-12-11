@@ -57,14 +57,19 @@ export const HeroBanner = (props) => {
       const filterBlog = blogData ? blogData.slice(0, 3) : [];
       setBlog(filterBlog);
     }
-    mainContentList.map((item) => {
-      item.title === "Food" && setImgCarousel(item.list);
-    });
-  }, [location, getNewsData, blogData, mainContentList]);
+    if (mainContentList.length > 0) {
+      const combinedList = mainContentList
+        .filter((item) => getfilterNav.includes(item.title))
+        .reduce((acc, item) => acc.concat(item.list.slice(0, 2)), []);
+      setImgCarousel(combinedList);
+    }
+  }, [location, getNewsData, blogData, mainContentList, getfilterNav]);
 
   useEffect(() => {
     if (navbar) {
-      const filterNav = navbar.map((node) => node.name);
+      const filterNav = navbar
+        .filter((node) => !node.restrict)
+        .map((item) => item.name);
       setNavbar(filterNav);
     }
 
@@ -83,7 +88,7 @@ export const HeroBanner = (props) => {
       }, {});
       setGroupedTreeView(groupedData);
     }
-  }, [navbar, viewMenu, mainContentList, getfilterNav]);
+  }, [navbar, viewMenu]);
 
   const capitalize = (str) => {
     if (!str) return "";
@@ -136,10 +141,10 @@ export const HeroBanner = (props) => {
       ),
     },
   ];
-
+  
   if (mainContentList.length === 0) {
     return (
-      <div className="w-full flex items-center jsutify-center min-h-screen">
+      <div className="w-full flex items-center justify-center min-h-screen">
         <Spinner />
       </div>
     );
