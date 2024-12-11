@@ -41,7 +41,7 @@ const ContentLayout = (props) => {
               txtHeaderColor={sideBarColor ? sideBarColor.textColor : "#E63946"}
             />
           </div>
-          <section id="cards" className="sticky top-5 " ref={currentRef}>
+          <section id="content-card" className="sticky top-5 " ref={currentRef}>
             <div
               className="flex flex-col  mt-5 p-2"
               style={{
@@ -104,7 +104,7 @@ const ContentLayout = (props) => {
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
-                link={"cards"}
+                link={"content_card"}
               />
             ) : (
               ""

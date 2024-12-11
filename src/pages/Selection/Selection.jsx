@@ -13,10 +13,19 @@ import useCardSettings, {
 } from "../../helper/database/useCardSettings";
 import { useCardDesc } from "../../helper/database/useCardPath";
 import { useGlobalContext } from "../../helper/context/useContext";
+import MaintenancePage from "../../components/Maintenance/Maintenance";
 
 const Selection = (props) => {
   const { navbar } = props;
-  const { contentList, setHeader } = useGlobalContext();
+  const {
+    contentList,
+    setHeader,
+    currentPage,
+    totalPages,
+    setCurrentPage,
+    setSearch,
+    loadContent,
+  } = useGlobalContext();
   const currentRef = useRef();
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -28,7 +37,6 @@ const Selection = (props) => {
   };
   const [selectedItem, setSelectedItem] = useState(null);
   const [currentPath, setCurrentPath] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [itemsMainPage, setItemsMainPage] = useState(15);
   const [dropdownValue, setDropdownValue] = useState("");
@@ -61,12 +69,7 @@ const Selection = (props) => {
       setSelectedItem(selectedItemObj);
       setFilteredData("");
     }
-  }, [
-    path,
-    viewMenu,
-    navbar,
-    currentPath,
-  ]);
+  }, [path, viewMenu, navbar, currentPath]);
 
   useEffect(() => {
     if (selectedItem) {
@@ -126,7 +129,7 @@ const Selection = (props) => {
   };
 
   const handlePageChange = (pageNumber) => {
-    navigate(`${path}#cards`, {
+    navigate(`${path}#content_card`, {
       state: {
         id: id,
         pageName: pageName,
@@ -135,32 +138,13 @@ const Selection = (props) => {
       },
     });
     setCurrentPage(pageNumber);
+    setHeader(pageName);
   };
 
   const handleOnSearch = async (e) => {
-    if (e.title === "") {
-      setFilteredData("");
-    } else {
-      const filteredResults = await contentView.filter((item) =>
-        item.title.toLowerCase().includes(e.title)
-      );
-      setFilteredData(filteredResults);
-    }
+    setSearch(e.title);
   };
 
-  const indexOfLastItem =
-    currentPage * (selectedItem?.id ? itemsPerPage : itemsMainPage);
-  const indexOfFirstItem =
-    indexOfLastItem - (selectedItem?.id ? itemsPerPage : itemsMainPage);
-  const currentItems = contentView.slice(indexOfFirstItem, indexOfLastItem);
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Spinner />
-      </div>
-    );
-  }
   const dropdownOptions = [
     { value: "", label: "Select All" },
     ...contentView.map((item) => ({
@@ -171,36 +155,44 @@ const Selection = (props) => {
 
   const handleDropdownChange = (e) => {
     setDropdownValue(e.target.value);
-    console.log(e.target.value)
-    const filterResult = contentView.filter((item) => item.address.includes(e.target.value));
-    setFilteredData(filterResult)
+    console.log(e.target.value);
+    const filterResult = contentView.filter((item) =>
+      item.address.includes(e.target.value)
+    );
+    setFilteredData(filterResult);
   };
 
   const handleLink = (data) => {
     navigate(`/card-page/${data.title}`, { state: { pageContent: data } });
   };
 
-  const totalPages = Math.ceil(
-    selectedItem?.id
-      ? contentView.length / itemsPerPage
-      : contentView.length / itemsMainPage
-  );
-  const currentItemsPage = contentView.slice(
-    (currentPage - 1) * (selectedItem?.id ? itemsPerPage : itemsMainPage),
-    currentPage * (selectedItem?.id ? itemsPerPage : itemsMainPage)
-  );
-  const sideAds = Array.isArray(currentItems) ? currentItems.slice(0, 3) : [];
-  const currentCardItem = Array.isArray(currentItems)
-    ? currentItems.slice(3)
+  const sideAds = Array.isArray(contentView) ? contentView.slice(0, 3) : [];
+  const currentCardItem = Array.isArray(contentView)
+    ? contentView.slice(3)
     : [];
 
-  if (currentItems.length === 0) {
+  if (loading) {
     return (
-      <div className="w-full flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen">
         <Spinner />
       </div>
     );
   }
+   if (loadContent ) {
+     return (
+       <div className="flex items-center justify-center min-h-screen">
+         <Spinner />
+       </div>
+     );
+   }
+
+   if (contentView.length === 0) {
+     return (
+       <div className="w-full flex items-center justify-center min-h-screen">
+         <MaintenancePage />
+       </div>
+     );
+   }
 
   return (
     <ContentLayout
@@ -224,7 +216,7 @@ const Selection = (props) => {
           handleLink={handleLink}
           navbar={navbar}
           sideBarColor={sideBarColorChanger}
-          currentItems={currentItems}
+          currentItems={contentView}
         />
       )}
       sideBarColor={sideBarColorChanger}
@@ -242,7 +234,7 @@ const Selection = (props) => {
       dropdownValue={dropdownValue}
       filterData={filteredData}
       totalPages={totalPages}
-      currentItems={currentItemsPage}
+      currentItems={contentView}
       sideAds={sideAds}
       adName={pageName}
       handleLink={handleLink}

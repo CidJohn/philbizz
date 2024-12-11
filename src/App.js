@@ -57,9 +57,7 @@ function App() {
               />
               <Route
                 path={"/:navbar"}
-                element={
-                  <Selection navbar={navbarData} />
-                }
+                element={<Selection navbar={navbarData} />}
               />
               <Route
                 path={"/company"}

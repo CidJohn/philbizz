@@ -21,7 +21,7 @@ function Menus(props) {
   const {contentList, setHeader} = useGlobalContext();
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { name, path, id } = state || { name: null, path: null, id };
+  const { name, path, id } = state || { name: null, path: null, id: null };
   const [getTreeview, setTreeview] = useState([]);
   const [selectedItem, setSelectectItem] = useState([]);
   const [childname, setTreeChild] = useState([]);

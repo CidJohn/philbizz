@@ -236,23 +236,46 @@ export const useCardPosting = () => {
 export const useContentViewList = () => {
   const [header, setHeader] = useState("");
   const [viewContent, setViewContent] = useState([]);
-  const [loadContent, setLoadContent] = useState(true);
+  const [loadContent, setLoadContent] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const getContentList = async () => {
-      if (header)
-        try {
-          const response = await axiosGet(`/app/content/list?header=${header}`);
-          setViewContent(response ? response : "");
-        } catch (err) {
-          console.error("Axios Error:", err);
-        } finally {
-          setLoadContent(false);
+      if (!header) return;
+      setLoadContent(true);
+      const timerin = setTimeout(() => {
+        setLoadContent(true);
+      }, 7000);
+
+      try {
+        const response = await axiosGet(
+          `/app/content/list?header=${header}&search=${search}&page=${currentPage}`
+        );
+        if (response) {
+          setViewContent(response.results || []);
+          setTotalPages(Math.ceil(response.count / 15));
         }
+      } catch (err) {
+        console.error("Axios Error:", err);
+      } finally {
+        clearTimeout(timerin);
+        setLoadContent(false);
+      }
     };
     getContentList();
-  }, [header]);
-  return { viewContent, loadContent, setHeader };
+  }, [header, search, currentPage]);
+
+  return {
+    viewContent,
+    loadContent,
+    setHeader,
+    currentPage,
+    totalPages,
+    setCurrentPage,
+    setSearch,
+  };
 };
 
 export const useViewContentInfo = () => {
