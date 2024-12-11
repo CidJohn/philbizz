@@ -52,13 +52,13 @@ export const AuthProvider = ({ children }) => {
       ).toString();
     }
     if (rememberMe) {
-      postStorage("access_detail", encryptedLevel, false);
       postStorage("access_token", access_token, false);
       postStorage("refresh_token", refresh_token, false);
+      postStorage("access_detail", encryptedLevel, false);
     } else {
-      postStorage("access_detail", encryptedLevel, true);
       postStorage("refresh_token", refresh_token, true);
       postStorage("access_token", access_token, true);
+      postStorage("access_detail", encryptedLevel, true);
     }
 
     if (accountId.access === "ADMIN") {
